@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import api from "./api"
 import { useDispatch } from "react-redux"
-import { addUser } from "@/redux/auth/authSlice"
+import { addUser, removeUser } from "@/redux/auth/authSlice"
 
-export default function AccessProvider(path : string) {
+export default function AccessProvider() {
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -18,22 +18,14 @@ export default function AccessProvider(path : string) {
             dispatch(addUser(data))
             if (status === 401 || status === 403 || status === 500 || status === 503 || status === 205) {
               router.push('/authentication')
+              dispatch(removeUser())
               localStorage.removeItem('role')
               localStorage.removeItem('accessToken')
             }
             else {
-              if ( path === '/addmonthly' || path === '/monthly' || path === '/accessmanagement') {
-                if (data.role === 'superAdmin' || data.role === 'supremeAdmin') {
-                  // do nothing
-                } else {
-                  router.push('/')
-                }
-              }
-            localStorage.setItem('role',data.role)
+              localStorage.setItem('role',data.role)
             }
-
-          }
-          
+            }
           else {
             router.push('/authentication')
           }

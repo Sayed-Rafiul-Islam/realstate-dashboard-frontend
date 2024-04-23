@@ -1,6 +1,5 @@
 "use client"
 import api from "@/actions/api"
-import { logIn } from "@/actions/logIn"
 import { addUser } from "@/redux/auth/authSlice"
 import { useRouter } from "next/navigation"
 import { useState } from "react"

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/proviers";
 import Navbar from "@/components/Navbar";
+import { Button } from "@/components/ui/button";
+import SignOut from "@/components/signout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Navbar />
+          <SignOut />
           {children}
         </Providers>
       </body>

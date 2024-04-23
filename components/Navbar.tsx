@@ -6,9 +6,13 @@ import { useSelector } from "react-redux";
 
 import './navbar.css'
 import AdminMenu from "./menus/admin-menu";
+import AccessProvider from "@/actions/accessProvider";
+import OwnerMenu from "./menus/owner-menu";
 
 const Navbar = () => {
+    AccessProvider()
     const {user_name,role} = useSelector((data : any) => data.user)
+    console.log(role)
 
     const path = usePathname()
 
@@ -25,7 +29,7 @@ const Navbar = () => {
                     <div className='nav-bar-inner'>
                         <div className="nav-links mt-10 px-5 flex flex-col gap-2">
                             {role === 'admin' && <AdminMenu />}
-                            {role === 'owner' && <AdminMenu />}
+                            {role === 'owner' && <OwnerMenu />}
                             {role === 'tenant' && <AdminMenu />}
                             {role === 'maintainer' && <AdminMenu />}
                         </div>

@@ -1,12 +1,25 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LogInForm from "@/components/LogInForm";
 import SignUpForm from "@/components/SignUpForm";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 
 export default function Authentication() {
+
+    const router = useRouter()
     const [account,setAccount] = useState(true)
+
+    useEffect(()=> {
+      const isSignedIn = Boolean(localStorage.getItem('accessToken'))
+      
+      if (isSignedIn) {
+        router.push('/')
+      }
+    })
+
   return (
     <div className='flex justify-center'>
             {
