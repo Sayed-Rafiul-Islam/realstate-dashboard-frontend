@@ -1,6 +1,8 @@
 import Navbar from "@/components/Navbar";
 import SignOut from "@/components/signout";
 
+
+
 const RoutesLayout = ({
     children
 } : {
