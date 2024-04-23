@@ -1,0 +1,22 @@
+.arrow-up {
+    transform: rotate(180deg);
+    transition-duration: .3s;
+}
+.arrow-down {
+    transform: rotate(360deg);
+    transition-duration: .3s;
+}
+
+.drop-on {
+    height: 25px;
+    overflow-y: hidden;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+
+}
+.drop-off {
+    height: 0;
+    overflow-y: hidden;
+    transition-duration: .3s;
+    transition-timing-function: linear;
+}

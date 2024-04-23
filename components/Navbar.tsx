@@ -8,6 +8,10 @@ import './navbar.css'
 import AdminMenu from "./menus/admin-menu";
 import AccessProvider from "@/actions/accessProvider";
 import OwnerMenu from "./menus/owner-menu";
+import MaintainerMenu from "./menus/maintainer-menu";
+import Image from "next/image";
+import logo from '@/images/logo.png'
+import TenantMenu from "./menus/tenant-menu";
 
 const Navbar = () => {
     AccessProvider()
@@ -22,16 +26,25 @@ const Navbar = () => {
 
    
     return ( 
-        <div className={path === '/authentication' ? 'hidden' : 'block'}>
-
-            <div className="header hidden bg-indigo-200 md:flex border-r dark:border-stone-800">
+        <div>
+            {/* logo  */}
+            <div className="flex items-center gap-2 mb-10">
+                <div className="relative h-[60px] w-[60px]">
+                    <Image src={logo} fill alt="logo" />
+                </div>
+                <h1 className="text-4xl font-bold">FIND<span className="text-indigo-600">HOME</span></h1>
+            </div>
+            <div className="header hidden md:flex">
                 <div className="nav-bar ">
                     <div className='nav-bar-inner'>
-                        <div className="nav-links mt-10 px-5 flex flex-col gap-2">
+                        <div className="nav-links mt-10 px-5 flex flex-col gap-5 pb-[150px]">
+                            
+
+                            {/* menu */}
                             {role === 'admin' && <AdminMenu />}
                             {role === 'owner' && <OwnerMenu />}
-                            {role === 'tenant' && <AdminMenu />}
-                            {role === 'maintainer' && <AdminMenu />}
+                            {role === 'tenant' && <TenantMenu />}
+                            {role === 'maintainer' && <MaintainerMenu />}
                         </div>
                     </div>
                 </div>  

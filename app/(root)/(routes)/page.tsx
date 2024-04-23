@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 export default function Home() {
   return (
    <div>
-    <Button variant='secondary'>CLick</Button>
+
    </div>
   );
 }

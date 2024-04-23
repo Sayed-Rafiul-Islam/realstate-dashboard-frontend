@@ -32,7 +32,7 @@ export default function LogInForm() {
                 setMessage("Login Successful")
                 dispatch(addUser(data))
                 localStorage.setItem("accessToken",data.accessToken)
-                router.push('/')
+                window.location.assign('/')
             }
             
         } 

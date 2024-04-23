@@ -1,5 +1,6 @@
 "use client"
 
+import { BarChart3, CalendarCheck, ChevronDown, DockIcon, Info, LandPlot, LayoutDashboard, ListChecks, Mail, Presentation, Receipt, ReceiptText, Tag, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
@@ -13,7 +14,8 @@ const OwnerMenu = () => {
             group : [],
             label : "Dashboard",
             href : "/",
-            drop : false
+            drop : false,
+            icon : <LayoutDashboard size={20} />
         },
         {
             id : 2,
@@ -41,7 +43,8 @@ const OwnerMenu = () => {
             ],
             label : "Properties",
             href : "",
-            drop : false
+            drop : false,
+            icon : <LandPlot size={20} />
         },
         {
             id : 3,
@@ -59,7 +62,8 @@ const OwnerMenu = () => {
             ],
             label : "Tenants",
             href : "",
-            drop : false
+            drop : false,
+            icon : <User size={20} />
         },
         {
             id : 4,
@@ -77,28 +81,32 @@ const OwnerMenu = () => {
             ],
             label : "Billing Center",
             href : "",
-            drop : false
+            drop : false,
+            icon : <Receipt size={20} />
         },
         {
             id : 5,
             group : [],
             label : "Expenses",
             href : "/expenses",
-            drop : false
+            drop : false,
+            icon : <ReceiptText size={20} />
         },
         {
             id : 6,
             group : [],
             label : "Documents",
             href : "/documents",
-            drop : false
+            drop : false,
+            icon : <DockIcon size={20} />
         },
         {
             id : 7,
             group : [],
             label : "Information",
             href : "/information",
-            drop : false
+            drop : false,
+            icon : <Info size={20} />
         },
         {
             id : 8,
@@ -121,7 +129,8 @@ const OwnerMenu = () => {
             ],
             label : "My Listing",
             href : "",
-            drop : false
+            drop : false,
+            icon : <ListChecks size={20} />
         },
         {
             id : 9,
@@ -139,21 +148,24 @@ const OwnerMenu = () => {
             ],
             label : "Maintains",
             href : "",
-            drop : false
+            drop : false,
+            icon : <Wrench size={20} />
         },
         {
             id : 10,
             group : [],
             label : "Tickets",
             href : "/tickets",
-            drop : false
+            drop : false,
+            icon : <Tag size={20} />
         },
         {
             id : 11,
             group : [],
             label : "Notice Board",
             href : "/notice",
-            drop : false
+            drop : false,
+            icon : <Presentation size={20} />
         },
         {
             id : 12,
@@ -191,7 +203,8 @@ const OwnerMenu = () => {
             ],
             label : "Report",
             href : "",
-            drop : false
+            drop : false,
+            icon : <BarChart3 size={20} />
         },
         {
             id : 13,
@@ -212,16 +225,18 @@ const OwnerMenu = () => {
                     href : "/emailtamplate"
                 }
             ],
-            label : "Report",
+            label : "Bulk SMS/Mail",
             href : "",
-            drop : false
+            drop : false,
+            icon : <Mail size={20} />
         },
         {
             id : 14,
             group : [],
             label : "Aggrement",
             href : "/aggrement",
-            drop : false
+            drop : false,
+            icon : <UserRoundCheck size={20} />
         },
         {
             id : 15,
@@ -237,16 +252,18 @@ const OwnerMenu = () => {
                     href : "/changepassword"
                 }
             ],
-            label : "Report",
+            label : "Profile",
             href : "",
-            drop : false
+            drop : false,
+            icon : <UserCircle size={20} />
         },
         {
             id : 16,
             group : [],
             label : "My Subscription",
             href : "subscription",
-            drop : false
+            drop : false,
+            icon : <CalendarCheck size={20} />
         },
     ])
 
@@ -265,47 +282,60 @@ const OwnerMenu = () => {
     return ( 
         <>
                 {
-            menu.map(({id,group,label,href,drop})=>
+            menu.map(({id,group,label,href,drop,icon})=>
                 <div key={id}>
                     {
                         group.length === 0 ?
                         <Link
                             className={
                             `
-                                ${pathname === href && 'dark:text-white text-black font-bold'}
-                            dark:text-stone-500 dark:hover:text-stone-200 
-                                text-stone-500
-                                
+                                ${pathname === href ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
+                            dark:text-stone-500 hover:text-indigo-400 
                                 transition-all
                             `}
                             href={href}
                         >
-                            {label}
+                            <span className="flex items-center gap-4">
+                                <span>{icon}</span>
+                                <span>{label}</span>
+                            </span>
                         </Link>
                     :
                         <div>
-                            <button onClick={()=>dropDown(id)}>{label}</button>
+                            <button 
+                                className={`
+                                ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
+                                 flex items-center gap-4 w-full hover:text-indigo-400 transition-all`}
+                                onClick={()=>dropDown(id)}
+                            >   <span>{icon}</span>
+                                <span className="w-full flex justify-between items-center">
+                                    <span>{label}</span>
+                                    <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
+                                </span>
+                            </button>
+                            <div className="ml-10">
                             {
-                                drop &&
                                 group.map(({id,label,href}) =>
-                                    <div key={id}>
+                                    <div className={drop ? `drop-on my-1` : 'drop-off'} key={id}>
                                         <Link
                                             className={
                                             `
-                                                ${pathname === href && 'dark:text-white text-black font-bold'}
+                                                ${pathname === href ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
                                             dark:text-stone-500 dark:hover:text-stone-200 
-                                                text-stone-500
+                                                 hover:text-indigo-400
                                                 
                                                 transition-all
                                             `}
                                             href={href}
                                         >
-                                            {label}
+                                            &#x2022; {label}
                                         </Link>
                                     </div>
                                 )
                           
                             }
+                            </div>
+                            
                         </div>
 
                     }

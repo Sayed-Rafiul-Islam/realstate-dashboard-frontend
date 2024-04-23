@@ -1,12 +1,11 @@
 "use client"
 
-import { ChevronDown, CircleUser, LayoutDashboard, LayoutList, LockKeyhole, MessageCircle, Package, ReceiptText, User } from "lucide-react"
+import { BookText, ChevronDown, FileText, Handshake, Info, LayoutDashboard, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import './menu.css'
 
-const AdminMenu = () => {
+const TenantMenu = () => {
     const pathname = usePathname()
     const [menu,setMenu] = useState
     ([
@@ -21,77 +20,53 @@ const AdminMenu = () => {
         {
             id : 2,
             group : [],
-            label : "Packages",
-            href : "/packages",
+            label : "Invoice",
+            href : "/invoice",
             drop : false,
-            icon : <Package size={20} />
+            icon : <BookText size={20} />
         },
         {
             id : 3,
             group : [],
-            label : "All Orders",
-            href : "/allorders",
+            label : "My Tickets",
+            href : "/mytickets",
             drop : false,
-            icon : <LayoutList size={20} />
+            icon : <Tag size={20} />
         },
         {
             id : 4,
             group : [],
-            label : "Owner Packages",
-            href : "/ownerpackages",
+            label : "Information",
+            href : "/information",
             drop : false,
-            icon : <ReceiptText size={20} />
+            icon : <Info size={20} />
         },
         {
             id : 5,
             group : [],
-            label : "Message",
-            href : "/message",
+            label : "Documents",
+            href : "/documents",
             drop : false,
-            icon : <MessageCircle size={20} />
+            icon : <FileText size={20} />
         },
         {
             id : 6,
-            group : [
-                {
-                    id : 61,
-                    label : "Terms & Conditions",
-                    href : "/terms"
-                },
-                {
-                    id : 62,
-                    label : "Privacy Policy",
-                    href : "/privacy"
-                },
-                {
-                    id : 63,
-                    label : "Cookie Policy",
-                    href : "/cookie"
-                },
-            ],
-            label : "Message Policy",
-            href : "",
+            group : [],
+            label : "Aggrement Request",
+            href : "/maintainance",
             drop : false,
-            icon : <LockKeyhole size={20} />
+            icon : <Handshake size={20} />
         },
         {
             id : 7,
-            group : [],
-            label : "Owner",
-            href : "/owner",
-            drop : false,
-            icon : <User size={20} />
-        },
-        {
-            id : 8,
             group : [
                 {
-                    id : 81,
+                    id : 71,
                     label : "My Profile",
                     href : "/profile"
                 },
                 {
-                    id : 82,
+                    id : 72,
                     label : "Change Password",
                     href : "/changepassword"
                 }
@@ -99,8 +74,8 @@ const AdminMenu = () => {
             label : "Profile",
             href : "",
             drop : false,
-            icon : <CircleUser size={20} />
-        },
+            icon : <UserCircle size={20} />
+        }
     ])
 
     const dropDown = (id : number) => {
@@ -183,4 +158,4 @@ const AdminMenu = () => {
      );
 }
  
-export default AdminMenu;
+export default TenantMenu;

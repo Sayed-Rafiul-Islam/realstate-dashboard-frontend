@@ -9,7 +9,7 @@ const SignOut = () => {
     const router = useRouter()
     const path = usePathname()
     return ( 
-        <Button onClick={()=>dispatch(removeUser()) && router.push('/authentication')} className={path === '/authentication' ? 'hidden' : "fixed right-5 top-5"} variant='destructive'>Log Out</Button>
+        <Button onClick={()=>dispatch(removeUser()) && router.push('/authentication')} className={path === '/authentication' ? 'hidden' : "fixed right-12 top-8"} variant='destructive'>Log Out</Button>
      );
 }
  
