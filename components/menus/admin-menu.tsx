@@ -129,7 +129,7 @@ const AdminMenu = () => {
                             `
                                 ${pathname === href ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
                             dark:text-stone-500 hover:text-indigo-400 
-                                transition-all
+                                transition-all nav-item
                             `}
                             href={href}
                         >
@@ -141,7 +141,7 @@ const AdminMenu = () => {
                     :
                         <div>
                             <button 
-                                className={`
+                                className={`nav-item
                                 ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
                                  flex items-center gap-4 w-full hover:text-indigo-400 transition-all`}
                                 onClick={()=>dropDown(id)}
