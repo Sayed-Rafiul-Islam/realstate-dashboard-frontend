@@ -16,7 +16,7 @@ const RoutesLayout = ({
           <div className="fixed left-6">
             <NavbarToggle />
           </div>
-          <div className="absolute top-6 right-12 signout-btn">
+          <div className="fixed top-6 right-12 signout-btn">
             <SignOut />
           </div>
           <div className="body">
