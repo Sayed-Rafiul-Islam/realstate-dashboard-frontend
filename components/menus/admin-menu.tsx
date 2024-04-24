@@ -5,8 +5,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import './menu.css'
+import AccessProvider from "@/actions/accessProvider"
+import { useSelector } from "react-redux"
 
 const AdminMenu = () => {
+
     const pathname = usePathname()
     const [menu,setMenu] = useState
     ([

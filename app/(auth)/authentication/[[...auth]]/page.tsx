@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import LogInForm from "@/components/LogInForm";
 import SignUpForm from "@/components/SignUpForm";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 

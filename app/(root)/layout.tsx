@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
+import NavbarToggle from "@/components/navbar-toogle";
 import SignOut from "@/components/signout";
+import './content.css'
 
 
 
@@ -11,8 +13,13 @@ const RoutesLayout = ({
     return ( 
         <div className="pt-5 px-5">
           <Navbar />
-          <SignOut />
-          <div className="rounded-xl shadow-lg w-3/4 ml-[350px] h-[500px]">
+          <div className="fixed left-6">
+            <NavbarToggle />
+          </div>
+          <div className="absolute top-6 right-12 signout-btn">
+            <SignOut />
+          </div>
+          <div className="body">
             {children}
           </div>
         </div>

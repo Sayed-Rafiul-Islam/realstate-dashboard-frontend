@@ -16,17 +16,10 @@ import TenantMenu from "./menus/tenant-menu";
 const Navbar = () => {
     AccessProvider()
     const {user_name,role} = useSelector((data : any) => data.user)
-    console.log(role)
-
     const path = usePathname()
-
-
-    
-
-
    
     return ( 
-        <div>
+        <div className="header hidden md:block">
             {/* logo  */}
             <div className="flex items-center gap-2 mb-10">
                 <div className="relative h-[60px] w-[60px]">
@@ -34,7 +27,7 @@ const Navbar = () => {
                 </div>
                 <h1 className="text-4xl font-bold">FIND<span className="text-indigo-600">HOME</span></h1>
             </div>
-            <div className="header hidden md:flex">
+            <div className="flex">
                 <div className="nav-bar ">
                     <div className='nav-bar-inner'>
                         <div className="nav-links mt-10 px-5 flex flex-col gap-5 pb-[150px]">

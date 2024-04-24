@@ -4,6 +4,8 @@ import { Button } from "./ui/button"
 import { removeUser } from "@/redux/auth/authSlice";
 import { usePathname, useRouter } from "next/navigation";
 
+import './signout.css'
+
 
 import {
     DropdownMenu,
@@ -29,8 +31,8 @@ const SignOut = () => {
          {
             user_name &&
             <DropdownMenu>
-            <DropdownMenuTrigger className="fixed right-12 top-8">
-                <div className="bg-indigo-400 px-4 pt-2 pb-2 rounded-full flex justify-center items-center">
+            <DropdownMenuTrigger className="">
+                <div className="bg-indigo-400 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
                     <span className="text-white mb-1">{letter}</span>
                 </div>
             </DropdownMenuTrigger>
