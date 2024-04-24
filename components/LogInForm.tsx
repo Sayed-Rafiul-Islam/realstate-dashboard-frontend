@@ -22,8 +22,7 @@ export default function LogInForm() {
             setMessage("Fill in all the fields")
         }
         else {
-            const {data,status} = await api.post(`login`,{user_name : userName,password})
-
+            const {status,data} = await api.post(`login`,{user_name : userName,password},{validateStatus: () => true})
             if (status === 404) {
                 setMessage("No account with this User Name")
             } else if (status === 400) {

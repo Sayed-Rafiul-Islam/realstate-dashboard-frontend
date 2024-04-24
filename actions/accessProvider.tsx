@@ -14,9 +14,9 @@ export default function AccessProvider() {
         const varify = async () => {
           const access = localStorage.getItem("accessToken")
           if (access) {
-            const {data,status} = await api.get(`varify?accessToken=${access}`)
+            const {data,status} = await api.get(`varify?accessToken=${access}`,{validateStatus: () => true})
             dispatch(addUser(data))
-            if (status === 401 || status === 403 || status === 500 || status === 503 || status === 205) {
+            if (status === 401 || status === 403 || status === 500) {
               router.push('/authentication')
               dispatch(removeUser())
               localStorage.removeItem('role')
