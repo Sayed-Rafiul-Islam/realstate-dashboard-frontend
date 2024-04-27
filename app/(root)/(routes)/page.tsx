@@ -5,11 +5,7 @@ import AdminDashboard from "@/components/dashboard/admin-dashboard";
 import MaintainerDashboard from "@/components/dashboard/maintainer-dashboard";
 import OwnerDashboard from "@/components/dashboard/owner-dashboard";
 import TenantDashboard from "@/components/dashboard/tenant-dashboard";
-import { Button } from "@/components/ui/button";
-import { getAllUsers } from "@/redux/auth/authSlice";
-import { PartyPopper } from "lucide-react";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
+
 import { useSelector } from "react-redux";
 
 export default function Home() {
