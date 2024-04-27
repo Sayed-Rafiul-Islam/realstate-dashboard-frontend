@@ -24,6 +24,7 @@ import logo from '@/images/logo.png'
 import Image from "next/image";
 import SignOut from "./signout";
 import './navbar-toogle.css'
+import { UsersReducerProps } from "@/types";
 
 interface Menu {
     id : number,
@@ -42,7 +43,7 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
 }) => {
 
     AccessProvider()
-    const {user_name,role} = useSelector((data : any) => data.user)
+    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
 
     const [menu,setMenu] = useState
     ([

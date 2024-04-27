@@ -17,10 +17,11 @@ import {
   } from "@/components/ui/dropdown-menu"
 import AccessProvider from "@/actions/accessProvider";
 import { Power, UserCircle } from "lucide-react";
+import { UsersReducerProps } from "@/types";
 
 const SignOut = () => {
     AccessProvider()
-    const {user_name} = useSelector(({user} : any)=> user)
+    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
     const letter = user_name?.slice(0,1)
 
     const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const SignOut = () => {
     return ( 
        <>
          {
-            user_name &&
+            // user_name &&
             <DropdownMenu>
             <DropdownMenuTrigger className="">
                 <div className="bg-indigo-400 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
@@ -50,9 +51,6 @@ const SignOut = () => {
             </DropdownMenu>
         }
        </>
-        
-
-        // <Button  className={path === '/authentication' ? 'hidden' : "fixed right-12 top-8"} variant='destructive'>Log Out</Button>
      );
 }
  

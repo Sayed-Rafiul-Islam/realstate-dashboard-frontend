@@ -1,3 +1,15 @@
+export interface UsersReducerProps {
+    usersReducer : {user : {user_name: string, role: string}}
+  }
+
+export interface OrderReducersProps {
+    ordersReducer :  { orders : OrderProps[]} 
+  }
+
+export interface PackagesReducersProps {
+    packagesReducer :  { packages : PackageProps[]} 
+  }
+
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -21,4 +33,14 @@ export interface PackageProps {
     maxUnit : number,
     status : boolean,
     trial : boolean
+}
+
+export interface OrderProps {
+    _id : string,
+    name : string,
+    packageName : string,
+    amount : number,
+    gateway : string,
+    date : string,
+    status : string
 }

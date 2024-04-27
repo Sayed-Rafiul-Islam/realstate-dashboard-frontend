@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -12,10 +11,11 @@ import MaintainerMenu from "./menus/maintainer-menu";
 import Image from "next/image";
 import logo from '@/images/logo.png'
 import TenantMenu from "./menus/tenant-menu";
+import { UsersReducerProps } from "@/types";
 
 const Navbar = () => {
     AccessProvider()
-    const {user_name,role} = useSelector((data : any) => data.user)
+    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
     const path = usePathname()
    
     return ( 
