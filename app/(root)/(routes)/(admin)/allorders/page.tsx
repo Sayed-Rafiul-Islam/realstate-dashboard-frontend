@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { format } from 'date-fns'
 import { OrdersClient } from "./components/client";
 import Pathname from "@/components/pathname";
+import { Separator } from "@/components/ui/separator";
 
 const AllOrders = () => {
 
@@ -33,10 +34,11 @@ const AllOrders = () => {
     return ( 
         <div className="flex-col">
         <div className="flex-1 p-8 pt-6 space-y-4">
-        <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
                 <h1 className="font-bold text-xl">All Orders</h1>
                 <Pathname />
             </div>
+            <Separator />
             <OrdersClient data={formattedOrders} />
         </div>
         

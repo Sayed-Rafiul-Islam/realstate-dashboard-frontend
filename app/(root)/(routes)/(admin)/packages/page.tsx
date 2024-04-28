@@ -4,6 +4,8 @@ import { PackageProps, PackagesReducersProps } from "@/types";
 import { useSelector } from "react-redux";
 import { PackagesClinet } from "./components/client";
 import Pathname from "@/components/pathname";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 const Packages = () => {
 
@@ -37,6 +39,10 @@ const Packages = () => {
             <div className="flex justify-between items-center">
                 <h1 className="font-bold text-xl">All Packages</h1>
                 <Pathname />
+            </div>
+            <Separator />
+            <div className="flex justify-end"> 
+                <Button className="">Add Package</Button>
             </div>
             <PackagesClinet data={formattedPackages} />
         </div>

@@ -8,8 +8,8 @@ import { Toaster } from "react-hot-toast"
 import { OrderProps } from "@/types"
 import { columns } from "./column"
 import { format } from "date-fns"
-import { ShortDataTable } from "@/components/ui/short-data-table"
 import { useEffect, useState } from "react"
+import { DataTable } from "@/components/ui/data-table"
 
 
 export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
@@ -50,7 +50,7 @@ export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
 
     return (
         <>
-            <ShortDataTable columns={columns} data={orders} />
+            <DataTable pagination={false} columns={columns} data={orders} />
             <Toaster />
         </>
     )

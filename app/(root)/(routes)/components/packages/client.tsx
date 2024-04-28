@@ -7,9 +7,8 @@ interface PackageClientProps {
 import { Toaster } from "react-hot-toast"
 import { PackageProps } from "@/types"
 import { columns } from "./column"
-import { format } from "date-fns"
-import { ShortDataTable } from "@/components/ui/short-data-table"
 import { useEffect, useState } from "react"
+import { DataTable } from "@/components/ui/data-table"
 
 
 export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
@@ -51,7 +50,7 @@ export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
 
     return (
         <>
-            <ShortDataTable columns={columns} data={packages} />
+            <DataTable pagination={false} columns={columns} data={packages} />
             <Toaster />
         </>
         
