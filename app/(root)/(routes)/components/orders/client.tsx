@@ -9,9 +9,11 @@ import { OrderProps } from "@/types"
 import { columns } from "./column"
 import { format } from "date-fns"
 import { ShortDataTable } from "@/components/ui/short-data-table"
+import { useEffect, useState } from "react"
 
 
 export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
+
 
     const orders : OrderProps[] = data.map((
         {
@@ -32,6 +34,19 @@ export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
             date : format(date,"MMMM do, yyyy"),
             status
     }))
+
+    // ---------------------------------------------------------------------------------------------
+    // anti hydration
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
 
     return (
         <>

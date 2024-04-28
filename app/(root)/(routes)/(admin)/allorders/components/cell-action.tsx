@@ -1,6 +1,6 @@
 "use client"
 
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 
 import { 
@@ -11,9 +11,12 @@ import {
     DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { OrderProps } from "@/types"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { useDispatch } from "react-redux"
+import { removeOrder } from "@/redux/orders/ordersSlice"
 // import { AlertModal } from "@/components/modals/alert-modal"
 // import { deleteCategory } from "@/app/actions/categories"
 
@@ -24,42 +27,39 @@ interface CellActionProps {
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const router = useRouter()
-    const {storeId} = useParams()
+    const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const onCopy = (id : string) => {
-        navigator.clipboard.writeText(id)
-        toast.success("Category id copied to the clipboard")
-    }
 
-    // const onDelete = async () => {
-    //     try {
-    //         setLoading(true)
-    //         const {status,message} = await deleteCategory(data.id,storeId)
-    //         if (status === 200) {
-    //             router.refresh()
-    //             toast.success(`${message}`)
-    //         } else {
-    //             toast.error(`${message}`)
-    //         }
-    //     } catch (error) {
-    //         toast.error("Make sure you removed all products using this categories first.")
-    //     } finally {
-    //         setLoading(false)
-    //         setOpen(false)
-    //     }
-    // }
+
+    const onDelete = async () => {
+            setLoading(true)
+            dispatch(removeOrder(data))
+            // router.refresh()
+            // const {status,message} = await deleteCategory(data.id,storeId)
+            // if (status === 200) {
+            //     router.refresh()
+            //     toast.success(`${message}`)
+            // } else {
+            //     toast.error(`${message}`)
+            // }
+            
+
+            setLoading(false)
+            setOpen(false)
+        
+    }
 
 
     return (
         <>
-            {/* <AlertModal 
+            <AlertModal
             isOpen={open} 
             onClose={()=>setOpen(false)} 
             onConfirm={onDelete} 
-            loading={loading} /> */}
+            loading={loading} />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant='ghost' className="h-8 w-8 p-0">
@@ -71,7 +71,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=>router.push(`/${storeId}/categories/${data._id}`)}>
+                    <DropdownMenuItem>
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                     </DropdownMenuItem>

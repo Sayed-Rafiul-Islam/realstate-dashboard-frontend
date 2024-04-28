@@ -11,8 +11,7 @@ import { UsersReducerProps } from "@/types";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  AccessProvider()
-  LoadData()
+
   const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
 
   return (

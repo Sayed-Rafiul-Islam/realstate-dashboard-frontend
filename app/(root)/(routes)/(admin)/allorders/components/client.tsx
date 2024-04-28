@@ -33,6 +33,8 @@ import { Button } from "@/components/ui/button"
 export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
 
 
+
+
     const [orders, setOrders] = useState(data)
     const [filter, setFilter] = useState("All")
 
@@ -44,7 +46,12 @@ export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
             setOrders(temp)
         }   
 
-    },[filter])
+    },[filter,data])
+
+
+    
+
+    
     // const handleDelete = async (id : number) => {
     //     const res = await fetch(`https://pos.inspiredinteriorbd.com/api/sellRecords?sell_id=${id}`, {
     //       method : "DELETE"
@@ -58,6 +65,19 @@ export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
     //     }
     // }
 
+
+    // ---------------------------------------------------------------------------------------------
+    // anti hydration
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
 
  
 

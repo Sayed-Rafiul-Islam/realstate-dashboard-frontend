@@ -9,6 +9,7 @@ import { PackageProps } from "@/types"
 import { columns } from "./column"
 import { format } from "date-fns"
 import { ShortDataTable } from "@/components/ui/short-data-table"
+import { useEffect, useState } from "react"
 
 
 export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
@@ -34,6 +35,19 @@ export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
             status,
             trial
     }))
+
+    // ---------------------------------------------------------------------------------------------
+    // anti hydration
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
 
     return (
         <>

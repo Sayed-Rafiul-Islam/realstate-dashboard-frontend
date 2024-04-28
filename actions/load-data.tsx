@@ -52,8 +52,6 @@ const loadOrders = async () => {
         }
     ]
     dispatch(getOrders(orders))
-    localStorage.removeItem("orders")
-    localStorage.setItem("orders", JSON.stringify(orders))
 }
 
 const loadPackages = async () => {
@@ -93,6 +91,4 @@ const loadPackages = async () => {
         }
     ]
     dispatch(getPackages(packages))
-    localStorage.removeItem("packages")
-    localStorage.setItem("packages", JSON.stringify(packages))
 }
