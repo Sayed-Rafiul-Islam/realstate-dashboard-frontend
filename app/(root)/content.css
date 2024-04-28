@@ -43,3 +43,8 @@
         margin-top: 60px;
     }
  }
+@media (max-width: 750px) { 
+    .body {
+        padding: 20px 0px;
+    }
+ }

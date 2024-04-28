@@ -30,7 +30,7 @@ import { OrdersDataTable } from "@/components/ui/orders-data-table"
 import { Button } from "@/components/ui/button"
 // import { SellRecords } from "@/components/ui/sellrecords-table"
 
-export const OwnerClient : React.FC<OrdersClientProps> = ({data}) => {
+export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
 
 
     const [orders, setOrders] = useState(data)
@@ -63,7 +63,7 @@ export const OwnerClient : React.FC<OrdersClientProps> = ({data}) => {
 
     return (
         <>
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Button className={`${filter === "All" && "bg-indigo-200 text-indigo-600 border border-indigo-600"}`} onClick={()=>setFilter('All')} variant='outline'>All</Button>
               <Button className={`${filter === "Paid" && "bg-green-200 text-green-600 border border-green-600"}`} onClick={()=>setFilter('Paid')} variant='outline'>Paid</Button>
               <Button className={`${filter === "Pending" && "bg-amber-200 text-amber-600 border border-amber-600"}`} onClick={()=>setFilter('Pending')} variant='outline'>Pending</Button>

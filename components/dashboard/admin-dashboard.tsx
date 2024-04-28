@@ -1,6 +1,13 @@
+"use client"
 import { Home, UserRound, UsersRound, Warehouse } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
+import { useSelector } from "react-redux";
+import {OrderReducersProps, PackagesReducersProps } from "@/types";
+import { ThreeOrdersClient } from "@/app/(root)/(routes)/components/orders/client";
+import { ThreePackagesClient } from "@/app/(root)/(routes)/components/packages/client";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const AdminDashboard = () => {
 
@@ -31,7 +38,13 @@ const AdminDashboard = () => {
         }
     ]
 
-    // console.log(typeof(summery[0].icon))
+    const router = useRouter()
+    const {orders} = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
+    const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
+    const threeOrders = orders.slice(0,3)
+    const threePackages = packages.slice(0,3)
+
+
     return ( 
         <div>
             {/* summery */}
@@ -39,6 +52,20 @@ const AdminDashboard = () => {
                 {
                     summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
+            </div>
+            <div className="flex gap-4 mt-10">
+                {/* orders  */}
+                <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
+                    <h2 className="font-semibold text-xl mb-4">Orders</h2>
+                    <ThreeOrdersClient data={threeOrders} />
+                    <Button onClick={()=>router.push('/allorders')} className="w-full mt-5" variant='outline'>See All</Button>
+                </div>
+                {/* packages  */}
+                <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
+                    <h2 className="font-semibold text-xl mb-4">Packages</h2>
+                    <ThreePackagesClient data={threePackages} />
+                    <Button onClick={()=>router.push('/packages')} className="w-full mt-5" variant='outline'>See All</Button>
+                </div>
             </div>
         </div>
      );

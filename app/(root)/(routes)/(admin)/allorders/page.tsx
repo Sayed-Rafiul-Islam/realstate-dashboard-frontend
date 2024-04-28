@@ -3,7 +3,7 @@
 import { OrderProps, OrderReducersProps } from "@/types";
 import { useSelector } from "react-redux";
 import { format } from 'date-fns'
-import { OwnerClient } from "./components/client";
+import { OrdersClient } from "./components/client";
 
 const AllOrders = () => {
 
@@ -32,7 +32,7 @@ const AllOrders = () => {
     return ( 
         <div className="flex-col">
         <div className="flex-1 p-8 pt-6 space-y-4">
-            <OwnerClient data={formattedOrders} />
+            <OrdersClient data={formattedOrders} />
         </div>
         
     </div>
