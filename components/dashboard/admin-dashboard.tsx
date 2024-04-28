@@ -1,5 +1,5 @@
 "use client"
-import { Home, UserRound, UsersRound, Warehouse } from "lucide-react";
+import { ArrowRight, Home, UserRound, UsersRound, Warehouse } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
 import { useSelector } from "react-redux";
@@ -58,13 +58,13 @@ const AdminDashboard = () => {
                 <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
                     <h2 className="font-semibold text-xl mb-4">Orders</h2>
                     <ThreeOrdersClient data={threeOrders} />
-                    <Button onClick={()=>router.push('/allorders')} className="w-full mt-5" variant='outline'>See All</Button>
+                    <Button onClick={()=>router.push('/allorders')} className="w-full mt-5" variant='outline'>See All <ArrowRight className="ml-4" size={15} /></Button>
                 </div>
                 {/* packages  */}
                 <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
                     <h2 className="font-semibold text-xl mb-4">Packages</h2>
                     <ThreePackagesClient data={threePackages} />
-                    <Button onClick={()=>router.push('/packages')} className="w-full mt-5" variant='outline'>See All</Button>
+                    <Button onClick={()=>router.push('/packages')} className="w-full mt-5" variant='outline'>See All <ArrowRight className="ml-4" size={15} /></Button>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 import { PackageProps, PackagesReducersProps } from "@/types";
 import { useSelector } from "react-redux";
 import { PackagesClinet } from "./components/client";
+import Pathname from "@/components/pathname";
 
 const Packages = () => {
 
@@ -33,6 +34,10 @@ const Packages = () => {
     return ( 
         <div className="flex-col">
         <div className="flex-1 p-8 pt-6 space-y-4">
+            <div className="flex justify-between items-center">
+                <h1 className="font-bold text-xl">All Packages</h1>
+                <Pathname />
+            </div>
             <PackagesClinet data={formattedPackages} />
         </div>
         
