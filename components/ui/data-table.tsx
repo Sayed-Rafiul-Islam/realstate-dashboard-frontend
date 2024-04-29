@@ -58,10 +58,10 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="bg-gray-100 px-5 rounded-md">
-        <div className="flex justify-between items-center">
+        <div className="flex md:flex-row flex-col justify-between md:items-center py-5 gap-2">
                 {
                     searchKey &&
-                    <div className="flex items-center py-4">
+                    <div className="flex items-center">
                         <Input
                             placeholder="Search"
                             value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
@@ -76,8 +76,9 @@ export function DataTable<TData, TValue>({
                     filters &&
                     <div className="flex gap-2 flex-wrap">
                         {
-                            filters.map(z => 
+                            filters.map((z,index) => 
                                 <Button 
+                                key={index}
                                     className={`${active === z && "bg-indigo-200 text-indigo-600 border border-indigo-600"}`} 
                                     value={z}
                                     onClick={(e : any)=> {

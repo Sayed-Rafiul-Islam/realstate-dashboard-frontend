@@ -6,8 +6,15 @@ import { PackagesClinet } from "./components/client";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+// import { PackageModal } from "@/components/modals/package-form-modal";
 
 const Packages = () => {
+
+    const router = useRouter()
+
+    const [open, setOpen] = useState(false)
 
     const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
 
@@ -35,19 +42,23 @@ const Packages = () => {
 
     return ( 
         <div className="flex-col">
-        <div className="flex-1 p-8 pt-6 space-y-4">
-            <div className="flex justify-between items-center">
-                <h1 className="font-bold text-xl">All Packages</h1>
-                <Pathname />
+            {/* <PackageModal
+            isOpen={open} 
+            onClose={()=>setOpen(false)} 
+            onConfirm={()=>{}} 
+             /> */}
+            <div className="flex-1 p-8 pt-6 space-y-4">
+                <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
+                    <h1 className="font-bold text-xl">All Packages</h1>
+                    <Pathname />
+                </div>
+                <Separator />
+                <div className="flex justify-end"> 
+                    <Button onClick={()=>router.push('/packages/add')} className="">Add Package</Button>
+                </div>
+                <PackagesClinet data={formattedPackages} />
             </div>
-            <Separator />
-            <div className="flex justify-end"> 
-                <Button className="">Add Package</Button>
-            </div>
-            <PackagesClinet data={formattedPackages} />
         </div>
-        
-    </div>
      );
 }
  

@@ -53,7 +53,7 @@ const AdminDashboard = () => {
                     summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
-            <div className="flex gap-4 mt-10">
+            <div className="flex gap-4 mt-10 tables">
                 {/* orders  */}
                 <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
                     <h2 className="font-semibold text-xl mb-4">Orders</h2>

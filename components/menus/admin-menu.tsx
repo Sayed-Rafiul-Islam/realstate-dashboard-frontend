@@ -3,14 +3,13 @@
 import { ChevronDown, CircleUser, LayoutDashboard, LayoutList, LockKeyhole, MessageCircle, Package, ReceiptText, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import './menu.css'
-import AccessProvider from "@/actions/accessProvider"
-import { useSelector } from "react-redux"
 
 const AdminMenu = () => {
 
     const pathname = usePathname()
+
     const [menu,setMenu] = useState
     ([
         {
@@ -19,7 +18,8 @@ const AdminMenu = () => {
             label : "Dashboard",
             href : "/",
             drop : false,
-            icon : <LayoutDashboard size={20} />
+            icon : <LayoutDashboard size={20} />,
+            active : pathname === '/'
         },
         {
             id : 2,
@@ -27,7 +27,9 @@ const AdminMenu = () => {
             label : "Packages",
             href : "/packages",
             drop : false,
-            icon : <Package size={20} />
+            icon : <Package size={20} />,
+            active : pathname === '/packages' ||
+            pathname === '/packages/add'
         },
         {
             id : 3,
@@ -35,7 +37,8 @@ const AdminMenu = () => {
             label : "All Orders",
             href : "/allorders",
             drop : false,
-            icon : <LayoutList size={20} />
+            icon : <LayoutList size={20} />,
+            active : pathname === '/allorders'
         },
         {
             id : 4,
@@ -43,7 +46,8 @@ const AdminMenu = () => {
             label : "Owner Packages",
             href : "/ownerpackages",
             drop : false,
-            icon : <ReceiptText size={20} />
+            icon : <ReceiptText size={20} />,
+            active : pathname === '/ownerpackages'
         },
         {
             id : 5,
@@ -51,7 +55,8 @@ const AdminMenu = () => {
             label : "Message",
             href : "/message",
             drop : false,
-            icon : <MessageCircle size={20} />
+            icon : <MessageCircle size={20} />,
+            active : pathname === '/message'
         },
         {
             id : 6,
@@ -75,7 +80,10 @@ const AdminMenu = () => {
             label : "Message Policy",
             href : "",
             drop : false,
-            icon : <LockKeyhole size={20} />
+            icon : <LockKeyhole size={20} />,
+            active : pathname === '/terms' ||
+            pathname === '/privacy' ||
+            pathname === '/cookie'
         },
         {
             id : 7,
@@ -83,7 +91,8 @@ const AdminMenu = () => {
             label : "Owner",
             href : "/owner",
             drop : false,
-            icon : <User size={20} />
+            icon : <User size={20} />,
+            active : pathname === '/owner'
         },
         {
             id : 8,
@@ -102,9 +111,119 @@ const AdminMenu = () => {
             label : "Profile",
             href : "",
             drop : false,
-            icon : <CircleUser size={20} />
+            icon : <CircleUser size={20} />,
+            active : pathname === '/profile' ||
+            pathname === '/changepassword'
         },
     ])
+
+    useEffect(()=>{
+        setMenu([
+            {
+                id : 1,
+                group : [],
+                label : "Dashboard",
+                href : "/",
+                drop : false,
+                icon : <LayoutDashboard size={20} />,
+                active : pathname === '/'
+            },
+            {
+                id : 2,
+                group : [],
+                label : "Packages",
+                href : "/packages",
+                drop : false,
+                icon : <Package size={20} />,
+                active : pathname === '/packages' ||
+                pathname === '/packages/add'
+            },
+            {
+                id : 3,
+                group : [],
+                label : "All Orders",
+                href : "/allorders",
+                drop : false,
+                icon : <LayoutList size={20} />,
+                active : pathname === '/allorders'
+            },
+            {
+                id : 4,
+                group : [],
+                label : "Owner Packages",
+                href : "/ownerpackages",
+                drop : false,
+                icon : <ReceiptText size={20} />,
+                active : pathname === '/ownerpackages'
+            },
+            {
+                id : 5,
+                group : [],
+                label : "Message",
+                href : "/message",
+                drop : false,
+                icon : <MessageCircle size={20} />,
+                active : pathname === '/message'
+            },
+            {
+                id : 6,
+                group : [
+                    {
+                        id : 61,
+                        label : "Terms & Conditions",
+                        href : "/terms"
+                    },
+                    {
+                        id : 62,
+                        label : "Privacy Policy",
+                        href : "/privacy"
+                    },
+                    {
+                        id : 63,
+                        label : "Cookie Policy",
+                        href : "/cookie"
+                    },
+                ],
+                label : "Message Policy",
+                href : "",
+                drop : false,
+                icon : <LockKeyhole size={20} />,
+                active : pathname === '/terms' ||
+                pathname === '/privacy' ||
+                pathname === '/cookie'
+            },
+            {
+                id : 7,
+                group : [],
+                label : "Owner",
+                href : "/owner",
+                drop : false,
+                icon : <User size={20} />,
+                active : pathname === '/owner'
+            },
+            {
+                id : 8,
+                group : [
+                    {
+                        id : 81,
+                        label : "My Profile",
+                        href : "/profile"
+                    },
+                    {
+                        id : 82,
+                        label : "Change Password",
+                        href : "/changepassword"
+                    }
+                ],
+                label : "Profile",
+                href : "",
+                drop : false,
+                icon : <CircleUser size={20} />,
+                active : pathname === '/profile' ||
+                pathname === '/changepassword'
+            },
+        ])
+    },[pathname])
 
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
@@ -115,22 +234,19 @@ const AdminMenu = () => {
         })
         setMenu(temp)
     }
-
-
+    
     return ( 
         <>
                 {
-            menu.map(({id,group,label,href,drop,icon})=>
+            menu.map(({id,group,label,href,drop,icon,active})=>
                 <div key={id}>
                     {
                         group.length === 0 ?
                         <Link
-                            className={
-                            `
-                                ${pathname === href ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
-                            dark:text-stone-500 hover:text-indigo-400 
-                                transition-all nav-item
-                            `}
+                        className={`
+                        ${active ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
+                        dark:text-stone-500 hover:text-indigo-400 transition-all nav-item
+                        `}   
                             href={href}
                         >
                             <span className="flex items-center gap-4">

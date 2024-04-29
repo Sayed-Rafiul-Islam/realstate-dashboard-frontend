@@ -8,6 +8,12 @@
     .summery {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
+    .tables {
+        flex-direction: column;
+    }
+    .tables > div{
+        width: 100%;
+    }
  }
 @media (max-width: 700px) { 
     .summery {
