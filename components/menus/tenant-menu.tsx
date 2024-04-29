@@ -3,7 +3,7 @@
 import { BookText, ChevronDown, FileText, Handshake, Info, LayoutDashboard, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const TenantMenu = () => {
     const pathname = usePathname()
@@ -15,7 +15,8 @@ const TenantMenu = () => {
             label : "Dashboard",
             href : "/",
             drop : false,
-            icon : <LayoutDashboard size={20} />
+            icon : <LayoutDashboard size={20} />,
+            active : pathname === '/',
         },
         {
             id : 2,
@@ -23,7 +24,8 @@ const TenantMenu = () => {
             label : "Invoice",
             href : "/invoice",
             drop : false,
-            icon : <BookText size={20} />
+            icon : <BookText size={20} />,
+            active : pathname === '/invoice',
         },
         {
             id : 3,
@@ -31,7 +33,8 @@ const TenantMenu = () => {
             label : "My Tickets",
             href : "/mytickets",
             drop : false,
-            icon : <Tag size={20} />
+            icon : <Tag size={20} />,
+            active : pathname === '/mytickets',
         },
         {
             id : 4,
@@ -39,7 +42,8 @@ const TenantMenu = () => {
             label : "Information",
             href : "/information",
             drop : false,
-            icon : <Info size={20} />
+            icon : <Info size={20} />,
+            active : pathname === '/information',
         },
         {
             id : 5,
@@ -47,7 +51,8 @@ const TenantMenu = () => {
             label : "Documents",
             href : "/documents",
             drop : false,
-            icon : <FileText size={20} />
+            icon : <FileText size={20} />,
+            active : pathname === '/documents',
         },
         {
             id : 6,
@@ -55,7 +60,8 @@ const TenantMenu = () => {
             label : "Aggrement Request",
             href : "/maintainance",
             drop : false,
-            icon : <Handshake size={20} />
+            icon : <Handshake size={20} />,
+            active : pathname === '/maintainance',
         },
         {
             id : 7,
@@ -74,9 +80,89 @@ const TenantMenu = () => {
             label : "Profile",
             href : "",
             drop : false,
-            icon : <UserCircle size={20} />
+            icon : <UserCircle size={20} />,
+            active : pathname === '/profile' || pathname === '/changepassword',
         }
     ])
+
+    useEffect(()=>{
+        setMenu([
+            {
+                id : 1,
+                group : [],
+                label : "Dashboard",
+                href : "/",
+                drop : false,
+                icon : <LayoutDashboard size={20} />,
+                active : pathname === '/',
+            },
+            {
+                id : 2,
+                group : [],
+                label : "Invoice",
+                href : "/invoice",
+                drop : false,
+                icon : <BookText size={20} />,
+                active : pathname === '/invoice',
+            },
+            {
+                id : 3,
+                group : [],
+                label : "My Tickets",
+                href : "/mytickets",
+                drop : false,
+                icon : <Tag size={20} />,
+                active : pathname === '/mytickets',
+            },
+            {
+                id : 4,
+                group : [],
+                label : "Information",
+                href : "/information",
+                drop : false,
+                icon : <Info size={20} />,
+                active : pathname === '/information',
+            },
+            {
+                id : 5,
+                group : [],
+                label : "Documents",
+                href : "/documents",
+                drop : false,
+                icon : <FileText size={20} />,
+                active : pathname === '/documents',
+            },
+            {
+                id : 6,
+                group : [],
+                label : "Aggrement Request",
+                href : "/maintainance",
+                drop : false,
+                icon : <Handshake size={20} />,
+                active : pathname === '/maintainance',
+            },
+            {
+                id : 7,
+                group : [
+                    {
+                        id : 71,
+                        label : "My Profile",
+                        href : "/profile"
+                    },
+                    {
+                        id : 72,
+                        label : "Change Password",
+                        href : "/changepassword"
+                    }
+                ],
+                label : "Profile",
+                href : "",
+                drop : false,
+                icon : <UserCircle size={20} />,
+                active : pathname === '/profile' || pathname === '/changepassword',
+            }
+        ])
+    },[pathname])
 
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
@@ -91,69 +177,67 @@ const TenantMenu = () => {
 
     return ( 
         <>
-                {
-            menu.map(({id,group,label,href,drop,icon})=>
-                <div key={id}>
+        {
+    menu.map(({id,group,label,href,drop,icon,active})=>
+        <div key={id}>
+            {
+                group.length === 0 ?
+                <Link
+                className={`
+                ${active ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
+                dark:text-stone-500 hover:text-indigo-400 transition-all nav-item
+                `}   
+                    href={href}
+                >
+                    <span className="flex items-center gap-4">
+                        <span>{icon}</span>
+                        <span>{label}</span>
+                    </span>
+                </Link>
+            :
+                <div>
+                    <button 
+                        className={`nav-item
+                        ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
+                         flex items-center gap-4 w-full hover:text-indigo-400 transition-all`}
+                        onClick={()=>dropDown(id)}
+                    >   <span>{icon}</span>
+                        <span className="w-full flex justify-between items-center">
+                            <span>{label}</span>
+                            <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
+                        </span>
+                    </button>
+                    <div className="ml-10">
                     {
-                        group.length === 0 ?
-                        <Link
-                            className={
-                            `
-                                ${pathname === href ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
-                            dark:text-stone-500 hover:text-indigo-400 
-                                transition-all nav-item
-                            `}
-                            href={href}
-                        >
-                            <span className="flex items-center gap-4">
-                                <span>{icon}</span>
-                                <span>{label}</span>
-                            </span>
-                        </Link>
-                    :
-                        <div>
-                            <button 
-                                className={`nav-item
-                                ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
-                                 flex items-center gap-4 w-full hover:text-indigo-400 transition-all`}
-                                onClick={()=>dropDown(id)}
-                            >   <span>{icon}</span>
-                                <span className="w-full flex justify-between items-center">
-                                    <span>{label}</span>
-                                    <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
-                                </span>
-                            </button>
-                            <div className="ml-10">
-                            {
-                                group.map(({id,label,href}) =>
-                                    <div className={drop ? `drop-on my-1` : 'drop-off'} key={id}>
-                                        <Link
-                                            className={
-                                            `
-                                                ${pathname === href ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
-                                            dark:text-stone-500 dark:hover:text-stone-200 
-                                                 hover:text-indigo-400
-                                                
-                                                transition-all
-                                            `}
-                                            href={href}
-                                        >
-                                            &#x2022; {label}
-                                        </Link>
-                                    </div>
-                                )
-                          
-                            }
+                        group.map(({id,label,href}) =>
+                            <div className={drop ? `drop-on my-1` : 'drop-off'} key={id}>
+                                <Link
+                                    className={
+                                    `
+                                        ${pathname === href ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
+                                    dark:text-stone-500 dark:hover:text-stone-200 
+                                         hover:text-indigo-400
+                                        
+                                        transition-all
+                                    `}
+                                    href={href}
+                                >
+                                    &#x2022; {label}
+                                </Link>
                             </div>
-                            
-                        </div>
-
+                        )
+                  
                     }
+                    </div>
                     
                 </div>
-            )
-        }
-        </>
+
+            }
+            
+        </div>
+    )
+}
+</>
         
      );
 }
