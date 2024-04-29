@@ -14,16 +14,16 @@ import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 
-import { 
-    Select, 
-    SelectContent, 
-    SelectItem, 
-    SelectTrigger, 
-    SelectValue 
-} from '@/components/ui/select'
-import Pathname from '@/components/pathname'
-// import { Checkbox } from '@/components/ui/checkbox'
+// import { 
+//     Select, 
+//     SelectContent, 
+//     SelectItem, 
+//     SelectTrigger, 
+//     SelectValue 
+// } from '@/components/ui/select'
+import Pathname from '@/components/pathname'    
 import './package-add.css'
+import { Checkbox } from '@/components/ui/checkbox'
 
 
 type SettingsFormValues = z.infer<typeof formSchema>
@@ -148,40 +148,8 @@ const PackageForm = () => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Status <span className='text-red-500'>*</span></FormLabel>
-                                        <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange} 
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Status"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value={true} >
-                                                    Active
-                                                </SelectItem>
-                                                <SelectItem value={false} >
-                                                    Inactive
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
+                       
+                        {/* <FormField
                             control={form.control}
                             name="trial"
                             render={({ field }) => (
@@ -213,30 +181,52 @@ const PackageForm = () => {
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
 
-                        {/* <FormField
+                        <FormField
                             control={form.control}
-                            name="isArchieved"
+                            name="status"
                             render={({ field }) => (
                                 <FormItem className='flex flex-row rounded-md border p-4 items-start space-x-3 space-y-0'>
                                     <FormControl>
-                                        <Checkbox 
+                                        <Checkbox
                                             checked={field.value}
                                             onCheckedChange={field.onChange}
                                         />
                                     </FormControl>
                                     <div className='space-y-1 leading-none'>
                                         <FormLabel>
-                                            Archieved
+                                            Active <span className='text-red-500'>*</span>
                                         </FormLabel>
                                         <FormDescription>
-                                            This product will not appear anywhere in store.
+                                            This package will be Activated.
                                         </FormDescription>
                                     </div>
                                 </FormItem>
                             )}
-                        /> */}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="trial"
+                            render={({ field }) => (
+                                <FormItem className='flex flex-row rounded-md border p-4 items-start space-x-3 space-y-0'>
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className='space-y-1 leading-none'>
+                                        <FormLabel>
+                                            On Trial <span className='text-red-500'>*</span>
+                                        </FormLabel>
+                                        <FormDescription>
+                                            This package will be set as trial version.
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <Button disabled={loading} className='ml-auto' type='submit'>
                         Add Package
