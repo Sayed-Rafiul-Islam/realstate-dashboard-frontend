@@ -41,7 +41,7 @@ const AllOrders = () => {
                 <Pathname />
             </div>
             <Separator />
-            {/* <OrdersClient data={formattedOrders} /> */}
+            <OrdersClient data={formattedOrders} />
         </div>
         
     </div>

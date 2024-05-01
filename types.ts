@@ -58,5 +58,5 @@ export interface OrderProps {
     gateway : string,
     date : string,
     status : string,
-    transactionId : string
+    transactionId ?: string
 }
