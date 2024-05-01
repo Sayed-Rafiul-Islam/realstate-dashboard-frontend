@@ -10,6 +10,7 @@ const AdminMenu = () => {
 
     const pathname = usePathname()
 
+    const [clicked,setClicked] = useState(1)
     const [menu,setMenu] = useState
     ([
         {
@@ -35,19 +36,19 @@ const AdminMenu = () => {
             id : 3,
             group : [],
             label : "All Orders",
-            href : "/allorders",
+            href : "/all_orders",
             drop : false,
             icon : <LayoutList size={20} />,
-            active : pathname === '/allorders'
+            active : pathname === '/all_orders'
         },
         {
             id : 4,
             group : [],
             label : "Owner Packages",
-            href : "/ownerpackages",
+            href : "/owner_packages",
             drop : false,
             icon : <ReceiptText size={20} />,
-            active : pathname === '/ownerpackages'
+            active : pathname === '/owner_packages'
         },
         {
             id : 5,
@@ -98,22 +99,22 @@ const AdminMenu = () => {
             id : 8,
             group : [
                 {
-                    id : 81,
+                    groupId : 81,
                     label : "My Profile",
-                    href : "/profile"
+                    href : "/my_profile"
                 },
                 {
-                    id : 82,
+                    groupId : 82,
                     label : "Change Password",
-                    href : "/changepassword"
+                    href : "/my_profile/change_password"
                 }
             ],
             label : "Profile",
-            href : "",
+            href : "/my_profile",
             drop : false,
             icon : <CircleUser size={20} />,
-            active : pathname === '/profile' ||
-            pathname === '/changepassword'
+            active : pathname === '/my_profile' ||
+            pathname === '/my_profile/change_password'
         },
     ])
 
@@ -142,19 +143,19 @@ const AdminMenu = () => {
                 id : 3,
                 group : [],
                 label : "All Orders",
-                href : "/allorders",
+                href : "/all_orders",
                 drop : false,
                 icon : <LayoutList size={20} />,
-                active : pathname === '/allorders'
+                active : pathname === '/all_orders'
             },
             {
                 id : 4,
                 group : [],
                 label : "Owner Packages",
-                href : "/ownerpackages",
+                href : "/owner_packages",
                 drop : false,
                 icon : <ReceiptText size={20} />,
-                active : pathname === '/ownerpackages'
+                active : pathname === '/owner_packages'
             },
             {
                 id : 5,
@@ -205,25 +206,29 @@ const AdminMenu = () => {
                 id : 8,
                 group : [
                     {
-                        id : 81,
+                        groupId : 81,
                         label : "My Profile",
-                        href : "/profile"
+                        href : "/my_profile"
                     },
                     {
-                        id : 82,
+                        groupId : 82,
                         label : "Change Password",
-                        href : "/changepassword"
+                        href : "/my_profile/change_password"
                     }
                 ],
                 label : "Profile",
-                href : "",
+                href : "/my_profile",
                 drop : false,
                 icon : <CircleUser size={20} />,
-                active : pathname === '/profile' ||
-                pathname === '/changepassword'
+                active : pathname === '/my_profile' ||
+                pathname === '/my_profile/change_password'
             },
         ])
+
+       
     },[pathname])
+
+
 
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
@@ -269,7 +274,7 @@ const AdminMenu = () => {
                             </button>
                             <div className="ml-10">
                             {
-                                group.map(({id,label,href},index) =>
+                                group.map(({groupId,label,href},index) =>
                                     <div className={drop ? `drop-on my-1` : 'drop-off'} key={index}>
                                         <Link
                                             className={

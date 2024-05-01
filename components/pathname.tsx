@@ -9,21 +9,11 @@ import {
   } from "@/components/ui/breadcrumb"
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AdminMenu } from "./menus/menus";
   
 
 const Pathname = () => {
-    // const pathname = usePathname().split("/").slice(1)
-    const pathname = usePathname()
-    const menu = AdminMenu
-    console.log(menu)
-    // console.log(pathname)
-
-
-
-
-    // const x = '/dashboard/shop/here'.split("/")
-    // const y = x.slice(1)
+    const pathname = usePathname().split("/").slice(1)
+    
     return ( 
         <div>
             <Breadcrumb>
@@ -32,69 +22,70 @@ const Pathname = () => {
                         <Link prefetch href='/'>Dashboard</Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
+                    
                     {
-                        menu.map(({id,label,group,href},index) => {
-                            if (!group.length) {
-                                if (pathname === href) {
+                        pathname.map((z,index) => {
+                            if (pathname.length -1 === index) {
+                                const x = z.split("_")
+                                if (x.length > 1) {
+                                    return (
+                                    <BreadcrumbItem key={index}>
+                                        <BreadcrumbPage>
+                                            {
+                                                 x.map((y)=>
+                                                    <span>{y[0].toUpperCase()+y.slice(1)} </span>
+                                                )
+                                            }
+                                        </BreadcrumbPage>
+                                    </BreadcrumbItem>
+                                               
+                                                    
+                                )
+                                } else {
                                     return (
                                         <BreadcrumbItem key={index}>
-                                            <BreadcrumbPage>{label}</BreadcrumbPage>
+                                            <BreadcrumbPage>
+                                                {
+                                                    z[0].toUpperCase()+z.slice(1)
+                                                }
+                                            </BreadcrumbPage>
                                         </BreadcrumbItem>
                                     )
-                                }
-                                else if (pathname === href + '/add') {
+                                }                                
+                            } else {
+                                    const x = z.split("_")
+                                    if (x.length > 1) {
+                                        return (
+                                        <div key={index} className="flex items-center gap-2">
+                                            <BreadcrumbItem className="hover:text-indigo-500 transition-all">
+                                                <Link prefetch href={`/${z}`}>
+                                                    {
+                                                        x.map((y)=>
+                                                            <span>{y[0].toUpperCase()+y.slice(1)} </span>
+                                                        )
+                                                    }
+                                                </Link>
+                                            </BreadcrumbItem>
+                                            <BreadcrumbSeparator />
+                                        </div>
+                                                        
+                                    )
+                                } else {
                                     return (
                                         <div key={index} className="flex items-center gap-2">
-                                        <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                                            <Link prefetch href={href}>{label}</Link>
-                                        </BreadcrumbItem>
-
-                                         <BreadcrumbSeparator />
-
-                                        <BreadcrumbItem key={index}>
-                                            <BreadcrumbPage>Add</BreadcrumbPage>
-                                        </BreadcrumbItem>
-                                    </div>
+                                            <BreadcrumbItem className="hover:text-indigo-500 transition-all">
+                                                <Link prefetch href={`/${z}`}>{z[0].toUpperCase()+z.slice(1)}</Link>
+                                            </BreadcrumbItem>
+                                            <BreadcrumbSeparator />
+                                        </div>
                                     )
-                                    
                                 }
-                            } 
-                            else {
-                                return (
-                                    <div key={index} className="flex items-center gap-2">
-                                        {/* <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                                            <Link prefetch href={`/${z}`}>{z[0].toUpperCase()+z.slice(1)}</Link>
-                                        </BreadcrumbItem>
-                                        <BreadcrumbSeparator /> */}
-                                    </div>
-                                )
+
                             }
                             
 
                         })   
                     }
-                    {/* {
-                        pathname.map((z,index) => {
-                            if (pathname.length -1 === index) {
-                                return (
-                                    <BreadcrumbItem key={index}>
-                                        <BreadcrumbPage>{z[0].toUpperCase()+z.slice(1)}</BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                )
-                            } else {
-                                return (
-                                    <div key={index} className="flex items-center gap-2">
-                                        <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                                            <Link prefetch href={`/${z}`}>{z[0].toUpperCase()+z.slice(1)}</Link>
-                                        </BreadcrumbItem>
-                                        <BreadcrumbSeparator />
-                                    </div>
-                                )
-                            }
-                            
-
-                        })   
-                    } */}
                 </BreadcrumbList>
             </Breadcrumb>
 
