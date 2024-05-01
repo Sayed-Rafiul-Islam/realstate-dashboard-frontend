@@ -3,7 +3,7 @@
 import { OwnerPackageProps, OwnerPackagesReducersProps } from "@/types";
 import { useSelector } from "react-redux";
 import { format } from 'date-fns'
-import { OwnerPAckagesClient } from "./components/client";
+import { OwnerPackagesClient } from "./components/client";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
@@ -48,7 +48,7 @@ const OwnerPackages = () => {
                 <Pathname />
             </div>
             <Separator />              
-                <OwnerPAckagesClient data={formattedOwnerPackages} />
+                <OwnerPackagesClient data={formattedOwnerPackages} />
         </div>
         
     </div>

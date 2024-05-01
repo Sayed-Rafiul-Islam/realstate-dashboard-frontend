@@ -1,41 +1,31 @@
 "use client"
 
-import { OwnerPackageProps, OwnerPackagesReducersProps } from "@/types";
+import { OwnerProps, OwnersReducerProps } from "@/types";
 import { useSelector } from "react-redux";
-import { format } from 'date-fns'
-import { OwnerPAckagesClient } from "./components/client";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
+import { OwnersClient } from "./components/client";
 
 const OwnerPackages = () => {
 
-    const {ownerPackages} = useSelector(({ownerPackagesReducer} : OwnerPackagesReducersProps) => ownerPackagesReducer)
+    const {owners} = useSelector(({ownersReducer} : OwnersReducerProps) => ownersReducer)
 
-
-    const formattedOwnerPackages : OwnerPackageProps[] = ownerPackages.map((
+    const formattedOwners : OwnerProps[] = owners.map((
         {
             _id,
             name,
             email,
-            packageName,
-            gateway,
-            startDate,
-            endDate,
-            paymentStatus,
+            contactNo,
             status
-        } : OwnerPackageProps,index : number) => ({
+        } : OwnerProps,index : number) => ({
             serial : index + 1,
             _id,
             name,
             email,
-            packageName,
-            gateway,
-            startDate : format(startDate,"MMMM do, yyyy"),
-            endDate : format(endDate,"MMMM do, yyyy"),
-            paymentStatus,
+            contactNo,
             status
     }))
+
 
 
     // console.log(ownerPackages)
@@ -44,11 +34,11 @@ const OwnerPackages = () => {
         <div className="flex-col">
         <div className="flex-1 p-8 pt-6 space-y-4">
             <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
-                <h1 className="font-bold text-xl">Owner Packages</h1>
+                <h1 className="font-bold text-xl">Owners</h1>
                 <Pathname />
             </div>
             <Separator />              
-                <OwnerPAckagesClient data={formattedOwnerPackages} />
+                <OwnersClient data={formattedOwners} />
         </div>
         
     </div>

@@ -15,6 +15,9 @@ export interface OwnerPackagesReducersProps {
 export interface MessagesReducerProps {
     messagesReducer :  { messages : MessageProps[]} 
   }
+export interface OwnersReducerProps {
+    ownersReducer :  { owners : OwnerProps[]} 
+  }
 
 export interface SummryItemProps {
     id : number,
@@ -68,7 +71,15 @@ export interface MessageProps {
     _id : string,
     name : string,
     email : string,
-    phone : number,
+    phone : string,
     message : string
+    status : boolean,
+}
+
+export interface OwnerProps {
+    _id : string,
+    name : string,
+    email : string,
+    contactNo : string,
     status : boolean,
 }

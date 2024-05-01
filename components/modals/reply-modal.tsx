@@ -64,20 +64,20 @@ export const ReplyModal : React.FC<ReplyModalProps> = ({
             </DialogHeader>
             <div className="overflow-x-scroll px-10">
                 <div className="flex py-4 border-gray-200 border-b">
-                    <h2 className="mr-20 font-semibold">Name</h2>
+                    <h2 className="font-semibold w-1/3">Name</h2>
                     <h2 className="text-gray-500">{data.name}</h2>
                 </div>
                 <div className="flex py-4 border-gray-200 border-b">
-                    <h2 className="mr-20 font-semibold">Email</h2>
+                    <h2 className="font-semibold w-1/3">Email</h2>
                     <h2 className="text-gray-500">{data.email}</h2>
                 </div>
                 <div className="flex py-4 border-gray-200 border-b">
-                    <h2 className="mr-20 font-semibold">Phone</h2>
+                    <h2 className="font-semibold w-1/3">Phone</h2>
                     <h2 className="text-gray-500">{data.phone}</h2>
                 </div>
-                <div className="flex py-4 border-gray-200 border-b">
-                    <h2 className="mr-20 font-semibold">Message</h2>
-                    <h2 className="text-gray-500">{data.message}</h2>
+                <div className="flex md:flex-row flex-col py-4 border-gray-200 border-b gap-y-4">
+                    <h2 className="font-semibold w-1/3">Message</h2>
+                    <h2 className="text-gray-500 w-2/3">{data.message}</h2>
                 </div>
                 <div className="mt-10 border-gray-200 border-b pb-8">
                     <h2 className="my-2 font-semibold">Reply</h2>

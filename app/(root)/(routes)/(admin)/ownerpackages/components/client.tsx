@@ -1,6 +1,6 @@
 "use client"
 
-interface OwnerPAckagesClientProps {
+interface OwnerPackagesClientProps {
     data : OwnerPackageProps[]
 }
 
@@ -17,7 +17,7 @@ import { addOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AssignPackageModal } from "@/components/modals/assign-package-modal"
 
-export const OwnerPAckagesClient : React.FC<OwnerPAckagesClientProps> = ({data}) => {
+export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data}) => {
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration

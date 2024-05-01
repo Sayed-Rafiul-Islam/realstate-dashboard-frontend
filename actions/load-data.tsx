@@ -9,6 +9,7 @@ import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
 import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { getmessages } from "@/redux/messages/messagesSlice"
+import { getOwners } from "@/redux/owners/ownersSlice"
 
 
 export default async function LoadData() {
@@ -18,6 +19,7 @@ export default async function LoadData() {
     loadPackages()
     loadOwnerPackages()
     loadMessages()
+    loadOwners()
   
       
 }
@@ -173,4 +175,34 @@ const loadMessages = async () => {
         }
     ]
     dispatch(getmessages(messages))
+}
+
+const loadOwners = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const owners = [
+        {
+            _id : '1',
+            name : 'Kaisel',
+            email : "kaisel@gmail.com",
+            contactNo : "01877622099",
+            status : false,
+        },
+        {
+            _id : "2",
+            name : "Beru",
+            email : "beru@gmail.com",
+            contactNo : "01877622099",
+            status : true,
+        },
+        {
+            _id : "3",
+            name : "Igris",
+            email : "igris@gmail.com",
+            contactNo : "01877622099",
+            status : false,
+        }
+    ]
+    dispatch(getOwners(owners))
 }
