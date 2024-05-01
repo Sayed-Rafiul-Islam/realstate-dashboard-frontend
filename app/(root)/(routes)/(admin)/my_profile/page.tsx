@@ -1,3 +1,10 @@
+const Profile = () => {
+    return ( 
+        <div></div>
+     );
+}
+ 
+export default Profile;
 // "use client"
 
 // import * as z from 'zod'
