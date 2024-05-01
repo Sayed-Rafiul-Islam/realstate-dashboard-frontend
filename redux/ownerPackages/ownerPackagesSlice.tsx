@@ -9,7 +9,7 @@ const initialState = {
 
 
 
-const packageSlice = createSlice({
+const ownerPackageSlice = createSlice({
     name : "ownerPackages",
     initialState,
     reducers : {
@@ -33,5 +33,5 @@ const packageSlice = createSlice({
     }
 })
 
-export const {getOwnerPackages,addOwnerPackage} = packageSlice.actions
-export default packageSlice.reducer
+export const {getOwnerPackages,addOwnerPackage} = ownerPackageSlice.actions
+export default ownerPackageSlice.reducer

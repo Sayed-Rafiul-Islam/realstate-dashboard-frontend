@@ -12,6 +12,9 @@ export interface PackagesReducersProps {
 export interface OwnerPackagesReducersProps {
     ownerPackagesReducer :  { ownerPackages : OwnerPackageProps[]} 
   }
+export interface MessagesReducerProps {
+    messagesReducer :  { messages : MessageProps[]} 
+  }
 
 export interface SummryItemProps {
     id : number,
@@ -59,4 +62,13 @@ export interface OrderProps {
     date : string,
     status : string,
     transactionId : string
+}
+
+export interface MessageProps {
+    _id : string,
+    name : string,
+    email : string,
+    phone : number,
+    message : string
+    status : boolean,
 }

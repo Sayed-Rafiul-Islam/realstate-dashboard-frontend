@@ -3,6 +3,7 @@ import usersReducer from '@/redux/auth/authSlice'
 import ordersReducer from '@/redux/orders/ordersSlice'
 import packagesReducer from '@/redux/packages/packagesSlice'
 import ownerPackagesReducer from '@/redux/ownerPackages/ownerPackagesSlice'
+import messagesReducer from '@/redux/messages/messagesSlice'
 
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
     usersReducer,
     ordersReducer,
     packagesReducer,
-    ownerPackagesReducer
+    ownerPackagesReducer,
+    messagesReducer
   }
 })
 

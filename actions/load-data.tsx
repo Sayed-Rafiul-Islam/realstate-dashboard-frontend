@@ -8,6 +8,7 @@ import { addUser, removeUser } from "@/redux/auth/authSlice"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
 import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
+import { getmessages } from "@/redux/messages/messagesSlice"
 
 
 export default async function LoadData() {
@@ -16,6 +17,7 @@ export default async function LoadData() {
     loadOrders()
     loadPackages()
     loadOwnerPackages()
+    loadMessages()
   
       
 }
@@ -138,4 +140,37 @@ const loadOwnerPackages = async () => {
         }
     ]
     dispatch(getOwnerPackages(ownerPackages))
+}
+
+const loadMessages = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const messages = [
+        {
+            _id : '1',
+            name : 'Kaisel',
+            email : "kaisel@gmail.com",
+            phone : "01877622099",
+            status : false,
+            message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+        },
+        {
+            _id : "2",
+            name : "Beru",
+            email : "beru@gmail.com",
+            phone : "01877622099",
+            status : false,
+            message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+        },
+        {
+            _id : "3",
+            name : "Igris",
+            email : "igris@gmail.com",
+            phone : "01877622099",
+            status : false,
+            message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+        }
+    ]
+    dispatch(getmessages(messages))
 }

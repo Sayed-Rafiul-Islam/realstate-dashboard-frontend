@@ -14,14 +14,14 @@ import { Separator } from "../ui/separator";
 import { OrderProps } from "@/types";
 import { DataTable } from "../ui/data-table";
 
-interface AlertModalProps {
+interface PreviewOrderProps {
     isOpen : boolean,
     onClose : () => void,
     loading : boolean,
     data : OrderProps
 }
 
-export const PreviewOrder : React.FC<AlertModalProps> = ({
+export const PreviewOrder : React.FC<PreviewOrderProps> = ({
     isOpen,
     onClose,
     loading,

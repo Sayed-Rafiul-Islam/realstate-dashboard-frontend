@@ -52,11 +52,11 @@ const AdminMenu = () => {
         {
             id : 5,
             group : [],
-            label : "Message",
-            href : "/message",
+            label : "Messages",
+            href : "/messages",
             drop : false,
             icon : <MessageCircle size={20} />,
-            active : pathname === '/message'
+            active : pathname === '/messages'
         },
         // {
         //     id : 6,
@@ -89,10 +89,10 @@ const AdminMenu = () => {
             id : 7,
             group : [],
             label : "Owners",
-            href : "/owner",
+            href : "/owners",
             drop : false,
             icon : <User size={20} />,
-            active : pathname === '/owner'
+            active : pathname === '/owners'
         },
         {
             id : 8,
@@ -159,11 +159,11 @@ const AdminMenu = () => {
             {
                 id : 5,
                 group : [],
-                label : "Message",
-                href : "/message",
+                label : "Messages",
+                href : "/messages",
                 drop : false,
                 icon : <MessageCircle size={20} />,
-                active : pathname === '/message'
+                active : pathname === '/messages'
             },
             // {
             //     id : 6,
@@ -195,11 +195,11 @@ const AdminMenu = () => {
             {
                 id : 7,
                 group : [],
-                label : "Owner",
-                href : "/owner",
+                label : "Owners",
+                href : "/owners",
                 drop : false,
                 icon : <User size={20} />,
-                active : pathname === '/owner'
+                active : pathname === '/owners'
             },
             {
                 id : 8,
