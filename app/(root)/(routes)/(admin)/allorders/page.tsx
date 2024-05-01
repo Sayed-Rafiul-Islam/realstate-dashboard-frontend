@@ -19,7 +19,8 @@ const AllOrders = () => {
             amount,
             gateway,
             date,
-            status
+            status,
+            transactionId
         } : OrderProps,index : number) => ({
             serial : index + 1,
             _id,
@@ -28,7 +29,8 @@ const AllOrders = () => {
             amount,
             gateway,
             date : format(date,"MMMM do, yyyy"),
-            status
+            status,
+            transactionId
     }))
 
     return ( 

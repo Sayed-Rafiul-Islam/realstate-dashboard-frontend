@@ -178,8 +178,8 @@ const TenantMenu = () => {
     return ( 
         <>
         {
-    menu.map(({id,group,label,href,drop,icon,active})=>
-        <div key={id}>
+    menu.map(({id,group,label,href,drop,icon,active},index)=>
+        <div key={index}>
             {
                 group.length === 0 ?
                 <Link
@@ -209,8 +209,8 @@ const TenantMenu = () => {
                     </button>
                     <div className="ml-10">
                     {
-                        group.map(({id,label,href}) =>
-                            <div className={drop ? `drop-on my-1` : 'drop-off'} key={id}>
+                        group.map(({id,label,href},index) =>
+                            <div className={drop ? `drop-on my-1` : 'drop-off'} key={index}>
                                 <Link
                                     className={
                                     `

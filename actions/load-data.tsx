@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux"
 import { addUser, removeUser } from "@/redux/auth/authSlice"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
+import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
 
 
 export default async function LoadData() {
@@ -14,6 +15,7 @@ export default async function LoadData() {
 
     loadOrders()
     loadPackages()
+    loadOwnerPackages()
   
       
 }
@@ -30,7 +32,8 @@ const loadOrders = async () => {
             amount : 9.99,
             gateway : "Bkash",
             date : "2024-04-04T00:00:00.000Z",
-            status : "Pending"
+            status : "Pending",
+            transactionId : 'geywqge762e32queg2e'
         },
         {
             _id : "2",
@@ -39,7 +42,8 @@ const loadOrders = async () => {
             amount : 0,
             gateway : "None",
             date : "2024-04-05T00:00:00.000Z",
-            status : "Paid"
+            status : "Paid",
+            transactionId : 'geywqge762e32q22eg2e'
         },
         {
             _id : "3",
@@ -48,7 +52,8 @@ const loadOrders = async () => {
             amount : 9.99,
             gateway : "Cash",
             date : "2024-04-04T00:00:00.000Z",
-            status : "Canceled"
+            status : "Canceled",
+            transactionId : 'geywfrf762e32queg2e'
         }
     ]
     dispatch(getOrders(orders))
@@ -91,4 +96,46 @@ const loadPackages = async () => {
         }
     ]
     dispatch(getPackages(packages))
+}
+
+const loadOwnerPackages = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const ownerPackages = [
+        {
+            _id : "1",
+            name : "Ragib",
+            email : "ragib@gmail.com",
+            packageName : "Standard",
+            gateway : "Cash",
+            startDate : "2024-02-04T00:00:00.000Z",
+            endDate : "2025-02-04T00:00:00.000Z",
+            paymentStatus : "Canceled",
+            status : false
+        },
+        {
+            _id : "2",
+            name : "Beru",
+            email : "beru@gmail.com",
+            packageName : "free",
+            gateway : "Cash",
+            startDate : "2024-02-04T00:00:00.000Z",
+            endDate : "2025-02-04T00:00:00.000Z",
+            paymentStatus : "Paid",
+            status : true
+        },
+        {
+            _id : "3",
+            name : "Igris",
+            email : "igris@gmail.com",
+            packageName : "Premeum",
+            gateway : "Cash",
+            startDate : "2024-02-04T00:00:00.000Z",
+            endDate : "2025-02-04T00:00:00.000Z",
+            paymentStatus : "Pending",
+            status : false
+        }
+    ]
+    dispatch(getOwnerPackages(ownerPackages))
 }

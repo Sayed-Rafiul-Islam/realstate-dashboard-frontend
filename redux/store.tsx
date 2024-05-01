@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from '@/redux/auth/authSlice'
 import ordersReducer from '@/redux/orders/ordersSlice'
 import packagesReducer from '@/redux/packages/packagesSlice'
+import ownerPackagesReducer from '@/redux/ownerPackages/ownerPackagesSlice'
 
 
 export const store = configureStore({
   reducer: {
     usersReducer,
     ordersReducer,
-    packagesReducer
+    packagesReducer,
+    ownerPackagesReducer
   }
 })
 

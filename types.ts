@@ -9,6 +9,9 @@ export interface OrderReducersProps {
 export interface PackagesReducersProps {
     packagesReducer :  { packages : PackageProps[]} 
   }
+export interface OwnerPackagesReducersProps {
+    ownerPackagesReducer :  { ownerPackages : OwnerPackageProps[]} 
+  }
 
 export interface SummryItemProps {
     id : number,
@@ -35,6 +38,18 @@ export interface PackageProps {
     trial : boolean
 }
 
+export interface OwnerPackageProps {
+  _id : string,
+  name : string,
+  email : string,
+  packageName : string,
+  gateway : string,
+  startDate : string,
+  endDate : string,
+  paymentStatus : string,
+  status : boolean
+}
+
 export interface OrderProps {
     _id : string,
     name : string,
@@ -42,5 +57,6 @@ export interface OrderProps {
     amount : number,
     gateway : string,
     date : string,
-    status : string
+    status : string,
+    transactionId : string
 }

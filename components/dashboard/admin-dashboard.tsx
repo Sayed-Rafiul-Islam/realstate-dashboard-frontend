@@ -50,7 +50,7 @@ const AdminDashboard = () => {
             {/* summery */}
             <div className="summery">
                 {
-                    summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon},index) => <Summery key={index} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
             <div className="flex gap-4 mt-10 tables">

@@ -57,8 +57,8 @@ export function DataTable<TData, TValue>({
   const [active, setActive] = useState("")
 
   return (
-    <div className="bg-gray-100 px-5 rounded-md">
-        <div className="flex md:flex-row flex-col justify-between md:items-center py-5 gap-2">
+    <div className="bg-gray-100 px-5 rounded-md py-5">
+        <div className="flex md:flex-row flex-col justify-between md:items-center gap-2 mb-4">
                 {
                     searchKey &&
                     <div className="flex items-center">
@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
                     <TableRow key={headerGroup.id}>
                     {headerGroup.headers.map((header) => {
                         return (
-                        <TableHead key={header.id} className="px-6 text-center">
+                        <TableHead key={header.id} className="px-3 text-center text-sm">
                             {header.isPlaceholder
                             ? null
                             : flexRender(
@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
                         data-state={row.getIsSelected() && "selected"}
                     >
                         {row.getVisibleCells().map((cell) => (
-                        <TableCell className="text-center" key={cell.id}>
+                        <TableCell className="text-center text-xs" key={cell.id}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </TableCell>
                         ))}

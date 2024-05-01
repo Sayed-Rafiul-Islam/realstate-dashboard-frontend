@@ -29,7 +29,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 type SettingsFormValues = z.infer<typeof formSchema>
 
 const formSchema = z.object({
-    label : z.string().min(1),
+    label : z.string().min(1, {message : "Label Required"}),
     monthlyPrice : z.coerce.number().min(1),
     yearlyPrice : z.coerce.number().min(1),
     maxProperty : z.coerce.number().min(1),
@@ -38,6 +38,17 @@ const formSchema = z.object({
     trial : z.boolean().default(false),
     // isArchieved : z.boolean().default(false).optional(),
 })
+// const formSchema = z.object({
+//     posts: z.array(z.object({
+//         label : z.string().min(1),
+//         monthlyPrice : z.coerce.number().min(1),
+//         yearlyPrice : z.coerce.number().min(1),
+//         maxProperty : z.coerce.number().min(1),
+//         maxUnit : z.coerce.number().min(1),
+//         status : z.boolean().default(false),
+//         trial : z.boolean().default(false),
+//     }))
+//   });
 
 
 const PackageForm = () => {
@@ -48,9 +59,13 @@ const PackageForm = () => {
 
 
     const form = useForm<SettingsFormValues>({
+        // defaultValues : {
+
+        // },
         resolver : zodResolver(formSchema)})
 
-    const onSubmit = async () => {
+    const onSubmit = async (data : SettingsFormValues) => {
+        console.log(data)
         try {
             setLoading(true)
                 const newproduct = {
