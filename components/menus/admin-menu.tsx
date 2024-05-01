@@ -58,37 +58,37 @@ const AdminMenu = () => {
             icon : <MessageCircle size={20} />,
             active : pathname === '/message'
         },
-        {
-            id : 6,
-            group : [
-                {
-                    id : 61,
-                    label : "Terms & Conditions",
-                    href : "/terms"
-                },
-                {
-                    id : 62,
-                    label : "Privacy Policy",
-                    href : "/privacy"
-                },
-                {
-                    id : 63,
-                    label : "Cookie Policy",
-                    href : "/cookie"
-                },
-            ],
-            label : "Message Policy",
-            href : "",
-            drop : false,
-            icon : <LockKeyhole size={20} />,
-            active : pathname === '/terms' ||
-            pathname === '/privacy' ||
-            pathname === '/cookie'
-        },
+        // {
+        //     id : 6,
+        //     group : [
+        //         {
+        //             id : 61,
+        //             label : "Terms & Conditions",
+        //             href : "/terms"
+        //         },
+        //         {
+        //             id : 62,
+        //             label : "Privacy Policy",
+        //             href : "/privacy"
+        //         },
+        //         {
+        //             id : 63,
+        //             label : "Cookie Policy",
+        //             href : "/cookie"
+        //         },
+        //     ],
+        //     label : "Message Policy",
+        //     href : "",
+        //     drop : false,
+        //     icon : <LockKeyhole size={20} />,
+        //     active : pathname === '/terms' ||
+        //     pathname === '/privacy' ||
+        //     pathname === '/cookie'
+        // },
         {
             id : 7,
             group : [],
-            label : "Owner",
+            label : "Owners",
             href : "/owner",
             drop : false,
             icon : <User size={20} />,
@@ -165,33 +165,33 @@ const AdminMenu = () => {
                 icon : <MessageCircle size={20} />,
                 active : pathname === '/message'
             },
-            {
-                id : 6,
-                group : [
-                    {
-                        id : 61,
-                        label : "Terms & Conditions",
-                        href : "/terms"
-                    },
-                    {
-                        id : 62,
-                        label : "Privacy Policy",
-                        href : "/privacy"
-                    },
-                    {
-                        id : 63,
-                        label : "Cookie Policy",
-                        href : "/cookie"
-                    },
-                ],
-                label : "Message Policy",
-                href : "",
-                drop : false,
-                icon : <LockKeyhole size={20} />,
-                active : pathname === '/terms' ||
-                pathname === '/privacy' ||
-                pathname === '/cookie'
-            },
+            // {
+            //     id : 6,
+            //     group : [
+            //         {
+            //             id : 61,
+            //             label : "Terms & Conditions",
+            //             href : "/terms"
+            //         },
+            //         {
+            //             id : 62,
+            //             label : "Privacy Policy",
+            //             href : "/privacy"
+            //         },
+            //         {
+            //             id : 63,
+            //             label : "Cookie Policy",
+            //             href : "/cookie"
+            //         },
+            //     ],
+            //     label : "Message Policy",
+            //     href : "",
+            //     drop : false,
+            //     icon : <LockKeyhole size={20} />,
+            //     active : pathname === '/terms' ||
+            //     pathname === '/privacy' ||
+            //     pathname === '/cookie'
+            // },
             {
                 id : 7,
                 group : [],

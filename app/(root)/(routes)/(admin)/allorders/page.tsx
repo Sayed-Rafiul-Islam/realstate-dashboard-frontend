@@ -9,9 +9,9 @@ import { Separator } from "@/components/ui/separator";
 
 const AllOrders = () => {
 
-    const {orders} = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
+    const {orders} : {orders : OrderProps[]}  = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
 
-    const formattedOrders : OrderProps[] = orders.map((
+    const formattedOrders = orders.map((
         {
             _id,
             name,
@@ -41,7 +41,7 @@ const AllOrders = () => {
                 <Pathname />
             </div>
             <Separator />
-            <OrdersClient data={formattedOrders} />
+            {/* <OrdersClient data={formattedOrders} /> */}
         </div>
         
     </div>
