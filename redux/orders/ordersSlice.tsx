@@ -1,13 +1,15 @@
 "use client"
 
-import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit"
-import axios from "axios"
-import { RootState } from "../store"
+import { createSlice } from "@reduxjs/toolkit"
 import { OrderProps } from "@/types"
 
 const ordersJson = typeof window !== "undefined" && localStorage.getItem("orders")
 
-const initialState = {
+interface InitialStateProps {
+      orders : OrderProps[]
+}
+
+const initialState : InitialStateProps = {
     orders : ordersJson ? JSON.parse(ordersJson) : [],
 }
 
