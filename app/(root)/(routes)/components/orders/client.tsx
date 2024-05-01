@@ -23,7 +23,8 @@ export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
             amount,
             gateway,
             date,
-            status
+            status,
+            transactionId
         } : OrderProps,index : number) => ({
             serial : index + 1,
             _id,
@@ -32,7 +33,9 @@ export const ThreeOrdersClient : React.FC<OrdersClientProps> = ({data}) => {
             amount,
             gateway,
             date : format(date,"MMMM do, yyyy"),
-            status
+            status,
+            transactionId
+            
     }))
 
     // ---------------------------------------------------------------------------------------------
