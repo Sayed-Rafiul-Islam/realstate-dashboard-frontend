@@ -14,13 +14,13 @@ import { Input } from '@/components/ui/input'
 import { PackageProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
-// import './package-form.css'
+import './package-form.css'
 
 
-type PackageSettingsFormValues = z.infer<typeof formSchema>
+type PackageFormValues = z.infer<typeof formSchema>
 
 interface PackageFormProps {
-    initialData: PackageProps | undefined
+    initialData: PackageProps
 }
 
 const formSchema = z.object({
@@ -43,12 +43,12 @@ export const PackageForm : React.FC<PackageFormProps> = ({
     const [loading, setLoading] = useState(false)
 
 
-    const form = useForm<PackageSettingsFormValues>({
+    const form = useForm<PackageFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialData
     })
 
-    const onSubmit = async (data : PackageSettingsFormValues) => {
+    const onSubmit = async (data : PackageFormValues) => {
         console.log(data)
         try {
             setLoading(true)
