@@ -18,6 +18,7 @@ import {
 import AccessProvider from "@/actions/accessProvider";
 import { Power, UserCircle } from "lucide-react";
 import { UsersReducerProps } from "@/types";
+import Link from "next/link";
 
 const SignOut = () => {
     AccessProvider()
@@ -39,9 +40,9 @@ const SignOut = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
 
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-gray-500">
+                <DropdownMenuItem onClick={()=>router.push('/my_profile')} className="flex items-center gap-2 cursor-pointer text-gray-500">
                     <UserCircle size={20} />
-                    <span>Profile</span>
+                    <span><Link prefetch href='/my_profile'>Profile</Link></span>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-gray-500" onClick={()=>dispatch(removeUser()) && router.push('/authentication')}>
                     <Power size={20} />

@@ -10,7 +10,6 @@ const AdminMenu = () => {
 
     const pathname = usePathname()
 
-    const [clicked,setClicked] = useState(1)
     const [menu,setMenu] = useState
     ([
         {
@@ -124,7 +123,7 @@ const AdminMenu = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname ===item.href) {
+            if (pathname === item.href || pathname === item.href + "/add") {
                 item.active = true
             } else {
                 item.active = false
