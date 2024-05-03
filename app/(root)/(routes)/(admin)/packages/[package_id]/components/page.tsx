@@ -19,7 +19,7 @@ import './package-form.css'
 
 type PackageFormValues = z.infer<typeof formSchema>
 
-interface PackageFormProps {
+interface PackageEditFormProps {
     initialData: PackageProps
 }
 
@@ -34,7 +34,7 @@ const formSchema = z.object({
 })
 
 
-export const PackageForm : React.FC<PackageFormProps> = ({
+export const PackageEditForm : React.FC<PackageEditFormProps> = ({
     initialData
 }) => {
 
