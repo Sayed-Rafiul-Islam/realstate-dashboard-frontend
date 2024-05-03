@@ -13,11 +13,10 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 
-type PasswordValue = z.infer<typeof formSchema>
+type UserValue = z.infer<typeof formSchema>
 
 const formSchema = z.object({
-    password1 : z.string().min(6),
-    password2 : z.string().min(6),
+    userName : z.string(),
 })
 
 const ChangePasswordPage = () => {
@@ -37,21 +36,16 @@ const ChangePasswordPage = () => {
     }
 
     
-    const form = useForm<PasswordValue>({
+    const form = useForm<UserValue>({
         resolver : zodResolver(formSchema),
         // defaultValues : {
 
         // } 
     })
 
-    const onSubmit = async ({password1,password2} : PasswordValue) => {
-        if (password1 === password2) {
-
-            toast.success("Password Updated")
-        } else {
-            toast.error("Password did not match")
-            form.setValue('password2','')
-        }
+    const onSubmit = async ({userName} : UserValue) => {
+            toast.success("User Name Updated")
+            form.setValue('userName','')
     }
 
    
@@ -63,7 +57,7 @@ const ChangePasswordPage = () => {
         <div className="flex-col">
         <div className="flex-1 p-8 pt-6 space-y-4">
             <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
-                <h1 className="font-bold text-xl">Chnage Password</h1>
+                <h1 className="font-bold text-xl">Chnage User Name</h1>
                 <Pathname />
             </div>
             <Separator />   
@@ -79,33 +73,20 @@ const ChangePasswordPage = () => {
                         <FormField
 
                             control={form.control}
-                            name="password1"
+                            name="userName"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Enter New Password</FormLabel>
+                                    <FormLabel>New User Name</FormLabel>
                                     <FormControl>
-                                        <Input type='password' placeholder='******' {...field} />
+                                        <Input type='text' placeholder='John Doe' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password2"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Re-enter Password</FormLabel>
-                                    <FormControl>
-                                        <Input type='password' placeholder='******' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />                       
+                        />                    
                     </div>
                     <Button className='ml-auto' type='submit'>
-                        Update Password
+                        Update User Name
                     </Button>
                 </form>
             </Form>     

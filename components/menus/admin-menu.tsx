@@ -20,7 +20,7 @@ const AdminMenu = () => {
             href : "/",
             drop : false,
             icon : <LayoutDashboard size={20} />,
-            active : pathname === '/'
+            active : false
         },
         {
             id : 2,
@@ -29,8 +29,7 @@ const AdminMenu = () => {
             href : "/packages",
             drop : false,
             icon : <Package size={20} />,
-            active : pathname === '/packages' ||
-            pathname === '/packages/add'
+            active : false
         },
         {
             id : 3,
@@ -39,7 +38,7 @@ const AdminMenu = () => {
             href : "/all_orders",
             drop : false,
             icon : <LayoutList size={20} />,
-            active : pathname === '/all_orders'
+            active : false
         },
         {
             id : 4,
@@ -48,7 +47,7 @@ const AdminMenu = () => {
             href : "/owner_packages",
             drop : false,
             icon : <ReceiptText size={20} />,
-            active : pathname === '/owner_packages'
+            active : false
         },
         {
             id : 5,
@@ -57,7 +56,7 @@ const AdminMenu = () => {
             href : "/messages",
             drop : false,
             icon : <MessageCircle size={20} />,
-            active : pathname === '/messages'
+            active : false
         },
         // {
         //     id : 6,
@@ -93,7 +92,7 @@ const AdminMenu = () => {
             href : "/owners",
             drop : false,
             icon : <User size={20} />,
-            active : pathname === '/owners'
+            active : false 
         },
         {
             id : 8,
@@ -107,125 +106,32 @@ const AdminMenu = () => {
                     groupId : 82,
                     label : "Change Password",
                     href : "/my_profile/change_password"
-                }
+                },
+                {
+                    groupId : 82,
+                    label : "Change User Name",
+                    href : "/my_profile/change_user_name"
+                },
             ],
             label : "Profile",
             href : "/my_profile",
             drop : false,
             icon : <CircleUser size={20} />,
-            active : pathname === '/my_profile' ||
-            pathname === '/my_profile/change_password'
+            active : false
         },
     ])
 
     useEffect(()=>{
-        setMenu([
-            {
-                id : 1,
-                group : [],
-                label : "Dashboard",
-                href : "/",
-                drop : false,
-                icon : <LayoutDashboard size={20} />,
-                active : pathname === '/'
-            },
-            {
-                id : 2,
-                group : [],
-                label : "Packages",
-                href : "/packages",
-                drop : false,
-                icon : <Package size={20} />,
-                active : pathname === '/packages' ||
-                pathname === '/packages/add'
-            },
-            {
-                id : 3,
-                group : [],
-                label : "All Orders",
-                href : "/all_orders",
-                drop : false,
-                icon : <LayoutList size={20} />,
-                active : pathname === '/all_orders'
-            },
-            {
-                id : 4,
-                group : [],
-                label : "Owner Packages",
-                href : "/owner_packages",
-                drop : false,
-                icon : <ReceiptText size={20} />,
-                active : pathname === '/owner_packages'
-            },
-            {
-                id : 5,
-                group : [],
-                label : "Messages",
-                href : "/messages",
-                drop : false,
-                icon : <MessageCircle size={20} />,
-                active : pathname === '/messages'
-            },
-            // {
-            //     id : 6,
-            //     group : [
-            //         {
-            //             id : 61,
-            //             label : "Terms & Conditions",
-            //             href : "/terms"
-            //         },
-            //         {
-            //             id : 62,
-            //             label : "Privacy Policy",
-            //             href : "/privacy"
-            //         },
-            //         {
-            //             id : 63,
-            //             label : "Cookie Policy",
-            //             href : "/cookie"
-            //         },
-            //     ],
-            //     label : "Message Policy",
-            //     href : "",
-            //     drop : false,
-            //     icon : <LockKeyhole size={20} />,
-            //     active : pathname === '/terms' ||
-            //     pathname === '/privacy' ||
-            //     pathname === '/cookie'
-            // },
-            {
-                id : 7,
-                group : [],
-                label : "Owners",
-                href : "/owners",
-                drop : false,
-                icon : <User size={20} />,
-                active : pathname === '/owners'
-            },
-            {
-                id : 8,
-                group : [
-                    {
-                        groupId : 81,
-                        label : "My Profile",
-                        href : "/my_profile"
-                    },
-                    {
-                        groupId : 82,
-                        label : "Change Password",
-                        href : "/my_profile/change_password"
-                    }
-                ],
-                label : "Profile",
-                href : "/my_profile",
-                drop : false,
-                icon : <CircleUser size={20} />,
-                active : pathname === '/my_profile' ||
-                pathname === '/my_profile/change_password'
-            },
-        ])
 
-       
+        const temp = menu.map((item) =>{
+            if (pathname ===item.href) {
+                item.active = true
+            } else {
+                item.active = false
+            }
+            return item
+        })
+        setMenu(temp)
     },[pathname])
 
 
