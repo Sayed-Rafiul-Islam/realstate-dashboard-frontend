@@ -8,11 +8,12 @@ import {
     BreadcrumbSeparator,
   } from "@/components/ui/breadcrumb"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
   
 
 const Pathname = () => {
     const pathname = usePathname().split("/").slice(1)
+    const params = useParams()
     
     return ( 
         <div>
@@ -46,6 +47,9 @@ const Pathname = () => {
                                         <BreadcrumbItem key={index}>
                                             <BreadcrumbPage>
                                                 {
+                                                    z === params.package_id ?
+                                                    "Edit"
+                                                    :
                                                     z[0].toUpperCase()+z.slice(1)
                                                 }
                                             </BreadcrumbPage>

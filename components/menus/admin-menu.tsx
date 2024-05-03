@@ -2,13 +2,14 @@
 
 import { ChevronDown, CircleUser, LayoutDashboard, LayoutList, LockKeyhole, MessageCircle, Package, ReceiptText, User } from "lucide-react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import './menu.css'
 
 const AdminMenu = () => {
 
     const pathname = usePathname()
+    const params = useParams()
 
     const [menu,setMenu] = useState
     ([
@@ -123,7 +124,7 @@ const AdminMenu = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href + "/add") {
+            if (pathname === item.href || pathname === item.href + "/add" || pathname === item.href + '/' + params.package_id) {
                 item.active = true
             } else {
                 item.active = false

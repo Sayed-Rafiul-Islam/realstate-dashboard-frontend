@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { PackageModal } from "@/components/modals/package-form-modal";
+
 
 const Packages = () => {
 
@@ -42,11 +42,6 @@ const Packages = () => {
 
     return ( 
         <div className="flex-col">
-            {/* <PackageModal
-            isOpen={open} 
-            onClose={()=>setOpen(false)} 
-            onConfirm={()=>{}} 
-             /> */}
             <div className="flex-1 p-8 pt-6 space-y-4">
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Packages</h1>

@@ -44,15 +44,6 @@ export const AssignPackageModal : React.FC<AssignPackageModalProps> = ({
     owners,
     packages
 }) => {
-    const [isMounted, setIsMounted] = useState(false)
-
-    // useEffect(()=>{
-    //     setIsMounted(true)
-    // },[])
-
-    // if (!isMounted) {
-    //     return null
-    // }
 
     // /--------------------------------------------------------------
 

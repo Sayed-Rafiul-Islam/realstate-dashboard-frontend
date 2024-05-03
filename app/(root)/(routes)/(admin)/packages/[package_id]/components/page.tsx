@@ -3,21 +3,25 @@
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useParams, useRouter } from 'next/navigation'
 
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import Pathname from '@/components/pathname'    
-import './package-add.css'
+import { PackageProps } from '@/types'
+import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
+// import './package-form.css'
 
 
 type PackageSettingsFormValues = z.infer<typeof formSchema>
+
+interface PackageFormProps {
+    initialData: PackageProps | undefined
+}
 
 const formSchema = z.object({
     label : z.string().min(1, {message : "Label Required"}),
@@ -27,60 +31,54 @@ const formSchema = z.object({
     maxUnit : z.coerce.number().min(1),
     status : z.boolean().default(false),
     trial : z.boolean().default(false),
-    // isArchieved : z.boolean().default(false).optional(),
 })
-// const formSchema = z.object({
-//     posts: z.array(z.object({
-//         label : z.string().min(1),
-//         monthlyPrice : z.coerce.number().min(1),
-//         yearlyPrice : z.coerce.number().min(1),
-//         maxProperty : z.coerce.number().min(1),
-//         maxUnit : z.coerce.number().min(1),
-//         status : z.boolean().default(false),
-//         trial : z.boolean().default(false),
-//     }))
-//   });
 
 
-const PackageForm = () => {
+export const PackageForm : React.FC<PackageFormProps> = ({
+    initialData
+}) => {
 
-    const router = useRouter()
-    const [open, setOpen] = useState(false)
+ 
+
     const [loading, setLoading] = useState(false)
 
 
     const form = useForm<PackageSettingsFormValues>({
-        // defaultValues : {
-
-        // },
-        resolver : zodResolver(formSchema)})
+        resolver : zodResolver(formSchema),
+        defaultValues : initialData
+    })
 
     const onSubmit = async (data : PackageSettingsFormValues) => {
         console.log(data)
         try {
             setLoading(true)
-                const newPackage = {
+                const updatePackage = {
                  
                 }
                 
-                // await createProduct(newproduct)
-            
-
-            // router.push(`/${storeId}/products`)
-            // router.refresh()
-            // toast.success(`${toastMessage}`)
         } catch (error) {
             toast.error("Something went wrong.")
         } finally {
             setLoading(false)
         }
     }
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
+  
     return (
         <div className='add'>
             <div className="flex items-center justify-between heading">
                 <Heading
-                title='Add New Package'
-                description='Package Form'
+                    title="Edit Package"
+                    description='Package Form'
                 />
                 <Pathname />
             </div>
@@ -154,40 +152,6 @@ const PackageForm = () => {
                                 </FormItem>
                             )}
                         />
-                       
-                        {/* <FormField
-                            control={form.control}
-                            name="trial"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>On Trial <span className='text-red-500'>*</span></FormLabel>
-                                        <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange} 
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Trial Status"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value={true} >
-                                                    Yes
-                                                </SelectItem>
-                                                <SelectItem value={false} >
-                                                    No
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> */}
 
                         <FormField
                             control={form.control}
@@ -235,12 +199,10 @@ const PackageForm = () => {
                         />
                     </div>
                     <Button disabled={loading} className='ml-auto' type='submit'>
-                        Add Package
+                        Save Changes
                     </Button>
                 </form>
             </Form> 
         </div>
     )
 }
-
-export default PackageForm
