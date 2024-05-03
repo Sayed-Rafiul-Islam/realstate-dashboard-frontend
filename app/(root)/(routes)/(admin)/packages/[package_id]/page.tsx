@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { PackageEditForm } from "./components/page";
+import { PackageEditForm } from "./components/package-edit-form";
 import { PackageProps, PackagesReducersProps } from "@/types";
 
 const PackagePage = ({
