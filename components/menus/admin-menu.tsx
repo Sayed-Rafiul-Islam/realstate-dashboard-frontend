@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronDown, CircleUser, LayoutDashboard, LayoutList, LockKeyhole, MessageCircle, Package, ReceiptText, User } from "lucide-react"
+import { ChevronDown, CircleUser, LayoutDashboard, LayoutList, MessageCircle, Package, ReceiptText, User } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -124,7 +124,7 @@ const AdminMenu = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href + "/add" || pathname === item.href + '/' + params.package_id) {
+            if (pathname === item.href || pathname === item.href + '/' + params.id) {
                 item.active = true
             } else {
                 item.active = false

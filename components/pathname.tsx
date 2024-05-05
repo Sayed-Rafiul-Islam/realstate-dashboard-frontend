@@ -47,7 +47,7 @@ const Pathname = () => {
                                         <BreadcrumbItem key={index}>
                                             <BreadcrumbPage>
                                                 {
-                                                    params && z.length < 3 ?
+                                                    (params && z.length < 3) ?
                                                     "Edit"
                                                     :
                                                     z[0].toUpperCase()+z.slice(1)

@@ -7,11 +7,11 @@ import { PackageProps, PackagesReducersProps } from "@/types";
 const PackagePage = ({
     params
 } : {
-    params : { package_id : string}
+    params : { id : string}
 }) => {
     const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
     const initialData = packages.filter((item : PackageProps)  =>{
-        if (item._id === params.package_id) {
+        if (item._id === params.id) {
             return item
         } 
     })
