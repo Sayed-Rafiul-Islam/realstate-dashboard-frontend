@@ -38,14 +38,29 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
     initialData
 }) => {
 
+    const title = initialData ? 'Edit Package' : 'Create Package'
+    const action = initialData ? 'Save Changes' : 'Create'
+    const description = initialData ? "Edit a package" : "Create a new package"
+    const toastMessage = initialData ? "Color updated" : "Color created"
  
 
+
+
+
+
+
     const [loading, setLoading] = useState(false)
-
-
     const form = useForm<PackageFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData
+        defaultValues : initialData || {
+            label : '',
+            monthlyPrice : 2,
+            yearlyPrice : 20,
+            maxProperty : 10,
+            maxUnit : 8,
+            status : false,
+            trial : false
+        }
     })
 
     const onSubmit = async (data : PackageFormValues) => {
@@ -77,8 +92,8 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
         <div className='add'>
             <div className="flex items-center justify-between heading">
                 <Heading
-                    title="Edit Package"
-                    description='Package Form'
+                    title={title}
+                    description={description}
                 />
                 <Pathname />
             </div>
@@ -199,7 +214,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                         />
                     </div>
                     <Button disabled={loading} className='ml-auto' type='submit'>
-                        Save Changes
+                        {action}
                     </Button>
                 </form>
             </Form> 
