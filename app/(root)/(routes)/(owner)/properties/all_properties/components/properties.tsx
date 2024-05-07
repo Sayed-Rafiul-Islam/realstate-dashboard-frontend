@@ -12,7 +12,7 @@ const Properties : React.FC<PropertiesProps> = ({data}) => {
         <div className="cards">
             {
                 data.map((property) => 
-                    <PropertyCard data={property} />
+                    <PropertyCard key={property._id} data={property} />
                 )
             }
         </div>

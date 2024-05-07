@@ -113,6 +113,7 @@ export interface UnitProps {
   name : string,
   description : string,
   condition : string,
+  tenant : string,
   squareFeet : number,
   bedrooms : number,
   washrooms : number,
