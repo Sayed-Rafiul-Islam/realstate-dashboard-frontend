@@ -2,20 +2,16 @@
 
 import { PackageProps, PackagesReducersProps } from "@/types";
 import { useSelector } from "react-redux";
-import { PackagesClinet } from "./components/client";
+import { PackagesClient } from "./components/client";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
 const Packages = () => {
 
     const router = useRouter()
-
-    const [open, setOpen] = useState(false)
-
     const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
 
     const formattedPackages : PackageProps[] = packages.map((
@@ -51,7 +47,7 @@ const Packages = () => {
                 <div className="flex justify-end"> 
                     <Button onClick={()=>router.push('/packages/add')} className="">Add Package</Button>
                 </div>
-                <PackagesClinet data={formattedPackages} />
+                <PackagesClient data={formattedPackages} />
             </div>
         </div>
      );

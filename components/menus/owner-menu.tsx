@@ -33,47 +33,34 @@ const OwnerMenu = () => {
                     label : "All Units",
                     href : "/properties/all_units"
                 },
-                {
-                    id : 23,
-                    label : "Own Property",
-                    href : "/properties/own_property"
-                },
-                {
-                    id : 24,
-                    label : "Lease Property",
-                    href : "/properties/lease_property"
-                }
+                // {
+                //     id : 23,
+                //     label : "Own Property",
+                //     href : "/properties/own_property"
+                // },
+                // {
+                //     id : 24,
+                //     label : "Lease Property",
+                //     href : "/properties/lease_property"
+                // }
             ],
             label : "Properties",
             href : "",
             drop : false,
             icon : <LandPlot size={20} />,
             active : pathname === '/properties/all_properties' ||
-            pathname === '/properties/units' ||
-            pathname === '/properties/own_property' ||
-            pathname === '/properties/own_property' ||
-            pathname === '/properties/lease_property',
+            pathname === '/properties/units'
+            // pathname === '/properties/own_property' ||
+            // pathname === '/properties/lease_property',
         },
         {
             id : 3,
-            group : [
-                {
-                    id : 31,
-                    label : "All Tenants",
-                    href : "/alltenants"
-                },
-                {
-                    id : 32,
-                    label : "Tenant History",
-                    href : "/tenanthistory"
-                }
-            ],
+            group : [],
             label : "Tenants",
-            href : "",
+            href : "/tenants",
             drop : false,
             icon : <User size={20} />,
-            active : pathname === '/alltenants' ||
-            pathname === '/tenanthistory',
+            active : pathname === '/tenants',
         },
         {
             id : 4,

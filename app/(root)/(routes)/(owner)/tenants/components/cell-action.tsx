@@ -1,6 +1,6 @@
 "use client"
 
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { Copy, Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 
 import { 
@@ -13,13 +13,17 @@ import {
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { PackageProps } from "@/types"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { removePackage } from "@/redux/packages/packagesSlice"
+import { TenantColumn } from "./column"
+import { PreviewTenant } from "@/components/modals/preview-tenant"
+import { removeTenant } from "@/redux/tenants/tenantsSlice"
+// import { AlertModal } from "@/components/modals/alert-modal"
+// import { deleteCategory } from "@/app/actions/categories"
 
 interface CellActionProps {
-    data : PackageProps
+    data : TenantColumn
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -28,12 +32,13 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
+    const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
         setLoading(true)
-        dispatch(removePackage(data))
-
+        dispatch(removeTenant(data))        
+        toast.success("Tenant Removed")
         setLoading(false)
         setOpen(false)
     
@@ -42,6 +47,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     return (
         <>
+            <PreviewTenant
+            isOpen={openPreview} 
+            onClose={()=>setOpenPreview(false)} 
+            data={data}
+            />
             <AlertModal
             isOpen={open} 
             onClose={()=>setOpen(false)} 
@@ -58,9 +68,13 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=>router.push(`/packages/${data._id}`)}>
+                    <DropdownMenuItem onClick={()=>router.push(`/tenants/${data._id}`)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>setOpenPreview(true)}>
+                        <Eye className="h-4 w-4 mr-2" />
+                        Details
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />

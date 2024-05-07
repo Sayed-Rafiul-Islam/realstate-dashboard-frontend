@@ -1,6 +1,9 @@
 "use client"
 
 import building_1 from '@/images/buildings/b1.jpg'
+import tenant_1 from '@/images/tenants/tenant_1.jpeg'
+
+
 import { useDispatch } from "react-redux"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
@@ -9,6 +12,7 @@ import { getmessages } from "@/redux/messages/messagesSlice"
 import { getOwners } from "@/redux/owners/ownersSlice"
 import { getProperties } from "@/redux/properties/propertiesSlice"
 import { getUnits } from '@/redux/units/unitsSlice'
+import { getTenants } from '@/redux/tenants/tenantsSlice'
 
 
 export default async function LoadData() {
@@ -23,6 +27,7 @@ export default async function LoadData() {
 
     loadProperties()
     loadUnits()
+    loadTenants()
   
       
 }
@@ -230,7 +235,6 @@ const loadProperties = async () => {
             rooms : 16,
             available : 2,
             tenants : 2,
-            rent : 50,
             deposit : 100,
             lateFee : 2,
         },
@@ -244,7 +248,6 @@ const loadProperties = async () => {
             rooms : 16,
             available : 2,
             tenants : 2,
-            rent : 50,
             deposit : 100,
             lateFee : 2,
         },
@@ -258,7 +261,6 @@ const loadProperties = async () => {
             rooms : 16,
             available : 2,
             tenants : 2,
-            rent : 50,
             deposit : 100,
             lateFee : 2,
         },
@@ -272,7 +274,6 @@ const loadProperties = async () => {
             rooms : 16,
             available : 2,
             tenants : 2,
-            rent : 50,
             deposit : 100,
             lateFee : 2,
         }
@@ -287,15 +288,16 @@ const loadUnits = async () => {
     const units = [
         {
             _id : '1',
-            propertyId : '1',
             name : 'Unit 1',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            propertyId : '1',
+            unitId : '2',
             condition : "Good",
             tenant : '',
             squareFeet : 200,
             bedrooms : 3,
             washrooms : 2,
-            kitchen : 1
+            kitchen : 1,
+            rent : 50
         },
         {
             _id : '2',
@@ -307,7 +309,8 @@ const loadUnits = async () => {
             squareFeet : 300,
             bedrooms : 3,
             washrooms : 2,
-            kitchen : 1
+            kitchen : 1,
+            rent : 50
         },
         {
             _id : '3',
@@ -319,8 +322,66 @@ const loadUnits = async () => {
             squareFeet : 100,
             bedrooms : 1,
             washrooms : 1,
-            kitchen : 1
+            kitchen : 1,
+            rent : 50
         }
     ]
     dispatch(getUnits(units))
+}
+
+const loadTenants = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const tenants = [
+        {
+            _id : '1',
+            propertyId : '1',
+            unitId : '2',
+            name : 'Rodan',
+            image : tenant_1,
+            email : "rodan@gmail.com",
+            phone : '01788544463',
+            occupation : 'Student',
+            startDate : '2024-05-02T17:34:59.911+00:00',
+            NID : 9978856723,
+            due : 0,
+            age : 25,
+            familyMember : 5,
+            status : true,
+        },
+        {
+            _id : '2',
+            propertyId : '',
+            unitId : '',
+            name : 'Rafsan',
+            image : tenant_1,
+            email : "rafsan@gmail.com",
+            phone : '01788544463',
+            occupation : 'Shopkeeper',
+            startDate : '2024-05-02T17:34:59.911+00:00',
+            NID : 9978856753,
+            due : 20,
+            age : 25,
+            familyMember : 5,
+            status : false,
+        },
+        {
+            _id : '3',
+            propertyId : '1',
+            unitId : '2',
+            name : 'Godzilla',
+            image : tenant_1,
+            email : "godzilla@gmail.com",
+            phone : '01788566463',
+            occupation : 'Military',
+            startDate : '2024-05-02T17:34:59.911+00:00',
+            NID : 9978855553,
+            due : 0,
+            age : 25,
+            familyMember : 1,
+            status : true
+        }
+    ]
+    dispatch(getTenants(tenants))
 }

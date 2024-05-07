@@ -31,7 +31,6 @@ const PropertyDetails = ({
         rooms,
         available,
         tenants,
-        rent,
         deposit,
         lateFee
     } = properties.filter((item : PropertyProps)  => item._id === params.detail_id)[0]
@@ -106,10 +105,6 @@ const PropertyDetails = ({
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Current Tenants</h4>
                                 <h4>{tenants}</h4>
-                            </div>
-                            <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
-                                <h4>Rent</h4>
-                                <h4>{rent}</h4>
                             </div>
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Security Deposit</h4>

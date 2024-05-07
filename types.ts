@@ -27,6 +27,10 @@ export interface UnitsReducerProps {
     unitsReducer :  { units : UnitProps[]} 
   }
 
+export interface TenantsReducerProps {
+    tenantsReducer :  { tenants : TenantProps[]} 
+  }
+
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -102,7 +106,6 @@ export interface PropertyProps {
     rooms :number,
     available :number,
     tenants :number,
-    rent :number,
     deposit :number,
     lateFee :number
 }
@@ -117,5 +120,23 @@ export interface UnitProps {
   squareFeet : number,
   bedrooms : number,
   washrooms : number,
-  kitchen : number
+  kitchen : number,
+  rent :number,
+}
+
+export interface TenantProps {
+  _id : string,
+  propertyId : string,
+  unitId : string,
+  name : string,
+  image : string,
+  email : string,
+  phone : string,
+  occupation : string,
+  startDate : string,
+  NID : number,
+  due : number,
+  age : number,
+  familyMember : number,
+  status : boolean
 }

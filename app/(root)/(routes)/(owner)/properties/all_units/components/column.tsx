@@ -8,7 +8,8 @@ export interface UnitColumn {
   serial : number
   name : string,
   propertyName : string,
-  tenant : string
+  tenant : string,
+  rent : number
 }
 
 export const columns: ColumnDef<UnitColumn>[] = [
@@ -23,6 +24,11 @@ export const columns: ColumnDef<UnitColumn>[] = [
   {
     accessorKey: "propertyName",
     header: "Property Name",
+  },
+  {
+    accessorKey: "rent",
+    header: "Rent",
+    cell: ({row}) => <p className="font-semibold">$ {row.original.rent}</p> 
   },
   {
     accessorKey: "tenant",

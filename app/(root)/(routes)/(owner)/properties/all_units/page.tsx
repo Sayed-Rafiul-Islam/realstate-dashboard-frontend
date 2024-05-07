@@ -17,15 +17,17 @@ const AllUnitsPage = () => {
             propertyId,
             name,
             tenant,
+            rent
 
         },index : number) => {
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0].name
             return {
-            _id,
-            serial : index + 1,
-            name,
-            tenant,
-            propertyName
+                _id,
+                serial : index + 1,
+                name,
+                tenant,
+                propertyName,
+                rent
             }
         })
 
