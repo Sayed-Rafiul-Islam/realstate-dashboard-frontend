@@ -19,6 +19,14 @@ export interface OwnersReducerProps {
     ownersReducer :  { owners : OwnerProps[]} 
   }
 
+export interface PropertiesReducerProps {
+    propertiesReducer :  { properties : PropertyProps[]} 
+  }
+
+export interface UnitsReducerProps {
+    unitsReducer :  { units : UnitProps[]} 
+  }
+
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -82,4 +90,31 @@ export interface OwnerProps {
     email : string,
     contactNo : string,
     status : boolean,
+}
+
+export interface PropertyProps {
+    _id : string,
+    name : string,
+    description : string,
+    location : string,
+    coverImage : string,
+    unitCount : number,
+    rooms :number,
+    available :number,
+    tenants :number,
+    rent :number,
+    deposit :number,
+    lateFee :number
+}
+
+export interface UnitProps {
+  _id : string,
+  propertyId : string,
+  name : string,
+  description : string,
+  condition : string,
+  squareFeet : number,
+  bedrooms : number,
+  washrooms : number,
+  kitchen : number
 }

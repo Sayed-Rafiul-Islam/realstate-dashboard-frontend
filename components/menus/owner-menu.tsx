@@ -51,6 +51,7 @@ const OwnerMenu = () => {
             active : pathname === '/properties/all_properties' ||
             pathname === '/properties/units' ||
             pathname === '/properties/own_property' ||
+            pathname === '/properties/own_property' ||
             pathname === '/properties/lease_property',
         },
         {

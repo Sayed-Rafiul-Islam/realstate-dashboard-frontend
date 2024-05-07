@@ -5,6 +5,8 @@ import packagesReducer from '@/redux/packages/packagesSlice'
 import ownerPackagesReducer from '@/redux/ownerPackages/ownerPackagesSlice'
 import messagesReducer from '@/redux/messages/messagesSlice'
 import ownersReducer from '@/redux/owners/ownersSlice'
+import propertiesReducer from '@/redux/properties/propertiesSlice'
+import unitsReducer from '@/redux/units/unitsSlice'
 
 
 export const store = configureStore({
@@ -14,7 +16,9 @@ export const store = configureStore({
     packagesReducer,
     ownerPackagesReducer,
     messagesReducer,
-    ownersReducer
+    ownersReducer,
+    propertiesReducer,
+    unitsReducer
   }
 })
 

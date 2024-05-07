@@ -14,6 +14,8 @@ import { useParams, usePathname } from "next/navigation";
 const Pathname = () => {
     const pathname = usePathname().split("/").slice(1)
     const params = useParams()
+    const id = params.id
+    const details = params.detail_id
     
     return ( 
         <div>
@@ -48,7 +50,10 @@ const Pathname = () => {
                                             <BreadcrumbPage>
                                                 {
                                                     (params && z.length < 3) ?
-                                                    "Edit"
+                                                    <div>
+                                                        { details && "Details" }
+                                                        { id && "Edit" }
+                                                    </div>
                                                     :
                                                     z[0].toUpperCase()+z.slice(1)
                                                 }

@@ -1,15 +1,14 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import api from "./api"
+import building_1 from '@/images/buildings/b1.jpg'
 import { useDispatch } from "react-redux"
-import { addUser, removeUser } from "@/redux/auth/authSlice"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
 import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { getmessages } from "@/redux/messages/messagesSlice"
 import { getOwners } from "@/redux/owners/ownersSlice"
+import { getProperties } from "@/redux/properties/propertiesSlice"
+import { getUnits } from '@/redux/units/unitsSlice'
 
 
 export default async function LoadData() {
@@ -20,6 +19,10 @@ export default async function LoadData() {
     loadOwnerPackages()
     loadMessages()
     loadOwners()
+
+
+    loadProperties()
+    loadUnits()
   
       
 }
@@ -205,4 +208,116 @@ const loadOwners = async () => {
         }
     ]
     dispatch(getOwners(owners))
+}
+
+
+
+// owner -----------------------------------------------------------------------------------
+
+
+const loadProperties = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const properties = [
+        {
+            _id : '1',
+            name : 'The Ivy Residences',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            location : "Kenia, Alaska, United States",
+            coverImage : building_1,
+            unitCount : 8,
+            rooms : 16,
+            available : 2,
+            tenants : 2,
+            rent : 50,
+            deposit : 100,
+            lateFee : 2,
+        },
+        {
+            _id : '2',
+            name : 'The Ivy Residences',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            location : "Kenia, Alaska, United States",
+            coverImage : building_1,
+            unitCount : 8,
+            rooms : 16,
+            available : 2,
+            tenants : 2,
+            rent : 50,
+            deposit : 100,
+            lateFee : 2,
+        },
+        {
+            _id : '3',
+            name : 'The Ivy Residences',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            location : "Kenia, Alaska, United States",
+            coverImage : building_1,
+            unitCount : 8,
+            rooms : 16,
+            available : 2,
+            tenants : 2,
+            rent : 50,
+            deposit : 100,
+            lateFee : 2,
+        },
+        {
+            _id : '4',
+            name : 'The Ivy Residences',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            location : "Kenia, Alaska, United States",
+            coverImage : building_1,
+            unitCount : 8,
+            rooms : 16,
+            available : 2,
+            tenants : 2,
+            rent : 50,
+            deposit : 100,
+            lateFee : 2,
+        }
+    ]
+    dispatch(getProperties(properties))
+}
+
+const loadUnits = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const units = [
+        {
+            _id : '1',
+            propertyId : '1',
+            name : 'Unit 1',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            condition : "Good",
+            squareFeet : 200,
+            bedrooms : 3,
+            washrooms : 2,
+            kitchen : 1
+        },
+        {
+            _id : '2',
+            propertyId : '1',
+            name : 'Unit 2',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            condition : "Good",
+            squareFeet : 300,
+            bedrooms : 3,
+            washrooms : 2,
+            kitchen : 1
+        },
+        {
+            _id : '3',
+            propertyId : '1',
+            name : 'Unit 3',
+            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
+            condition : "Good",
+            squareFeet : 100,
+            bedrooms : 1,
+            washrooms : 1,
+            kitchen : 1
+        }
+    ]
+    dispatch(getUnits(units))
 }
