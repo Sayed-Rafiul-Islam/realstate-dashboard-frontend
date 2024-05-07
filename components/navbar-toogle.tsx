@@ -7,12 +7,9 @@ import {
     DrawerTrigger,
   } from "@/components/ui/drawer"
 
-  import { CircleUser, LayoutDashboard, LayoutList, LockKeyhole, MessageCircle, Package, ReceiptText, User } from "lucide-react"
-
-
 import { usePathname, useRouter } from "next/navigation"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuIcon } from "lucide-react";
 import AccessProvider from "@/actions/accessProvider";
 import { useSelector } from "react-redux";
@@ -45,111 +42,25 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
     AccessProvider()
     const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
 
-    const [menu,setMenu] = useState
-    ([
-        {
-            id : 1,
-            group : [],
-            label : "Dashboard",
-            href : "/",
-            drop : false,
-            icon : <LayoutDashboard size={20} />
-        },
-        {
-            id : 2,
-            group : [],
-            label : "Packages",
-            href : "/packages",
-            drop : false,
-            icon : <Package size={20} />
-        },
-        {
-            id : 3,
-            group : [],
-            label : "All Orders",
-            href : "/allorders",
-            drop : false,
-            icon : <LayoutList size={20} />
-        },
-        {
-            id : 4,
-            group : [],
-            label : "Owner Packages",
-            href : "/ownerpackages",
-            drop : false,
-            icon : <ReceiptText size={20} />
-        },
-        {
-            id : 5,
-            group : [],
-            label : "Message",
-            href : "/message",
-            drop : false,
-            icon : <MessageCircle size={20} />
-        },
-        {
-            id : 6,
-            group : [
-                {
-                    id : 61,
-                    label : "Terms & Conditions",
-                    href : "/terms"
-                },
-                {
-                    id : 62,
-                    label : "Privacy Policy",
-                    href : "/privacy"
-                },
-                {
-                    id : 63,
-                    label : "Cookie Policy",
-                    href : "/cookie"
-                },
-            ],
-            label : "Message Policy",
-            href : "",
-            drop : false,
-            icon : <LockKeyhole size={20} />
-        },
-        {
-            id : 7,
-            group : [],
-            label : "Owner",
-            href : "/owner",
-            drop : false,
-            icon : <User size={20} />
-        },
-        {
-            id : 8,
-            group : [
-                {
-                    id : 81,
-                    label : "My Profile",
-                    href : "/profile"
-                },
-                {
-                    id : 82,
-                    label : "Change Password",
-                    href : "/changepassword"
-                }
-            ],
-            label : "Profile",
-            href : "",
-            drop : false,
-            icon : <CircleUser size={20} />
-        },
-    ])
-
     const pathname = usePathname()
     const router = useRouter()
-    // const [open,setOpen] = useState(false)
+    const [open,setOpen] = useState(false)
+
+    useEffect(()=>{
+        setOpen(false)
+    },[pathname])
+
     return ( 
-        <Drawer direction="left">
-            <DrawerTrigger asChild>
+        <>
+             <Button onClick={()=>setOpen(true)} variant="outline" size="icon">
+                    <MenuIcon /> 
+                </Button>
+                <Drawer open={open} direction="left" onClose={()=>setOpen(false)} >
+            {/* <DrawerTrigger asChild>
                 <Button variant="outline" size="icon">
                     <MenuIcon /> 
                 </Button>
-            </DrawerTrigger>
+            </DrawerTrigger> */}
             <DrawerContent className="rounded-tr-lg rounded-br-lg -left-2">
             {/* logo  */}
             <div className="overflow-scroll relative px-8">
@@ -174,6 +85,8 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
             </div>
             </DrawerContent>
             </Drawer>
+        </>
+        
      );
 }
  

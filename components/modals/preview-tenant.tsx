@@ -51,7 +51,7 @@ export const PreviewTenant : React.FC<PreviewOrderProps> = ({
                     </div>
                     <Separator />
             </DialogHeader>
-            <div className="lg:mx-40 md:mx-20 mx-5 md:text-md text-xs font-semibold">
+            <div className="lg:mx-40 md:mx-20 mx-5 lg:text-sm md:text-sm text-xs font-semibold">
                 <div className="flex justify-between py-2">
                     <h4>Property Name</h4>
                     <h4>{data.propertyName ? data.propertyName : 'N/A'}</h4>
