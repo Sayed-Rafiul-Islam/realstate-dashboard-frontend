@@ -6,7 +6,12 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Doughnut } from "react-chartjs-2";
 import Image from "next/image";
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+// import ChartDataLabels from 'chartjs-plugin-datalabels';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 import './tenant-details.css'
 import { format } from "date-fns";
@@ -15,6 +20,9 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { useEffect, useState } from "react";
+import { InvoicesClient } from "./components/client";
+import { InvoiceColumn } from "./components/column";
+import { ArrowLeft } from "lucide-react";
 
 const TenantDetails = ({
     params
@@ -45,10 +53,6 @@ const TenantDetails = ({
         } 
     })[0]
 
-
-
-
-
     const property = properties.filter((item : PropertyProps)  =>{
         if (item._id === tenant?.propertyId) {
             return item
@@ -61,16 +65,99 @@ const TenantDetails = ({
         } 
     })[0]
 
+    const invoices = [
+        {
+            _id : '1',
+            date : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 446689,
+            amount : 15000,
+            category : "Rent",
+            status : true
+        },
+        {
+            _id : '2',
+            date : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 477689,
+            amount : 2000,
+            category : "Utility",
+            status : true
+        },
+        {
+            _id : '3',
+            date : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 449689,
+            amount : 15000,
+            category : "Rent",
+            status : false
+        }
+    ]
+
+    const formattedInvoices = invoices.map((
+        {
+            _id,
+            date,
+            invoiceNo,
+            amount,
+            category,
+            status
+        }) => ({
+            _id,
+            date : format(date,"MMMM do, yyyy"),
+            invoiceNo : `#${invoiceNo}`,
+            amount : `BDT ${amount}`,
+            category,
+            status
+    }))
+
 
     const [isMounted, setIsMounted] = useState(false)
+    const [data, setData] = useState<{label : string,number : number}[]>()
 
     useEffect(()=>{
         setIsMounted(true)
+        let x : {label : string,number : number}[] = []
+
+        invoices.map(({amount,category})=>{
+            const index = x.findIndex(item => item.label === category)
+            if (index === -1) {
+                x.push({label : category,number : amount})
+            } else {
+                x[index].number = x[index].number + amount
+            }
+        })
+        setData(x)
     },[])
 
     if (!isMounted) {
         return null
     }
+
+
+    
+
+
+
+    const chartData = {
+        labels: data?.map(({label})=>label),
+        datasets: [
+          {
+            label: 'Bill',
+            data: data?.map(({number})=>number),
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+            ],
+            borderWidth: 1,
+          },
+        ],
+      };
 
 
 
@@ -201,6 +288,27 @@ const TenantDetails = ({
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                {/* invoices */}
+
+                <div className="mt-10 flex gap-5 table-chart">
+                    
+                   <div className="chart rounded-lg all-shadow py-6">
+                   <h2 className="text-2xl font-semibold text-center mb-4">Total Paid</h2> 
+                        {/* chart */}
+
+                        <Doughnut 
+                            data={chartData}
+                         />
+                   </div>
+                    <div className="tenant-table rounded-lg all-shadow py-4 md:px-8 px-4">
+                        <div className="mb-4 flex justify-between items-center">
+                            <h2 className="text-2xl font-semibold">Invoices</h2>
+                            <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
+                        </div>
+                        <InvoicesClient data={formattedInvoices} />
                     </div>
                 </div>
     

@@ -8,6 +8,8 @@ import { useEffect, useState } from "react"
 const OwnerMenu = () => {
     const pathname = usePathname()
     const params = useParams()
+
+    console.log(pathname === `/tenants/details/${params.id}`)
     
     const [menu,setMenu] = useState
     ([
@@ -16,6 +18,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Dashboard",
             href : "/",
+            href1 : '',
             drop : false,
             icon : <LayoutDashboard size={20} />,
             active : pathname === '/',
@@ -46,6 +49,7 @@ const OwnerMenu = () => {
             ],
             label : "Properties",
             href : "",
+            href1 : '',
             drop : false,
             icon : <LandPlot size={20} />,
             active : pathname === '/properties/all_properties' ||
@@ -58,9 +62,10 @@ const OwnerMenu = () => {
             group : [],
             label : "Tenants",
             href : "/tenants",
+            href1 : `/tenants/details/${params.id}`,
             drop : false,
             icon : <User size={20} />,
-            active : pathname === '/tenants',
+            active : false,
         },
         {
             id : 4,
@@ -78,6 +83,7 @@ const OwnerMenu = () => {
             ],
             label : "Billing Center",
             href : "",
+            href1 : '',
             drop : false,
             icon : <Receipt size={20} />,
             active : pathname === '/allinvoices' ||
@@ -88,6 +94,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Expenses",
             href : "/expenses",
+            href1 : '',
             drop : false,
             icon : <ReceiptText size={20} />,
             active : pathname === '/expenses'
@@ -97,6 +104,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Documents",
             href : "/documents",
+            href1 : '',
             drop : false,
             icon : <DockIcon size={20} />,
             active : pathname === '/documents'
@@ -106,6 +114,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Information",
             href : "/information",
+            href1 : '',
             drop : false,
             icon : <Info size={20} />,
             active : pathname === '/information'
@@ -131,6 +140,7 @@ const OwnerMenu = () => {
             ],
             label : "My Listing",
             href : "",
+            href1 : '',
             drop : false,
             icon : <ListChecks size={20} />,
             active : pathname === '/uploadloist' ||
@@ -153,6 +163,7 @@ const OwnerMenu = () => {
             ],
             label : "Maintains",
             href : "",
+            href1 : '',
             drop : false,
             icon : <Wrench size={20} />,
             active : pathname === '/Maintainers' ||
@@ -163,6 +174,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Tickets",
             href : "/tickets",
+            href1 : '',
             drop : false,
             icon : <Tag size={20} />,
             active : pathname === '/tickets'
@@ -172,6 +184,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Notice Board",
             href : "/notice",
+            href1 : '',
             drop : false,
             icon : <Presentation size={20} />,
             active : pathname === '/notice'
@@ -212,6 +225,7 @@ const OwnerMenu = () => {
             ],
             label : "Report",
             href : "",
+            href1 : '',
             drop : false,
             icon : <BarChart3 size={20} />,
             active : pathname === '/earning' ||
@@ -242,6 +256,7 @@ const OwnerMenu = () => {
             ],
             label : "Bulk SMS/Mail",
             href : "",
+            href1 : '',
             drop : false,
             icon : <Mail size={20} />,
             active : pathname === '/sms' ||
@@ -253,6 +268,7 @@ const OwnerMenu = () => {
             group : [],
             label : "Aggrement",
             href : "/aggrement",
+            href1 : '',
             drop : false,
             icon : <UserRoundCheck size={20} />,
             active : pathname === '/aggrement',
@@ -273,6 +289,7 @@ const OwnerMenu = () => {
             ],
             label : "Profile",
             href : "",
+            href1 : '',
             drop : false,
             icon : <UserCircle size={20} />,
             active : pathname === '/uploadloist' ||
@@ -284,6 +301,7 @@ const OwnerMenu = () => {
             group : [],
             label : "My Subscription",
             href : "/subscription",
+            href1 : '',
             drop : false,
             icon : <CalendarCheck size={20} />,
             active : pathname === '/subscription',
@@ -292,7 +310,7 @@ const OwnerMenu = () => {
 
     useEffect(()=>{
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href + '/' + params.id) {
+            if (pathname === item.href || pathname === item.href1 ||  pathname === item.href + '/' + params.id) {
                 item.active = true
             } else {
                 item.active = false
@@ -399,6 +417,7 @@ const OwnerMenu = () => {
         //         group : [],
         //         label : "Documents",
         //         href : "/documents",
+    
         //         drop : false,
         //         icon : <DockIcon size={20} />,
         //         active : pathname === '/documents'
