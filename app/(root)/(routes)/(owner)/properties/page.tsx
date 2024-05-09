@@ -1,4 +1,3 @@
-import Pathname from "@/components/pathname";
 import { redirect } from "next/navigation";
 
 const PropertiesPage = () => {

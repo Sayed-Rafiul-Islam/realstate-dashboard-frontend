@@ -23,12 +23,6 @@ import SignOut from "./signout";
 import './navbar-toogle.css'
 import { UsersReducerProps } from "@/types";
 
-interface Menu {
-    id : number,
-    group : string[],
-    label : string,
-    href : string
-}
 
 interface NavbarToggleProps {
     className ?: React.HtmlHTMLAttributes<HTMLElement>,
@@ -50,14 +44,15 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
         setOpen(false)
     },[pathname])
 
+
     return ( 
-        <>
+        <div>
              <Button onClick={()=>setOpen(true)} variant="outline" size="icon">
                     <MenuIcon /> 
-                </Button>
-                <Drawer open={open} direction="left" onClose={()=>setOpen(false)} >
+            </Button>
+            <Drawer open={open} direction="left" onClose={()=>setOpen(false)}>
             {/* <DrawerTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button  variant="outline" size="icon">
                     <MenuIcon /> 
                 </Button>
             </DrawerTrigger> */}
@@ -84,8 +79,10 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
                 </div>
             </div>
             </DrawerContent>
+            
+
             </Drawer>
-        </>
+        </div>
         
      );
 }

@@ -72,7 +72,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>setOpenPreview(true)}>
+                    <DropdownMenuItem onClick={()=>router.push(`tenants/details/${data._id}`)}>
                         <Eye className="h-4 w-4 mr-2" />
                         Details
                     </DropdownMenuItem>

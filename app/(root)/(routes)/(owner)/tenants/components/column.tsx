@@ -27,10 +27,6 @@ export interface TenantColumn {
 
   export const columns: ColumnDef<TenantColumn>[] = [
     {
-      accessorKey: "serial",
-      header: "SL",
-    },
-    {
       accessorKey: "image",
       header: "Image",
       cell: ({row}) => <div className="relative h-[50px] w-[50px] rounded-full mx-auto border-2 border-indigo-600"><Image className="rounded-full" fill alt="Picture" src={row.original.image} /></div>
@@ -42,6 +38,18 @@ export interface TenantColumn {
     {
       accessorKey: "phone",
       header: "Contact No",
+    },
+    {
+      accessorKey: "propertyName",
+      header: "Property",
+    },
+    {
+      accessorKey: "unitName",
+      header: "Unit",
+    },
+    {
+      accessorKey: "monthlyRent",
+      header: "Current Rent",
     },
     {
       accessorKey: "due",
