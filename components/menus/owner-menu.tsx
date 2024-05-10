@@ -73,21 +73,20 @@ const OwnerMenu = () => {
                 {
                     id : 41,
                     label : "All Invoices",
-                    href : "/allinvoices"
+                    href : "/invoices/all_invoices"
                 },
                 {
                     id : 42,
                     label : "Recurring Settings",
-                    href : "/recurringsettings"
+                    href : "/invoices/recurring_settings"
                 }
             ],
             label : "Billing Center",
-            href : "",
+            href : "/invoices",
             href1 : '',
             drop : false,
             icon : <Receipt size={20} />,
-            active : pathname === '/allinvoices' ||
-            pathname === '/recurringsettings',
+            active : false,
         },
         {
             id : 5,

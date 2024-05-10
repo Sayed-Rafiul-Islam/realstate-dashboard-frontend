@@ -21,7 +21,6 @@ import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
-import { InvoiceColumn } from "./components/column";
 import { ArrowLeft } from "lucide-react";
 
 const TenantDetails = ({
@@ -33,6 +32,7 @@ const TenantDetails = ({
     const router = useRouter()
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
+    
     const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)

@@ -31,6 +31,10 @@ export interface TenantsReducerProps {
     tenantsReducer :  { tenants : TenantProps[]} 
   }
 
+export interface InvoicesReducerProps {
+    invoicesReducer :  { invoices : InvoiceProps[]} 
+  }
+
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -145,4 +149,22 @@ export interface TenantProps {
   age : number,
   familyMember : number,
   status : boolean
+}
+
+export interface InvoiceProps {
+  _id : string,
+  invoiceNo : string,
+  prefix : string,
+  propertyId : string,
+  unitId : string,
+  month : string,
+  dueDate : string,
+  type : string,
+  description : string,
+  status : string,
+  amount : number,
+  dateOfPayment ?: string,
+  gateway ?: string,
+  transactionId ?: string,
+  payment ?: number
 }

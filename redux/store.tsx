@@ -8,6 +8,7 @@ import ownersReducer from '@/redux/owners/ownersSlice'
 import propertiesReducer from '@/redux/properties/propertiesSlice'
 import unitsReducer from '@/redux/units/unitsSlice'
 import tenantsReducer from '@/redux/tenants/tenantsSlice'
+import invoicesReducer from '@/redux/invoices/invoicesSlice'
 
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
     ownersReducer,
     propertiesReducer,
     unitsReducer,
-    tenantsReducer
+    tenantsReducer,
+    invoicesReducer
   }
 })
 

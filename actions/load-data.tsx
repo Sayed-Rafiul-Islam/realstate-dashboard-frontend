@@ -13,6 +13,7 @@ import { getOwners } from "@/redux/owners/ownersSlice"
 import { getProperties } from "@/redux/properties/propertiesSlice"
 import { getUnits } from '@/redux/units/unitsSlice'
 import { getTenants } from '@/redux/tenants/tenantsSlice'
+import { getInvoices } from '@/redux/invoices/invoicesSlice'
 
 
 export default async function LoadData() {
@@ -28,6 +29,7 @@ export default async function LoadData() {
     loadProperties()
     loadUnits()
     loadTenants()
+    loadInvoices()
   
       
 }
@@ -337,7 +339,7 @@ const loadTenants = async () => {
         {
             _id : '1',
             propertyId : '1',
-            unitId : '2',
+            unitId : '3',
             name : 'Rodan',
             image : tenant_1,
             email : "rodan@gmail.com",
@@ -358,8 +360,8 @@ const loadTenants = async () => {
         },
         {
             _id : '2',
-            propertyId : '',
-            unitId : '',
+            propertyId : '2',
+            unitId : '2',
             name : 'Rafsan',
             image : tenant_1,
             email : "rafsan@gmail.com",
@@ -402,4 +404,64 @@ const loadTenants = async () => {
         }
     ]
     dispatch(getTenants(tenants))
+}
+
+const loadInvoices = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const invoices = [
+        {
+            _id : '1',
+            invoiceNo : 'CW10086675',
+            prefix : 'INV',
+            propertyId : '1',
+            unitId : '3',
+            month : 'April',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            type : 'Rent',
+            description : 'alaba alaba alaba',
+            status : 'Paid',
+            amount : 20000,
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Cash',
+            transactionId : '00000',
+            payment : 20000
+        },
+        {
+            _id : '2',
+            invoiceNo : 'CW10086675',
+            prefix : 'INV',
+            propertyId : '2',
+            unitId : '2',
+            month : 'April',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            type : 'Maintainance',
+            description : 'alaba alaba alaba',
+            status : 'Pending',
+            amount : 2000,
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Bkash',
+            transactionId : '00000',
+            payment : 2000
+        },
+        {
+            _id : '3',
+            invoiceNo : 'CW10086675',
+            prefix : 'INV',
+            propertyId : '1',
+            unitId : '2',
+            month : 'April',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            type : 'Utility',
+            description : 'alaba alaba alaba',
+            status : 'Due',
+            amount : 1500,
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Bkash',
+            transactionId : '00000',
+            payment : 1500
+        }
+    ]
+    dispatch(getInvoices(invoices))
 }
