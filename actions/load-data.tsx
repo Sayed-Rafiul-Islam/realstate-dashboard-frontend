@@ -14,25 +14,11 @@ import { getProperties } from "@/redux/properties/propertiesSlice"
 import { getUnits } from '@/redux/units/unitsSlice'
 import { getTenants } from '@/redux/tenants/tenantsSlice'
 import { getInvoices } from '@/redux/invoices/invoicesSlice'
+import { getExpenses } from '@/redux/expenses/expensesSlice'
+import { getDocuments } from '@/redux/documents/documentsSlice'
 
 
-export default async function LoadData() {
 
-
-    loadOrders()
-    loadPackages()
-    loadOwnerPackages()
-    loadMessages()
-    loadOwners()
-
-
-    loadProperties()
-    loadUnits()
-    loadTenants()
-    loadInvoices()
-  
-      
-}
 
 const loadOrders = async () => {
     // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
@@ -464,4 +450,92 @@ const loadInvoices = async () => {
         }
     ]
     dispatch(getInvoices(invoices))
+}
+
+const loadExpenses = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const expenses = [
+        {
+            _id : '1',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '1',
+            type : 'Cleaning & Maintenance',
+            amount : 3500,
+            description : 'qwbdweuvfu'
+        },
+        {
+            _id : '2',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '1',
+            type : 'Cleaning & Maintenance',
+            amount : 3500,
+            description : 'qwbdweuvfu'
+        },
+        {
+            _id : '3',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '1',
+            type : 'Cleaning & Maintenance',
+            amount : 3500,
+            description : 'qwbdweuvfu'
+        }
+    ]
+    dispatch(getExpenses(expenses))
+}
+
+const loadDocuments = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const documents = [
+        {
+            _id : '1',
+            type : 'NID',
+            tenantId : '1',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "Accepted"
+        },
+        {
+            _id : '2',
+            type : 'NID',
+            tenantId : '2',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "Declined"
+        },
+        {
+            _id : '3',
+            type : 'NID',
+            tenantId : '3',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "In Progress"
+        }
+    ]
+    dispatch(getDocuments(documents))
+}
+
+export default async function LoadData() {
+
+
+    loadOrders()
+    loadPackages()
+    loadOwnerPackages()
+    loadMessages()
+    loadOwners()
+
+
+    loadProperties()
+    loadUnits()
+    loadTenants()
+    loadInvoices()
+    loadExpenses()
+    loadDocuments()
+      
 }

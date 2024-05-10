@@ -35,6 +35,15 @@ export interface InvoicesReducerProps {
     invoicesReducer :  { invoices : InvoiceProps[]} 
   }
 
+export interface ExpensesReducerProps {
+    expensesReducer :  { expenses : ExpenseProps[]} 
+  }
+
+export interface DocumentsReducerProps {
+    documentsReducer :  { documents : DocumentProps[]} 
+  }
+
+
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -167,4 +176,23 @@ export interface InvoiceProps {
   gateway ?: string,
   transactionId ?: string,
   payment ?: number
+}
+
+export interface ExpenseProps {
+  _id : string,
+  name : string,
+  propertyId : string,
+  unitId : string,
+  type : string,
+  amount : number,
+  description : string
+}
+
+export interface DocumentProps {
+  _id : string,
+  type : string,
+  tenantId : string,
+  docFront : string,
+  docBack : string,
+  status : string
 }

@@ -20,13 +20,13 @@ import { InvoiceColumn } from "@/app/(root)/(routes)/(owner)/invoices/all_invoic
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-interface PreviewOrderProps {
+interface PreviewInvoiceProps {
     isOpen : boolean,
     onClose : () => void,
     data : InvoiceColumn,
 }
 
-export const PreviewInvoice : React.FC<PreviewOrderProps> = ({
+export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
     isOpen,
     onClose,
     data
