@@ -11,6 +11,8 @@ import Image from "next/image";
 import { UnitsClient } from "./components/client";
 import { UnitColumn } from "./components/column";
 import { useRouter } from "next/navigation";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 const PropertyDetails = ({
     params
@@ -64,7 +66,27 @@ const PropertyDetails = ({
             <div className="flex-1 p-8 pt-6 space-y-4">
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Packages</h1>
-                    <Pathname />
+                    <Breadcrumb>
+                        <BreadcrumbList>
+                            <BreadcrumbItem className="hover:text-indigo-500 transition-all">
+                                <Link prefetch href='/'>Dashboard</Link>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbSeparator />
+
+                            <BreadcrumbItem className="hover:text-indigo-500 transition-all">
+                                <Link prefetch href='/properties/all_properties'>All Properties</Link>
+                            </BreadcrumbItem>
+
+                            <BreadcrumbSeparator />
+ 
+                            <BreadcrumbItem >
+                                <BreadcrumbPage>
+                                    Details
+                                </BreadcrumbPage>
+                            </BreadcrumbItem>
+                    </BreadcrumbList>
+                </Breadcrumb>
                 </div>
                 <Separator />
                 <div className="flex md:flex-row flex-col md:justify-between md:items-center gap-4"> 

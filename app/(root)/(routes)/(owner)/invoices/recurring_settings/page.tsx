@@ -7,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { InvoicesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
-import { InvoicesClient } from "./components/client";
+import { RecurringInvoicesClient } from "./components/client";
 
 
-const InvoicesPage = () => {
+const RecurringSettings = () => {
     const router = useRouter()
     const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps) => invoicesReducer)
 
@@ -73,11 +73,11 @@ const InvoicesPage = () => {
                     <Button onClick={()=>router.push('/invoices/add')}  className="">New Invoice</Button>
                 </div>
                 <div>
-                    <InvoicesClient data={formattedInvoices} />
+                    <RecurringInvoicesClient data={formattedInvoices} />
                 </div>
             </div>
         </div>
      );
 }
  
-export default InvoicesPage;
+export default RecurringSettings;

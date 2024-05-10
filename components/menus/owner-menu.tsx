@@ -8,8 +8,6 @@ import { useEffect, useState } from "react"
 const OwnerMenu = () => {
     const pathname = usePathname()
     const params = useParams()
-
-    console.log(pathname === `/tenants/details/${params.id}`)
     
     const [menu,setMenu] = useState
     ([
@@ -29,18 +27,17 @@ const OwnerMenu = () => {
                 {
                     id : 21,
                     label : "All Properties",
-                    href : "/properties/all_properties"
+                    g_href : "/properties/all_properties",
+                    g_href1 : `/properties/all_properties/${params.detail_id}`,
+                    g_active : false,
                 },
                 {
                     id : 22,
                     label : "All Units",
-                    href : "/properties/all_units"
+                    g_href : "/properties/all_units",
+                    g_href1 : ``,
+                    g_active : false,
                 },
-                // {
-                //     id : 23,
-                //     label : "Own Property",
-                //     href : "/properties/own_property"
-                // },
                 // {
                 //     id : 24,
                 //     label : "Lease Property",
@@ -48,7 +45,7 @@ const OwnerMenu = () => {
                 // }
             ],
             label : "Properties",
-            href : "",
+            href : "/properties",
             href1 : '',
             drop : false,
             icon : <LandPlot size={20} />,
@@ -73,13 +70,17 @@ const OwnerMenu = () => {
                 {
                     id : 41,
                     label : "All Invoices",
-                    href : "/invoices/all_invoices"
+                    g_href : "/invoices/all_invoices",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 42,
                     label : "Recurring Settings",
-                    href : "/invoices/recurring_settings"
-                }
+                    g_href : "/invoices/recurring_settings",
+                    g_href1 : ``,
+                    g_active : false,
+                },
             ],
             label : "Billing Center",
             href : "/invoices",
@@ -124,17 +125,23 @@ const OwnerMenu = () => {
                 {
                     id : 81,
                     label : "Upload List",
-                    href : "/uploadloist"
+                    g_href : "/uploadloist",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 82,
                     label : "All List",
-                    href : "/alllist"
+                    g_href : "/alllist",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 83,
                     label : "Contact List",
-                    href : "/contactlist"
+                    g_href : "/contactlist",
+                    g_href1 : ``,
+                    g_active : false,
                 }
             ],
             label : "My Listing",
@@ -152,12 +159,16 @@ const OwnerMenu = () => {
                 {
                     id : 91,
                     label : "Maintainers",
-                    href : "/maintainers"
+                    g_href : "/maintainers",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 92,
                     label : "Maintainance Request",
-                    href : "/maintainancerequest"
+                    g_href : "/maintainancerequest",
+                    g_href1 : ``,
+                    g_active : false,
                 }
             ],
             label : "Maintains",
@@ -194,32 +205,44 @@ const OwnerMenu = () => {
                 {
                     id : 121,
                     label : "Earning",
-                    href : "/earning"
+                    g_href : "/earning",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 122,
                     label : "Loss / Profit By Month",
-                    href : "/monthly"
+                    g_href : "/monthly",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 123,
                     label : "Expenses",
-                    href : "/expenses"
+                    g_href : "/expenses",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 124,
                     label : "Occupancy",
-                    href : "/occupancy"
+                    g_href : "/occupancy",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 125,
                     label : "Maintainance",
-                    href : "/mainntainance"
+                    g_href : "/mainntainance",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 126,
                     label : "Tenant",
-                    href : "/tenant"
+                    g_href : "/tenant",
+                    g_href1 : ``,
+                    g_active : false,
                 }
             ],
             label : "Report",
@@ -240,17 +263,23 @@ const OwnerMenu = () => {
                 {
                     id : 131,
                     label : "SMS",
-                    href : "/sms"
+                    g_href : "/sms",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 132,
                     label : "Email",
-                    href : "/email"
+                    g_href : "/email",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 133,
                     label : "Email Template",
-                    href : "/emailtamplate"
+                    g_href : "/emailtamplate",
+                    g_href1 : ``,
+                    g_active : false,
                 }
             ],
             label : "Bulk SMS/Mail",
@@ -278,12 +307,16 @@ const OwnerMenu = () => {
                 {
                     id : 151,
                     label : "My Profile",
-                    href : "/profile"
+                    g_href : "/profile",
+                    g_href1 : ``,
+                    g_active : false,
                 },
                 {
                     id : 132,
                     label : "Change Password",
-                    href : "/changepassword"
+                    g_href : "/changepassword",
+                    g_href1 : ``,
+                    g_active : false,
                 }
             ],
             label : "Profile",
@@ -308,307 +341,27 @@ const OwnerMenu = () => {
     ])
 
     useEffect(()=>{
+
         const temp = menu.map((item) =>{
             if (pathname === item.href || pathname === item.href1 ||  pathname === item.href + '/' + params.id) {
                 item.active = true
-            } else {
+            }
+
+             else {
                 item.active = false
+                item.group.map((g_item)=>{
+                    console.log(g_item.g_href1)
+                    if (pathname === g_item.g_href || pathname === g_item.g_href1 ||  pathname === g_item.g_href + '/' + params.id) {
+                        g_item.g_active = true
+                    } else {
+                        g_item.g_active = false
+                    }
+                })
             }
             return item
         })
         setMenu(temp)
-        // setMenu([
-        //     {
-        //         id : 1,
-        //         group : [],
-        //         label : "Dashboard",
-        //         href : "/",
-        //         drop : false,
-        //         icon : <LayoutDashboard size={20} />,
-        //         active : pathname === '/',
-        //     },
-        //     {
-        //         id : 2,
-        //         group : [
-        //             {
-        //                 id : 21,
-        //                 label : "All Properties",
-        //                 href : "/allproperties"
-        //             },
-        //             {
-        //                 id : 22,
-        //                 label : "All Units",
-        //                 href : "/allunits"
-        //             },
-        //             {
-        //                 id : 23,
-        //                 label : "Own Property",
-        //                 href : "/ownproperty"
-        //             },
-        //             {
-        //                 id : 24,
-        //                 label : "Lease Property",
-        //                 href : "/leaseproperty"
-        //             }
-        //         ],
-        //         label : "Properties",
-        //         href : "",
-        //         drop : false,
-        //         icon : <LandPlot size={20} />,
-        //         active : pathname === '/allproperties' ||
-        //         pathname === '/allunits' ||
-        //         pathname === '/ownproperty' ||
-        //         pathname === '/leaseproperty',
-        //     },
-        //     {
-        //         id : 3,
-        //         group : [
-        //             {
-        //                 id : 31,
-        //                 label : "All Tenants",
-        //                 href : "/alltenants"
-        //             },
-        //             {
-        //                 id : 32,
-        //                 label : "Tenant History",
-        //                 href : "/tenanthistory"
-        //             }
-        //         ],
-        //         label : "Tenants",
-        //         href : "",
-        //         drop : false,
-        //         icon : <User size={20} />,
-        //         active : pathname === '/alltenants' ||
-        //         pathname === '/tenanthistory',
-        //     },
-        //     {
-        //         id : 4,
-        //         group : [
-        //             {
-        //                 id : 41,
-        //                 label : "All Invoices",
-        //                 href : "/allinvoices"
-        //             },
-        //             {
-        //                 id : 42,
-        //                 label : "Recurring Settings",
-        //                 href : "/recurringsettings"
-        //             }
-        //         ],
-        //         label : "Billing Center",
-        //         href : "",
-        //         drop : false,
-        //         icon : <Receipt size={20} />,
-        //         active : pathname === '/allinvoices' ||
-        //         pathname === '/recurringsettings',
-        //     },
-        //     {
-        //         id : 5,
-        //         group : [],
-        //         label : "Expenses",
-        //         href : "/expenses",
-        //         drop : false,
-        //         icon : <ReceiptText size={20} />,
-        //         active : pathname === '/expenses'
-        //     },
-        //     {
-        //         id : 6,
-        //         group : [],
-        //         label : "Documents",
-        //         href : "/documents",
-    
-        //         drop : false,
-        //         icon : <DockIcon size={20} />,
-        //         active : pathname === '/documents'
-        //     },
-        //     {
-        //         id : 7,
-        //         group : [],
-        //         label : "Information",
-        //         href : "/information",
-        //         drop : false,
-        //         icon : <Info size={20} />,
-        //         active : pathname === '/information'
-        //     },
-        //     {
-        //         id : 8,
-        //         group : [
-        //             {
-        //                 id : 81,
-        //                 label : "Upload List",
-        //                 href : "/uploadloist"
-        //             },
-        //             {
-        //                 id : 82,
-        //                 label : "All List",
-        //                 href : "/alllist"
-        //             },
-        //             {
-        //                 id : 83,
-        //                 label : "Contact List",
-        //                 href : "/contactlist"
-        //             }
-        //         ],
-        //         label : "My Listing",
-        //         href : "",
-        //         drop : false,
-        //         icon : <ListChecks size={20} />,
-        //         active : pathname === '/uploadloist' ||
-        //         pathname === '/alllist' ||
-        //         pathname === '/contactlist',
-        //     },
-        //     {
-        //         id : 9,
-        //         group : [
-        //             {
-        //                 id : 91,
-        //                 label : "Maintainers",
-        //                 href : "/maintainers"
-        //             },
-        //             {
-        //                 id : 92,
-        //                 label : "Maintainance Request",
-        //                 href : "/maintainancerequest"
-        //             }
-        //         ],
-        //         label : "Maintains",
-        //         href : "",
-        //         drop : false,
-        //         icon : <Wrench size={20} />,
-        //         active : pathname === '/Maintainers' ||
-        //         pathname === '/maintainancerequest',
-        //     },
-        //     {
-        //         id : 10,
-        //         group : [],
-        //         label : "Tickets",
-        //         href : "/tickets",
-        //         drop : false,
-        //         icon : <Tag size={20} />,
-        //         active : pathname === '/tickets'
-        //     },
-        //     {
-        //         id : 11,
-        //         group : [],
-        //         label : "Notice Board",
-        //         href : "/notice",
-        //         drop : false,
-        //         icon : <Presentation size={20} />,
-        //         active : pathname === '/notice'
-        //     },
-        //     {
-        //         id : 12,
-        //         group : [
-        //             {
-        //                 id : 121,
-        //                 label : "Earning",
-        //                 href : "/earning"
-        //             },
-        //             {
-        //                 id : 122,
-        //                 label : "Loss / Profit By Month",
-        //                 href : "/monthly"
-        //             },
-        //             {
-        //                 id : 123,
-        //                 label : "Expenses",
-        //                 href : "/expenses"
-        //             },
-        //             {
-        //                 id : 124,
-        //                 label : "Occupancy",
-        //                 href : "/occupancy"
-        //             },
-        //             {
-        //                 id : 125,
-        //                 label : "Maintainance",
-        //                 href : "/mainntainance"
-        //             },
-        //             {
-        //                 id : 126,
-        //                 label : "Tenant",
-        //                 href : "/tenant"
-        //             }
-        //         ],
-        //         label : "Report",
-        //         href : "",
-        //         drop : false,
-        //         icon : <BarChart3 size={20} />,
-        //         active : pathname === '/earning' ||
-        //         pathname === '/monthly' ||
-        //         pathname === '/expenses' ||
-        //         pathname === '/occupancy' ||
-        //         pathname === '/mainntainance' ||
-        //         pathname === '/tenant',
-        //     },
-        //     {
-        //         id : 13,
-        //         group : [
-        //             {
-        //                 id : 131,
-        //                 label : "SMS",
-        //                 href : "/sms"
-        //             },
-        //             {
-        //                 id : 132,
-        //                 label : "Email",
-        //                 href : "/email"
-        //             },
-        //             {
-        //                 id : 133,
-        //                 label : "Email Template",
-        //                 href : "/emailtamplate"
-        //             }
-        //         ],
-        //         label : "Bulk SMS/Mail",
-        //         href : "",
-        //         drop : false,
-        //         icon : <Mail size={20} />,
-        //         active : pathname === '/sms' ||
-        //         pathname === '/email' ||
-        //         pathname === '/emailtamplate',
-        //     },
-        //     {
-        //         id : 14,
-        //         group : [],
-        //         label : "Aggrement",
-        //         href : "/aggrement",
-        //         drop : false,
-        //         icon : <UserRoundCheck size={20} />,
-        //         active : pathname === '/aggrement',
-        //     },
-        //     {
-        //         id : 15,
-        //         group : [
-        //             {
-        //                 id : 151,
-        //                 label : "My Profile",
-        //                 href : "/profile"
-        //             },
-        //             {
-        //                 id : 132,
-        //                 label : "Change Password",
-        //                 href : "/changepassword"
-        //             }
-        //         ],
-        //         label : "Profile",
-        //         href : "",
-        //         drop : false,
-        //         icon : <UserCircle size={20} />,
-        //         active : pathname === '/uploadloist' ||
-        //         pathname === '/profile' ||
-        //         pathname === '/changepassword',
-        //     },
-        //     {
-        //         id : 16,
-        //         group : [],
-        //         label : "My Subscription",
-        //         href : "/subscription",
-        //         drop : false,
-        //         icon : <CalendarCheck size={20} />,
-        //         active : pathname === '/subscription',
-        //     },
-        // ])
+
     },[pathname])
 
     const dropDown = (id : number) => {
@@ -646,7 +399,8 @@ const OwnerMenu = () => {
                     <button 
                         className={`nav-item
                         ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
-                         flex items-center gap-4 w-full hover:text-indigo-400 transition-all`}
+                         flex items-center gap-4 w-full hover:text-indigo-400 transition-all
+                         `}
                         onClick={()=>dropDown(id)}
                     >   <span>{icon}</span>
                         <span className="w-full flex justify-between items-center">
@@ -656,18 +410,18 @@ const OwnerMenu = () => {
                     </button>
                     <div className="ml-10">
                     {
-                        group.map(({id,label,href},index) =>
+                        group.map(({id,label,g_href,g_active},index) =>
                             <div className={drop ? `drop-on my-1` : 'drop-off'} key={index}>
                                 <Link
                                     className={
                                     `
-                                        ${pathname === href ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
+                                        ${g_active ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
                                     dark:text-stone-500 dark:hover:text-stone-200 
                                          hover:text-indigo-400
                                         
                                         transition-all
                                     `}
-                                    href={href}
+                                    href={g_href}
                                 >
                                     &#x2022; {label}
                                 </Link>

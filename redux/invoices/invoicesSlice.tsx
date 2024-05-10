@@ -36,14 +36,14 @@ const invoicesSlice = createSlice({
         //     localStorage.removeItem("invoices")
         //     localStorage.setItem("invoices", JSON.stringify(state.invoices))
         // },
-        // removeinvoice : (state, {payload}) => {
-        //     const temp = state.invoices.filter(({_id} : invoiceProps) => _id !== payload._id)
-        //     state.invoices = temp
-        //     localStorage.removeItem("invoices")
-        //     localStorage.setItem("invoices", JSON.stringify(state.invoices))
-        // },
+        removeInvoice : (state, {payload}) => {
+            const temp = state.invoices.filter(({_id} : InvoiceProps) => _id !== payload._id)
+            state.invoices = temp
+            localStorage.removeItem("invoices")
+            localStorage.setItem("invoices", JSON.stringify(state.invoices))
+        },
     }
 })
 
-export const {getInvoices} = invoicesSlice.actions
+export const {getInvoices,removeInvoice} = invoicesSlice.actions
 export default invoicesSlice.reducer

@@ -58,7 +58,7 @@ const AllTenants = () => {
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
-                    <h1 className="font-bold text-xl">All Tenants</h1>
+                    <h1 className="font-bold text-xl">Recurring Invoice Settings</h1>
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem className="hover:text-indigo-500 transition-all">

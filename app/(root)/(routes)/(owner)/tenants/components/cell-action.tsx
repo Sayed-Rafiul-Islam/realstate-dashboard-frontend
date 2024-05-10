@@ -1,6 +1,6 @@
 "use client"
 
-import { Copy, Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import toast from "react-hot-toast"
 
 import { 
@@ -15,12 +15,9 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { removePackage } from "@/redux/packages/packagesSlice"
 import { TenantColumn } from "./column"
-import { PreviewTenant } from "@/components/modals/preview-tenant"
 import { removeTenant } from "@/redux/tenants/tenantsSlice"
-// import { AlertModal } from "@/components/modals/alert-modal"
-// import { deleteCategory } from "@/app/actions/categories"
+
 
 interface CellActionProps {
     data : TenantColumn
@@ -47,11 +44,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     return (
         <>
-            <PreviewTenant
-            isOpen={openPreview} 
-            onClose={()=>setOpenPreview(false)} 
-            data={data}
-            />
             <AlertModal
             isOpen={open} 
             onClose={()=>setOpen(false)} 
