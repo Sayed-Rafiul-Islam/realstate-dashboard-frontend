@@ -34,20 +34,21 @@ interface TenantFormProps {
 }
 
 const formSchema = z.object({
-    image: z.string(),
-    propertyId : z.string().min(1, {message : "Name Required"}),
-    unitId : z.string().min(1, {message : "Name Required"}),
+    image: z.string().min(1, {message : "Image Required"}),
+    propertyId : z.string().min(1, {message : "Property Required"}),
+    unitId : z.string().min(1, {message : "Unit Required"}),
     name : z.string().min(1, {message : "Name Required"}),
-    email : z.string().min(1, {message : "Name Required"}),
-    phone : z.string().min(1, {message : "Name Required"}),
-    NID : z.number().min(8),
-    age : z.number().min(1),
+    email : z.string().min(1, {message : "Email Required"}),
+    phone : z.string().min(1, {message : "Contact No Required"}),
+    NID : z.coerce.number().min(8),
+    age : z.coerce.number().min(1),
     occupation : z.string().min(1),
-    familyMember : z.number().min(1),
+    familyMember : z.coerce.number().min(1),
     due : z.coerce.number().min(1),
     startDate : z.string(),    
     status : z.boolean().default(false)
 })
+
 
 
 // propertyId : string,
@@ -63,20 +64,8 @@ export const TenantForm : React.FC<TenantFormProps> = ({
 
     const [propertyId,setPropertyId] = useState('')
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
-    const [update,setUpdate] = useState(false)
-
-
-    const selectUnits = ( id : string) => {
-        console.log(id,thisUnits)
-    }
-
    
 
-    useEffect(()=>{
-        // const temp = units.filter((item)=> item.propertyId === propertyId)
-        // setThisUnits(temp)
-
-    },[propertyId])
 
     const title = initialData ? 'Edit Tenant' : 'Create Tenant'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -111,8 +100,17 @@ export const TenantForm : React.FC<TenantFormProps> = ({
         }
     })
 
+    
+        useEffect(()=>{
+            const temp = units.filter((item)=> item.propertyId === propertyId)
+            setThisUnits(temp)
+            form.setValue('unitId', '')
+            
+
+        },[propertyId])
+
     const onSubmit = async (data : TenantFormValues) => {
-        console.log(data)
+        console.log(data.unitId)
         try {
             setLoading(true)
                 const updatePackage = {
@@ -215,7 +213,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                 <FormItem>
                                     <FormLabel>NID No <span className='text-red-500'>*</span></FormLabel>
                                     <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='5345634644' {...field} />
+                                        <Input  type='number' disabled={loading} placeholder='5345634644' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -225,30 +223,38 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                         <FormField
                             control={form.control}
                             name="propertyId"
-                            render={({ field }) => (
+                            render={(item) => (
                                 <FormItem>
                                     <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
                                     <Select
                                             disabled={loading} 
-                                            onValueChange={field.onChange} 
-                                            value={field.value}
-                                            defaultValue={field.value}
+                                            onValueChange={e=> {
+                                                setPropertyId(e)
+                                                item.formState.validatingFields.unitId
+                                                
+                                                return item.field.onChange(e)
+                                            }}
+                                            value={item.field.value}
+                                            defaultValue={item.field.value}
+                                            
                                             
                                         >
                                             <FormControl >
                                                 <SelectTrigger>
                                                     <SelectValue 
-                                                        defaultValue={field.value}
+                                                        defaultValue={item.field.value}
                                                         placeholder="Select Property"
                                                     
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
-                                            <SelectContent>
+                                            <SelectContent  >
                                                 {properties.map(({_id, name} : PropertyProps,index)=>(
-                                                    <SelectItem   key={index} value={_id} >
+                                                    <div >
+                                                    <SelectItem key={index} value={_id} >
                                                         {name}
                                                     </SelectItem>
+                                                    </div>
                                                 ))}
                                             </SelectContent>
                                         </Select>
@@ -264,9 +270,9 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                     <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>
                                     <Select 
                                             disabled={loading} 
-                                            onValueChange={field.onChange} 
-                                            value={field.value}
-                                            defaultValue={field.value}
+                                            onValueChange={field.onChange}
+                                            value={thisUnits?.length === 0 ? '' : field.value}
+                                            defaultValue={thisUnits?.length === 0 ? '' : field.value}
                                         >
                                             <FormControl>
                                                 <SelectTrigger>
@@ -278,8 +284,8 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                             </FormControl>
                                             <SelectContent>
                                                 {
-                                                    units
-                                                    ? units.map(({_id, name} : UnitProps,index)=>(
+                                                    thisUnits
+                                                    ? thisUnits.map(({_id, name} : UnitProps,index)=>(
                                                         <SelectItem key={index} value={_id} >
                                                             {name}
                                                         </SelectItem>
