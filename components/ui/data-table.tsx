@@ -28,7 +28,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[],
   searchKey ?: string | undefined,
   filters ?: string[] | undefined,
-  pagination : boolean
+  pagination : boolean,
 }
 
 export function DataTable<TData, TValue>({

@@ -8,6 +8,8 @@ import Image from "next/image"
 export interface TenantColumn {
   serial : number,
   _id : string,
+  propertyId : string,
+  unitId : string,
   propertyName : string,
   unitName : string,
   name : string,

@@ -234,7 +234,7 @@ const loadProperties = async () => {
         },
         {
             _id : '2',
-            name : 'The Ivy Residences',
+            name : 'The Ivy Residences 2',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             location : "Kenia, Alaska, United States",
             coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
@@ -253,7 +253,7 @@ const loadProperties = async () => {
         },
         {
             _id : '3',
-            name : 'The Ivy Residences',
+            name : 'The Ivy Residences 3',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             location : "Kenia, Alaska, United States",
             coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
@@ -272,7 +272,7 @@ const loadProperties = async () => {
         },
         {
             _id : '4',
-            name : 'The Ivy Residences',
+            name : 'The Ivy Residences 4',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             location : "Kenia, Alaska, United States",
             coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",

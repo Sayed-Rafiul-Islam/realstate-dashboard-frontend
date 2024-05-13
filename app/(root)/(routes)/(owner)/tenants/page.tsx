@@ -38,6 +38,8 @@ const AllTenants = () => {
             return {
                 serial : index + 1,
                 _id,
+                propertyId,
+                unitId,
                 propertyName : propertyName ? propertyName : '',
                 unitName : unit ? unit.name : '',
                 monthlyRent : unit ? unit.rent : '',
