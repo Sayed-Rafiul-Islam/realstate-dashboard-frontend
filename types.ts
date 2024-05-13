@@ -120,7 +120,13 @@ export interface PropertyProps {
     available :number,
     tenants :number,
     deposit :number,
-    lateFee :number
+    lateFee :number,
+    rent : number,
+    rentType : string,
+    city : string,
+    state : string,
+    country : string,
+    postCode : string
 }
 
 export interface UnitProps {
@@ -130,6 +136,7 @@ export interface UnitProps {
   description : string,
   condition : string,
   tenant : string,
+  image : string,
   squareFeet : number,
   bedrooms : number,
   washrooms : number,

@@ -11,7 +11,7 @@ import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PackageProps, PropertyProps } from '@/types'
+import { PackageProps, PropertyProps, UnitProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
 import './package-form.css'
@@ -26,18 +26,13 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
+import { DollarSign, Home, Landmark, School } from 'lucide-react'
+import ImageUpload from '@/components/image-upload'
 
 
 type PropertyForm1Values = z.infer<typeof form1Schema>
 type PropertyForm2Values = z.infer<typeof form2Schema>
 type PropertyForm3Values = z.infer<typeof form3Schema>
-
-// interface PropertyFormProps {
-//     initialData : {
-//         initialData1 : 
-//     }
-        
-// }
 
 
 interface PropertyFormProps {
@@ -54,24 +49,14 @@ interface PropertyFormProps {
             country : string,
             postCode : string
         },
-        initialData2 : {
-                _id : string,
-                unitName : string,
-                bedrooms : number,
-                bathrooms : number,
-                kitchens : number,
-                squarefits : number,
-                condition : string,
-                image : string,
-                description : string,
-            }[],
+        initialData2 : UnitProps[],
         initialData3 : {
             rent : number,
             deposit : number,
             lateFee : number,
             rentType : string
         }
-    }
+    } | null
 }
 
 const form1Schema = z.object({
@@ -90,11 +75,11 @@ const form1Schema = z.object({
 
 const form2Schema = z.object({
     units : z.array(z.object({
-        unitName : z.string(),
+        name : z.string(),
         bedrooms : z.coerce.number().min(1),
-        bathrooms : z.coerce.number().min(1),
+        washrooms : z.coerce.number().min(1),
         kitchens : z.coerce.number().min(1),
-        squarefits : z.coerce.number().min(1),
+        squareFeet : z.coerce.number().min(1),
         condition : z.string(),
         image : z.string(),
         description : z.string(),
@@ -130,7 +115,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 
     const form1 = useForm<PropertyForm1Values>({
         resolver : zodResolver(form1Schema),
-        defaultValues : initialData.initialData1 || {
+        defaultValues : initialData?.initialData1 || {
             propertyName : '',
             unitCount : 1,
             description : "",
@@ -143,23 +128,28 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
         }
     })
 
+    const unitData = initialData 
+    ?
+    initialData.initialData2.map((item) => ({
+            name : item.name,
+            bedrooms : item.bedrooms,
+            washrooms : item.washrooms,
+            kitchens : item.kitchen,
+            squareFeet : item.squareFeet,
+            condition : item.condition,
+            image : item.image,
+            description : item.description
+    }))
+    : []
+
     const form2 = useForm<PropertyForm2Values>({
         resolver : zodResolver(form2Schema),
-        // defaultValues : initialData.initialData2 || {
-        //     unitName : '',
-        //     bedrooms : 1,
-        //     bathrooms : 1,
-        //     kitchens : 0,
-        //     squarefits : 10,
-        //     condition : '',
-        //     image : '',
-        //     description : ''
-        // }
+        defaultValues : {units : unitData}
     })
 
     const form3 = useForm<PropertyForm3Values>({
         resolver : zodResolver(form3Schema),
-        defaultValues : initialData.initialData3 || {
+        defaultValues : initialData?.initialData3 || {
             rent : 0,
             deposit : 0,
             lateFee : 0,
@@ -168,8 +158,14 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
     })
 
     const onForm1Submit = async (data : PropertyForm1Values) => {
-        dispatch(addPropertyData1(data))
-        setForm(1)
+
+        try {
+            dispatch(addPropertyData1(data))
+            setForm(1)
+        } catch (error) {
+            console.log('here')
+        }
+
         // try {
         //     setLoading(true)
         //         const updatePackage = {
@@ -236,6 +232,41 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
             </div>
             <Separator className='my-5' />
 
+            <div className='flex items-center justify-center mb-10'>
+                <button onClick={()=>setForm(0)}>
+                    <div className={`flex flex-col items-center gap-2`}>
+                        <div className={`${form >= 0 ? 'bg-green-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <Landmark className={`${form >= 0 ? 'text-green-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form >= 0 ? 'text-black font-semibold' : 'text-gray-500'}`}>Property Informations</h3>
+                    </div>
+                </button>
+                
+
+                <Separator className={`${form > 0 && 'bg-black'} w-1/4 mx-1`} />
+                
+                <button disabled={form < 1 && true} onClick={()=>setForm(1)}>
+                    <div className='flex flex-col items-center gap-2'>
+                        <div className={`${form > 0 ? 'bg-orange-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <Home className={`${form > 0 ? 'text-orange-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form > 0 ? 'text-black font-semibold' : 'text-gray-500'}`}>Unit Informations</h3>
+                    </div>
+                </button>
+
+                <Separator className={`${form === 2 && 'bg-black'} w-1/4 mx-1`} />
+
+                <button disabled={form < 2 && true} onClick={()=>setForm(2)}>
+                    <div className='flex flex-col items-center gap-2'>
+                        <div className={`${form === 2 ? 'bg-indigo-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <DollarSign className={`${form === 2 ? 'text-indigo-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form === 2 ? 'text-black font-semibold' : 'text-gray-500'}`}>Rent & Charges</h3>
+                    </div>
+                </button>
+            </div>
+
+
             {
                 form === 0 &&
                 <Form {...form1}>
@@ -250,7 +281,6 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input disabled={loading} placeholder='Te Home' {...field} />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -263,7 +293,6 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='number' disabled={loading} placeholder='4' {...field} />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -276,23 +305,26 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                             <FormControl>
                                                 <Input type='text' disabled={loading} placeholder='blah...' {...field} />
                                             </FormControl>
-                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                            <FormField
-                                control={form1.control}
-                                name="image"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Image Url <span className='text-red-500'>*</span></FormLabel>
-                                        <FormControl>
-                                            <Input type='text' disabled={loading} placeholder='https://...' {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                                <FormField
+                                    control={form1.control}
+                                    name="image"
+                                    render={({ field }) => (
+                                        <FormItem className=''>
+                                            <FormLabel className=''>Upload Image <span className='text-red-500'>*</span></FormLabel>
+                                            <FormControl className=''>
+                                                <ImageUpload
+                                                    buttonName='Upload an Image'
+                                                    value={field.value ? [field.value] : []}
+                                                    onChange={(url)=>field.onChange(url)}
+                                                    onRemove={()=>field.onChange("")}
+                                                />
+                                            </FormControl>
+                                        </FormItem>
+                                     )}
+                                />
                             <FormField
                                 control={form1.control}
                                 name="address"
@@ -302,7 +334,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='text' disabled={loading} placeholder='address' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -315,7 +347,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='text' disabled={loading} placeholder='city' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -328,7 +360,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='text' disabled={loading} placeholder='state' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -341,7 +373,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='text' disabled={loading} placeholder='country' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -354,7 +386,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='text' disabled={loading} placeholder='post code' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -400,14 +432,14 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                     <h1 className='col-span-3 font-semibold text-xl'>Unit {index + 1}:</h1>
                                     <FormField
                                         control={form2.control}
-                                        name={`units.${index}.unitName`}
+                                        name={`units.${index}.name`}
                                         render={({field }) => (
                                             <FormItem>
                                                 <FormLabel>Unit Name <span className='text-red-500'>*</span></FormLabel>
                                                 <FormControl>
                                                     <Input disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
@@ -420,20 +452,20 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 <FormControl>
                                                     <Input type='number' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
                                     <FormField
                                         control={form2.control}
-                                        name={`units.${index}.bathrooms`}
+                                        name={`units.${index}.washrooms`}
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Bathrooms <span className='text-red-500'>*</span></FormLabel>
                                                 <FormControl>
                                                     <Input type='number' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
@@ -446,20 +478,20 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 <FormControl>
                                                     <Input type='number' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
                                     <FormField
                                         control={form2.control}
-                                        name={`units.${index}.squarefits`}
+                                        name={`units.${index}.squareFeet`}
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Square Feets <span className='text-red-500'>*</span></FormLabel>
                                                 <FormControl>
                                                     <Input type='number' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
@@ -472,11 +504,29 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 <FormControl>
                                                     <Input type='text' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
                                     <FormField
+                                        control={form2.control}
+                                        name={`units.${index}.image`}
+                                        render={({ field }) => (
+                                            <FormItem className=''>
+                                                <FormLabel className=''>Upload Image <span className='text-red-500'>*</span></FormLabel>
+                                                <FormControl className=''>
+                                                    <ImageUpload
+                                                        buttonName='Upload an Image'
+                                                        value={field.value ? [field.value] : []}
+                                                        onChange={(url)=>field.onChange(url)}
+                                                        onRemove={()=>field.onChange("")}
+                                                    />
+                                                </FormControl>
+                                                
+                                            </FormItem>
+                                        )}
+                                    />
+                                    {/* <FormField
                                         control={form2.control}
                                         name={`units.${index}.image`}
                                         render={({ field }) => (
@@ -485,10 +535,10 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 <FormControl>
                                                     <Input type='text' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
-                                    />
+                                    /> */}
                                     <FormField
                                         control={form2.control}
                                         name={`units.${index}.description`}
@@ -498,7 +548,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 <FormControl>
                                                     <Input type='text' disabled={loading} placeholder='Te Home' {...field} />
                                                 </FormControl>
-                                                <FormMessage />
+                                                
                                             </FormItem>
                                         )}
                                     />
@@ -535,7 +585,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='number' disabled={loading} placeholder='20000' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -548,7 +598,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                         <FormControl>
                                             <Input type='number' disabled={loading} placeholder='5000' {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        
                                     </FormItem>
                                 )}
                             />
@@ -561,7 +611,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                             <FormControl>
                                                 <Input type='number' disabled={loading} placeholder='500' {...field} />
                                             </FormControl>
-                                            <FormMessage />
+                                            
                                         </FormItem>
                                     )}
                                 />
@@ -595,7 +645,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                                 
                                             </SelectContent>
                                         </Select>
-                                    <FormMessage />
+                                    
                                 </FormItem> 
                                 )}
                             />

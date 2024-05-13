@@ -2,7 +2,7 @@
 
 import { useSelector } from "react-redux";
 import { PropertyEditForm } from "./components/property-edit-form";
-import { PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitsReducerProps } from "@/types";
+import { PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import image from '@/images/buildings/b1.jpg'
@@ -12,70 +12,48 @@ const PropertyPage = ({
 } : {
     params : { id : string}
 }) => {
-    // const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    // const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
-    // const initialData = properties.filter((item : PropertyProps)  =>{
-    //     if (item._id === params.id) {
-    //         return item
-    //     } 
-    // })
+    const initialData1 = properties.filter((item : PropertyProps)  =>{
+        if (item._id === params.id) {
+            return item
+        } 
+    })
 
-    const initialData = {
+    const data = initialData1.length === 0 ? false : initialData1[0] 
+
+    const initialData2 = data ? units.filter((item : UnitProps)  =>{
+        if (item.propertyId === data._id) {
+            return item
+        } 
+    })
+    :
+    []
+
+    const initialData = data ? {
         initialData1 : {
-            _id : "1",
-            propertyName : 'p1',
-            unitCount : 3,
-            description : "blah blah blah",
-            image : 'image',
-            address : 'address',
-            city : 'city',
-            state : 'state',
-            country : 'country',
-            postCode : '5400'
+            _id : data._id,
+            propertyName : data.name,
+            description : data.description,
+            address : data.location,
+            image : data.coverImage,
+            unitCount : data.unitCount,
+            city : data.city,
+            state : data.state,
+            country : data.country,
+            postCode : data.postCode
         },
-            initialData2 : [
-                {
-                    _id : '1',
-                    unitName : 'unit-1',
-                    bedrooms : 3,
-                    bathrooms : 2,
-                    kitchens : 1,
-                    squarefits : 200,
-                    condition : "Good",
-                    image : '',
-                    description : "unit-1 description"
-                },
-                {
-                    _id : '2',
-                    unitName : 'unit-2',
-                    bedrooms : 3,
-                    bathrooms : 2,
-                    kitchens : 1,
-                    squarefits : 200,
-                    condition : "Good",
-                    image : '',
-                    description : "unit-2 description"
-                },
-                {
-                    _id : '3',
-                    unitName : 'unit-3',
-                    bedrooms : 3,
-                    bathrooms : 2,
-                    kitchens : 1,
-                    squarefits : 200,
-                    condition : "Good",
-                    image : '',
-                    description : "unit-3 description"
-                }
-            ],
+        initialData2,
         initialData3 : {
-            rent : 15000,
-            deposit : 5000,
-            lateFee : 500,
-            rentType : "monthly"
+            rent : data.rent,
+            deposit : data.deposit,
+            lateFee : data.lateFee,
+            rentType : data.rentType
         }
-    }
+    } 
+    :
+    null
     // console.log(initialData[0])
     
     return ( 

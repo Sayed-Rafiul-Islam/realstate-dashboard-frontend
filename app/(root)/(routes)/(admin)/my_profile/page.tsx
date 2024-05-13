@@ -10,9 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import ImageUpload from '@/components/image-upload'
-import AccessProvider from "@/actions/accessProvider";
 import Pathname from '@/components/pathname'
+import ProfileImageUpload from '@/components/profile-image-upload'
 
 type ProfileValue = z.infer<typeof formSchema>
 
@@ -57,7 +56,7 @@ const MyProfile = () => {
                                     
                                     {/* <FormLabel className=''>Upload an Image</FormLabel> */}
                                     <FormControl className=''>
-                                        <ImageUpload
+                                        <ProfileImageUpload
                                             buttonName='Upload an Image'
                                             value={field.value ? [field.value] : []}
                                             onChange={(url)=>field.onChange(url)}

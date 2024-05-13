@@ -42,7 +42,7 @@ const ImageUpload : React.FC<ImageUploadProps> = ({
 
 
   return (
-    <div>
+    <div className="">
         {/* <div className="mb-4 gap-4 flex items-center">
             {value.map((url)=>(
                 <div key={url} className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
@@ -67,44 +67,11 @@ const ImageUpload : React.FC<ImageUploadProps> = ({
                     }
 
                     return (
-                        <div className="bg-gray-200 h-[100px] w-[100px] rounded-full flex justify-end items-end relative">
-                            <div className="absolute h-full w-full flex justify-center items-center rounded-full">
-                                {
-                                    value.length > 0
-                                    ? 
-                                    <div className="">
-                                    {value.map((url)=>(
-                                        <div key={url} className="relative w-[100px] h-[100px] rounded-full overflow-hidden border-indigo-500 border-4">
-                                                {/* <div className="z-10 absolute top-2 right-2">
-                                                    <Button type="button" onClick={()=>onRemove(url)} variant='destructive' size='icon'>
-                                                        <Trash />
-                                                    </Button>
-                                                </div> */}
-                                            <Image 
-                                                fill
-                                                className="object-cover"
-                                                alt="Image"
-                                                src={url}
-                                            />
-                                        </div>
-                                    ))}
-                                </div>  
-                                    :
-                                    <ImagePlus size={25} className="text-gray-400" />
-                                }
-                                
-                            </div>
-                            <button
-                                type="button"
-                                disabled={disabled}
-                                onClick={onClick}
-                                className="bg-indigo-600 rounded-full w-[30px] h-[30px] z-10" 
-                            >
-                                <Camera className="h-4 w-4 mr-2 mx-auto text-white" />
-                                
-                                {/* {buttonName} */}
-                            </button>
-                        </div>
+                        <Button
+                            type="button"
+                            disabled={disabled}
+                            onClick={onClick}
+                        >Image Upload</Button>
                     )
                 }}
         </CldUploadWidget>
