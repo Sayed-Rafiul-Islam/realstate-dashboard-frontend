@@ -19,24 +19,40 @@ const propertiesSlice = createSlice({
             localStorage.removeItem("properties")
             localStorage.setItem("properties", JSON.stringify(state.properties))
         },
-        // updatepropertieStatus : (state, {payload}) => {
-        //     const temp = state.properties.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.properties = temp
-        //     localStorage.removeItem("properties")
-        //     localStorage.setItem("properties", JSON.stringify(state.properties))
-        // },
+        updateProperty : (state, {payload}) => {
 
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.properties.push(payload)
-        //     console.log(state.properties)
-        //     localStorage.removeItem("properties")
-        //     localStorage.setItem("properties", JSON.stringify(state.properties))
-        // },
+            const temp = state.properties.filter((item : PropertyProps) => {
+                if ( item._id  === payload._id) {
+                    item.name = payload.name
+                    item.description = payload.description
+                    item.location = payload.location
+                    item.coverImage = payload.coverImage
+                    item.unitCount = payload.unitCount
+                    item.rooms = payload.rooms
+                    item.available = payload.available
+                    item.tenants = payload.tenants
+                    item.deposit = payload.deposit
+                    item.lateFee = payload.lateFee
+                    item.rentType = payload.rentType
+                    item.city = payload.city
+                    item.state = payload.state
+                    item.country = payload.country
+                    item.postCode = payload.postCode
+                }
+                return item
+            })
+            state.properties = temp
+            localStorage.removeItem("properties")
+            localStorage.setItem("properties", JSON.stringify(state.properties))
+        },
+
+        addProperty : (state, {payload}) => {
+
+            state.properties.push(payload)
+            console.log(state.properties)
+            // localStorage.removeItem("properties")
+            // localStorage.setItem("properties", JSON.stringify(state.properties))
+        },
         // removePackage : (state, {payload}) => {
         //     const temp = state.packages.filter(({_id} : PackageProps) => _id !== payload._id)
         //     state.packages = temp
@@ -46,5 +62,5 @@ const propertiesSlice = createSlice({
     }
 })
 
-export const {getProperties} = propertiesSlice.actions
+export const {getProperties,addProperty,updateProperty} = propertiesSlice.actions
 export default propertiesSlice.reducer

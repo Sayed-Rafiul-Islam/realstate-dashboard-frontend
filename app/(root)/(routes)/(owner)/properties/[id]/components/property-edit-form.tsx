@@ -28,6 +28,9 @@ import {
 } from '@/components/ui/select'
 import { DollarSign, Home, Landmark, School } from 'lucide-react'
 import ImageUpload from '@/components/image-upload'
+import { useRouter } from 'next/navigation'
+import { addProperty, updateProperty } from '@/redux/properties/propertiesSlice'
+import { addUnits, removeUnit } from '@/redux/units/unitsSlice'
 
 
 type PropertyForm1Values = z.infer<typeof form1Schema>
@@ -57,6 +60,37 @@ interface PropertyFormProps {
             rentType : string
         }
     } | null
+}
+
+interface FormProps {
+    formsReducer : {
+        propertyForm : {
+            initialData1: {
+                propertyName: string,
+                unitCount: 1,
+                description: string,
+                image: string,
+                address: string,
+                city: string,
+                state: string,
+                country: string,
+                postCode: string
+              },
+              initialData2: [
+                {
+                  name: string,
+                  bedrooms: number,
+                  washrooms: number,
+                  kitchens: number,
+                  squareFeet: number,
+                  condition: string,
+                  image: string,
+                  description: string
+                }
+              ],
+              initialData3: { rent: number, deposit: number, lateFee: number, rentType: string } 
+        } 
+    }
 }
 
 const form1Schema = z.object({
@@ -98,15 +132,16 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
     initialData 
 }) => {
 
-    const {propertyForm} = useSelector(({formsReducer} : any) => formsReducer)
+    const {propertyForm} = useSelector(({formsReducer} : FormProps) => formsReducer)
     const dispatch = useDispatch()
+    const router = useRouter()
 
     const [form, setForm] = useState(0)
 
     const title = initialData ? 'Edit Property' : 'Add Property'
     const action = initialData ? 'Save Changes' : 'Add Property'
     const description = initialData ? "Edit a property" : "Create a new property"
-    const toastMessage = initialData ? "Color updated" : "Color created"
+    const toastMessage = initialData ? "Property updated." : "New property added."
     const [loading, setLoading] = useState(false)
 
 
@@ -158,57 +193,115 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
     })
 
     const onForm1Submit = async (data : PropertyForm1Values) => {
-
-        try {
             dispatch(addPropertyData1(data))
             setForm(1)
-        } catch (error) {
-            console.log('here')
-        }
-
-        // try {
-        //     setLoading(true)
-        //         const updatePackage = {
-                 
-        //         }
-                
-        // } catch (error) {
-        //     toast.error("Something went wrong.")
-        // } finally {
-        //     setLoading(false)
-        // }
     }
 
     const onForm2Submit = async (data : PropertyForm2Values) => {
+
         dispatch(addPropertyData2(data.units))
         setForm(2)
-        // try {
-        //     setLoading(true)
-        //         const updatePackage = {
-                 
-        //         }
-                
-        // } catch (error) {
-        //     toast.error("Something went wrong.")
-        // } finally {
-        //     setLoading(false)
-        // }
     }
 
     const onForm3Submit = async (data : PropertyForm3Values) => {
+     
         dispatch(addPropertyData3(data))
-        setForm(2)
-        // try {
-        //     setLoading(true)
-        //         const updatePackage = {
-                 
-        //         }
-                
-        // } catch (error) {
-        //     toast.error("Something went wrong.")
-        // } finally {
-        //     setLoading(false)
-        // }
+
+        if (initialData) {
+            // update
+            const updatePropertyData = {
+                _id : initialData.initialData1._id,
+                name : propertyForm.initialData1.propertyName,
+                description : propertyForm.initialData1.description,
+                location : propertyForm.initialData1.address,
+                coverImage : propertyForm.initialData1.image,
+                unitCount : propertyForm.initialData1.unitCount,
+                rooms : 2,
+                available : 2,
+                tenants : 2,
+                deposit : data.deposit,
+                lateFee : data.lateFee,
+                rent : data.rent,
+                rentType : data.rentType,
+                city : propertyForm.initialData1.city,
+                state : propertyForm.initialData1.state,
+                country : propertyForm.initialData1.country,
+                postCode : propertyForm.initialData1.postCode
+            }
+            
+            dispatch(updateProperty(updatePropertyData))
+
+            initialData.initialData2.map((item) => 
+                dispatch(removeUnit(item._id))
+            )
+            const updatedUnitsData = propertyForm.initialData2.map((item,index) => ({
+                _id : `${index + 5}`,
+                propertyId : updatePropertyData._id,
+                name : item.name,
+                description : item.description,
+                condition : item.condition,
+                tenant : `test ${index + 1} tenant`,
+                image : item.image,
+                squareFeet : item.squareFeet,
+                bedrooms : item.bedrooms,
+                washrooms : item.washrooms,
+                kitchen : item.kitchens,
+                rent : 12000 + index
+            }))
+            dispatch(addUnits(updatedUnitsData))
+        } 
+        
+        else {
+            // add
+            const newPropertyData = {
+                _id : "5",
+                name : propertyForm.initialData1.propertyName,
+                description : propertyForm.initialData1.description,
+                location : propertyForm.initialData1.address,
+                coverImage : propertyForm.initialData1.image,
+                unitCount : propertyForm.initialData1.unitCount,
+                rooms : 4,
+                available : 2,
+                tenants : 2,
+                deposit : data.deposit,
+                lateFee : data.lateFee,
+                rent : data.rent,
+                rentType : data.rentType,
+                city : propertyForm.initialData1.city,
+                state : propertyForm.initialData1.state,
+                country : propertyForm.initialData1.country,
+                postCode : propertyForm.initialData1.postCode
+            }
+
+            dispatch(addProperty(newPropertyData))
+
+            const newUnitsData = propertyForm.initialData2.map((item,index) => ({
+                _id : `${index + 5}`,
+                propertyId : newPropertyData._id,
+                name : item.name,
+                description : item.description,
+                condition : item.condition,
+                tenant : `test ${index + 1} tenant`,
+                image : item.image,
+                squareFeet : item.squareFeet,
+                bedrooms : item.bedrooms,
+                washrooms : item.washrooms,
+                kitchen : item.kitchens,
+                rent : 12000 + index
+            }))
+
+            dispatch(addUnits(newUnitsData))
+
+
+
+            console.log(newPropertyData)
+            console.log(newUnitsData)
+
+        }
+
+        router.push('/properties/all_properties')
+        toast.success(toastMessage)
+        setForm(0)
     }
 
     const [isMounted, setIsMounted] = useState(false)
