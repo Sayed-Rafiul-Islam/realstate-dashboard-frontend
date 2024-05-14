@@ -17,11 +17,27 @@ import Image from "next/image";
 import './property-card.css'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AlertModal } from "@/components/modals/alert-modal";
+import toast from "react-hot-toast";
+import { removeProperty } from "@/redux/properties/propertiesSlice";
 
 
 const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
 
     const router = useRouter()
+    const dispatch = useDispatch()
+
+    const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
+
+    const onDelete = async () => {
+        toast.success("Property Removed")
+        setOpen(false)
+        dispatch(removeProperty(data))       
+    
+}
+
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -37,6 +53,11 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
     }
     return ( 
         <div className="bg-gray-100 rounded-md overflow-hidden">
+            <AlertModal
+            isOpen={open} 
+            onClose={()=>setOpen(false)} 
+            onConfirm={onDelete} 
+            loading={loading} />
         <div onClick={()=>router.push(`/properties/all_properties/${data._id}`)} className="cover-wrapper">
             <div className="relative cover-image">
                 <Image fill src={data.coverImage} alt="building" />
@@ -60,7 +81,7 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
                             <Edit className="h-4 w-4 mr-2" />
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuItem >
+                        <DropdownMenuItem onClick={()=>setOpen(true)}>
                             <Trash className="h-4 w-4 mr-2" />
                             Delete
                         </DropdownMenuItem>

@@ -26,7 +26,7 @@ import { ArrowLeft } from "lucide-react";
 const TenantDetails = ({
     params
 } : {
-    params : { id : string}
+    params : { detail_id : string}
 }) => {
     const dispatch = useDispatch()
     const router = useRouter()
@@ -39,7 +39,7 @@ const TenantDetails = ({
 
     const onDelete = async () => {
         dispatch(removeTenant(tenant))
-        router.push(`/tenants`)
+        router.push(`/tenants/all_tenants`)
         toast.success(`Tenant Deleted`)
     }
 
@@ -48,7 +48,7 @@ const TenantDetails = ({
 
 
     const tenant = tenants.filter((item : TenantProps)  =>{
-        if (item._id === params.id) {
+        if (item._id === params.detail_id) {
             return item
         } 
     })[0]
@@ -196,7 +196,7 @@ const TenantDetails = ({
                     <h1 className="text-2xl font-bold">Tenant Profile</h1> 
                     <div className="flex justify-end gap-2 mt-4">
                         <Button onClick={()=>setOpen(true)} className="border border-orange-500" variant='outline'>Delete Tenant</Button>
-                        <Button onClick={()=>router.push(`/tenants/${params.id}`)} >Edit Info</Button>
+                        <Button onClick={()=>router.push(`/tenants/${params.detail_id}`)} >Edit Info</Button>
                     </div>
                 </div>
                 <Separator />

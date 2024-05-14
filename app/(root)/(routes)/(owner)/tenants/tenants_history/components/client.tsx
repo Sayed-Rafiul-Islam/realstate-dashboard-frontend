@@ -46,7 +46,7 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
             
         }
         
-    },[property,unit])
+    },[property,unit,data])
 
     const showAll = () => {
         setProperty('')

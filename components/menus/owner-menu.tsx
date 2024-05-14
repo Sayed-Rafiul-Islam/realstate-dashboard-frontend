@@ -28,7 +28,7 @@ const OwnerMenu = () => {
                     id : 21,
                     label : "All Properties",
                     g_href : "/properties/all_properties",
-                    g_href1 : `/properties/all_properties/${params.detail_id}`,
+                    g_href1 : ``,
                     g_active : false,
                 },
                 {
@@ -38,28 +38,35 @@ const OwnerMenu = () => {
                     g_href1 : ``,
                     g_active : false,
                 },
-                // {
-                //     id : 24,
-                //     label : "Lease Property",
-                //     href : "/properties/lease_property"
-                // }
             ],
             label : "Properties",
             href : "/properties",
             href1 : '',
             drop : false,
             icon : <LandPlot size={20} />,
-            active : pathname === '/properties/all_properties' ||
-            pathname === '/properties/units'
-            // pathname === '/properties/own_property' ||
-            // pathname === '/properties/lease_property',
+            active : false
         },
         {
             id : 3,
-            group : [],
+            group : [
+                {
+                    id : 31,
+                    label : "All Tenants",
+                    g_href : "/tenants/all_tenants",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 32,
+                    label : "Tenants History",
+                    g_href : "/tenants/tenants_history",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+            ],
             label : "Tenants",
             href : "/tenants",
-            href1 : `/tenants/details/${params.id}`,
+            href1 : ``,
             drop : false,
             icon : <User size={20} />,
             active : false,
@@ -350,8 +357,8 @@ const OwnerMenu = () => {
              else {
                 item.active = false
                 item.group.map((g_item)=>{
-                    console.log(g_item.g_href1)
-                    if (pathname === g_item.g_href || pathname === g_item.g_href1 ||  pathname === g_item.g_href + '/' + params.id) {
+
+                    if (pathname === g_item.g_href || pathname === g_item.g_href + '/' + params.detail_id ||  pathname === g_item.g_href + '/' + params.id) {
                         g_item.g_active = true
                     } else {
                         g_item.g_active = false
@@ -363,6 +370,8 @@ const OwnerMenu = () => {
         setMenu(temp)
 
     },[pathname])
+
+    console.log(menu[2].group[0].g_active)
 
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
