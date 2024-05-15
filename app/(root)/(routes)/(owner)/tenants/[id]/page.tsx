@@ -2,11 +2,9 @@
 
 import { useSelector } from "react-redux";
 import { TenantProps, TenantsReducerProps } from "@/types";
-import Pathname from "@/components/pathname";
-import { Separator } from "@/components/ui/separator";
 import { TenantForm } from "./components/tenant-form";
 
-const PackagePage = ({
+const TenantSettingsPage = ({
     params
 } : {
     params : { id : string}
@@ -24,4 +22,4 @@ const PackagePage = ({
      );
 }
  
-export default PackagePage;
+export default TenantSettingsPage;

@@ -17,6 +17,7 @@ import { getInvoices } from '@/redux/invoices/invoicesSlice'
 import { getExpenses } from '@/redux/expenses/expensesSlice'
 import { getDocuments } from '@/redux/documents/documentsSlice'
 import { getRents } from '@/redux/rents/rentsSlice'
+import { getMaintainers } from '@/redux/maintainers/maintainersSlice'
 
 
 
@@ -604,6 +605,72 @@ const loadRents = async () => {
     dispatch(getRents(rents))
 }
 
+const loadMaintainers = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const maintainers = [
+        {
+            _id : '1',
+            image : tenant_1,
+            name : 'Rex',
+            phone : '01788544463',
+            email : "rex@gmail.com",
+            type : "Electrician",
+            pendingRequest : 12,
+            status : 'Available',
+            propertyId : '1',
+            unitId : '1',
+            address : "1901 Thornridge Cir. Shiloh",
+            city : "Toronto West",
+            state : "Uttar Pradesh",
+            country : "Canada",
+            postalCode : "S0D 3C0",
+            age : 25,
+            NID : 9978856723,
+        },
+        {
+            _id : '2',
+            image : tenant_1,
+            name : 'Max',
+            phone : '01788544463',
+            email : "max@gmail.com",
+            type : "Plumber",
+            pendingRequest : 4,
+            status : "Unavailable",
+            propertyId : '1',
+            unitId : '2',
+            address : "1901 Thornridge Cir. Shiloh",
+            city : "Toronto West",
+            state : "Uttar Pradesh",
+            country : "Canada",
+            postalCode : "S0D 3C0",
+            age : 25,
+            NID : 9978856722,
+        },
+        {
+            _id : '3',
+            image : tenant_1,
+            name : 'Alex',
+            phone : '01788544463',
+            email : "alex@gmail.com",
+            type : "Electrician",
+            pendingRequest : 2,
+            status : "Pending",
+            propertyId : '1',
+            unitId : '3',
+            address : "1901 Thornridge Cir. Shiloh",
+            city : "Toronto West",
+            state : "Uttar Pradesh",
+            country : "Canada",
+            postalCode : "S0D 3C0",
+            age : 25,
+            NID : 9978856724,
+        }
+    ]
+    dispatch(getMaintainers(maintainers))
+}
+
 export default async function LoadData() {
 
 
@@ -621,5 +688,6 @@ export default async function LoadData() {
     loadExpenses()
     loadDocuments()
     loadRents()
+    loadMaintainers()
       
 }

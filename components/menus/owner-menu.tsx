@@ -82,6 +82,31 @@ const OwnerMenu = () => {
             active : false,
         },
         {
+            id : 9,
+            group : [
+                {
+                    id : 91,
+                    label : "All Maintainers",
+                    g_href : "/maintainers/all_maintainers",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                // {
+                //     id : 92,
+                //     label : "Maintainance Request",
+                //     g_href : "/maintainancerequest",
+                //     g_href1 : ``,
+                //     g_active : false,
+                // }
+            ],
+            label : "Maintainers",
+            href : "/maintainers",
+            href1 : '',
+            drop : false,
+            icon : <Wrench size={20} />,
+            active : false,
+        },
+        {
             id : 4,
             group : [
                 {
@@ -170,32 +195,7 @@ const OwnerMenu = () => {
             pathname === '/alllist' ||
             pathname === '/contactlist',
         },
-        {
-            id : 9,
-            group : [
-                {
-                    id : 91,
-                    label : "Maintainers",
-                    g_href : "/maintainers",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 92,
-                    label : "Maintainance Request",
-                    g_href : "/maintainancerequest",
-                    g_href1 : ``,
-                    g_active : false,
-                }
-            ],
-            label : "Maintains",
-            href : "",
-            href1 : '',
-            drop : false,
-            icon : <Wrench size={20} />,
-            active : pathname === '/Maintainers' ||
-            pathname === '/maintainancerequest',
-        },
+        
         {
             id : 10,
             group : [],

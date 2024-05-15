@@ -229,3 +229,27 @@ export interface RentProps {
 export interface RentsReducerProps {
   rentsReducer :  { rents : RentProps[]} 
 }
+
+export interface MaintainerProps {
+  _id : string,
+  image : any,
+  name : string,
+  phone : string,
+  email : string,
+  type : string,
+  pendingRequest : number,
+  status : string,
+  propertyId : string,
+  unitId : string,
+  address : string,
+  city : string,
+  state : string,
+  country : string,
+  postalCode : string,
+  age : number,
+  NID : number,
+}
+
+export interface MaintainersReducerProps {
+  maintainersReducer :  { maintainers : MaintainerProps[]} 
+}

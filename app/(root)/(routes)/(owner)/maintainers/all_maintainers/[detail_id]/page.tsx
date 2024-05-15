@@ -1,7 +1,7 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, TenantProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
-import { useDispatch, useSelector } from "react-redux";
+import { MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -13,17 +13,17 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-import './tenant-details.css'
+import './maintainer-details.css'
 import { format } from "date-fns";
-import { removeTenant } from "@/redux/tenants/tenantsSlice";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
 import { ArrowLeft } from "lucide-react";
+import { removeMaintainer } from "@/redux/maintainers/maintainersSlice";
 
-const TenantDetails = ({
+const MaintainerDetails = ({
     params
 } : {
     params : { detail_id : string}
@@ -33,34 +33,34 @@ const TenantDetails = ({
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
+    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
     const onDelete = async () => {
-        dispatch(removeTenant(tenant))
-        router.push(`/tenants/all_tenants`)
-        toast.success(`Tenant Deleted`)
+        dispatch(removeMaintainer(maintainer))
+        router.push(`/maintainers/all_maintainers`)
+        toast.success(`Maintainer Deleted`)
     }
 
 
 
 
 
-    const tenant = tenants.filter((item : TenantProps)  =>{
+    const maintainer = maintainers.filter((item : MaintainerProps)  =>{
         if (item._id === params.detail_id) {
             return item
         } 
     })[0]
 
     const property = properties.filter((item : PropertyProps)  =>{
-        if (item._id === tenant?.propertyId) {
+        if (item._id === maintainer?.propertyId) {
             return item
         } 
     })[0]
 
     const unit = units.filter((item : UnitProps)  =>{
-        if (item._id === tenant?.unitId) {
+        if (item._id === maintainer?.unitId) {
             return item
         } 
     })[0]
@@ -164,7 +164,7 @@ const TenantDetails = ({
     return ( 
         <>
             {
-                tenant && 
+                maintainer && 
                 <div>
                 <AlertModal
                     isOpen={open} 
@@ -181,22 +181,22 @@ const TenantDetails = ({
                             </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                                <Link prefetch href='/tenants'>Tenants</Link>
+                                <Link prefetch href='/maintainers/all_maintainers'>Maintainers</Link>
                             </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
                                 <BreadcrumbPage>
-                                    Tenant Profile
+                                    Maintainer Profile
                                 </BreadcrumbPage>
                             </BreadcrumbItem>   
                         </BreadcrumbList>
                     </Breadcrumb>
                 </div>
-                <div className="tenant-heading my-4">
-                    <h1 className="text-2xl font-bold">Tenant Profile</h1> 
+                <div className="maintainer-heading my-4">
+                    <h1 className="text-2xl font-bold">Maintainer Profile</h1> 
                     <div className="flex justify-end gap-2 mt-4">
-                        <Button onClick={()=>setOpen(true)} className="border border-orange-500" variant='outline'>Delete Tenant</Button>
-                        <Button onClick={()=>router.push(`/tenants/${params.detail_id}`)} >Edit Info</Button>
+                        <Button onClick={()=>setOpen(true)} className="border border-orange-500" variant='outline'>Delete Maintainer</Button>
+                        <Button onClick={()=>router.push(`/maintainers/${params.detail_id}`)} >Edit Info</Button>
                     </div>
                 </div>
                 <Separator />
@@ -204,35 +204,31 @@ const TenantDetails = ({
     
                 <div className="details w-full mt-5 gap-4">
                     <div className="w-1/2 rounded-lg all-shadow">
-                        <div className="tenant-image-wrapper">
-                            <Image className="rounded-xl" fill src={tenant.image}  alt="picture" />
+                        <div className="maintainer-image-wrapper">
+                            <Image className="rounded-xl" fill src={maintainer.image}  alt="picture" />
                         </div>
                         <div className="pb-5">
-                            <h2 className="text-center text-2xl font-semibold my-5">{tenant.name}</h2>
+                            <h2 className="text-center text-2xl font-semibold my-5">{maintainer.name}</h2>
                             <div className="px-5 flex flex-col gap-2">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Age</h5>
-                                    <h5>{tenant.age}</h5>
+                                    <h5>{maintainer.age}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Contact</h5>
-                                    <h5>{tenant.phone}</h5>
+                                    <h5>{maintainer.phone}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Email</h5>
-                                    <h5>{tenant.email}</h5>
+                                    <h5>{maintainer.email}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
-                                    <h5 className="font-semibold w-1/2">Family Members</h5>
-                                    <h5>{tenant.familyMember}</h5>
-                                </div>
-                                <div className="text-sm flex gap-2 w-full items-center">
-                                    <h5 className="font-semibold w-1/2">Occupation</h5>
-                                    <h5>{tenant.occupation}</h5>
+                                    <h5 className="font-semibold w-1/2">Type</h5>
+                                    <h5>{maintainer.type}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">NID Number</h5>
-                                    <h5>{tenant.NID}</h5>
+                                    <h5>{maintainer.NID}</h5>
                                 </div>
                             </div>
                         </div>
@@ -243,28 +239,28 @@ const TenantDetails = ({
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    <h5>{tenant.address}</h5>
+                                    <h5>{maintainer.address}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">City</h5>
-                                    <h5>{tenant.city}</h5>
+                                    <h5>{maintainer.city}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">State</h5>
-                                    <h5>{tenant.state}</h5>
+                                    <h5>{maintainer.state}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Country</h5>
-                                    <h5>{tenant.country}</h5>
+                                    <h5>{maintainer.country}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Postal Code</h5>
-                                    <h5>{tenant.postalCode}</h5>
+                                    <h5>{maintainer.postalCode}</h5>
                                 </div>
                             </div>
                         </div>
                         <div className="rounded-lg all-shadow py-6">
-                            <h2 className="text-2xl font-semibold px-4 pb-6">House Details</h2>
+                            <h2 className="text-2xl font-semibold px-4 pb-6">Assigned House</h2>
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Name</h5>
@@ -282,10 +278,6 @@ const TenantDetails = ({
                                     <h5 className="w-1/2">General Rent</h5>
                                     <h5>{unit ? '$ ' + unit.rent : "N/A"}</h5>
                                 </div>
-                                <div className="text-sm flex gap-2 w-full items-center">
-                                    <h5 className="w-1/2">Payment Due Date</h5>
-                                    <h5>{format(tenant.dueDate,"MMMM do, yyyy")}</h5>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -293,19 +285,20 @@ const TenantDetails = ({
 
                 {/* invoices */}
 
-                <div className="mt-10 flex gap-5 table-chart">
+                <div className="mt-10 flex lg:flex-row flex-col gap-5">
                     
-                   <div className="chart rounded-lg all-shadow py-6">
-                   <h2 className="text-2xl font-semibold text-center mb-4">Total Paid</h2> 
-                        {/* chart */}
+                   <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-5/12 md:w-full">
+                   <div className="mb-4 flex justify-between items-center">
+                        <h2 className="text-lg font-semibold">Maintainance Requests</h2>
+                        <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
+                    </div>
+                   <InvoicesClient data={formattedInvoices} />
 
-                        <Doughnut 
-                            data={chartData}
-                         />
+                     
                    </div>
-                    <div className="tenant-table rounded-lg all-shadow py-4 md:px-8 px-4">
+                    <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-7/12 md:w-full">
                         <div className="mb-4 flex justify-between items-center">
-                            <h2 className="text-2xl font-semibold">Invoices</h2>
+                            <h2 className="text-lg font-semibold">Invoices</h2>
                             <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
                         </div>
                         <InvoicesClient data={formattedInvoices} />
@@ -318,4 +311,4 @@ const TenantDetails = ({
      );
 }
  
-export default TenantDetails;
+export default MaintainerDetails;
