@@ -13,7 +13,6 @@ import { ArrowLeft, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { OrderProps } from "@/types";
 import { DataTable } from "../ui/data-table";
-import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/components/column";
 import Image from "next/image";
 import { format } from "date-fns";
 import { InvoiceColumn } from "@/app/(root)/(routes)/(owner)/invoices/all_invoices/components/column";
