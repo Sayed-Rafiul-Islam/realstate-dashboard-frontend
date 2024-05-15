@@ -253,3 +253,19 @@ export interface MaintainerProps {
 export interface MaintainersReducerProps {
   maintainersReducer :  { maintainers : MaintainerProps[]} 
 }
+
+export interface MaintainanceRequestProps {
+  _id : string,
+  date : string,
+  requestNo : string,
+  type : string,
+  propertyId : string,
+  unitId : string,
+  issue : string,
+  status : string,
+  details : string
+}
+
+export interface MaintainanceRequestsReducerProps {
+  maintainanceReducer :  { maintainanceRequests : MaintainanceRequestProps[]} 
+}

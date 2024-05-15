@@ -18,6 +18,7 @@ import { getExpenses } from '@/redux/expenses/expensesSlice'
 import { getDocuments } from '@/redux/documents/documentsSlice'
 import { getRents } from '@/redux/rents/rentsSlice'
 import { getMaintainers } from '@/redux/maintainers/maintainersSlice'
+import { getMaintainanceRequests } from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 
 
 
@@ -671,6 +672,48 @@ const loadMaintainers = async () => {
     dispatch(getMaintainers(maintainers))
 }
 
+const loadMaintainanceRequests = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const requests = [
+        {
+            _id : '1',
+            date : '2024-05-02T17:34:59.911+00:00',
+            requestNo : 'CW10086675',
+            type : "Electrical Problem",
+            propertyId : '1',
+            unitId : '1',
+            issue : "Smoke Detector Battery Replacement",
+            status : "In Progress",
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+        },
+        {
+            _id : '2',
+            date : '2024-05-02T17:34:59.911+00:00',
+            requestNo : 'CW10086674',
+            type : "Plumbing Problem",
+            propertyId : '1',
+            unitId : '2',
+            issue : "Smoke Detector Battery Replacement",
+            status : "Complete",
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+        },
+        {
+            _id : '3',
+            date : '2024-05-02T17:34:59.911+00:00',
+            requestNo : 'CW10086670',
+            type : "Pest Problem",
+            propertyId : '1',
+            unitId : '3',
+            issue : "Smoke Detector Battery Replacement",
+            status : "Incomplete",
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+        }
+    ]
+    dispatch(getMaintainanceRequests(requests))
+}
+
 export default async function LoadData() {
 
 
@@ -689,5 +732,6 @@ export default async function LoadData() {
     loadDocuments()
     loadRents()
     loadMaintainers()
+    loadMaintainanceRequests()
       
 }

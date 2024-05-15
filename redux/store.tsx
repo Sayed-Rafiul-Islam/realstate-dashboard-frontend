@@ -14,6 +14,7 @@ import documentsReducer from '@/redux/documents/documentsSlice'
 import formsReducer from '@/redux/forms/formsSlice'
 import rentsReducer from '@/redux/rents/rentsSlice'
 import maintainersReducer from '@/redux/maintainers/maintainersSlice'
+import maintainanceReducer from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 
 
 export const store = configureStore({
@@ -32,7 +33,8 @@ export const store = configureStore({
     documentsReducer,
     formsReducer,
     rentsReducer,
-    maintainersReducer
+    maintainersReducer,
+    maintainanceReducer
   }
 })
 
