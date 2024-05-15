@@ -15,7 +15,7 @@ export default function Home() {
   const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
 
   return (
-   <div className="px-5 md:px-0">
+   <div className="px-5 mt-10 md:px-0">
       <div>
         <h1 className="text-4xl font-bold">Dashboard</h1>
         <h4 className="text-gray-500 text-sm">Welcome back, <span className="text-primary font-bold">{user_name}</span></h4>  

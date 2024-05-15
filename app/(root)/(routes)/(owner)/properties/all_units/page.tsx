@@ -31,13 +31,12 @@ const AllUnitsPage = () => {
             }
         })
 
-        console.log(formattedUnits)
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
+                <Pathname />
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Units</h1>
-                    <Pathname />
                 </div>
                 <Separator />              
                 <UnitsClient data={formattedUnits} />

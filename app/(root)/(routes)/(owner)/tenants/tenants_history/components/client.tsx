@@ -18,6 +18,8 @@ import {
 } from '@/components/ui/select'
 import { Button } from "@/components/ui/button"
 
+import './tenant-history.css'
+
 export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => { 
 
     
@@ -71,12 +73,13 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
 
     return (
         <>
-                <div className="flex justify-end gap-2">
+                <div className="select-filters-wrapper">
+                    <div>
                     <Select
                         onValueChange={e=> setProperty(e)}
                         value={property}                              
                     >
-                        <SelectTrigger className="w-1/5">
+                        <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Property"
                             />
@@ -95,7 +98,7 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                         onValueChange={e=> setUnit(e)}
                         value={unit}                              
                     >
-                        <SelectTrigger className="w-1/5">
+                        <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Unit"
                             />
@@ -111,6 +114,7 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                                 ))}
                             </SelectContent>
                     </Select>
+                    </div>
                     <Button onClick={showAll}>Show All</Button>
                 </div>  
             <DataTable pagination={true} searchKey="name" columns={columns} data={tenants} />

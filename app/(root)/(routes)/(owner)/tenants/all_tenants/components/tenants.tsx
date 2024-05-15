@@ -58,47 +58,49 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
 
     return ( 
         <>
-            <div className="flex justify-end gap-2">
-                <Select
-                    onValueChange={e=> setProperty(e)}
-                    value={property}                              
-                >
-                    <SelectTrigger className="w-1/5">
-                        <SelectValue 
-                            placeholder="Select Property"
-                        />
-                    </SelectTrigger>
-                        <SelectContent  >
-                            {properties.map(({_id, name} : PropertyProps,index)=>(
-                                <div >
-                                    <SelectItem key={index} value={_id} >
-                                        {name}
-                                    </SelectItem>
-                                </div>
-                            ))}
-                        </SelectContent>
-                </Select>
-                <Select
-                    onValueChange={e=> setUnit(e)}
-                    value={unit}                              
-                >
-                    <SelectTrigger className="w-1/5">
-                        <SelectValue 
-                            placeholder="Select Unit"
-                        />
-                    </SelectTrigger>
-                        <SelectContent  >
-                            { thisUnits &&
-                            thisUnits.map(({_id, name} : UnitProps,index)=>(
-                                <div >
-                                    <SelectItem key={index} value={_id} >
-                                        {name}
-                                    </SelectItem>
-                                </div>
-                            ))}
-                        </SelectContent>
-                </Select>
-                <Button onClick={showAll}>Show All</Button>
+            <div className="select-filters-wrapper">
+                <div>
+                    <Select
+                        onValueChange={e=> setProperty(e)}
+                        value={property}                              
+                    >
+                        <SelectTrigger className="select-filters">
+                            <SelectValue 
+                                placeholder="Select Property"
+                            />
+                        </SelectTrigger>
+                            <SelectContent  >
+                                {properties.map(({_id, name} : PropertyProps,index)=>(
+                                    <div >
+                                        <SelectItem key={index} value={_id} >
+                                            {name}
+                                        </SelectItem>
+                                    </div>
+                                ))}
+                            </SelectContent>
+                    </Select>
+                    <Select
+                        onValueChange={e=> setUnit(e)}
+                        value={unit}                              
+                    >
+                        <SelectTrigger className="select-filters">
+                            <SelectValue 
+                                placeholder="Select Unit"
+                            />
+                        </SelectTrigger>
+                            <SelectContent  >
+                                { thisUnits &&
+                                thisUnits.map(({_id, name} : UnitProps,index)=>(
+                                    <div >
+                                        <SelectItem key={index} value={_id} >
+                                            {name}
+                                        </SelectItem>
+                                    </div>
+                                ))}
+                            </SelectContent>
+                    </Select>
+                </div>
+                <Button className='' onClick={showAll}>Show All</Button>
             </div>  
                             
             <div className="cards">

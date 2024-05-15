@@ -64,30 +64,10 @@ const AllTenants = () => {
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
-                <div className="flex md:flex-row flex-col-reverse gap-2 justify-end md:items-center">
-
-                    {/* <Breadcrumb>
-                        <BreadcrumbList>
-                            <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                                <Link prefetch href='/'>Dashboard</Link>
-                            </BreadcrumbItem>
-
-                            <BreadcrumbSeparator />
-
-                            <BreadcrumbItem>
-                                <BreadcrumbPage>
-                                    Tenants
-                                </BreadcrumbPage>
-                            </BreadcrumbItem>   
-                        </BreadcrumbList>
-                    </Breadcrumb> */}
-
-                    <Pathname />
-                </div>
-
-                <div className="flex justify-between items-center"> 
+                <Pathname />
+                <div className="flex justify-between md:flex-row flex-col gap-2"> 
                     <h1 className="font-bold text-xl">All Tenants</h1>
-                    <Button onClick={()=>router.push('/tenants/add')} className="">Add New Tenant</Button>
+                    <Button className="lg:w-1/4 md:w-1/5 w-2/3" onClick={()=>router.push('/tenants/add')}>Add New Tenant</Button>
                 </div>
                 <Separator />
 

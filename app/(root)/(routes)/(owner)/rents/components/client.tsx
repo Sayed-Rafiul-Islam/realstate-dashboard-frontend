@@ -16,12 +16,14 @@ import {
 import { useEffect, useState } from "react"
 
 
-import { Toaster } from "react-hot-toast"
+
 import { RentColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
 import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
 import { Button } from '@/components/ui/button'
+
+import '../rents.css'
 
 export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
 
@@ -74,12 +76,13 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
     }
     return (
         <>        
-            <div className="flex justify-end gap-2 mb-5">
+            <div className="select-filters-wrapper mb-5">
+                <div>
                 <Select
                     onValueChange={e=> setProperty(e)}
                     value={property}                              
                 >
-                    <SelectTrigger className="w-1/5">
+                    <SelectTrigger className="select-filters">
                         <SelectValue 
                             placeholder="Select Property"
                         />
@@ -98,7 +101,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                     onValueChange={e=> setUnit(e)}
                     value={unit}                              
                 >
-                    <SelectTrigger className="w-1/5">
+                    <SelectTrigger className="select-filters">
                         <SelectValue 
                             placeholder="Select Unit"
                         />
@@ -114,6 +117,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                             ))}
                         </SelectContent>
                 </Select>
+                </div>
                 <Button onClick={showAll}>Show All</Button>
             </div>  
             <DataTable pagination={true} searchKey="invoiceNo" columns={columns} data={rents} />

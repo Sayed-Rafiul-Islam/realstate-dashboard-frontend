@@ -59,9 +59,11 @@ const AllTenants = () => {
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
+                <div className="flex justify-end">
+                    <Pathname />
+                </div>
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">Tenants History</h1>
-                    <Pathname />
                 </div>
                 <Separator />
                 <TenantsClient data={formattedtenants} />
