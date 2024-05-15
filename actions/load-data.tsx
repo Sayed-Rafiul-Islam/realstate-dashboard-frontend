@@ -16,6 +16,7 @@ import { getTenants } from '@/redux/tenants/tenantsSlice'
 import { getInvoices } from '@/redux/invoices/invoicesSlice'
 import { getExpenses } from '@/redux/expenses/expensesSlice'
 import { getDocuments } from '@/redux/documents/documentsSlice'
+import { getRents } from '@/redux/rents/rentsSlice'
 
 
 
@@ -549,6 +550,60 @@ const loadDocuments = async () => {
     dispatch(getDocuments(documents))
 }
 
+const loadRents = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const rents = [
+        {
+            _id : '1',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 'CW10086615',
+            propertyId : '1',
+            unitId : '3',
+            month : 'April',
+            amount : 20000,
+            status : 'Paid',
+            description : 'alaba alaba alaba',
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Cash',
+            transactionId : '00000',
+            payment : 20000
+        },
+        {
+            _id : '2',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 'CW10086675',
+            propertyId : '1',
+            unitId : '2',
+            month : 'April',
+            amount : 15000,
+            status : 'Paid',
+            description : 'alaba alaba alaba',
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Cash',
+            transactionId : '00000',
+            payment : 15000
+        },
+        {
+            _id : '3',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            invoiceNo : 'CW10086680',
+            propertyId : '1',
+            unitId : '1',
+            month : 'April',
+            amount : 22000,
+            status : 'Paid',
+            description : 'alaba alaba alaba',
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : 'Cash',
+            transactionId : '00000',
+            payment : 22000
+        }
+    ]
+    dispatch(getRents(rents))
+}
+
 export default async function LoadData() {
 
 
@@ -565,5 +620,6 @@ export default async function LoadData() {
     loadInvoices()
     loadExpenses()
     loadDocuments()
+    loadRents()
       
 }

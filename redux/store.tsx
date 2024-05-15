@@ -12,6 +12,7 @@ import invoicesReducer from '@/redux/invoices/invoicesSlice'
 import expensesReducer from '@/redux/expenses/expensesSlice'
 import documentsReducer from '@/redux/documents/documentsSlice'
 import formsReducer from '@/redux/forms/formsSlice'
+import rentsReducer from '@/redux/rents/rentsSlice'
 
 
 export const store = configureStore({
@@ -28,7 +29,8 @@ export const store = configureStore({
     invoicesReducer,
     expensesReducer,
     documentsReducer,
-    formsReducer
+    formsReducer,
+    rentsReducer
   }
 })
 

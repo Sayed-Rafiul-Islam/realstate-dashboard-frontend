@@ -2,48 +2,6 @@ export interface UsersReducerProps {
     usersReducer : {user : {user_name: string, role: string}}
   }
 
-export interface OrderReducersProps {
-    ordersReducer :  { orders : OrderProps[]} 
-  }
-
-export interface PackagesReducersProps {
-    packagesReducer :  { packages : PackageProps[]} 
-  }
-export interface OwnerPackagesReducersProps {
-    ownerPackagesReducer :  { ownerPackages : OwnerPackageProps[]} 
-  }
-export interface MessagesReducerProps {
-    messagesReducer :  { messages : MessageProps[]} 
-  }
-export interface OwnersReducerProps {
-    ownersReducer :  { owners : OwnerProps[]} 
-  }
-
-export interface PropertiesReducerProps {
-    propertiesReducer :  { properties : PropertyProps[]} 
-  }
-
-export interface UnitsReducerProps {
-    unitsReducer :  { units : UnitProps[]} 
-  }
-
-export interface TenantsReducerProps {
-    tenantsReducer :  { tenants : TenantProps[]} 
-  }
-
-export interface InvoicesReducerProps {
-    invoicesReducer :  { invoices : InvoiceProps[]} 
-  }
-
-export interface ExpensesReducerProps {
-    expensesReducer :  { expenses : ExpenseProps[]} 
-  }
-
-export interface DocumentsReducerProps {
-    documentsReducer :  { documents : DocumentProps[]} 
-  }
-
-
 export interface SummryItemProps {
     id : number,
     subtitle : string,
@@ -58,6 +16,8 @@ export interface TenantSummryItemProps {
     icon : any
 }
 
+// -------------------------------------------------------------
+
 export interface PackageProps {
     _id : string
     label : string,
@@ -67,6 +27,10 @@ export interface PackageProps {
     maxUnit : number,
     status : boolean,
     trial : boolean
+}
+
+export interface PackagesReducersProps {
+  packagesReducer :  { packages : PackageProps[]} 
 }
 
 export interface OwnerPackageProps {
@@ -81,6 +45,11 @@ export interface OwnerPackageProps {
   status : boolean
 }
 
+
+export interface OwnerPackagesReducersProps {
+  ownerPackagesReducer :  { ownerPackages : OwnerPackageProps[]} 
+}
+
 export interface OrderProps {
     _id : string,
     name : string,
@@ -92,6 +61,10 @@ export interface OrderProps {
     transactionId : string
 }
 
+export interface OrderReducersProps {
+  ordersReducer :  { orders : OrderProps[]} 
+}
+
 export interface MessageProps {
     _id : string,
     name : string,
@@ -101,12 +74,20 @@ export interface MessageProps {
     status : boolean,
 }
 
+export interface MessagesReducerProps {
+  messagesReducer :  { messages : MessageProps[]} 
+}
+
 export interface OwnerProps {
     _id : string,
     name : string,
     email : string,
     contactNo : string,
     status : boolean,
+}
+
+export interface OwnersReducerProps {
+  ownersReducer :  { owners : OwnerProps[]} 
 }
 
 export interface PropertyProps {
@@ -129,6 +110,10 @@ export interface PropertyProps {
     postCode : string
 }
 
+export interface PropertiesReducerProps {
+  propertiesReducer :  { properties : PropertyProps[]} 
+}
+
 export interface UnitProps {
   _id : string,
   propertyId : string,
@@ -142,6 +127,10 @@ export interface UnitProps {
   washrooms : number,
   kitchen : number,
   rent :number,
+}
+
+export interface UnitsReducerProps {
+  unitsReducer :  { units : UnitProps[]} 
 }
 
 export interface TenantProps {
@@ -167,6 +156,10 @@ export interface TenantProps {
   status : boolean
 }
 
+export interface TenantsReducerProps {
+  tenantsReducer :  { tenants : TenantProps[]} 
+}
+
 export interface InvoiceProps {
   _id : string,
   invoiceNo : string,
@@ -185,6 +178,11 @@ export interface InvoiceProps {
   payment ?: number
 }
 
+
+export interface InvoicesReducerProps {
+  invoicesReducer :  { invoices : InvoiceProps[]} 
+}
+
 export interface ExpenseProps {
   _id : string,
   name : string,
@@ -195,6 +193,10 @@ export interface ExpenseProps {
   description : string
 }
 
+export interface ExpensesReducerProps {
+  expensesReducer :  { expenses : ExpenseProps[]} 
+}
+
 export interface DocumentProps {
   _id : string,
   type : string,
@@ -202,4 +204,28 @@ export interface DocumentProps {
   docFront : string,
   docBack : string,
   status : string
+}
+
+export interface DocumentsReducerProps {
+  documentsReducer :  { documents : DocumentProps[]} 
+}
+
+export interface RentProps {
+  _id : string,
+  dueDate : string,
+  invoiceNo : string,
+  propertyId : string,
+  unitId : string,
+  month : string,
+  amount : number,
+  status : string,
+  description : string,
+  dateOfPayment : string,
+  gateway : string,
+  transactionId : string,
+  payment : number
+}
+
+export interface RentsReducerProps {
+  rentsReducer :  { rents : RentProps[]} 
 }

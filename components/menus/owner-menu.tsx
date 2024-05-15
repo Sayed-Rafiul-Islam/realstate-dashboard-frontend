@@ -19,7 +19,7 @@ const OwnerMenu = () => {
             href1 : '',
             drop : false,
             icon : <LayoutDashboard size={20} />,
-            active : pathname === '/',
+            active : false,
         },
         {
             id : 2,
@@ -69,6 +69,16 @@ const OwnerMenu = () => {
             href1 : ``,
             drop : false,
             icon : <User size={20} />,
+            active : false,
+        },
+        {
+            id : 1,
+            group : [],
+            label : "Rents",
+            href : "/rents",
+            href1 : '',
+            drop : false,
+            icon : <Receipt size={20} />,
             active : false,
         },
         {
