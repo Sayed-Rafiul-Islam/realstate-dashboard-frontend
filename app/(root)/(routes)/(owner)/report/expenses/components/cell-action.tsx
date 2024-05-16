@@ -11,10 +11,10 @@ import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { removeRent } from "@/redux/rents/rentsSlice"
-import { EarningColumn } from "./column"
+import { ExpenseColumn } from "./column"
 
 interface CellActionProps {
-    data : EarningColumn
+    data : ExpenseColumn
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
