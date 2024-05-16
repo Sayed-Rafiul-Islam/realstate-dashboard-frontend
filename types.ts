@@ -284,3 +284,15 @@ export interface EarningsProps {
 export interface EarningsReducerProps {
   earningsReducer :  { earnings : EarningsProps[]} 
 }
+
+export interface MonthlyRecordProps {
+  _id : string,
+  month_year : string,
+  income : number,
+  expense : number,
+  net : number
+}
+
+export interface MonthlyRecordsReducerProps {
+  monthlyRecordsReducer :  { monthlyRecords : MonthlyRecordProps[]} 
+}

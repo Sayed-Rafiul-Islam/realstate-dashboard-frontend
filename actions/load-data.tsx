@@ -20,6 +20,7 @@ import { getRents } from '@/redux/rents/rentsSlice'
 import { getMaintainers } from '@/redux/maintainers/maintainersSlice'
 import { getMaintainanceRequests } from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 import { getEarnings } from '@/redux/report/earningsSlice'
+import { getMonthlyRecords } from '@/redux/report/monthlyRecordsSlice'
 
 
 
@@ -754,6 +755,36 @@ const loadEarnings = async () => {
     dispatch(getEarnings(earnings))
 }
 
+const loadMonthlyRecords = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const monthly = [
+        {
+            _id : '1',
+            month_year : 'April 2024',
+            income : 80000,
+            expense : 2000,
+            net : 78000
+        },
+        {
+            _id : '2',
+            month_year : 'May 2024',
+            income : 80000,
+            expense : 82000,
+            net : -2000
+        },
+        {
+            _id : '3',
+            month_year : 'June 2024',
+            income : 80000,
+            expense : 3000,
+            net : 77000
+        }
+    ]
+    dispatch(getMonthlyRecords(monthly))
+}
+
 export default async function LoadData() {
 
 
@@ -774,5 +805,6 @@ export default async function LoadData() {
     loadMaintainers()
     loadMaintainanceRequests()
     loadEarnings()
+    loadMonthlyRecords()
       
 }

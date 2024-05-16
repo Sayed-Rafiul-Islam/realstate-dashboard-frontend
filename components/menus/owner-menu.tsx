@@ -177,7 +177,7 @@ const OwnerMenu = () => {
                 {
                     id : 123,
                     label : "Loss / Profit By Month",
-                    g_href : "/report/monthly",
+                    g_href : "/report/monthly_report",
                     g_href1 : ``,
                     g_active : false,
                 },
