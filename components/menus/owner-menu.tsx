@@ -150,11 +150,64 @@ const OwnerMenu = () => {
                     g_active : false,
                 },
             ],
-            label : "Billing Center",
+            label : "Invoices",
             href : "/invoices",
             href1 : '',
             drop : false,
             icon : <Receipt size={20} />,
+            active : false,
+        },
+        {
+            id : 12,
+            group : [
+                {
+                    id : 121,
+                    label : "Earnings",
+                    g_href : "/report/earnings",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 122,
+                    label : "Loss / Profit By Month",
+                    g_href : "/report/monthly",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 123,
+                    label : "Expenses",
+                    g_href : "/report/expenses",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 124,
+                    label : "Occupancy",
+                    g_href : "/report/occupancy",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 125,
+                    label : "Maintainance",
+                    g_href : "/report/mainntainance",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 126,
+                    label : "Tenant",
+                    g_href : "/report/tenant",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
+            label : "Report",
+            href : "/report",
+            href1 : '',
+            drop : false,
+            icon : <BarChart3 size={20} />,
             active : false,
         },
         {
@@ -242,64 +295,7 @@ const OwnerMenu = () => {
             icon : <Presentation size={20} />,
             active : pathname === '/notice'
         },
-        {
-            id : 12,
-            group : [
-                {
-                    id : 121,
-                    label : "Earning",
-                    g_href : "/earning",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 122,
-                    label : "Loss / Profit By Month",
-                    g_href : "/monthly",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 123,
-                    label : "Expenses",
-                    g_href : "/expenses",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 124,
-                    label : "Occupancy",
-                    g_href : "/occupancy",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 125,
-                    label : "Maintainance",
-                    g_href : "/mainntainance",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 126,
-                    label : "Tenant",
-                    g_href : "/tenant",
-                    g_href1 : ``,
-                    g_active : false,
-                }
-            ],
-            label : "Report",
-            href : "",
-            href1 : '',
-            drop : false,
-            icon : <BarChart3 size={20} />,
-            active : pathname === '/earning' ||
-            pathname === '/monthly' ||
-            pathname === '/expenses' ||
-            pathname === '/occupancy' ||
-            pathname === '/mainntainance' ||
-            pathname === '/tenant',
-        },
+ 
         {
             id : 13,
             group : [

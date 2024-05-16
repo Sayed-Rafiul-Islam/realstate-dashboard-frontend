@@ -19,6 +19,7 @@ import { getDocuments } from '@/redux/documents/documentsSlice'
 import { getRents } from '@/redux/rents/rentsSlice'
 import { getMaintainers } from '@/redux/maintainers/maintainersSlice'
 import { getMaintainanceRequests } from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
+import { getEarnings } from '@/redux/report/earningsSlice'
 
 
 
@@ -686,7 +687,8 @@ const loadMaintainanceRequests = async () => {
             unitId : '1',
             issue : "Smoke Detector Battery Replacement",
             status : "In Progress",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+            cost : 800
         },
         {
             _id : '2',
@@ -697,7 +699,8 @@ const loadMaintainanceRequests = async () => {
             unitId : '2',
             issue : "Smoke Detector Battery Replacement",
             status : "Complete",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+            cost : 1200
         },
         {
             _id : '3',
@@ -708,10 +711,47 @@ const loadMaintainanceRequests = async () => {
             unitId : '3',
             issue : "Smoke Detector Battery Replacement",
             status : "Incomplete",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis"
+            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+            cost : 600
         }
     ]
     dispatch(getMaintainanceRequests(requests))
+}
+
+const loadEarnings = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const earnings = [
+        {
+            _id : '1',
+            invoiceNo : 'CW1242000',
+            propertyId : '1',
+            unitId : '1',
+            date : '2024-05-02T17:34:59.911+00:00',
+            amount : 20000,
+            tax : 100,
+        },
+        {
+            _id : '2',
+            invoiceNo : 'CW1242001',
+            propertyId : '1',
+            unitId : '2',
+            date : '2024-06-02T17:34:59.911+00:00',
+            amount : 20000,
+            tax : 100,
+        },
+        {
+            _id : '3',
+            invoiceNo : 'CW1242002',
+            propertyId : '1',
+            unitId : '3',
+            date : '2024-04-02T17:34:59.911+00:00',
+            amount : 20000,
+            tax : 100,
+        }
+    ]
+    dispatch(getEarnings(earnings))
 }
 
 export default async function LoadData() {
@@ -733,5 +773,6 @@ export default async function LoadData() {
     loadRents()
     loadMaintainers()
     loadMaintainanceRequests()
+    loadEarnings()
       
 }

@@ -15,6 +15,7 @@ import formsReducer from '@/redux/forms/formsSlice'
 import rentsReducer from '@/redux/rents/rentsSlice'
 import maintainersReducer from '@/redux/maintainers/maintainersSlice'
 import maintainanceReducer from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
+import earningsReducer from '@/redux/report/earningsSlice'
 
 
 export const store = configureStore({
@@ -34,7 +35,8 @@ export const store = configureStore({
     formsReducer,
     rentsReducer,
     maintainersReducer,
-    maintainanceReducer
+    maintainanceReducer,
+    earningsReducer
   }
 })
 

@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -29,6 +30,7 @@ interface DataTableProps<TData, TValue> {
   searchKey ?: string | undefined,
   filters ?: string[] | undefined,
   pagination : boolean,
+  total ?: string | undefined
 }
 
 export function DataTable<TData, TValue>({
@@ -36,7 +38,9 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
   filters,
-  pagination
+  pagination,
+  total
+
 }: DataTableProps<TData, TValue>) {
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
@@ -65,9 +69,7 @@ export function DataTable<TData, TValue>({
                         <Input
                             placeholder="Search"
                             value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""}
-                            onChange={(event : any) =>
-                                table.getColumn(searchKey)?.setFilterValue(event.target.value)
-                            }
+                            onChange={(event : any) =>table.getColumn(searchKey)?.setFilterValue(event.target.value)}
                             className="max-w-sm"
                             />
                     </div>
@@ -138,6 +140,9 @@ export function DataTable<TData, TValue>({
                 )}
                 </TableBody>
             </Table>
+        </div>
+        <div>
+            {total && <h4 className="text-center mt-4 text-sm"><span className="font-semibold">Total Income: </span>{total}</h4>}
         </div>
         {
             pagination && 

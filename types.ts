@@ -263,9 +263,24 @@ export interface MaintainanceRequestProps {
   unitId : string,
   issue : string,
   status : string,
-  details : string
+  details : string,
+  cost : number,
 }
 
 export interface MaintainanceRequestsReducerProps {
   maintainanceReducer :  { maintainanceRequests : MaintainanceRequestProps[]} 
+}
+
+export interface EarningsProps {
+  _id : string,
+  invoiceNo : string,
+  propertyId : string,
+  unitId : string,
+  date : string,
+  amount : number,
+  tax : number,
+}
+
+export interface EarningsReducerProps {
+  earningsReducer :  { earnings : EarningsProps[]} 
 }

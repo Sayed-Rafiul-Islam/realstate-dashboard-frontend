@@ -88,11 +88,16 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
                             <div className="mt-4 border border-gray-200 px-2 py-4 rounded-md">
                                 <h6 className="text-xs">{data.details}</h6>
                             </div>
+
+                            <div className="flex gap-4 mt-4">
+                                <h5 className="text-xs font-semibold">Amount Type:</h5>
+                                <h6 className="text-xs">BDT {data.cost}</h6>
+                            </div>
                         </div>
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            {/* <Button onClick={()=>router.push(`/invoices/${data._id}`)}>Update</Button> */}
+                            <Button onClick={()=>router.push(`/maintainance_requests/${data._id}`)}>Update</Button>
                         </div>
                     </div>
                 </DialogContent>
