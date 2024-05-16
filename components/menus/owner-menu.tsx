@@ -188,20 +188,20 @@ const OwnerMenu = () => {
                     g_href1 : ``,
                     g_active : false,
                 },
-                {
-                    id : 125,
-                    label : "Maintainance",
-                    g_href : "/report/mainntainance",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 126,
-                    label : "Tenant",
-                    g_href : "/report/tenant",
-                    g_href1 : ``,
-                    g_active : false,
-                }
+                // {
+                //     id : 125,
+                //     label : "Maintainance",
+                //     g_href : "/report/mainntainance",
+                //     g_href1 : ``,
+                //     g_active : false,
+                // },
+                // {
+                //     id : 126,
+                //     label : "Tenant",
+                //     g_href : "/report/tenant",
+                //     g_href1 : ``,
+                //     g_active : false,
+                // }
             ],
             label : "Report",
             href : "/report",

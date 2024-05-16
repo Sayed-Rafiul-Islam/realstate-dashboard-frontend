@@ -57,7 +57,7 @@ const EarningsPage = () => {
                 <Pathname />
                 <div className="flex gap-2 justify-between items-center">
                     <h1 className="font-bold text-xl">Earning Report</h1>
-                    <Button onClick={()=>router.push('/invoices/add')}  className="flex gap-2"><Printer size={15} />Export</Button>
+                    <Button className="flex gap-2"><Printer size={15} />Export</Button>
                 </div>
                 <Separator />
                 <div>
