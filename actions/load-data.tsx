@@ -502,18 +502,18 @@ const loadExpenses = async () => {
             _id : '2',
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
-            unitId : '1',
+            unitId : '2',
             type : 'Cleaning & Maintenance',
-            amount : 3500,
+            amount : 1500,
             description : 'qwbdweuvfu'
         },
         {
             _id : '3',
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
-            unitId : '1',
+            unitId : '3',
             type : 'Cleaning & Maintenance',
-            amount : 3500,
+            amount : 2500,
             description : 'qwbdweuvfu'
         }
     ]

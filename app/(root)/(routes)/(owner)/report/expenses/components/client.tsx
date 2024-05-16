@@ -1,7 +1,7 @@
 "use client"
 
-interface EarningsClientProps {
-    data : EarningColumn[]
+interface ExpensesClientProps {
+    data : ExpenseColumn[]
 }
 
 import { 
@@ -17,41 +17,50 @@ import { useEffect, useState } from "react"
 
 
 
-import { EarningColumn, columns } from "./column"
+import { ExpenseColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
 import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
 import { Button } from '@/components/ui/button'
 
-import '../earnings.css'
+import '../expenses.css'
 import { DatePicker } from '@/components/ui/date-picker'
 
-export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
+export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
 
     
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
-    const [earnings, setEarnings] = useState(data)
+    const [expenses, setExpenses] = useState(data)
+    const [thisUnits, setThisUnits] = useState<UnitProps[]>([])
     const [property, setProperty] = useState('')
-    const [fromDate, setFromDate] = useState('')
-    const [toDate, setToDate] = useState('')
+    const [unit, setUnit] = useState('')
 
 
     useEffect(()=>{
-        if (property === '' || fromDate === '' || toDate === '') {
-            setEarnings(data)
+        if (property === '') {
+            setExpenses(data)
         } else {
-            const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
-            setEarnings(temp)
+            const tempUnits = units.filter((item) => property === item.propertyId )
+            setThisUnits(tempUnits)
+            if (unit === '') {
+                const temp = data.filter((item) => item.propertyId === property) 
+                setExpenses(temp)
+            } else {
+                const temp = data.filter((item) => item.propertyId === property && item.unitId === unit) 
+                setExpenses(temp)
+            }
+            
         }
         
-    },[property,data,fromDate,toDate])
+    },[property,unit,data])
 
     const showAll = () => {
         setProperty('')
-        setFromDate('')
-        setToDate('')
-        setEarnings(data)
+        setUnit('')
+        setThisUnits([])
+        setExpenses(data)
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -89,16 +98,31 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                                 ))}
                             </SelectContent>
                     </Select>
-                    <div className="select-filters flex">          
-                        <DatePicker label='From' onPickDate={(date)=> setFromDate(date)} />
-                    </div>
-                    <div className="select-filters flex">          
-                        <DatePicker label='To' onPickDate={(date)=> setToDate(date)} />
-                    </div>
+                    <Select
+                    onValueChange={e=> setUnit(e)}
+                    value={unit}                              
+                >
+                    <SelectTrigger className="select-filters">
+                        <SelectValue 
+                            placeholder="Select Unit"
+                        />
+                    </SelectTrigger>
+                        <SelectContent  >
+                            { thisUnits &&
+                            thisUnits.map(({_id, name} : UnitProps,index)=>(
+                                <div >
+                                    <SelectItem key={index} value={_id} >
+                                        {name}
+                                    </SelectItem>
+                                </div>
+                            ))}
+                        </SelectContent>
+                </Select>
+                   
                 </div>
                 <Button onClick={showAll}>Show All</Button>
             </div>  
-            <DataTable total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
+            <DataTable total={data[0].total} pagination={true} searchKey="invoiceNo" columns={columns} data={expenses} />
 
         </>
     )

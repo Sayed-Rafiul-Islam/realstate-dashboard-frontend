@@ -14,11 +14,13 @@ import {
 } from "@/components/ui/popover"
 
 interface DatePickerProps {
-    onPickDate : (date : string) => void
+    onPickDate : (date : string) => void,
+    label : string
 }
 
 export const DatePicker  : React.FC<DatePickerProps> = ({
-    onPickDate
+    onPickDate,
+    label
 }) => {
     const [date, setDate] = React.useState<Date>()
 
@@ -36,7 +38,7 @@ export const DatePicker  : React.FC<DatePickerProps> = ({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? format(date, "PPP") : <span>{label}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
