@@ -497,7 +497,8 @@ const loadExpenses = async () => {
             unitId : '1',
             type : 'Cleaning & Maintenance',
             amount : 3500,
-            description : 'qwbdweuvfu'
+            description : 'qwbdweuvfu',
+            date : '2024-11-02T17:34:59.911+00:00'
         },
         {
             _id : '2',
@@ -506,7 +507,8 @@ const loadExpenses = async () => {
             unitId : '2',
             type : 'Cleaning & Maintenance',
             amount : 1500,
-            description : 'qwbdweuvfu'
+            description : 'qwbdweuvfu',
+            date : '2024-04-02T17:34:59.911+00:00'
         },
         {
             _id : '3',
@@ -515,7 +517,8 @@ const loadExpenses = async () => {
             unitId : '3',
             type : 'Cleaning & Maintenance',
             amount : 2500,
-            description : 'qwbdweuvfu'
+            description : 'qwbdweuvfu',
+            date : '2024-08-02T17:34:59.911+00:00'
         }
     ]
     dispatch(getExpenses(expenses))
@@ -576,7 +579,7 @@ const loadRents = async () => {
         },
         {
             _id : '2',
-            dueDate : '2024-05-02T17:34:59.911+00:00',
+            dueDate : '2024-03-02T17:34:59.911+00:00',
             invoiceNo : 'CW10086675',
             propertyId : '1',
             unitId : '2',
@@ -584,14 +587,14 @@ const loadRents = async () => {
             amount : 15000,
             status : 'Paid',
             description : 'alaba alaba alaba',
-            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            dateOfPayment : '2024-03-02T17:34:59.911+00:00',
             gateway : 'Cash',
             transactionId : '00000',
             payment : 15000
         },
         {
             _id : '3',
-            dueDate : '2024-05-02T17:34:59.911+00:00',
+            dueDate : '2024-01-02T17:34:59.911+00:00',
             invoiceNo : 'CW10086680',
             propertyId : '1',
             unitId : '1',
@@ -599,7 +602,7 @@ const loadRents = async () => {
             amount : 22000,
             status : 'Paid',
             description : 'alaba alaba alaba',
-            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            dateOfPayment : '2024-01-02T17:34:59.911+00:00',
             gateway : 'Cash',
             transactionId : '00000',
             payment : 22000
@@ -686,6 +689,7 @@ const loadMaintainanceRequests = async () => {
             type : "Electrical Problem",
             propertyId : '1',
             unitId : '1',
+            maintainerId : '1',
             issue : "Smoke Detector Battery Replacement",
             status : "In Progress",
             details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
@@ -698,6 +702,7 @@ const loadMaintainanceRequests = async () => {
             type : "Plumbing Problem",
             propertyId : '1',
             unitId : '2',
+            maintainerId : '2',
             issue : "Smoke Detector Battery Replacement",
             status : "Complete",
             details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
@@ -710,6 +715,7 @@ const loadMaintainanceRequests = async () => {
             type : "Pest Problem",
             propertyId : '1',
             unitId : '3',
+            maintainerId : '3',
             issue : "Smoke Detector Battery Replacement",
             status : "Incomplete",
             details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",

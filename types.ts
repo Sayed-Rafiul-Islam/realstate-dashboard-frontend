@@ -190,7 +190,8 @@ export interface ExpenseProps {
   unitId : string,
   type : string,
   amount : number,
-  description : string
+  description : string,
+  date : string
 }
 
 export interface ExpensesReducerProps {
@@ -261,6 +262,7 @@ export interface MaintainanceRequestProps {
   type : string,
   propertyId : string,
   unitId : string,
+  maintainerId : string,
   issue : string,
   status : string,
   details : string,
