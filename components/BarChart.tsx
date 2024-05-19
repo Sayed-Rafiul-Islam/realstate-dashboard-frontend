@@ -1,9 +1,9 @@
 "use client"
 
 import { Line } from "react-chartjs-2";
-import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, Legend, plugins, ArcElement, Tooltip, Filler, ScriptableContext } from 'chart.js';
+import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, plugins, Tooltip, Filler, ScriptableContext } from 'chart.js';
 
-ChartJS.register(CategoryScale,LinearScale,LineElement,PointElement,Legend,plugins,Filler,Tooltip);
+ChartJS.register(CategoryScale,LinearScale,LineElement,PointElement,Filler,Tooltip);
 
 interface BarChartProps {
     rents : {
@@ -137,10 +137,6 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
             <Line data={data} options={{
                 interaction : {
                     mode : 'index'
-                },
-                plugins : {
-                    legend : false
-                    // tooltip : true
                 },
                 scales : {
                     x : {
