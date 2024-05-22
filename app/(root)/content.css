@@ -68,8 +68,14 @@
         visibility: visible;
     }
     
-    .body {
+    .body-1 {
         /* margin-inline: 50px; */
+        width: 95%;
+        float: left;
+        margin-left: 30px;
+        margin-top: 80px;
+    }
+    .body {
         width: 95%;
         float: left;
         margin-left: 30px;
@@ -80,6 +86,13 @@
     }
  }
 @media (max-width: 1100px) { 
+    .body-1 {
+        /* margin-inline: 50px; */
+        width: 98%;
+        float: left;
+        margin-left: 10px;
+        margin-top: 60px;
+    }
     .body {
         /* margin-inline: 50px; */
         width: 98%;
@@ -89,11 +102,17 @@
     }
  }
 @media (max-width: 750px) { 
+    .body-1 {
+        padding: 30px 30px;
+    }
     .body {
         padding: 30px 30px;
     }
  }
 @media (max-width: 450px) { 
+    .body-1 {
+        padding: 30px 20px;
+    }
     .body {
         padding: 30px 20px;
     }
