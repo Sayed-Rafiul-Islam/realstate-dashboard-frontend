@@ -10,40 +10,59 @@ import OwnerMenu from "./menus/owner-menu";
 import MaintainerMenu from "./menus/maintainer-menu";
 import Image from "next/image";
 import logo_expanded from '@/images/logo_expanded.png'
+import logo from '@/images/logo.png'
 import TenantMenu from "./menus/tenant-menu";
 import { UsersReducerProps } from "@/types";
+import OwnerMenuEx from "./menus/owner-menu-ex";
 
-const Navbar = () => {
+interface NavbarProps {
+    expand : boolean
+}
+
+const Navbar : React.FC<NavbarProps> = ({expand}) => {
     AccessProvider()
     const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
     const path = usePathname()
    
     return ( 
-        <div className="header hidden md:block">
+        <div className={`${expand ? "header" : "header-1" } hidden md:block`}>
             {/* logo  */}
-            <div className="flex items-center gap-2">
-                <div className="relative h-[60px] w-5/6">
-                    <Image src={logo_expanded} fill alt="logo" />
+            <div className="flex justify-between items-center gap-2">
+                
+                <div className={`${expand ? "h-[60px]" : 'h-[40px] ml-2'} relative  w-5/6`}>
+                    <Image src={expand ? logo_expanded : logo} fill alt="logo" />
                 </div>
-                {/* <h1 className="text-4xl font-bold">FIND<span className="text-indigo-600">HOME</span></h1> */}
             </div>
             <div className="flex mt-10">
-                <div className="nav-bar ">
-                    <div className='nav-bar-inner'>
-                        <div className="nav-links px-5 flex flex-col gap-2 pb-[150px]">
+                <div className={expand ? "nav-bar" : "nav-bar-1"}>
+                    <div className={expand ? "nav-bar-inner" : "nav-bar-inner-1"}>
+                        <div className="">
                             
 
                             {/* menu */}
-                            {role === 'admin' && <AdminMenu />}
-                            {role === 'owner' && <OwnerMenu />}
-                            {role === 'tenant' && <TenantMenu />}
-                            {role === 'maintainer' && <MaintainerMenu />}
+                            {
+                                expand ? 
+                                <div className="nav-links px-5 flex flex-col gap-2 pb-[150px]">
+                                    {role === 'admin' && <AdminMenu />}
+                                    {role === 'owner' && <OwnerMenuEx />}
+                                    {role === 'tenant' && <TenantMenu />}
+                                    {role === 'maintainer' && <MaintainerMenu />}
+                                </div>
+                                :
+                                <div className="nav-links items-center flex flex-col justify-center gap-2 pb-[150px]">
+                                    {role === 'admin' && <AdminMenu />}
+                                    {role === 'owner' && <OwnerMenu />}
+                                    {role === 'tenant' && <TenantMenu />}
+                                    {role === 'maintainer' && <MaintainerMenu />}
+                                </div>
+                            }
+                          
                         </div>
                     </div>
                 </div>  
             </div>
 
-            <div className="header-psudo hidden md:flex"/>
+            <div className={`${expand ? "header-psudo" : "header-psudo-1"} hidden md:flex`}/>
         </div>
      );
 }

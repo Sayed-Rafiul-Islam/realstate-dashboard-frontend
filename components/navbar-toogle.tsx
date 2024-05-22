@@ -14,7 +14,7 @@ import { MenuIcon } from "lucide-react";
 import AccessProvider from "@/actions/accessProvider";
 import { useSelector } from "react-redux";
 import AdminMenu from "./menus/admin-menu";
-import OwnerMenu from "./menus/owner-menu";
+import OwnerMenu from "./menus/owner-menu-ex";
 import TenantMenu from "./menus/tenant-menu";
 import MaintainerMenu from "./menus/maintainer-menu";
 import logo_expanded from '@/images/logo_expanded.png'
