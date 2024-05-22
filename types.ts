@@ -298,3 +298,41 @@ export interface MonthlyRecordProps {
 export interface MonthlyRecordsReducerProps {
   monthlyRecordsReducer :  { monthlyRecords : MonthlyRecordProps[]} 
 }
+
+export interface GatewayProps {
+  _id : string,
+  title : string,
+  slug : string,
+  mode : string
+}
+
+export interface GatewaysReducerProps {
+  gatewaysReducer :  { gateways : GatewayProps[]} 
+}
+export interface InvoiceTypeProps {
+  _id : string,
+  title : string,
+  tax : number
+}
+
+export interface InvoiceTypesReducerProps {
+  invoiceTypesReducer :  { invoiceTypes : InvoiceTypeProps[]} 
+}
+export interface ExpenseTypeProps {
+  _id : string,
+  title : string,
+}
+
+export interface ExpenseTypesReducerProps {
+  expenseTypesReducer :  { expenseTypes : ExpenseTypeProps[]} 
+}
+
+export interface MaintainanceTypeProps {
+  _id : string,
+  type : string,
+  date : string
+}
+
+export interface MaintainanceTypesReducerProps {
+  maintainanceTypesReducer :  { maintainanceTypes : MaintainanceTypeProps[]} 
+}

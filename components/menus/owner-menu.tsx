@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, CalendarCheck, ChevronDown, DockIcon, Info, LandPlot, LayoutDashboard, ListChecks, Mail, Presentation, Receipt, ReceiptText, Tag, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
+import { BarChart3, CalendarCheck, ChevronDown, DockIcon, Info, LandPlot, LayoutDashboard, ListChecks, Mail, MailIcon, Presentation, Receipt, ReceiptText, Settings, Tag, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -213,25 +213,54 @@ const OwnerMenu = () => {
         {
             id : 5,
             group : [],
-            label : "Expenses",
-            href : "/expenses",
+            label : "Massages",
+            href : "/massages",
             href1 : '',
             drop : false,
-            icon : <ReceiptText size={20} />,
-            active : pathname === '/expenses'
+            icon : <MailIcon size={20} />,
+            active : false
+        },
+        {
+            id : 5,
+            group : [
+                {
+                    id : 51,
+                    label : "Payment Gateway",
+                    g_href : "/settings/payment_gateway",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 52,
+                    label : "Expense Type",
+                    g_href : "/settings/expense_type",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 53,
+                    label : "Invoice Type",
+                    g_href : "/settings/invoice_type",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 54,
+                    label : "Maintainance Issue",
+                    g_href : "/settings/maintainance_issue",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+            ],
+            label : "Settings",
+            href : "/settings",
+            href1 : '',
+            drop : false,
+            icon : <Settings size={20} />,
+            active : false
         },
         {
             id : 6,
-            group : [],
-            label : "Documents",
-            href : "/documents",
-            href1 : '',
-            drop : false,
-            icon : <DockIcon size={20} />,
-            active : pathname === '/documents'
-        },
-        {
-            id : 7,
             group : [],
             label : "Information",
             href : "/information",
@@ -240,6 +269,27 @@ const OwnerMenu = () => {
             icon : <Info size={20} />,
             active : pathname === '/information'
         },
+        // {
+        //     id : 7,
+        //     group : [],
+        //     label : "Expenses",
+        //     href : "/expenses",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <ReceiptText size={20} />,
+        //     active : pathname === '/expenses'
+        // },
+
+        // {
+        //     id : 7,
+        //     group : [],
+        //     label : "Information",
+        //     href : "/information",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Info size={20} />,
+        //     active : pathname === '/information'
+        // },
         {
             id : 8,
             group : [

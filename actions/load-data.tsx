@@ -21,6 +21,10 @@ import { getMaintainers } from '@/redux/maintainers/maintainersSlice'
 import { getMaintainanceRequests } from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 import { getEarnings } from '@/redux/report/earningsSlice'
 import { getMonthlyRecords } from '@/redux/report/monthlyRecordsSlice'
+import { getGateways } from '@/redux/settings/gatewaySlice'
+import { getInvoiceTypes } from '@/redux/settings/invoiceTypesSlice'
+import { getExpenseTypes } from '@/redux/settings/expenseTypesSlice'
+import { getMaintainanceTypes } from '@/redux/settings/maintainanceTypesSlice'
 
 
 
@@ -791,6 +795,136 @@ const loadMonthlyRecords = async () => {
     dispatch(getMonthlyRecords(monthly))
 }
 
+const loadGateways = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const gateways = [
+        {
+            _id : '1',
+            title : 'PayPal',
+            slug : 'paypal',
+            mode : 'Sandbox',
+        },
+        {
+            _id : '2',
+            title : 'Stripe',
+            slug : 'stripe',
+            mode : 'Sandbox',
+        },
+        {
+            _id : '3',
+            title : 'Sslcommerz',
+            slug : 'sslcommerz',
+            mode : 'Sandbox',
+        },
+        {
+            _id : '4',
+            title : 'Bank',
+            slug : 'bank',
+            mode : 'Live',
+        },
+        {
+            _id : '5',
+            title : 'Cash',
+            slug : 'cash',
+            mode : 'Live',
+        },
+       
+    ]
+    dispatch(getGateways(gateways))
+}
+
+const loadInvoiceTypes = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const types = [
+        {
+            _id : '1',
+            title : 'Maintenance and repairs',
+            tax : 1200,
+        },
+        {
+            _id : '2',
+            title : 'Utilities',
+            tax : 1300,
+        },
+        {
+            _id : '3',
+            title : 'Taxes',
+            tax : 1000,
+        },
+        {
+            _id : '4',
+            title : 'Rent',
+            tax : 800,
+        },
+        {
+            _id : '5',
+            title : 'Bank fees',
+            tax : 1800,
+        },
+       
+    ]
+    dispatch(getInvoiceTypes(types))
+}
+
+const loadExpenseTypes = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const types = [
+        {
+            _id : '1',
+            title : 'Cleaning & Maintenance',
+        },
+        {
+            _id : '2',
+            title : 'Utilities',
+        },
+        {
+            _id : '3',
+            title : 'Texes',
+        }
+    ]
+    dispatch(getExpenseTypes(types))
+}
+
+const loadMaintainanceTypes = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const types = [
+        {
+            _id : '1',
+            type : 'Electrical problems',
+            date : '2024-05-02T17:34:59.911+00:00'
+        },
+        {
+            _id : '2',
+            type : 'Pest infestations',
+            date : '2024-05-03T17:34:59.911+00:00'
+        },
+        {
+            _id : '3',
+            type : 'Plumbing problem',
+            date : '2024-05-03T17:34:59.911+00:00'
+        },
+        {
+            _id : '4',
+            type : 'Structural Problem',
+            date : '2024-05-04T17:34:59.911+00:00'
+        },
+        {
+            _id : '5',
+            type : 'HVAC malfunctions',
+            date : '2024-05-05T17:34:59.911+00:00'
+        }
+    ]
+    dispatch(getMaintainanceTypes(types))
+}
+
 export default async function LoadData() {
 
 
@@ -812,5 +946,9 @@ export default async function LoadData() {
     loadMaintainanceRequests()
     loadEarnings()
     loadMonthlyRecords()
+    loadGateways()
+    loadInvoiceTypes()
+    loadExpenseTypes()
+    loadMaintainanceTypes()
       
 }

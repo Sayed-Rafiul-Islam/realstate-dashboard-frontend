@@ -17,6 +17,10 @@ import maintainersReducer from '@/redux/maintainers/maintainersSlice'
 import maintainanceReducer from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 import earningsReducer from '@/redux/report/earningsSlice'
 import monthlyRecordsReducer from '@/redux/report/monthlyRecordsSlice'
+import gatewaysReducer from '@/redux/settings/gatewaySlice'
+import invoiceTypesReducer from '@/redux/settings/invoiceTypesSlice'
+import expenseTypesReducer from '@/redux/settings/expenseTypesSlice'
+import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 
 
 export const store = configureStore({
@@ -38,7 +42,11 @@ export const store = configureStore({
     maintainersReducer,
     maintainanceReducer,
     earningsReducer,
-    monthlyRecordsReducer
+    monthlyRecordsReducer,
+    gatewaysReducer,
+    invoiceTypesReducer,
+    expenseTypesReducer,
+    maintainanceTypesReducer
   }
 })
 
