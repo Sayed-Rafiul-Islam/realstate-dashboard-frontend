@@ -14,6 +14,7 @@ import logo from '@/images/logo.png'
 import TenantMenu from "./menus/tenant-menu";
 import { UsersReducerProps } from "@/types";
 import OwnerMenuEx from "./menus/owner-menu-ex";
+import AdminMenuEx from "./menus/admin-menu-ex";
 
 interface NavbarProps {
     expand : boolean
@@ -43,7 +44,7 @@ const Navbar : React.FC<NavbarProps> = ({expand}) => {
                             {
                                 expand ? 
                                 <div className="nav-links px-5 flex flex-col gap-2 pb-[150px]">
-                                    {role === 'admin' && <AdminMenu />}
+                                    {role === 'admin' && <AdminMenuEx />}
                                     {role === 'owner' && <OwnerMenuEx />}
                                     {role === 'tenant' && <TenantMenu />}
                                     {role === 'maintainer' && <MaintainerMenu />}

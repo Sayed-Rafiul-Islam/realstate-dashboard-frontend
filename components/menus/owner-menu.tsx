@@ -497,7 +497,7 @@ const OwnerMenu = () => {
                 <div>
                       <DropdownMenu>
                 <DropdownMenuTrigger  asChild>
-                <button 
+                    <button 
                         className={`nav-item
                         ${drop ? 'font-semibold' : ''}
                          flex items-center gap-4 w-full hover:text-amber-500 transition-all
@@ -505,25 +505,16 @@ const OwnerMenu = () => {
                          `}
                         onClick={()=>dropDown(id)}
                     >   <span>{icon}</span>
-                        {/* <span className="w-full flex justify-between items-center">
-                            <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
-                        </span> */}
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="ml-12" align="end">
-                {
+                    {
                         group.map(({id,label,g_href,g_active},index) =>
                             <DropdownMenuItem className={`my-1 py-2 cursor-pointer`}
                              key={index}
-                            //  onClick={()=>{router.refresh()}}
+                             onClick={()=>{router.push(g_href)}}
                              >
-                                
-                              
-                                <Link
-                                    href={g_href}
-                                >
-                                    {label}
-                                </Link>
+                                {label}
                             </DropdownMenuItem>
                         )
                   
