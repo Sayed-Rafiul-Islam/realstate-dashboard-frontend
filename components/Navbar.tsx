@@ -30,11 +30,11 @@ const Navbar : React.FC<NavbarProps> = ({expand}) => {
             {/* logo  */}
             <div className="flex justify-between items-center gap-2">
                 
-                <div className={`${expand ? "h-[60px]" : 'h-[40px] ml-2'} relative  w-5/6`}>
+                <div className={`${expand ? "h-[60px]" : 'h-[40px] ml-1'} relative  w-5/6`}>
                     <Image src={expand ? logo_expanded : logo} fill alt="logo" />
                 </div>
             </div>
-            <div className="flex mt-10">
+            <div className="flex">
                 <div className={expand ? "nav-bar" : "nav-bar-1"}>
                     <div className={expand ? "nav-bar-inner" : "nav-bar-inner-1"}>
                         <div className="">
