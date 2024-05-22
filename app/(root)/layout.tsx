@@ -19,7 +19,7 @@ const RoutesLayout = ({
     return ( 
         <div className="pt-5 px-5">
           <Navbar />
-          <div className="fixed left-6">
+          <div className="fixed left-6 sm-nav-icon">
             <NavbarToggle />
           </div>
           <div className="fixed top-6 right-12 signout-btn">

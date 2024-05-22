@@ -29,7 +29,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
     return (
         <>
             <DataTable pagination={true} searchKey="name" columns={columns} data={data} />
-            <Toaster />
+            {/* <Toaster /> */}
         </>
     )
 }

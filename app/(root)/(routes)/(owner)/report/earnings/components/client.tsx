@@ -25,6 +25,7 @@ import { Button } from '@/components/ui/button'
 
 import '../earnings.css'
 import { DatePicker } from '@/components/ui/date-picker'
+import { Input } from '@/components/ui/input'
 
 export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
 
@@ -58,6 +59,7 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
     // anti hydration
 
     const [isMounted, setIsMounted] = useState(false)
+    const [search, setSearch] = useState('')
 
     useEffect(()=>{
         setIsMounted(true)
@@ -70,6 +72,10 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
         <>        
             <div className="select-filters-wrapper mb-5">
                 <div>
+                    {/* <Input 
+                        value={search}
+                        onChange={(e) =>setSearch(e.target.value)}
+                    /> */}
                     <Select
                         onValueChange={e=> setProperty(e)}
                         value={property}                              
@@ -98,7 +104,7 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                 </div>
                 <Button onClick={showAll}>Show All</Button>
             </div>  
-            <DataTable total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
+            <DataTable search={search} total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
 
         </>
     )

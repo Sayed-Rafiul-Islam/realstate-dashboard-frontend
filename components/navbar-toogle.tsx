@@ -17,7 +17,7 @@ import AdminMenu from "./menus/admin-menu";
 import OwnerMenu from "./menus/owner-menu";
 import TenantMenu from "./menus/tenant-menu";
 import MaintainerMenu from "./menus/maintainer-menu";
-import logo from '@/images/logo.png'
+import logo_expanded from '@/images/logo_expanded.png'
 import Image from "next/image";
 import SignOut from "./signout";
 import './navbar-toogle.css'
@@ -60,11 +60,11 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
             {/* logo  */}
             <div className="overflow-scroll relative px-8">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-2 my-5 logo">
-                        <div className="relative h-[60px] w-[60px]">
-                            <Image src={logo} fill alt="logo" />
+                    <div className="my-5">
+                        <div className="logo">
+                            <Image src={logo_expanded} fill alt="logo" />
                         </div>
-                        <h1 className="text-4xl font-bold">FIND<span className="text-indigo-600">HOME</span></h1>
+                        {/* <h1 className="text-4xl font-bold">FIND<span className="text-indigo-600">HOME</span></h1> */}
                     </div>
                     <div>
                         <SignOut />

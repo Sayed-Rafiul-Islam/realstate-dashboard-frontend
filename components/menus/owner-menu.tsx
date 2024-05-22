@@ -472,13 +472,13 @@ const OwnerMenu = () => {
         <>
         {
     menu.map(({id,group,label,href,drop,icon,active},index)=>
-        <div key={index}>
+        <div className={`${active && 'bg-sky-400 bg-opacity-10 border-r-4 border-amber-500'} py-2 px-4`} key={index}>
             {
                 group.length === 0 ?
                 <Link
                 className={`
-                ${active ? 'dark:text-white font-semibold text-indigo-400' : 'text-gray-500'}
-                dark:text-stone-500 hover:text-indigo-400 transition-all nav-item
+                ${active ? 'dark:text-white font-semibold text-amber-500 ' : 'text-gray-500'}
+                dark:text-stone-500 hover:text-amber-500 transition-all nav-item
                 `}   
                     href={href}
                 >
@@ -492,7 +492,7 @@ const OwnerMenu = () => {
                     <button 
                         className={`nav-item
                         ${drop ? 'dark:text-white text-black font-semibold' : 'text-gray-500'}
-                         flex items-center gap-4 w-full hover:text-indigo-400 transition-all
+                         flex items-center gap-4 w-full hover:text-amber-500 transition-all
                          `}
                         onClick={()=>dropDown(id)}
                     >   <span>{icon}</span>
@@ -501,16 +501,21 @@ const OwnerMenu = () => {
                             <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
                         </span>
                     </button>
-                    <div className="ml-10">
+                    <div className="ml-5">
                     {
                         group.map(({id,label,g_href,g_active},index) =>
-                            <div className={drop ? `drop-on my-1` : 'drop-off'} key={index}>
+                            <div className={drop ? `drop-on my-1 pl-5
+                             
+                             ` : 'drop-off'}
+                            //  ${g_active && 'bg-sky-400 bg-opacity-10 border-r-4 border-amber-500'}
+                             
+                             key={index}>
                                 <Link
                                     className={
                                     `
-                                        ${g_active ? 'dark:text-white text-indigo-400 font-bold' : 'text-gray-500'}
+                                        ${g_active ? 'dark:text-white text-amber-500 font-bold' : 'text-gray-500'}
                                     dark:text-stone-500 dark:hover:text-stone-200 
-                                         hover:text-indigo-400
+                                         hover:text-amber-500
                                         
                                         transition-all
                                     `}

@@ -5,7 +5,7 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
 import { ExpensesClient } from "./components/client";
 
 

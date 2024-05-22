@@ -30,7 +30,8 @@ interface DataTableProps<TData, TValue> {
   searchKey ?: string | undefined,
   filters ?: string[] | undefined,
   pagination : boolean,
-  total ?: string | undefined
+  total ?: string | undefined,
+  search ?: string
 }
 
 export function DataTable<TData, TValue>({
@@ -39,7 +40,8 @@ export function DataTable<TData, TValue>({
   searchKey,
   filters,
   pagination,
-  total
+  total,
+  search
 
 }: DataTableProps<TData, TValue>) {
 
@@ -59,6 +61,14 @@ export function DataTable<TData, TValue>({
       },
   })
   const [active, setActive] = useState("")
+
+//   useEffect(()=>{
+//     const tableFilter = () => {
+//         (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
+//         table.getColumn(searchKey)?.setFilterValue(search)
+//     }
+//     tableFilter()
+//   },[search])
 
   return (
     <div className="bg-gray-100 px-5 rounded-md py-5">
