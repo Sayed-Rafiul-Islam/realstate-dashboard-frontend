@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, CalendarCheck, ChevronDown, DockIcon, Info, LandPlot, LayoutDashboard, ListChecks, Mail, MailIcon, Presentation, Receipt, ReceiptText, Settings, Tag, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
+import { BarChart3, CalendarCheck, ChevronDown, CircleUser, DockIcon, Info, LandPlot, LayoutDashboard, ListChecks, Mail, MailIcon, Presentation, Receipt, ReceiptText, Settings, Tag, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -259,16 +259,16 @@ const OwnerMenu = () => {
             icon : <Settings size={20} />,
             active : false
         },
-        {
-            id : 6,
-            group : [],
-            label : "Information",
-            href : "/information",
-            href1 : '',
-            drop : false,
-            icon : <Info size={20} />,
-            active : pathname === '/information'
-        },
+        // {
+        //     id : 6,
+        //     group : [],
+        //     label : "Information",
+        //     href : "/information",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Info size={20} />,
+        //     active : pathname === '/information'
+        // },
         // {
         //     id : 7,
         //     group : [],
@@ -290,143 +290,147 @@ const OwnerMenu = () => {
         //     icon : <Info size={20} />,
         //     active : pathname === '/information'
         // },
-        {
-            id : 8,
-            group : [
-                {
-                    id : 81,
-                    label : "Upload List",
-                    g_href : "/uploadloist",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 82,
-                    label : "All List",
-                    g_href : "/alllist",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 83,
-                    label : "Contact List",
-                    g_href : "/contactlist",
-                    g_href1 : ``,
-                    g_active : false,
-                }
-            ],
-            label : "My Listing",
-            href : "",
-            href1 : '',
-            drop : false,
-            icon : <ListChecks size={20} />,
-            active : pathname === '/uploadloist' ||
-            pathname === '/alllist' ||
-            pathname === '/contactlist',
-        },
+        // {
+        //     id : 8,
+        //     group : [
+        //         {
+        //             id : 81,
+        //             label : "Upload List",
+        //             g_href : "/uploadloist",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         },
+        //         {
+        //             id : 82,
+        //             label : "All List",
+        //             g_href : "/alllist",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         },
+        //         {
+        //             id : 83,
+        //             label : "Contact List",
+        //             g_href : "/contactlist",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         }
+        //     ],
+        //     label : "My Listing",
+        //     href : "",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <ListChecks size={20} />,
+        //     active : pathname === '/uploadloist' ||
+        //     pathname === '/alllist' ||
+        //     pathname === '/contactlist',
+        // },
         
-        {
-            id : 10,
-            group : [],
-            label : "Tickets",
-            href : "/tickets",
-            href1 : '',
-            drop : false,
-            icon : <Tag size={20} />,
-            active : pathname === '/tickets'
-        },
-        {
-            id : 11,
-            group : [],
-            label : "Notice Board",
-            href : "/notice",
-            href1 : '',
-            drop : false,
-            icon : <Presentation size={20} />,
-            active : pathname === '/notice'
-        },
+        // {
+        //     id : 10,
+        //     group : [],
+        //     label : "Tickets",
+        //     href : "/tickets",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Tag size={20} />,
+        //     active : pathname === '/tickets'
+        // },
+        // {
+        //     id : 11,
+        //     group : [],
+        //     label : "Notice Board",
+        //     href : "/notice",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Presentation size={20} />,
+        //     active : pathname === '/notice'
+        // },
  
-        {
-            id : 13,
-            group : [
-                {
-                    id : 131,
-                    label : "SMS",
-                    g_href : "/sms",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 132,
-                    label : "Email",
-                    g_href : "/email",
-                    g_href1 : ``,
-                    g_active : false,
-                },
-                {
-                    id : 133,
-                    label : "Email Template",
-                    g_href : "/emailtamplate",
-                    g_href1 : ``,
-                    g_active : false,
-                }
-            ],
-            label : "Bulk SMS/Mail",
-            href : "",
-            href1 : '',
-            drop : false,
-            icon : <Mail size={20} />,
-            active : pathname === '/sms' ||
-            pathname === '/email' ||
-            pathname === '/emailtamplate',
-        },
-        {
-            id : 14,
-            group : [],
-            label : "Aggrement",
-            href : "/aggrement",
-            href1 : '',
-            drop : false,
-            icon : <UserRoundCheck size={20} />,
-            active : pathname === '/aggrement',
-        },
+        // {
+        //     id : 13,
+        //     group : [
+        //         {
+        //             id : 131,
+        //             label : "SMS",
+        //             g_href : "/sms",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         },
+        //         {
+        //             id : 132,
+        //             label : "Email",
+        //             g_href : "/email",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         },
+        //         {
+        //             id : 133,
+        //             label : "Email Template",
+        //             g_href : "/emailtamplate",
+        //             g_href1 : ``,
+        //             g_active : false,
+        //         }
+        //     ],
+        //     label : "Bulk SMS/Mail",
+        //     href : "",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Mail size={20} />,
+        //     active : pathname === '/sms' ||
+        //     pathname === '/email' ||
+        //     pathname === '/emailtamplate',
+        // },
+        // {
+        //     id : 14,
+        //     group : [],
+        //     label : "Aggrement",
+        //     href : "/aggrement",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <UserRoundCheck size={20} />,
+        //     active : pathname === '/aggrement',
+        // },
         {
             id : 15,
             group : [
                 {
-                    id : 151,
+                    id : 81,
                     label : "My Profile",
-                    g_href : "/profile",
+                    g_href : "/my_profile",
                     g_href1 : ``,
-                    g_active : false,
+                    g_active : false
                 },
                 {
-                    id : 132,
+                    id : 82,
                     label : "Change Password",
-                    g_href : "/changepassword",
+                    g_href : "/my_profile/change_password",
                     g_href1 : ``,
-                    g_active : false,
-                }
+                    g_active : false
+                },
+                {
+                    id : 82,
+                    label : "Change User Name",
+                    g_href : "/my_profile/change_user_name",
+                    g_href1 : ``,
+                    g_active : false
+                },
             ],
             label : "Profile",
-            href : "",
-            href1 : '',
+            href : "/my_profile",
             drop : false,
-            icon : <UserCircle size={20} />,
-            active : pathname === '/uploadloist' ||
-            pathname === '/profile' ||
-            pathname === '/changepassword',
+            icon : <CircleUser size={20} />,
+            active : false
         },
-        {
-            id : 16,
-            group : [],
-            label : "My Subscription",
-            href : "/subscription",
-            href1 : '',
-            drop : false,
-            icon : <CalendarCheck size={20} />,
-            active : pathname === '/subscription',
-        },
+        // {
+        //     id : 16,
+        //     group : [],
+        //     label : "My Subscription",
+        //     href : "/subscription",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <CalendarCheck size={20} />,
+        //     active : pathname === '/subscription',
+        // },
     ])
 
     useEffect(()=>{
@@ -452,8 +456,6 @@ const OwnerMenu = () => {
         setMenu(temp)
 
     },[pathname])
-
-    console.log(menu[2].group[0].g_active)
 
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
