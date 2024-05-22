@@ -9,13 +9,10 @@ import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 
-    // import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-// import { Chart } from "react-chartjs-2";
 import BarChart from "../BarChart";
 import { useEffect, useState } from "react";
 import { DataTable } from "../ui/data-table";
-// import ChartDataLabels from 'chartjs-plugin-datalabels';
-// ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 const OwnerDashboard = () => {
 
@@ -228,8 +225,8 @@ const OwnerDashboard = () => {
                 }
             </div>
 
-            <div className="flex  mt-10 gap-5">
-                <div className="w-1/2 shadow-md p-2">
+            <div className="owner-section-1 mt-10 gap-5">
+                <div className="shadow-md p-2 chart">
                     <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold">Revenue</h3>
                         <div className="flex gap-2 text-gray-500">
@@ -237,7 +234,7 @@ const OwnerDashboard = () => {
                             <MoreVertical className="cursor-pointer" size={15} />
                         </div>
                     </div>
-                    <div className="grid lg:grid-cols-3 gap-2 my-4">
+                    <div className="gap-2 my-4 chart-legends">
                         <div className="flex items-center gap-2">
                             <div className="bg-indigo-100 w-fit p-2 rounded-full">
                                 <DollarSign className="text-primary" size={15} />
@@ -266,10 +263,13 @@ const OwnerDashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <BarChart rents={chartRents} expenses={chartExpenses} />
+                    <div className="relative overflow-x-scroll">
+                        <BarChart rents={chartRents} expenses={chartExpenses} />
+                    </div>
+
                 </div>
-                <div className="w-1/2 shadow-md p-2">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="shadow-md p-2">
+                    <div className="flex md:flex-row flex-col justify-between md:items-center gap-2 mb-4">
                         <div>
                             <h3 className="text-xl font-semibold">Maintainance Requests</h3>
                             <p className="text-gray-500 text-xs">Total 44,559 Tickets</p>
@@ -277,7 +277,7 @@ const OwnerDashboard = () => {
                         <Button 
                             onClick={()=>router.push('/maintainance_requests/all_maintainance_requests')} 
                             variant='outline' 
-                            className="flex gap-2 items-center"
+                            className="flex gap-2 items-center w-fit"
                         >
                             View All <ArrowRight size={15} />
                         </Button>
@@ -304,13 +304,13 @@ const OwnerDashboard = () => {
                                     border = 'border-l-4 border-amber-500'
                                 }
                                 return (
-                                    <div key={_id} className={`${border} flex items-center justify-between rounded-md px-2 py-1`}>
+                                    <div key={_id} className={`${border} flex md:flex-row flex-col md:items-center justify-between rounded-md px-2 py-1`}>
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue} in {property}/{unit}</h5>
                                             <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span></p>
                                         </div>
-                                        <h4 className={statusStyle}>{status}</h4>
+                                        <h4 className={`${statusStyle} md:my-0 my-2 w-fit`}>{status}</h4>
                                     </div>
                                 )
                             })
@@ -321,17 +321,17 @@ const OwnerDashboard = () => {
             </div>
 
             <div className="shadow-md my-10 p-4">
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex md:flex-row flex-col justify-between md:items-center gap-2 mb-4">
                     <h3 className="text-xl font-semibold">My Properties</h3>
                     <Button 
                         onClick={()=>router.push('/properties/all_properties')} 
                         variant='outline' 
-                        className="flex gap-2 items-center"
+                        className="flex gap-2 items-center w-fit"
                     >
                         View All <ArrowRight size={15} />
                     </Button>
                 </div>
-                    <DataTable pagination={false} columns={propertyColumns} data={properties} />
+                <DataTable pagination={false} columns={propertyColumns} data={properties} />
                 <div>
                     
                 </div>

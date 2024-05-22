@@ -2,7 +2,7 @@
 
 import { Line } from "react-chartjs-2";
 import { Chart as ChartJS, LineElement, CategoryScale, LinearScale, PointElement, plugins, Tooltip, Filler, ScriptableContext } from 'chart.js';
-
+import './bar-chart.css'
 ChartJS.register(CategoryScale,LinearScale,LineElement,PointElement,Filler,Tooltip);
 
 interface BarChartProps {
@@ -133,7 +133,7 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
  
 
     return ( 
-        <div className="w-full h-[250px]">
+        <div className="bar-chart-wrapper">
             <Line data={data} options={{
                 interaction : {
                     mode : 'index'
