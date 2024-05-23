@@ -44,7 +44,7 @@ const AllTenants = () => {
                 unitId,
                 propertyName : propertyName ? propertyName : '',
                 unitName : unit ? unit.name : '',
-                monthlyRent : unit ? unit.rent : '',
+                monthlyRent : unit ? `${unit.rent}` : '',
                 name,
                 image,
                 email,
@@ -67,7 +67,7 @@ const AllTenants = () => {
                 <Pathname />
                 <div className="flex justify-between md:flex-row flex-col gap-2"> 
                     <h1 className="font-bold text-xl">All Tenants</h1>
-                    <Button className="lg:w-1/4 md:w-1/5 w-2/3" onClick={()=>router.push('/tenants/add')}>Add New Tenant</Button>
+                    <Button className="lg:w-1/4 md:w-1/5 w-2/3 bg-purple-600" onClick={()=>router.push('/tenants/add')}>Add New Tenant</Button>
                 </div>
                 <Separator />
 

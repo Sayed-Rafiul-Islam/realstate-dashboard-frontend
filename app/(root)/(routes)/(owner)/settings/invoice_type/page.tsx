@@ -35,7 +35,7 @@ const InvoiceTypePage = () => {
                 <Pathname />
                 <div className="flex gap-2 justify-between items-center">
                     <h1 className="font-bold text-xl">Invoice Type</h1>
-                    <Button  className="flex gap-2">New Type</Button>
+                    <Button  className="flex gap-2 bg-purple-600">New Type</Button>
                 </div>
                 <Separator />
                 <div>

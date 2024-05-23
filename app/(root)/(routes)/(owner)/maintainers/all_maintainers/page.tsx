@@ -19,7 +19,7 @@ const ALLMaintainers = () => {
                 <Pathname />
                 <div className="flex justify-between md:flex-row flex-col gap-2"> 
                     <h1 className="font-bold text-xl">All Maintainers</h1>
-                    <Button className="lg:w-1/4 md:w-1/5 w-2/3" onClick={()=>router.push('/maintainers/add')}>Add Maintainer</Button>
+                    <Button className="lg:w-1/4 md:w-1/5 w-2/3 bg-purple-600" onClick={()=>router.push('/maintainers/add')}>Add Maintainer</Button>
                 </div>
                 <Separator />
 

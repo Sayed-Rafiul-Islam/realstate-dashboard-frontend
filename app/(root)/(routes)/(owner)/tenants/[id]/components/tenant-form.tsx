@@ -135,7 +135,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     }
   
     return (
-        <div className='add'>
+        <div className='add my-10'>
             <div className="flex items-center justify-between heading">
                 <Heading
                     title={title}
@@ -391,7 +391,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                         />
                         
                     </div>
-                    <Button disabled={loading} className='ml-auto' type='submit'>
+                    <Button disabled={loading} className='ml-auto bg-purple-600' type='submit'>
                         {action}
                     </Button>
                 </form>

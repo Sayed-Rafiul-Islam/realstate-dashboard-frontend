@@ -104,7 +104,7 @@ const ChangePasswordPage = () => {
                             )}
                         />                       
                     </div>
-                    <Button className='ml-auto' type='submit'>
+                    <Button className='ml-auto bg-purple-600' type='submit'>
                         Update Password
                     </Button>
                 </form>

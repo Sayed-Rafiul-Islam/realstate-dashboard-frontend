@@ -124,7 +124,7 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
                 </div>
 
                 <div className="w-5/6 mx-auto mb-3">
-                    <Button onClick={()=>router.push(`/tenants/all_tenants/${data._id}`)} className="w-full">View Details</Button>
+                    <Button onClick={()=>router.push(`/tenants/all_tenants/${data._id}`)} className="w-full bg-purple-600">View Details</Button>
                 </div>
                       
             </div>

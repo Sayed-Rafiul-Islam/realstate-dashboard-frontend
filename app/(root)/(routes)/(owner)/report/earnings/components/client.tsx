@@ -102,7 +102,7 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                         <DatePicker label='To' onPickDate={(date)=> setToDate(date)} />
                     </div>
                 </div>
-                <Button onClick={showAll}>Show All</Button>
+                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
             <DataTable search={search} total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
 

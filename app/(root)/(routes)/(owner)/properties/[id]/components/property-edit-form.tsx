@@ -484,32 +484,11 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                 )}
                             />
 
-                            {/* <FormField
-                                control={form1.control}
-                                name="trial"
-                                render={({ field }) => (
-                                    <FormItem className='flex flex-row rounded-md border p-4 items-start space-x-3 space-y-0'>
-                                        <FormControl>
-                                            <Checkbox
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                        <div className='space-y-1 leading-none'>
-                                            <FormLabel>
-                                                On Trial <span className='text-red-500'>*</span>
-                                            </FormLabel>
-                                            <FormDescription>
-                                                This package will be set as trial version.
-                                            </FormDescription>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            /> */}
+                            
                         </div>
                             <div className='flex justify-end'>
-                            <Button disabled={loading} type='submit'>
-                                Next
+                            <Button className='bg-purple-600' disabled={loading} type='submit'>
+                                Save & Next
                             </Button>
                         </div>
                     </form>
@@ -653,11 +632,11 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 
                     
                         <div className='flex justify-between'>
-                        <Button disabled={loading}  onClick={()=>(setForm(0))}>
+                        <Button className='bg-purple-600' disabled={loading}  onClick={()=>(setForm(0))}>
                             Back
                         </Button>
-                        <Button disabled={loading}  type='submit'>
-                            Next
+                        <Button className='bg-purple-600' disabled={loading}  type='submit'>
+                            Save & Next
                         </Button>
                         </div>
                     </form>
@@ -746,10 +725,10 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                 
          
                         <div className='flex justify-between'>
-                        <Button disabled={loading}  onClick={()=>(setForm(1))}>
+                        <Button className='bg-purple-600' disabled={loading}  onClick={()=>(setForm(1))}>
                             Back
                         </Button>
-                        <Button disabled={loading}  type='submit'>
+                        <Button className='bg-purple-600' disabled={loading}  type='submit'>
                             {action}
                         </Button>
                         </div>

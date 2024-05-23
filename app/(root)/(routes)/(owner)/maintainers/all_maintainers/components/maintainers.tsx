@@ -110,7 +110,7 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                 </div>
-                <Button className='' onClick={showAll}>Show All</Button>
+                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
                             
             <div className="cards">

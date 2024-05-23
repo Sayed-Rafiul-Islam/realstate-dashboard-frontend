@@ -42,7 +42,7 @@ const AllTenants = () => {
                 unitId,
                 propertyName : propertyName ? propertyName : '',
                 unitName : unit ? unit.name : '',
-                monthlyRent : unit ? unit.rent : '',
+                monthlyRent : unit ? `${unit.rent} BDT` : '',
                 name,
                 image,
                 email,

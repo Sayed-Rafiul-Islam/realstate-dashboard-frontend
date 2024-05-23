@@ -320,7 +320,7 @@ const loadUnits = async () => {
             bedrooms : 3,
             washrooms : 2,
             kitchen : 1,
-            rent : 50
+            rent : 15000
         },
         {
             _id : '2',
@@ -334,7 +334,7 @@ const loadUnits = async () => {
             bedrooms : 3,
             washrooms : 2,
             kitchen : 1,
-            rent : 50
+            rent : 12000
         },
         {
             _id : '3',
@@ -348,7 +348,7 @@ const loadUnits = async () => {
             bedrooms : 1,
             washrooms : 1,
             kitchen : 1,
-            rent : 50
+            rent : 20000
         }
     ]
     dispatch(getUnits(units))
@@ -500,7 +500,7 @@ const loadExpenses = async () => {
             propertyId : '1',
             unitId : '1',
             type : 'Cleaning & Maintenance',
-            amount : 3500,
+            amount : 14000,
             description : 'qwbdweuvfu',
             date : '2024-11-02T17:34:59.911+00:00'
         },
@@ -523,7 +523,17 @@ const loadExpenses = async () => {
             amount : 2500,
             description : 'qwbdweuvfu',
             date : '2024-08-02T17:34:59.911+00:00'
-        }
+        },
+        {
+            _id : '4',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '1',
+            type : 'Cleaning & Maintenance',
+            amount : 14000,
+            description : 'qwbdweuvfu',
+            date : '2024-05-02T17:34:59.911+00:00'
+        },
     ]
     dispatch(getExpenses(expenses))
 }

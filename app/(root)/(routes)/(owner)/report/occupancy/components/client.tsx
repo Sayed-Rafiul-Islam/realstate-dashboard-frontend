@@ -83,7 +83,7 @@ export const EarningsClient : React.FC<OccupancyClientProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                 </div>
-                <Button onClick={showAll}>Show All</Button>
+                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
             <DataTable pagination={true} searchKey="name" columns={columns} data={properties} />
 

@@ -115,7 +115,7 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                     </div>
-                    <Button onClick={showAll}>Show All</Button>
+                    <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
                 </div>  
             <DataTable pagination={true} searchKey="name" columns={columns} data={tenants} />
         </>

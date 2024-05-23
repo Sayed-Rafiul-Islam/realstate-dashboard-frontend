@@ -184,7 +184,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                             )}
                         /> 
                     </div>
-                    <Button disabled={loading} className='ml-auto' type='submit'>
+                    <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}
                     </Button>
                 </form>

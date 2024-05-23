@@ -95,9 +95,9 @@ const ProfileImageUpload : React.FC<ProfileImageUploadProps> = ({
                                 type="button"
                                 disabled={disabled}
                                 onClick={onClick}
-                                className="bg-indigo-600 rounded-full w-[30px] h-[30px] z-10" 
+                                className="bg-purple-600 rounded-full w-[30px] h-[30px] z-10" 
                             >
-                                <Camera className="h-4 w-4 mr-2 mx-auto text-white" />
+                                <Camera className="h-4 w-4 mx-auto text-white" />
                                 
                                 {/* {buttonName} */}
                             </button>

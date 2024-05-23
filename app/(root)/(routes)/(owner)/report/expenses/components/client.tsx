@@ -120,7 +120,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
                 </Select>
                    
                 </div>
-                <Button onClick={showAll}>Show All</Button>
+                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
             <DataTable total={data[0].total} pagination={true} searchKey="invoiceNo" columns={columns} data={expenses} />
 

@@ -128,7 +128,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                             </SelectContent>
                     </Select>
                     </div>
-                    <Button onClick={showAll}>Show All</Button>
+                    <Button className="bg-purple-600" onClick={showAll}>Show All</Button>
                 </div>  
             <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
         </>

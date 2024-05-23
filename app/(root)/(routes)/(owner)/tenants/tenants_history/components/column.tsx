@@ -23,7 +23,7 @@ export interface TenantColumn {
   age : number,
   familyMember : number,
   status : boolean,
-  monthlyRent : string | number
+  monthlyRent : string
 }
 
 
@@ -61,7 +61,7 @@ export interface TenantColumn {
           {
           row.original.due === 0
           ? <p>None</p> 
-          : <p className="text-red-600">$ {row.original.due}</p> 
+          : <p className="text-red-600">{row.original.due} BDT</p> 
           }
         </>
     },
@@ -72,8 +72,8 @@ export interface TenantColumn {
         <>
           {
           row.original.status
-          ? <p className="text-green-600 bg-green-200 px-4 py-2 rounded-lg">Active</p> 
-          : <p className="text-red-600 bg-red-200 px-4 py-2 rounded-lg">Inactive</p> 
+          ? <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Active</p> 
+          : <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Inactive</p> 
           }
         </>
     },

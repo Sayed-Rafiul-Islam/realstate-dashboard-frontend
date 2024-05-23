@@ -59,7 +59,7 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                     <DialogHeader>
                         <div className="flex justify-between items-end mt-6 mb-2">
                             <h3 className="text-xl font-semibold">Details</h3>
-                            <Link target="_blank" href={`/invoices/${data._id}/print`} className="flex items-center gap-2 bg-primary text-white py-2 px-5 rounded-md hover:bg-transparent border border-primary hover:text-primary transition-all"><Printer size={15} /> Print</Link>
+                            <Link target="_blank" href={`/invoices/${data._id}/print`} className="flex items-center gap-2 bg-purple-600 text-white py-2 px-5 rounded-md hover:bg-transparent border border-purple-600 hover:text-purple-600 transition-all"><Printer size={15} /> Print</Link>
                         </div>
                         <Separator />
                     </DialogHeader>
@@ -138,7 +138,7 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            <Button onClick={()=>router.push(`/invoices/${data._id}`)}>Update</Button>
+                            <Button className="bg-purple-600" onClick={()=>router.push(`/invoices/${data._id}`)}>Update</Button>
                         </div>
                     </div>
                 </DialogContent>

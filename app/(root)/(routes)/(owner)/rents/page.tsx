@@ -64,7 +64,7 @@ const RentsPage = () => {
                 <Pathname />
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Rents</h1>
-                    <Button onClick={()=>router.push('/invoices/add')}  className="flex gap-2"><Printer size={15} />Export</Button>
+                    <Button onClick={()=>{}}  className="flex gap-2 bg-purple-600"><Printer size={15} />Export</Button>
                 </div>
                 <Separator />
                 <div>

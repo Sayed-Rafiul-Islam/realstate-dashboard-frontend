@@ -70,7 +70,7 @@ const InvoicesPage = () => {
                 </div>
                 <Separator />
                 <div className="flex justify-end"> 
-                    <Button onClick={()=>router.push('/invoices/add')}  className="">New Invoice</Button>
+                    <Button onClick={()=>router.push('/invoices/add')}  className="bg-purple-600">New Invoice</Button>
                 </div>
                 <div>
                     <InvoicesClient data={formattedInvoices} />

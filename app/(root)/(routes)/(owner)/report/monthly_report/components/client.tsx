@@ -43,7 +43,6 @@ export const MonthlyRecordsClient : React.FC<MonthlyRecordsClientProps> = ({data
     return (
         <>        
             <DataTable pagination={true} searchKey="month_year" columns={columns} data={data} />
-
         </>
     )
 }

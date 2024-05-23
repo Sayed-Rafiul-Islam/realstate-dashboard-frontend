@@ -141,7 +141,8 @@ const AdminMenu = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href1 ||  pathname === item.href + '/' + params.id) {
+            // ||  pathname === item.href + '/' + params.id
+            if (pathname === item.href || pathname === item.href1) {
                 item.active = true
             }
 

@@ -20,7 +20,7 @@ const AllPropertiesPage = () => {
                 <Pathname />
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Packages</h1>
-                    <Button onClick={()=>router.push('/properties/add')}  className="">Add New Property</Button>
+                    <Button onClick={()=>router.push('/properties/add')}  className="bg-purple-600">Add New Property</Button>
                 </div>
                 <Separator />
                 <div>

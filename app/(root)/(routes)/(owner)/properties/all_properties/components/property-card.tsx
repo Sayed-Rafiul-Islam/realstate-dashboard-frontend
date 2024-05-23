@@ -94,7 +94,7 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
                 <h5 className="flex items-center text-xs  gap-2"><LayoutDashboardIcon size={15} />{data.rooms} Rooms</h5>
                 <h5 className="flex items-center text-xs  gap-2"><CircleCheck size={15} />{data.available} Available</h5>
             </div>
-            <Button onClick={()=>router.push(`/properties/all_properties/${data._id}`)} className="w-full">View Details</Button>
+            <Button onClick={()=>router.push(`/properties/all_properties/${data._id}`)} className="w-full bg-purple-600">View Details</Button>
         </div>
     </div>
      );

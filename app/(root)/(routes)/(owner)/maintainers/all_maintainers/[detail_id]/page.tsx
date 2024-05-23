@@ -1,6 +1,6 @@
 "use client"
 
-import { MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
@@ -34,6 +34,7 @@ const MaintainerDetails = ({
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
 
     const onDelete = async () => {
         dispatch(removeMaintainer(maintainer))
@@ -131,33 +132,6 @@ const MaintainerDetails = ({
     }
 
 
-    
-
-
-
-    const chartData = {
-        labels: data?.map(({label})=>label),
-        datasets: [
-          {
-            label: 'Bill',
-            data: data?.map(({number})=>number),
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
-          },
-        ],
-      };
-
-
 
     return ( 
         <>
@@ -194,7 +168,7 @@ const MaintainerDetails = ({
                     <h1 className="text-2xl font-bold">Maintainer Profile</h1> 
                     <div className="flex justify-end gap-2 mt-4">
                         <Button onClick={()=>setOpen(true)} className="border border-orange-500" variant='outline'>Delete Maintainer</Button>
-                        <Button onClick={()=>router.push(`/maintainers/${params.detail_id}`)} >Edit Info</Button>
+                        <Button className="bg-purple-600" onClick={()=>router.push(`/maintainers/${params.detail_id}`)} >Edit Info</Button>
                     </div>
                 </div>
                 <Separator />
@@ -285,19 +259,52 @@ const MaintainerDetails = ({
 
                 <div className="mt-10 flex lg:flex-row flex-col gap-5">
                     
-                   <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-5/12 md:w-full">
+                   <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-1/2 md:w-full">
                    <div className="mb-4 flex justify-between items-center">
                         <h2 className="text-lg font-semibold">Maintainance Requests</h2>
-                        <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
+                        <button className="text-sm text-blue-500 flex gap-2 items-center" ><ArrowLeft size={15} />View All</button>
                     </div>
-                   <InvoicesClient data={formattedInvoices} />
+                    <div className="flex flex-col gap-2">
+                        {
+                            threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
+                                const property = properties.filter((item) => propertyId === item._id)[0].name
+                                const unit = units.filter((item) => unitId === item._id)[0].name
+                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0].name
+
+                                let statusStyle = ''
+                                let border = ''
+
+                                if ( status === 'Complete') {
+                                    statusStyle = 'text-indigo-600 text-xs bg-indigo-100 px-4 py-2 rounded-lg'
+                                    border = 'border-l-4 border-indigo-500'
+                                } else if ( status === 'Incomplete' ) {
+                                    statusStyle = 'text-red-600 bg-red-100 px-4 py-2 rounded-lg text-xs'
+                                    border = 'border-l-4 border-red-500'
+                                } else {
+                                    statusStyle = 'text-amber-600 bg-amber-100 px-3 py-2 rounded-lg text-xs'
+                                    border = 'border-l-4 border-amber-500'
+                                }
+                                return (
+                                    <div key={_id} className={`${border} flex md:flex-row flex-col md:items-center justify-between rounded-md px-2 py-1`}>
+                                        <div>
+                                            <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
+                                            <h5 className="text-xs text-gray-500">{issue}</h5>
+                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
+                                            <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span></p>
+                                        </div>
+                                        <h4 className={`${statusStyle} md:my-0 my-2 w-fit`}>{status}</h4>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
 
                      
                    </div>
-                    <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-7/12 md:w-full">
+                    <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-1/2 md:w-full">
                         <div className="mb-4 flex justify-between items-center">
                             <h2 className="text-lg font-semibold">Invoices</h2>
-                            <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
+                            <button className="text-sm text-blue-500 flex gap-2 items-center"><ArrowLeft size={15} />View All</button>
                         </div>
                         <InvoicesClient data={formattedInvoices} />
                     </div>

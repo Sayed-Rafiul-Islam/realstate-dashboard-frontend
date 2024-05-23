@@ -71,6 +71,7 @@ const ImageUpload : React.FC<ImageUploadProps> = ({
                             type="button"
                             disabled={disabled}
                             onClick={onClick}
+                            className="bg-purple-600"
                         >Image Upload</Button>
                     )
                 }}

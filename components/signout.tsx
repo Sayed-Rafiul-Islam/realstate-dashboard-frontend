@@ -34,13 +34,13 @@ const SignOut = () => {
             // user_name &&
             <DropdownMenu>
             <DropdownMenuTrigger className="">
-                <div className="bg-indigo-400 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
+                <div className="bg-purple-600 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
                     <span className="text-white mb-1">{letter}</span>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
 
-                <DropdownMenuItem onClick={()=>router.push('/my_profile')} className="flex items-center gap-2 cursor-pointer text-gray-500">
+                <DropdownMenuItem onClick={()=>router.push('/profile')} className="flex items-center gap-2 cursor-pointer text-gray-500">
                     <UserCircle size={20} />
                     <span><Link prefetch href='/my_profile'>Profile</Link></span>
                 </DropdownMenuItem>

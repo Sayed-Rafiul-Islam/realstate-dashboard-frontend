@@ -97,7 +97,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            <Button onClick={()=>router.push(`/maintainance_requests/${data._id}`)}>Update</Button>
+                            <Button className="bg-purple-600" onClick={()=>router.push(`/maintainance_requests/${data._id}`)}>Update</Button>
                         </div>
                     </div>
                 </DialogContent>

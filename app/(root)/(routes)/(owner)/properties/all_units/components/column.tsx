@@ -28,7 +28,7 @@ export const columns: ColumnDef<UnitColumn>[] = [
   {
     accessorKey: "rent",
     header: "Rent",
-    cell: ({row}) => <p className="font-semibold">$ {row.original.rent}</p> 
+    cell: ({row}) => <p className="">{row.original.rent} BDT</p> 
   },
   {
     accessorKey: "tenant",
@@ -39,7 +39,7 @@ export const columns: ColumnDef<UnitColumn>[] = [
           row.original.tenant === '' ?
           <p className="text-red-600">Not Available</p> 
           :
-          <p className="text-green-600">{row.original.tenant}</p> 
+          <p className="font-bold">{row.original.tenant}</p> 
         }
       </>    
   },

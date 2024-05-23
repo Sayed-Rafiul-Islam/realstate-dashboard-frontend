@@ -225,8 +225,8 @@ const OwnerDashboard = () => {
                 }
             </div>
 
-            <div className="owner-section-1 mt-10 gap-5">
-                <div className="shadow-md p-2 chart">
+            <div className="owner-section-1 mt-10 gap-5 w-full">
+                <div className="shadow-md p-2">
                     <div className="flex justify-between items-center">
                         <h3 className="text-xl font-semibold">Revenue</h3>
                         <div className="flex gap-2 text-gray-500">
@@ -268,19 +268,19 @@ const OwnerDashboard = () => {
                     </div>
 
                 </div>
+
                 <div className="shadow-md p-2">
                     <div className="flex md:flex-row flex-col justify-between md:items-center gap-2 mb-4">
                         <div>
                             <h3 className="text-xl font-semibold">Maintainance Requests</h3>
                             <p className="text-gray-500 text-xs">Total 44,559 Tickets</p>
                         </div>
-                        <Button 
+                        <button 
                             onClick={()=>router.push('/maintainance_requests/all_maintainance_requests')} 
-                            variant='outline' 
-                            className="flex gap-2 items-center w-fit"
+                            className="flex gap-2 items-center w-fit text-sm text-blue-500"
                         >
                             View All <ArrowRight size={15} />
-                        </Button>
+                        </button>
                     </div>
 
                     <div className="flex flex-col gap-2">
@@ -307,7 +307,8 @@ const OwnerDashboard = () => {
                                     <div key={_id} className={`${border} flex md:flex-row flex-col md:items-center justify-between rounded-md px-2 py-1`}>
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
-                                            <h5 className="text-xs text-gray-500">{issue} in {property}/{unit}</h5>
+                                            <h5 className="text-xs text-gray-500">{issue}</h5>
+                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
                                             <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span></p>
                                         </div>
                                         <h4 className={`${statusStyle} md:my-0 my-2 w-fit`}>{status}</h4>

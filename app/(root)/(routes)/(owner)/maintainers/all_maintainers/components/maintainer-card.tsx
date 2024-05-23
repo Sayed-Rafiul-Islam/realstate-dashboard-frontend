@@ -128,7 +128,7 @@ const MaintainerCard : React.FC<MaintainerCardProps> = ({data}) => {
                 </div>
 
                 <div className="w-5/6 mx-auto mb-3">
-                    <Button onClick={()=>router.push(`/maintainers/all_maintainers/${data._id}`)} className="w-full">View Details</Button>
+                    <Button onClick={()=>router.push(`/maintainers/all_maintainers/${data._id}`)} className="w-full bg-purple-500">View Details</Button>
                 </div>
                       
             </div>

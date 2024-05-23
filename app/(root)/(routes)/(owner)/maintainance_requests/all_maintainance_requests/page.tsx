@@ -52,7 +52,7 @@ const AllRequests = () => {
                 <Pathname />
                 <div className="flex justify-between md:flex-row flex-col gap-2"> 
                     <h1 className="font-bold text-xl">Maintainance Requests</h1>
-                    <Button className="lg:w-1/4 md:w-1/5 w-2/3" onClick={()=>router.push('/maintainance_requests/add')}>New Request</Button>
+                    <Button className="lg:w-1/4 md:w-1/5 w-2/3 bg-purple-500" onClick={()=>router.push('/maintainance_requests/add')}>New Request</Button>
                 </div>
                 <Separator />
 

@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MoreVertical } from "lucide-react";
 
 const TenantDetails = ({
     params
@@ -133,10 +133,6 @@ const TenantDetails = ({
     }
 
 
-    
-
-
-
     const chartData = {
         labels: data?.map(({label})=>label),
         datasets: [
@@ -144,17 +140,9 @@ const TenantDetails = ({
             label: 'Bill',
             data: data?.map(({number})=>number),
             backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-
+                'blue',
+                '#f97316',
             ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-            ],
-            borderWidth: 1,
           },
         ],
       };
@@ -196,7 +184,7 @@ const TenantDetails = ({
                     <h1 className="text-2xl font-bold">Tenant Profile</h1> 
                     <div className="flex justify-end gap-2 mt-4">
                         <Button onClick={()=>setOpen(true)} className="border border-orange-500" variant='outline'>Delete Tenant</Button>
-                        <Button onClick={()=>router.push(`/tenants/${params.detail_id}`)} >Edit Info</Button>
+                        <Button className="bg-purple-600" onClick={()=>router.push(`/tenants/${params.detail_id}`)} >Edit Info</Button>
                     </div>
                 </div>
                 <Separator />
@@ -293,20 +281,57 @@ const TenantDetails = ({
 
                 {/* invoices */}
 
-                <div className="mt-10 flex gap-5 table-chart">
+                <div className="my-10 flex gap-5 table-chart">
                     
-                   <div className="chart rounded-lg all-shadow py-6">
-                   <h2 className="text-2xl font-semibold text-center mb-4">Total Paid</h2> 
+                   <div className="chart rounded-lg all-shadow py-6 px-4">
+                   <div className="flex justify-between">
+                        <div>
+                            <h4 className="text-xl font-semibold">Total Expenditure</h4> 
+                            <h4 className="text-xl font-semibold mb-8">{data && data[0].number+data[1].number} BDT</h4> 
+                        </div>
+                        <MoreVertical className="cursor-pointer" size={15} />
+                   </div>
                         {/* chart */}
 
                         <Doughnut 
                             data={chartData}
+                            options={{
+                                plugins : {
+                                    legend : {
+                                        display : false
+                                    }
+                                }
+                            }} 
+
+                            plugins={[{
+                                id : 'doughnutLabelsLine',
+                                afterDraw(chart,args,options) {
+                                    const { ctx, chartArea : {top, bottom, left, right, width, height}} = chart
+                                    chart.data.datasets.forEach((dataset, i) =>{
+                                        chart.getDatasetMeta(i).data.forEach((datapoint, index) =>{
+                                            const { x, y } = datapoint.tooltipPosition(true)
+                                            ctx.fillStyle = 'white'
+                                            ctx.textAlign = 'center'
+                                            ctx.textBaseline = 'middle'
+                                            ctx.font = '12px Arial'
+                                            ctx.fillText(`${dataset.data[index]*100/(dataset.data[0]+dataset.data[1])} %`,x,y)
+                                        })
+                                    })
+                                }
+                            }]}
                          />
+
+                    <div className="flex mt-5 w-full justify-center">
+                        <div className="flex flex-col">
+                            <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-blue-700" />  <h4>Paid</h4></span>
+                            <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-orange-500" />  <h4>Unpaid</h4></span>
+                        </div>
+                    </div>
                    </div>
                     <div className="tenant-table rounded-lg all-shadow py-4 md:px-8 px-4">
                         <div className="mb-4 flex justify-between items-center">
                             <h2 className="text-2xl font-semibold">Invoices</h2>
-                            <Button variant='outline'><ArrowLeft className="mr-2" size={15} />View All</Button>
+                            <button className="text-sm text-blue-500 flex items-center gap-2"><ArrowLeft size={15} />View All</button>
                         </div>
                         <InvoicesClient data={formattedInvoices} />
                     </div>
