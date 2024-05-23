@@ -5,7 +5,7 @@ import { CellAction } from "./cell-action"
 import { PackageProps } from "@/types"
 
 
-  export const columns: ColumnDef<PackageProps>[] = [
+  export const packagecolumns: ColumnDef<PackageProps>[] = [
     {
       accessorKey: "label",
       header: "Name",

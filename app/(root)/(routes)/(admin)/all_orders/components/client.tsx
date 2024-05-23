@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 
 import { Toaster } from "react-hot-toast"
 import { OrderProps } from "@/types"
-import { columns } from "./column"
+import { orderColumns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 
 export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
@@ -30,7 +30,7 @@ export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
     }
     return (
         <>
-            <DataTable pagination={true} filters={filters} searchKey="name" columns={columns} data={data} />
+            <DataTable pagination={true} filters={filters} searchKey="name" columns={orderColumns} data={data} />
             <Toaster />
         </>
     )

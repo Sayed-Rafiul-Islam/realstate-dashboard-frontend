@@ -6,7 +6,7 @@ interface PackageClientProps {
 
 import { Toaster } from "react-hot-toast"
 import { PackageProps } from "@/types"
-import { columns } from "./column"
+import { packagecolumns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useEffect, useState } from "react"
 
@@ -27,7 +27,7 @@ export const PackagesClient : React.FC<PackageClientProps> = ({data}) => {
 
     return (
         <>
-            <DataTable pagination={true} searchKey="label" columns={columns} data={data} />
+            <DataTable pagination={true} searchKey="label" columns={packagecolumns} data={data} />
             <Toaster />
         </>
     )

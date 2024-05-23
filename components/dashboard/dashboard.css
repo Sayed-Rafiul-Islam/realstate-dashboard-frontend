@@ -7,8 +7,16 @@
 .owner-section-1 {
     display: flex;
 }
-.owner-section-1 > div {
-    width: 50%;
+.admin-section-1 {
+    display: flex;
+}
+
+.admin-chart {
+    width: 30%;
+}
+
+.packages-table-wrapper {
+    width: 68%;
 }
 
 .chart-legends {
@@ -29,6 +37,21 @@
         padding: 20px;
     }
  }
+ @media (max-width: 800px) { 
+    .admin-section-1 {
+        display: flex;
+        flex-direction: column;
+    }
+    .admin-chart {
+        width: 100%;
+        padding: 20px;
+    }
+    .packages-table-wrapper {
+        width: 100%;
+        padding: 20px;
+    }
+
+ }
 
 @media (max-width: 900px) { 
     .summery {
@@ -40,8 +63,12 @@
     .tables > div{
         width: 100%;
     }
+
  }
+
+
 @media (max-width: 650px) { 
+
     .chart-legends {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -60,6 +87,16 @@
     }
  }
 @media (max-width: 460px) { 
+    .packages-table-wrapper > div {
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+    }
+    .orders-table-wrapper > div {
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+    }
     .summery {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }

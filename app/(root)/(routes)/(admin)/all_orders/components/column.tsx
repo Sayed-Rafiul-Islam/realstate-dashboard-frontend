@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
 import { OrderProps } from "@/types"
 
-export const columns: ColumnDef<OrderProps>[] = [
+export const orderColumns: ColumnDef<OrderProps>[] = [
   {
     accessorKey: "serial",
     header: "SL",

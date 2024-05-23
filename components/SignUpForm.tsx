@@ -13,6 +13,7 @@ export default function SignUpForm() {
     const router = useRouter()
 
     const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -21,7 +22,8 @@ export default function SignUpForm() {
 
     const handleSubmit = async () => {
         localStorage.removeItem("accessToken")
-        setMessage("Signing up...")
+        setLoading(true)
+
         if (name === '' || password1 === '' || password === '') {
             setMessage("Fill in all the fields")
         } else if (password !== password1) {
@@ -35,10 +37,11 @@ export default function SignUpForm() {
                 setMessage("Email already in use")
             }
             else {
-                setMessage("User created successfully")
+                setMessage("")
                 router.push('/')
             }
         } 
+        setLoading(false)
     }
   return (
     <div className="">
@@ -93,13 +96,12 @@ export default function SignUpForm() {
             placeholder="*****************"
             />  */}
 
-            <Button className="bg-blue-500 mt-4 w-full" onClick={handleSubmit}>
+            <Button disabled={loading} className="bg-blue-500 mt-4 w-full" onClick={handleSubmit}>
                 Sign In
             </Button>
         </div>
 
-        <p className=
-         "text-red-500">
+        <p className="text-red-500">
             {message}
         </p>
       

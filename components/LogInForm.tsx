@@ -18,13 +18,16 @@ export default function LogInForm() {
     
 
     const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(false)
+
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [ message, setMessage] = useState('')
 
     const handleSubmit = async () => {
+        setLoading(true)
         localStorage.removeItem("accessToken")
-        setMessage("Logging in...")
+        // setMessage("Logging in...")
         
         if (userName === '' || password === '') {
             setMessage("Fill in all the fields")
@@ -36,13 +39,14 @@ export default function LogInForm() {
             } else if (status === 400) {
                 setMessage("Wrong Password")
             } else if (status === 200) {
-                setMessage("Login Successful")
+                setMessage("")
                 dispatch(addUser(data))
                 localStorage.setItem("accessToken",data.accessToken)
                 window.location.assign('/')
             }
             
         } 
+        setLoading(false)
     }
   return (
     <div className="flex flex-col mt-4">
@@ -97,14 +101,13 @@ export default function LogInForm() {
             onChange={(e)=> setPassword(e.target.value)}
             placeholder="***********"
             /> */}
-            <Button className="bg-blue-500 mt-4 w-full" onClick={handleSubmit}>
+            <Button disabled={loading} className="bg-blue-500 mt-4 w-full" onClick={handleSubmit}>
                 Sign In
             </Button>
             
         </div>
 
-        <p className=
-         "text-red-500">
+        <p className="text-red-500">
             {message}
         </p>
       

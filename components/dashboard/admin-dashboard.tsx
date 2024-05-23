@@ -1,48 +1,97 @@
 "use client"
-import { ArrowRight, Home, UserRound, UsersRound, Warehouse } from "lucide-react";
+import { ArrowRight, Calendar, Home, UserRound, UsersRound, Warehouse } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
 import { useSelector } from "react-redux";
-import {OrderReducersProps, PackagesReducersProps } from "@/types";
+import {OrderProps, OrderReducersProps, OwnersReducerProps, PackagesReducersProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { ThreeOrdersClient } from "@/app/(root)/(routes)/components/orders/client";
 import { ThreePackagesClient } from "@/app/(root)/(routes)/components/packages/client";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import DoughnutChart from "../DoughnutChart";
+import { DataTable } from "../ui/data-table";
+import { packagecolumns } from "@/app/(root)/(routes)/(admin)/packages/components/column";
+import { CellAction } from "@/app/(root)/(routes)/(admin)/packages/components/cell-action";
+import { orderColumns } from "@/app/(root)/(routes)/(admin)/all_orders/components/column";
+import { format } from "date-fns";
 
 const AdminDashboard = () => {
+
+    const ownerCount = useSelector(({ownersReducer} : OwnersReducerProps) => ownersReducer).owners.length
+    const propertyCount = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties.length
+    const unitCount = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units.length
+    const tenantCount = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants.length
 
     const summery = [
         {
             id : 1,
             subtitle : "Total Owner",
-            title : '1',
+            title : `${ownerCount}`,
             icon : <UsersRound className="bg-white p-2 w-[32px] h-[32px]"  color="#ff8c2e" size={20} />
         },
         {
             id : 2,
             subtitle : "Total Property",
-            title : '2',
+            title : `${propertyCount}`,
             icon : <Warehouse className="bg-white p-2 w-[32px] h-[32px]"  color="#2563eb" size={20} />
         },
         {
             id : 3,
             subtitle : "Total Unit",
-            title : '4',
+            title : `${unitCount}`,
             icon : <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#e11d48" size={20} />
         },
         {
             id : 4,
             subtitle : "Total Tenant",
-            title : '7',
+            title : `${tenantCount}`,
             icon : <UserRound className="bg-white p-2 w-[32px] h-[32px]" color="#16a34a" size={20} />
         }
     ]
 
+    const packageColumn = [
+        {
+            accessorKey: "label",
+            header: "Name",
+          },
+          {
+            accessorKey: "monthlyPrice",
+            header: "Monthly Price",
+          },
+          {
+            accessorKey: "yearlyPrice",
+            header: "Yearly Price",
+          },
+          {
+            id: "actions",
+            cell: ({row} : any) => <CellAction data={row.original} />,
+          },
+    ]
+
     const router = useRouter()
-    const {orders} = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
-    const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
-    const threeOrders = orders.slice(0,3)
-    const threePackages = packages.slice(0,3)
+    const orders = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer).orders.slice(0,3)
+    const formattedOrders = orders.map((
+        {
+            _id,
+            name,
+            packageName,
+            amount,
+            gateway,
+            date,
+            status,
+            transactionId
+        } : OrderProps,index : number) => ({
+            serial : index + 1,
+            _id,
+            name,
+            packageName,
+            amount,
+            gateway,
+            date : format(date,"MMMM do, yyyy"),
+            status,
+            transactionId
+    }))
+    const packages = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer).packages.slice(0,3)
 
 
     return ( 
@@ -53,19 +102,54 @@ const AdminDashboard = () => {
                     summery.map(({id,subtitle,title,icon},index) => <Summery key={index} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
-            <div className="flex gap-4 mt-10 tables">
-                {/* orders  */}
-                <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
-                    <h2 className="font-semibold text-xl mb-4">Orders</h2>
-                    <ThreeOrdersClient data={threeOrders} />
-                    <Button onClick={()=>router.push('/allorders')} className="w-full mt-5" variant='outline'>See All <ArrowRight className="ml-4" size={15} /></Button>
+
+            <div className="admin-section-1 mt-10 gap-5">
+
+                {/* chart  */}
+                <div className="shadow-md p-2 admin-chart">
+                    <div className="flex justify-between items-center">
+                        <h3 className="text-xl font-semibold">Total Order</h3>
+                        <div className="flex gap-2 text-gray-500">
+                            <Calendar className="cursor-pointer" size={15} />
+                        </div>
+                    </div>
+                    <h3 className="text-xl font-semibold">{orders.length}</h3>
+
+                    <div className="relative overflow-x-scroll">
+                        <DoughnutChart orders={orders} />
+                    </div>
                 </div>
-                {/* packages  */}
-                <div className="w-1/2 bg-gray-100 py-10 px-4 rounded-lg">
-                    <h2 className="font-semibold text-xl mb-4">Packages</h2>
-                    <ThreePackagesClient data={threePackages} />
-                    <Button onClick={()=>router.push('/packages')} className="w-full mt-5" variant='outline'>See All <ArrowRight className="ml-4" size={15} /></Button>
+
+                {/* packages table */}
+                <div className="shadow-md p-2 packages-table-wrapper">
+                    <div className="flex justify-between items-center gap-2 mb-4">
+                        <h3 className="text-xl font-semibold">Packages</h3>
+                        <button 
+                            onClick={()=>router.push('/packages')} 
+                            className="flex gap-2 items-center w-fit text-sm text-blue-500"
+                        >
+                            View All <ArrowRight size={15} />
+                        </button>
+                    </div>
+                    <DataTable pagination={false} columns={packageColumn} data={packages} />
                 </div>
+
+            </div>
+
+
+            {/* orders table */}
+
+            <div className="shadow-md my-10 p-4 orders-table-wrapper">
+                <div className="flex justify-between items-center gap-2 mb-4">
+                    <h3 className="text-xl font-semibold">Orders</h3>
+                    <button 
+                        onClick={()=>router.push('/all_orders')} 
+                        className="flex gap-2 items-center w-fit text-sm text-blue-500"
+                    >
+                        View All <ArrowRight size={15} />
+                    </button>
+                </div>
+                <DataTable pagination={false} columns={orderColumns} data={formattedOrders} />
             </div>
         </div>
      );
