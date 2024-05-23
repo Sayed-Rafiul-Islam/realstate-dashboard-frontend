@@ -118,7 +118,7 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
                 data={data} 
                 options={{
                 plugins : {
-                    legend : false
+                    legend : { display : false}
                 },
                 interaction : {
                     mode : 'index'
