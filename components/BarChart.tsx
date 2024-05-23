@@ -16,6 +16,7 @@ interface BarChartProps {
     }[],
 }
 
+
 const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
 
     
@@ -110,6 +111,30 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
         ]
     }
 
+    const plugin = {
+        id : 'hoverLine',
+        afterDatasetsDraw(chart : any) {
+            const { ctx, tooltip, chartArea : {top, bottom, left, right, width, height}, scales : {x,y}} = chart
+
+            if (tooltip._active.length > 0 && tooltip !== undefined) {
+                const xCoor = x.getPixelForValue(tooltip.dataPoints[0].dataIndex)
+                const yCoor = y.getPixelForValue(tooltip.dataPoints[0].parsed.y)
+
+                chart.data.datasets[0].pointBorderColor = 'rgba(0, 41, 255, 1)'
+
+                ctx.save()
+                ctx.beginPath()
+                ctx.lineWidth = 2
+                ctx.strokeStyle = 'rgba(0, 41, 255, 0.3)'
+                ctx.setLineDash([2,2])
+                ctx.moveTo(xCoor,yCoor)
+                ctx.lineTo(xCoor,bottom)
+                ctx.stroke()
+                ctx.setLineDash([])
+            }
+        }
+    }
+
  
 
     return ( 
@@ -143,29 +168,7 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
                     }
                 
                 }} 
-                plugins={[{
-                    id : 'hoverLine',
-                    afterDatasetsDraw(chart,args,options) {
-                        const { ctx, tooltip, chartArea : {top, bottom, left, right, width, height}, scales : {x,y}} = chart
-
-                        if (tooltip?._active.length > 0) {
-                            const xCoor = x.getPixelForValue(tooltip?.dataPoints[0].dataIndex)
-                            const yCoor = y.getPixelForValue(tooltip?.dataPoints[0].parsed.y)
-
-                            chart.data.datasets[0].pointBorderColor = 'rgba(0, 41, 255, 1)'
-
-                            ctx.save()
-                            ctx.beginPath()
-                            ctx.lineWidth = 2
-                            ctx.strokeStyle = 'rgba(0, 41, 255, 0.3)'
-                            ctx.setLineDash([2,2])
-                            ctx.moveTo(xCoor,yCoor)
-                            ctx.lineTo(xCoor,bottom)
-                            ctx.stroke()
-                            ctx.setLineDash([])
-                        }
-                    }
-                }]}
+                plugins={[plugin]}
             />
             
         </div>
