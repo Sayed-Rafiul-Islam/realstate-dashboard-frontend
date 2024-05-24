@@ -14,7 +14,7 @@ import { Separator } from "../ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(owner)/maintainance_requests/all_maintainance_requests/components/column";
-import { baseURL_vercel } from "@/actions/api";
+import { baseURL_local, baseURL_vercel } from "@/actions/api";
 
 interface PreviewRequestProps {
     isOpen : boolean,
