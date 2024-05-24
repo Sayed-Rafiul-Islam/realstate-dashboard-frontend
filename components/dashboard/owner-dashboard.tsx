@@ -288,7 +288,7 @@ const OwnerDashboard = () => {
                             threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
                                 const property = properties.filter((item) => propertyId === item._id)[0].name
                                 const unit = units.filter((item) => unitId === item._id)[0].name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0].name
+                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
 
                                 let statusStyle = ''
                                 let border = ''
@@ -309,7 +309,14 @@ const OwnerDashboard = () => {
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue}</h5>
                                             <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
-                                            <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span></p>
+                                            
+                                                {
+                                                    maintainer ?
+                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span> </p>
+                                                    :
+                                                    <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yes</span> </p>
+                                                }
+                                           
                                         </div>
                                         <h4 className={`${statusStyle} md:my-0 my-2 w-fit`}>{status}</h4>
                                     </div>

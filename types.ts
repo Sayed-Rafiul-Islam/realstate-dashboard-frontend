@@ -282,6 +282,7 @@ export interface MaintainanceRequestProps {
   status : string,
   details : string,
   cost : number,
+  attachment : string
 }
 
 export interface MaintainanceRequestsReducerProps {

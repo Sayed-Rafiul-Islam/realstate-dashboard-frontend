@@ -1,4 +1,4 @@
-import { InvoiceProps } from "@/types"
+import { InvoiceProps, MaintainanceRequestProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
 const maintainanceRequestsJson = typeof window !== "undefined" && localStorage.getItem("maintainanceRequests")
@@ -18,24 +18,19 @@ const maintainanceRequestsSlice = createSlice({
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
         },
-        // updatemaintainanceRequeststatus : (state, {payload}) => {
-        //     const temp = state.maintainanceRequests.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.maintainanceRequests = temp
-        //     localStorage.removeItem("maintainanceRequests")
-        //     localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
-        // },
+        updateMaintainanceRequest : (state, {payload}) => {
+            console.log(payload)
+            const index = state.maintainanceRequests.findIndex((item : MaintainanceRequestProps) => item._id === payload._id)
+            state.maintainanceRequests[index] = payload
+            localStorage.removeItem("maintainanceRequests")
+            localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+        },
 
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.maintainanceRequests.push(payload)
-        //     console.log(state.maintainanceRequests)
-        //     localStorage.removeItem("maintainanceRequests")
-        //     localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
-        // },
+        addMaintainanceRequest : (state, {payload}) => {
+            state.maintainanceRequests.push(payload)
+            localStorage.removeItem("maintainanceRequests")
+            localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+        },
         removeMaintainanceRequests : (state, {payload}) => {
             const temp = state.maintainanceRequests.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.maintainanceRequests = temp
@@ -45,5 +40,9 @@ const maintainanceRequestsSlice = createSlice({
     }
 })
 
-export const {getMaintainanceRequests,removeMaintainanceRequests} = maintainanceRequestsSlice.actions
+export const {
+    getMaintainanceRequests,
+    addMaintainanceRequest,
+    updateMaintainanceRequest,
+    removeMaintainanceRequests} = maintainanceRequestsSlice.actions
 export default maintainanceRequestsSlice.reducer

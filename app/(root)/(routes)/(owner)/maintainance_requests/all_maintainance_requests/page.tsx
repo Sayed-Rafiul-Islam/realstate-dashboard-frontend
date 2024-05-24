@@ -27,7 +27,8 @@ const AllRequests = () => {
             issue,
             status,
             details,
-            cost
+            cost,
+            attachment
         }) => {
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
             const unitName  = units.filter(({_id}) =>_id === unitId)[0].name
@@ -42,7 +43,8 @@ const AllRequests = () => {
                 issue,
                 status,
                 details,
-                cost
+                cost,
+                attachment
             }
     })
    

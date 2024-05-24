@@ -25,6 +25,7 @@ import { getGateways } from '@/redux/settings/gatewaySlice'
 import { getInvoiceTypes } from '@/redux/settings/invoiceTypesSlice'
 import { getExpenseTypes } from '@/redux/settings/expenseTypesSlice'
 import { getMaintainanceTypes } from '@/redux/settings/maintainanceTypesSlice'
+import api from './api'
 
 
 
@@ -691,52 +692,52 @@ const loadMaintainers = async () => {
     dispatch(getMaintainers(maintainers))
 }
 
-const loadMaintainanceRequests = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const requests = [
-        {
-            _id : '1',
-            date : '2024-05-02T17:34:59.911+00:00',
-            requestNo : 'CW10086675',
-            type : "Electrical Problem",
-            propertyId : '1',
-            unitId : '1',
-            maintainerId : '1',
-            issue : "Smoke Detector Battery Replacement",
-            status : "In Progress",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-            cost : 800
-        },
-        {
-            _id : '2',
-            date : '2024-05-02T17:34:59.911+00:00',
-            requestNo : 'CW10086674',
-            type : "Plumbing Problem",
-            propertyId : '1',
-            unitId : '2',
-            maintainerId : '2',
-            issue : "Smoke Detector Battery Replacement",
-            status : "Complete",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-            cost : 1200
-        },
-        {
-            _id : '3',
-            date : '2024-05-02T17:34:59.911+00:00',
-            requestNo : 'CW10086670',
-            type : "Pest Problem",
-            propertyId : '1',
-            unitId : '3',
-            maintainerId : '3',
-            issue : "Smoke Detector Battery Replacement",
-            status : "Incomplete",
-            details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-            cost : 600
-        }
-    ]
-    dispatch(getMaintainanceRequests(requests))
+const loadMaintainanceRequests = async (dispatch : any) => {
+    const {data,status} = await api.get(`getRequests`,{validateStatus: () => true})
+    dispatch(getMaintainanceRequests(data))
+
+    // const data = [
+    //     {
+    //         _id : '1',
+    //         date : '2024-05-02T17:34:59.911+00:00',
+    //         requestNo : 'CW10086675',
+    //         type : "Electrical Problem",
+    //         propertyId : '1',
+    //         unitId : '1',
+    //         maintainerId : '1',
+    //         issue : "Smoke Detector Battery Replacement",
+    //         status : "In Progress",
+    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+    //         cost : 800
+    //     },
+    //     {
+    //         _id : '2',
+    //         date : '2024-05-02T17:34:59.911+00:00',
+    //         requestNo : 'CW10086674',
+    //         type : "Plumbing Problem",
+    //         propertyId : '1',
+    //         unitId : '2',
+    //         maintainerId : '2',
+    //         issue : "Smoke Detector Battery Replacement",
+    //         status : "Complete",
+    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+    //         cost : 1200
+    //     },
+    //     {
+    //         _id : '3',
+    //         date : '2024-05-02T17:34:59.911+00:00',
+    //         requestNo : 'CW10086670',
+    //         type : "Pest Problem",
+    //         propertyId : '1',
+    //         unitId : '3',
+    //         maintainerId : '3',
+    //         issue : "Smoke Detector Battery Replacement",
+    //         status : "Incomplete",
+    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
+    //         cost : 600
+    //     }
+    // ]
+
 }
 
 const loadEarnings = async () => {
@@ -937,6 +938,8 @@ const loadMaintainanceTypes = async () => {
 
 export default async function LoadData() {
 
+    const dispatch = useDispatch()
+
 
     loadOrders()
     loadPackages()
@@ -953,7 +956,7 @@ export default async function LoadData() {
     loadDocuments()
     loadRents()
     loadMaintainers()
-    loadMaintainanceRequests()
+    loadMaintainanceRequests(dispatch)
     loadEarnings()
     loadMonthlyRecords()
     loadGateways()

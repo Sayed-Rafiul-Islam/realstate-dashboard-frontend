@@ -22,7 +22,11 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import axios from "axios"
+import api from "@/actions/api"
+import { useRouter } from "next/navigation"
+import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -38,6 +42,8 @@ const formSchema = z.object({
     type : z.string().min(1, {message : "Maintainer Type Required"}),
     status : z.string().min(1, {message : "Status Required"}),
     details : z.string().min(1, {message : "Description Required"}),
+    attachment : z.string(),
+
 })
 
 
@@ -56,16 +62,19 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
 
-    const [propertyId,setPropertyId] = useState('')
+    const [file,setFile] = useState<FileList | null>()
+    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
+    const dispatch = useDispatch()
+
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
 
     const [types, setTypes] = useState<string[]>([''])
+    const router = useRouter()
 
     useEffect(()=>{
         const temp = units.filter((item)=> item.propertyId === propertyId)
         setThisUnits(temp)
-        form.setValue('unitId', '')
-        
+        form.setValue('unitId', '')       
 
     },[propertyId])
 
@@ -87,12 +96,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const toastMessage = initialData ? "Request info updated" : "New request created"
 
 
- 
-
-
-
-
-
 
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainanceRequestFormValues>({
@@ -102,24 +105,69 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             unitId : '',
             type : '',
             status : '',
-            details : ''
+            details : '',
+            attachment : ''
         }
     })
 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
-        console.log(data)
-        try {
-            setLoading(true)
-                const updatePackage = {
-                 
+        if ( initialData) {
+            if (file) {
+                if (file[0].type.split("/")[1] !=='pdf') {
+                   toast.error('Attached file must be a pdf')
+                } else {
+                   const formData = {...data,file : file[0],_id : initialData._id}
+                   const result = await api.post(`updateRequest`, 
+                   formData,
+                   {
+                       headers : { 'Content-Type' : 'multipart/form-data'}
+                   })
+                   dispatch(updateMaintainanceRequest(result.data))
+                   toast.success(toastMessage)
+                   router.push('/maintainance_requests')
                 }
-                
-        } catch (error) {
-            toast.error("Something went wrong.")
-        } finally {
-            setLoading(false)
+           } else {
+            const formData = {...data,_id : initialData._id}
+            const result = await api.post(`updateRequest`, formData)
+            dispatch(updateMaintainanceRequest(result.data))
+            toast.success(toastMessage)
+            router.push('/maintainance_requests')
+           }
+        } else {
+            if (file) {
+                if (file[0].type.split("/")[1] !=='pdf') {
+                   toast.error('Attached file must be a pdf')
+                } else {
+                   const formData = {...data,file : file[0]}
+                   const result = await api.post(`createRequest`, 
+                   formData,
+                   {
+                       headers : { 'Content-Type' : 'multipart/form-data'}
+                   })
+                   dispatch(addMaintainanceRequest(result.data))
+                   toast.success(toastMessage)
+                   router.push('/maintainance_requests')
+                }
+           } else {
+            const result = await api.post(`createRequest`, data)
+            dispatch(addMaintainanceRequest(result.data))
+            toast.success(toastMessage)
+            router.push('/maintainance_requests')
+           }
         }
+
+        // try {
+        //     setLoading(true)
+        //         const updatePackage = {
+                 
+        //         }
+                
+        // } catch (error) {
+        //     toast.error("Something went wrong.")
+        // } finally {
+        //     setLoading(false)
+        // }
     }
 
     const [isMounted, setIsMounted] = useState(false)
@@ -131,7 +179,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     if (!isMounted) {
         return null
     }
-  
+
     return (
         <div className='add mt-5'>
             <div className="flex items-center justify-between heading">
@@ -188,7 +236,9 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 </FormItem>
                             )}
                         />  
-                         <FormField
+                         
+                            
+                        <FormField
                             control={form.control}
                             name="unitId"
                             render={({ field }) => (
@@ -227,6 +277,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 </FormItem>
                             )}
                         />
+                         
                          <FormField
                             control={form.control}
                             name="type"
@@ -305,6 +356,19 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                     <FormLabel>Description <span className='text-red-500'>*</span></FormLabel>
                                     <FormControl>
                                         <Input type='text' disabled={loading} placeholder='blah blah blash...' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="attachment"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Attachment</FormLabel>
+                                    <FormControl>
+                                        <Input type='file' onChange={(e)=>setFile(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

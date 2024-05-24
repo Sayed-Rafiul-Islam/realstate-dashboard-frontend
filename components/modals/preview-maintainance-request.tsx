@@ -9,7 +9,7 @@ import {
     DialogTitle 
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import {Printer } from "lucide-react";
+import {DockIcon, File, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -92,6 +92,11 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
                             <div className="flex gap-4 mt-4">
                                 <h5 className="text-xs font-semibold">Amount Type:</h5>
                                 <h6 className="text-xs">BDT {data.cost}</h6>
+                            </div>
+
+                            <div className="flex gap-4 mt-4">
+                                <h5 className="text-xs font-semibold">Invoice:</h5>
+                                <Link target="_blank" href={`http://localhost:5000/files/${data.attachment}`} className="text-xs"><File size={15} /> {data.requestNo}</Link>
                             </div>
                         </div>
 
