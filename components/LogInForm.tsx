@@ -20,7 +20,7 @@ export default function LogInForm() {
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const [userName, setUserName] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [ message, setMessage] = useState('')
 
@@ -29,13 +29,13 @@ export default function LogInForm() {
         localStorage.removeItem("accessToken")
         // setMessage("Logging in...")
         
-        if (userName === '' || password === '') {
+        if (email === '' || password === '') {
             setMessage("Fill in all the fields")
         }
         else {
-            const {status,data} = await api.post(`login`,{user_name : userName,password},{validateStatus: () => true})
+            const {status,data} = await api.post(`login`,{email : email,password},{validateStatus: () => true})
             if (status === 404) {
-                setMessage("No account with this User Name")
+                setMessage("No account with this Email")
             } else if (status === 400) {
                 setMessage("Wrong Password")
             } else if (status === 200) {
@@ -57,8 +57,8 @@ export default function LogInForm() {
             <Input 
                 className="mb-2"
                 type="text" 
-                value={userName} 
-                onChange={(e)=> setUserName(e.target.value)}
+                value={email} 
+                onChange={(e)=> setEmail(e.target.value)}
                 placeholder="example@gmail.com"
             />
             <Label>Password</Label>
@@ -88,8 +88,8 @@ export default function LogInForm() {
             dark:border-zinc-700 dark:placeholder:text-zinc-700 dark:text-zinc-300 dark:bg-inherit
             focus:border-b-2 focus:border-zinc-700" 
             type="text" 
-            value={userName} 
-            onChange={(e)=> setUserName(e.target.value)}
+            value={email} 
+            onChange={(e)=> setemail(e.target.value)}
             placeholder="john Doe"
             /> */}
             {/* <label htmlFor="">Password : </label>

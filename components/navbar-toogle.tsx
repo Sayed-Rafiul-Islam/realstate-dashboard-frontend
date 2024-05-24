@@ -34,7 +34,7 @@ const NavbarToggle : React.FC<NavbarToggleProps>= ({
 }) => {
 
     AccessProvider()
-    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+    const {email,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
 
     const pathname = usePathname()
     const router = useRouter()

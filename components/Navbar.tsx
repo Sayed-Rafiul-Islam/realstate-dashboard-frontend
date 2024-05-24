@@ -22,7 +22,7 @@ interface NavbarProps {
 
 const Navbar : React.FC<NavbarProps> = ({expand}) => {
     AccessProvider()
-    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+    const {email,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
     const path = usePathname()
    
     return ( 

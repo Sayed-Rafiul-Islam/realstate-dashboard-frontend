@@ -12,29 +12,57 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
 import ProfileImageUpload from '@/components/profile-image-upload'
+import toast from 'react-hot-toast'
+import ImageUpload from '@/components/image-upload'
+import { useSelector } from 'react-redux'
+import { UsersReducerProps } from '@/types'
+import api from '@/actions/api'
+import { useEffect, useState } from 'react'
 
 type ProfileValue = z.infer<typeof formSchema>
 
 const formSchema = z.object({
+    firstName : z.string(),
+    lastName : z.string(),
     contactNo : z.string(),
-    birthDate : z.string(),
+    email : z.string(),
     NID : z.string(),
-    imageUrl : z.string()
+    birthDate : z.string(),
+    imageUrl : z.string(),
+    printName : z.string(),
+    printAddress : z.string(),
+    printContact : z.string(),
+    printLogo : z.string(),
 })
 
 
 const MyProfile = () => {  
+
+    const {user} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer)
     
     const form = useForm<ProfileValue>({
         resolver : zodResolver(formSchema),
-        // defaultValues : {
-
-        // } 
+        defaultValues : {
+            firstName : user.firstName ? user.firstName : '',
+            lastName : user.lastName ? user.lastName : '',
+            contactNo : user.contactNo ? user.contactNo : '',
+            email : user.email,
+            NID : user.NID ? user.NID : '',
+            birthDate : user.birthDate ? user.birthDate : '',
+            imageUrl : user.imageUrl ? user.imageUrl : '',
+            printName : user.printName ? user.printName : '',
+            printAddress : user.printAddress ? user.printAddress : '',
+            printContact : user.printContact ? user.printContact : '',
+            printLogo : user.printLogo ? user.printLogo : '',
+        } 
     })
 
-    const onSubmit = async (data : ProfileValue) => {
+    const onSubmit = async (profileData : ProfileValue) => {
+        const data = await api.patch(`updateUser`,profileData,{validateStatus: () => true})
         console.log(data)
+        toast.success("Profile updated.")
     }
+
 
 
     return ( 
@@ -44,8 +72,10 @@ const MyProfile = () => {
                 <h1 className="font-bold text-xl">My Profile</h1>
                 <Pathname />
             </div>
-            <Separator />              
-            <>
+            <Separator />   
+
+            <h3 className='font-semibold'>Personal Information</h3>           
+            <div className='pt-4'>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
                     <FormField
@@ -70,12 +100,51 @@ const MyProfile = () => {
                     <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
                         <FormField
                             control={form.control}
+                            name="firstName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>First Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='John' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="lastName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Last Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='Doe' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="contactNo"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Contact No</FormLabel>
+                                    <FormLabel>Contact</FormLabel>
                                     <FormControl>
                                         <Input placeholder='017********' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='example@gmail.com' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -107,14 +176,77 @@ const MyProfile = () => {
                                 </FormItem>
                             )}
                         />
-                       
+                    </div>
+
+                    <Separator />
+
+                    <h3 className='font-semibold'>Print Details</h3>    
+
+                    <div className='grid lg:grid-cols-3 gap-8 md:grid-cols-2 grid-cols-1'>
+                    <FormField
+                            control={form.control}
+                            name="printLogo"
+                            render={({ field }) => (
+                                <FormItem className=''>
+                                    <FormLabel className=''>Print Logo</FormLabel>
+                                    <FormControl className=''>
+                                        <ImageUpload
+                                            buttonName='Upload an Image'
+                                            value={field.value ? [field.value] : []}
+                                            onChange={(url)=>field.onChange(url)}
+                                            onRemove={()=>field.onChange("")}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                             )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="printName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Print Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="printAddress"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Print Address</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="printContact"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Print Contact</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder='' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         
                     </div>
                     <Button className='ml-auto bg-purple-600' type='submit'>
                         Update Profile
                     </Button>
                 </form>
             </Form>
-        </>
+        </div>
         </div>
         
     </div>

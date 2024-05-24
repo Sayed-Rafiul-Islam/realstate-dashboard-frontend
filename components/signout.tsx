@@ -11,32 +11,45 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import AccessProvider from "@/actions/accessProvider";
 import { Power, UserCircle } from "lucide-react";
 import { UsersReducerProps } from "@/types";
 import Link from "next/link";
+import Image from "next/image";
 
 const SignOut = () => {
     AccessProvider()
-    const {user_name,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
-    const letter = user_name?.slice(0,1)
+    const {email,role,imageUrl} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+
+    const letter = email?.slice(0,1)
 
     const dispatch = useDispatch()
     const router = useRouter()
     const path = usePathname()
+
     return ( 
        <>
          {
-            // user_name &&
+            // email &&
             <DropdownMenu>
             <DropdownMenuTrigger className="">
-                <div className="bg-purple-600 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
-                    <span className="text-white mb-1">{letter}</span>
-                </div>
+                {
+                    imageUrl === undefined || imageUrl === '' ?
+                    <div className="bg-purple-600 px-4 pt-2 pb-2 rounded-full flex justify-center items-center signout">
+                        <span className="text-white mb-1">{letter}</span>
+                    </div>
+                    :
+                    <div className="rounded-full h-[35px] w-[35px] bg-purple-600 flex justify-center items-center">
+                        <div className="relative rounded-full h-[30px] w-[30px]">
+                            <Image className="rounded-full" fill src={imageUrl} alt="image" />
+                        </div>
+                    </div>
+                    
+                    
+                }
+                
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
 

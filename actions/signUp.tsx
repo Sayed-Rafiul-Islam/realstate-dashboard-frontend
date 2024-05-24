@@ -2,8 +2,8 @@
 
 import api from "./api"
 
-export const signUp = async (user_name: string, password: string,role : string) => {
-    const {data,status} = await api.post(`createUser`,{user_name,password,role},{validateStatus: () => true})
+export const signUp = async (email: string, password: string,role : string) => {
+    const {data,status} = await api.post(`createUser`,{email,password,role},{validateStatus: () => true})
     return {data,status}
 
 }

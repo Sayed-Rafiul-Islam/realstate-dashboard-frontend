@@ -30,13 +30,13 @@ export default function SignUpForm() {
             setMessage("Passwords did not matched")
         }
         else {
-            const role = 'user'
+            const role = 'tenant'
             const {status,data} = await signUp(name,password,role)
-            localStorage.setItem("accessToken",data.accessToken)
             if (status === 400) {
                 setMessage("Email already in use")
             }
             else {
+                localStorage.setItem("accessToken",data.accessToken)
                 setMessage("")
                 router.push('/')
             }
@@ -75,7 +75,7 @@ export default function SignUpForm() {
             <Label>Re-enter Password</Label>
             <Input 
                     type="password" 
-                    value={password} 
+                    value={password1} 
                     onChange={(e)=> setPassword1(e.target.value)}
                     placeholder="***********"
                 />

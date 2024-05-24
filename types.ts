@@ -1,5 +1,20 @@
+export interface UserProps {
+      email : string,
+      role : string,
+      firstName ?: string,
+      lastName ?: string,
+      contactNo ?: string,
+      NID ?: string,
+      birthDate ?: string,
+      imageUrl ?: string,
+      printName ?: string,
+      printAddress ?: string,
+      printContact ?: string,
+      printLogo ?: string,
+}
+
 export interface UsersReducerProps {
-    usersReducer : {user : {user_name: string, role: string}}
+    usersReducer : {user : UserProps}
   }
 
 export interface SummryItemProps {
