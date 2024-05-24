@@ -1,5 +1,8 @@
 import axios from "axios";
 
+export const baseURL_vercel = 'https://realstate-dashboard-backend.vercel.app/api/'
+export const baseURL_local = 'http://localhost:5000/api/'
+
 
 export default axios.create({
     // baseURL : "http://localhost:5000/api/"
