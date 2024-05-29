@@ -19,7 +19,6 @@ const maintainanceRequestsSlice = createSlice({
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
         },
         updateMaintainanceRequest : (state, {payload}) => {
-            console.log(payload)
             const index = state.maintainanceRequests.findIndex((item : MaintainanceRequestProps) => item._id === payload._id)
             state.maintainanceRequests[index] = payload
             localStorage.removeItem("maintainanceRequests")

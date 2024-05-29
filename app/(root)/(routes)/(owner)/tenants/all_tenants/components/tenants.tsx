@@ -71,8 +71,8 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
                         </SelectTrigger>
                             <SelectContent  >
                                 {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={_id} >
+                                    <div key={_id}>
+                                        <SelectItem  value={_id} >
                                             {name}
                                         </SelectItem>
                                     </div>
@@ -92,7 +92,7 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
                                 { thisUnits &&
                                 thisUnits.map(({_id, name} : UnitProps,index)=>(
                                     <div >
-                                        <SelectItem key={index} value={_id} >
+                                        <SelectItem key={_id} value={_id} >
                                             {name}
                                         </SelectItem>
                                     </div>

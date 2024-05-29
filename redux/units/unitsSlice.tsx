@@ -25,19 +25,23 @@ const unitsSlice = createSlice({
             localStorage.removeItem("units")
             localStorage.setItem("units", JSON.stringify(state.units))
         },
+        updateUnit : (state, {payload}) => {
+            const index = state.units.findIndex((item : UnitProps) => item._id === payload._id)
+            state.units[index] = payload
+            localStorage.removeItem("units")
+            localStorage.setItem("units", JSON.stringify(state.units))
+        },
         
         addUnits : (state, {payload}) => {
 
             payload.map((item : UnitProps) => {
                 state.units.push(item)
             })
-            
-            console.log(state.units)
             // localStorage.removeItem("properties")
             // localStorage.setItem("properties", JSON.stringify(state.properties))
         },
     }
 })
 
-export const {getUnits,removeUnit,addUnits} = unitsSlice.actions
+export const {getUnits,removeUnit,addUnits,updateUnit} = unitsSlice.actions
 export default unitsSlice.reducer

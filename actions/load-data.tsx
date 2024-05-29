@@ -316,40 +316,37 @@ const loadUnits = async () => {
             name : 'Unit 1',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             condition : "Good",
-            tenant : '',
+            tenantId : '2',
             squareFeet : 200,
             bedrooms : 3,
             washrooms : 2,
-            kitchen : 1,
-            rent : 15000
+            kitchen : 1
         },
         {
             _id : '2',
             propertyId : '1',
-            image : '',
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg',
             name : 'Unit 2',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             condition : "Good",
-            tenant : 'Ivar',
+            tenantId : '1',
             squareFeet : 300,
             bedrooms : 3,
             washrooms : 2,
-            kitchen : 1,
-            rent : 12000
+            kitchen : 1
         },
         {
             _id : '3',
             propertyId : '1',
-            image : '',
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg',
             name : 'Unit 3',
             description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
             condition : "Good",
-            tenant : '',
+            tenantId : '',
             squareFeet : 100,
             bedrooms : 1,
             washrooms : 1,
-            kitchen : 1,
-            rent : 20000
+            kitchen : 1
         }
     ]
     dispatch(getUnits(units))
@@ -370,6 +367,7 @@ const loadTenants = async () => {
             phone : '01788544463',
             occupation : 'Student',
             startDate : '2024-05-02T17:34:59.911+00:00',
+            endDate : '2024-010-02T17:34:59.911+00:00',
             dueDate : '2024-06-02T17:34:59.911+00:00',
             address : "1901 Thornridge Cir. Shiloh",
             city : "Toronto West",
@@ -381,6 +379,8 @@ const loadTenants = async () => {
             age : 25,
             familyMember : 5,
             status : true,
+            personalDoc : '',
+            propertyDoc : ''
         },
         {
             _id : '2',
@@ -392,6 +392,7 @@ const loadTenants = async () => {
             phone : '01788544463',
             occupation : 'Shopkeeper',
             startDate : '2024-05-02T17:34:59.911+00:00',
+            endDate : '2024-010-02T17:34:59.911+00:00',
             dueDate : '2024-06-02T17:34:59.911+00:00',
             address : "1901 Thornridge Cir. Shiloh",
             city : "Toronto West",
@@ -403,6 +404,8 @@ const loadTenants = async () => {
             age : 25,
             familyMember : 5,
             status : false,
+            personalDoc : '',
+            propertyDoc : ''
         },
         {
             _id : '3',
@@ -414,6 +417,7 @@ const loadTenants = async () => {
             phone : '01788566463',
             occupation : 'Military',
             startDate : '2024-05-02T17:34:59.911+00:00',
+            endDate : '2024-010-02T17:34:59.911+00:00',
             dueDate : '2024-06-02T17:34:59.911+00:00',
             address : "1901 Thornridge Cir. Shiloh",
             city : "Toronto West",
@@ -424,7 +428,9 @@ const loadTenants = async () => {
             due : 0,
             age : 25,
             familyMember : 1,
-            status : true
+            status : true,
+            personalDoc : '',
+            propertyDoc : ''
         }
     ]
     dispatch(getTenants(tenants))

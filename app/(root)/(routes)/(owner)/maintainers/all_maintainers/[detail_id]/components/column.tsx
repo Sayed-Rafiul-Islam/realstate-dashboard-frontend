@@ -7,8 +7,8 @@ export interface InvoiceColumn {
   date : string,
   invoiceNo : string,
   amount : string,
-  category : string,
-  status : boolean
+  type : string,
+  status : string
 }
 
 
@@ -26,19 +26,20 @@ export interface InvoiceColumn {
       header: "Amount",
     },
     {
-      accessorKey: "category",
+      accessorKey: "type",
       header: "Category",
     },
     {
       accessorKey: "status",
       header: "Status",
-      cell: ({row}) => 
-        <>
-          {
-          row.original.status
-          ? <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
-          : <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
-          }
-        </>
-    },
+      cell: ({row}) => {
+        if (row.original.status === "Paid") {
+          return <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
+        } else if (row.original.status === "Due") {
+          return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p>
+        } else {
+          return <p className="text-amber-500 bg-amber-100 px-4 py-2 rounded-lg">Pending</p>
+        }
+      }
+    }
   ]

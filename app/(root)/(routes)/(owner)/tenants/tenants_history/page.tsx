@@ -27,11 +27,14 @@ const AllTenants = () => {
             phone,
             occupation,
             startDate,
+            endDate,
             NID,
             due,
             age,
             familyMember,
             status,
+            personalDoc,
+            propertyDoc
         } : TenantProps,index : number) => {
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
             const unit  = units.filter(({_id}) =>_id === unitId)[0]
@@ -49,11 +52,14 @@ const AllTenants = () => {
                 phone,
                 occupation,
                 startDate,
+                endDate,
                 NID,
                 due,
                 age,
                 familyMember,
-                status
+                status,
+                personalDoc,
+                propertyDoc
             }
     })
     return ( 

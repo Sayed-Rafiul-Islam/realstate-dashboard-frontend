@@ -29,33 +29,39 @@ const AllTenants = () => {
             phone,
             occupation,
             startDate,
+            endDate,
             NID,
             due,
             age,
             familyMember,
             status,
+            personalDoc,
+            propertyDoc
         } : TenantProps,index : number) => {
-            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
+            const property  = properties.filter(({_id}) =>_id === propertyId)[0]
             const unit  = units.filter(({_id}) =>_id === unitId)[0]
             return {
                 serial : index + 1,
                 _id,
                 propertyId,
                 unitId,
-                propertyName : propertyName ? propertyName : '',
+                propertyName : property ? property.name : '',
                 unitName : unit ? unit.name : '',
-                monthlyRent : unit ? `${unit.rent}` : '',
+                monthlyRent : unit ? `${property.rent}` : '',
                 name,
                 image,
                 email,
                 phone,
                 occupation,
                 startDate,
+                endDate,
                 NID,
                 due,
                 age,
                 familyMember,
-                status
+                status,
+                personalDoc,
+                propertyDoc
             }
     })
 

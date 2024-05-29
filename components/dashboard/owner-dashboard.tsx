@@ -314,7 +314,7 @@ const OwnerDashboard = () => {
                                                     maintainer ?
                                                     <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span> </p>
                                                     :
-                                                    <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yes</span> </p>
+                                                    <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yet</span> </p>
                                                 }
                                            
                                         </div>

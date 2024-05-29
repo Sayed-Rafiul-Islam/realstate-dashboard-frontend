@@ -24,30 +24,125 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { DollarSign, FileText, Home, Landmark, User } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { addTenantData1, addTenantData2 } from "@/redux/forms/formsSlice"
+import { addTenant } from "@/redux/tenants/tenantsSlice"
 
 
-type TenantFormValues = z.infer<typeof formSchema>
+type TenantForm1Values = z.infer<typeof form1Schema>
+type TenantForm2Values = z.infer<typeof form2Schema>
+type TenantForm3Values = z.infer<typeof form3Schema>
 
 interface TenantFormProps {
-    initialData: TenantProps
+    initialData : {
+        initialData1 : {
+            _id : string,
+            name : string,
+            email : string,
+            phone : string,
+            NID : number,
+            occupation : string,
+            age : number,
+            familyMember : number,
+            image : string,
+            address : string,
+            city : string,
+            state : string,
+            country : string,
+            postalCode : string,
+            status : boolean
+        },
+        initialData2 : {
+            property : string,
+            unit : string,
+            startDate : string,
+            endDate : string,
+            rent : number,
+            deposit : number,
+            lateFee : number,
+            rentType : string,
+            due : number,
+        },
+        initialData3 : {
+            propertyDoc : string,
+            personalDoc : string,
+        }
+    } | null
 }
 
-const formSchema = z.object({
-    image: z.string().min(1, {message : "Image Required"}),
-    propertyId : z.string().min(1, {message : "Property Required"}),
-    unitId : z.string().min(1, {message : "Unit Required"}),
+interface FormProps {
+    formsReducer : {
+        tenantForm : {
+            initialData1: {
+                name : string,
+                email : string,
+                phone : string,
+                NID : number,
+                occupation : string,
+                age : number,
+                familyMember : number,
+                image : string,
+                address : string,
+                city : string,
+                state : string,
+                country : string,
+                postalCode : string,
+                status : boolean
+              },
+              initialData2: {
+                property : string,
+                unit : string,
+                startDate : string,
+                endDate : string,
+                rent : number,
+                deposit : number,
+                lateFee : number,
+                rentType : string,
+                due : number,
+              },
+
+              initialData3: {
+                propertyDoc : string,
+                personalDoc : string,
+              } 
+        } 
+    }
+}
+
+const form1Schema = z.object({
     name : z.string().min(1, {message : "Name Required"}),
     email : z.string().min(1, {message : "Email Required"}),
     phone : z.string().min(1, {message : "Contact No Required"}),
     NID : z.coerce.number().min(8),
-    age : z.coerce.number().min(1),
-    occupation : z.string().min(1),
-    familyMember : z.coerce.number().min(1),
-    due : z.coerce.number().min(1),
-    startDate : z.string(),    
+    occupation : z.string(),
+    age : z.coerce.number(),
+    familyMember : z.coerce.number(),
+    image: z.string().min(1, {message : "Image Required"}),
+    address : z.string().min(1, {message : "Address Required"}),
+    city : z.string().min(1, {message : "City Required"}),
+    state : z.string().min(1, {message : "State Required"}),
+    country : z.string().min(1, {message : "Country Required"}),
+    postalCode : z.string().min(1, {message : "Postal Required"}),
     status : z.boolean().default(false)
 })
+
+
+const form2Schema = z.object({
+    property : z.string().min(1, {message : "Property Required"}),
+    unit : z.string().min(1, {message : "Unit Required"}),
+    startDate : z.string().min(1, {message : "Lease start date required"}),
+    endDate : z.string().min(1, {message : "Lease end date required"}),
+    due : z.coerce.number(),
+})
+
+const form3Schema = z.object({
+    propertyDoc : z.string(),
+    personalDoc : z.string(),
+})
+
+
 
 
 
@@ -59,10 +154,22 @@ const formSchema = z.object({
 export const TenantForm : React.FC<TenantFormProps> = ({
     initialData
 }) => {
+
+    const [form, setForm] = useState(0)
+    const dispatch = useDispatch()
+    const router = useRouter()
+    const [loading, setLoading] = useState(false)
+
+    const [propertyDoc,setPropertyDoc] = useState<FileList | null>()
+    const [personalDoc,setPersonalDoc] = useState<FileList | null>()
+
+
+    
+    const {tenantForm} = useSelector(({formsReducer} : FormProps) => formsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
-    const [propertyId,setPropertyId] = useState('')
+    const [propertyId,setPropertyId] = useState(initialData ? initialData.initialData2.property : '')
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
    
 
@@ -73,56 +180,143 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     const toastMessage = initialData ? "Tenant info updated" : "New tenant created"
 
 
- 
 
 
-
-
-
-
-    const [loading, setLoading] = useState(false)
-    const form = useForm<TenantFormValues>({
-        resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            image: '',
-            propertyId :'',
-            unitId :'',
-            name :'',
-            email :'',
-            phone :'',
-            NID : 0,
+    const form1 = useForm<TenantForm1Values>({
+        resolver : zodResolver(form1Schema),
+        defaultValues : initialData?.initialData1 || {
             age : 0,
-            occupation : '',
-            familyMember :0,
-            due :0,
-            startDate : '',
-            status : true,
+            occupation :'',
+            familyMember : 1,
+            status : false
+        }
+    })
+
+    const form2 = useForm<TenantForm2Values>({
+        resolver : zodResolver(form2Schema),
+        defaultValues : initialData?.initialData2 || {
+            due : 0
+        }
+    })
+
+    const form3 = useForm<TenantForm3Values>({
+        resolver : zodResolver(form3Schema),
+        defaultValues : initialData?.initialData3 || {
+            propertyDoc : '',
+            personalDoc : ''
         }
     })
 
     
-        useEffect(()=>{
-            const temp = units.filter((item)=> item.propertyId === propertyId)
-            setThisUnits(temp)
-            form.setValue('unitId', '')
-            
+    useEffect(()=>{
+        const temp = units.filter((item)=> item.propertyId === propertyId)
+        setThisUnits(temp)
+        form2.setValue('unit', '')
+        
+    },[propertyId])
 
-        },[propertyId])
+    const onForm1Submit = async (data : TenantForm1Values) => {
+        dispatch(addTenantData1(data))
+        setForm(1)
+        console.log(form)
+    }
 
-    const onSubmit = async (data : TenantFormValues) => {
-        console.log(data.unitId)
-        try {
-            setLoading(true)
-                const updatePackage = {
-                 
+    const onForm2Submit = async (data : TenantForm2Values) => {
+        dispatch(addTenantData2(data))
+        setForm(2)
+
+    }
+
+
+
+    const onForm3Submit = async (data : TenantForm3Values) => {
+        if ( initialData ) {
+            if (propertyDoc && personalDoc) {
+                if (propertyDoc[0].type.split("/")[1] !=='pdf' && personalDoc[0].type.split("/")[1] !=='pdf') {
+                   toast.error('Attached files must be pdfs')
+                } else {
+                   const formData = {
+                    _id : initialData.initialData1._id,
+                    propertyId : tenantForm.initialData2.property,
+                    unitId : tenantForm.initialData2.unit,
+                    name : tenantForm.initialData1.name,
+                    image : tenantForm.initialData1.image,
+                    email : tenantForm.initialData1.email,
+                    phone : tenantForm.initialData1.phone,
+                    occupation : tenantForm.initialData1.occupation,
+                    startDate : tenantForm.initialData2.startDate,
+                    endDate : tenantForm.initialData2.endDate,
+                    address : tenantForm.initialData1.address,
+                    city : tenantForm.initialData1.city,
+                    state : tenantForm.initialData1.state,
+                    country : tenantForm.initialData1.country,
+                    postalCode : tenantForm.initialData1.postalCode,
+                    NID : tenantForm.initialData1.NID,
+                    due : tenantForm.initialData2.due,
+                    age : tenantForm.initialData1.age,
+                    familyMember : tenantForm.initialData1.familyMember,
+                    status : tenantForm.initialData1.status,      
+                    personalDoc : '',
+                    propertyDoc : '',
+                    propertyFile : propertyDoc[0], 
+                    personalFile : personalDoc[0], 
+                }
+                //    const result = await api.post(`updateRequest`, 
+                //    formData,
+                //    {
+                //        headers : { 'Content-Type' : 'multipart/form-data'}
+                //    })
+                //    dispatch(updateMaintainanceRequest(result.data))
+                dispatch(addTenant(formData))
+                toast.success(toastMessage)
+                router.push('/tenants')
+                }
+           } 
+        } else {
+            if (propertyDoc && personalDoc) {
+                if (propertyDoc[0].type.split("/")[1] !=='pdf' && personalDoc[0].type.split("/")[1] !=='pdf') {
+                   toast.error('Attached files must be pdfs')
+                } else {
+                   const formData = {
+                    propertyId : tenantForm.initialData2.property,
+                    unitId : tenantForm.initialData2.unit,
+                    name : tenantForm.initialData1.name,
+                    image : tenantForm.initialData1.image,
+                    email : tenantForm.initialData1.email,
+                    phone : tenantForm.initialData1.phone,
+                    occupation : tenantForm.initialData1.occupation,
+                    startDate : tenantForm.initialData2.startDate,
+                    endDate : tenantForm.initialData2.endDate,
+                    address : tenantForm.initialData1.address,
+                    city : tenantForm.initialData1.city,
+                    state : tenantForm.initialData1.state,
+                    country : tenantForm.initialData1.country,
+                    postalCode : tenantForm.initialData1.postalCode,
+                    NID : tenantForm.initialData1.NID,
+                    due : tenantForm.initialData2.due,
+                    age : tenantForm.initialData1.age,
+                    familyMember : tenantForm.initialData1.familyMember,
+                    status : tenantForm.initialData1.status,      
+                    personalDoc : '',
+                    propertyDoc : '',
+                    propertyFile : propertyDoc[0], 
+                    personalFile : personalDoc[0], 
                 }
                 
-        } catch (error) {
-            toast.error("Something went wrong.")
-        } finally {
-            setLoading(false)
-        }
+                //    const result = await api.post(`createRequest`, 
+                //    formData,
+                //    {
+                //        headers : { 'Content-Type' : 'multipart/form-data'}
+                //    })
+                   dispatch(addTenant(formData))
+                   toast.success(toastMessage)
+                   router.push('/tenants')
+                }
+           } 
+        // dispatch(addTenantData2(data))
+        // setForm(0)
     }
+}
 
     const [isMounted, setIsMounted] = useState(false)
 
@@ -145,257 +339,447 @@ export const TenantForm : React.FC<TenantFormProps> = ({
             </div>
             <Separator className='my-5' />
 
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
-                    <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
-                        <FormField
-                            control={form.control}
-                            name="image"
-                            render={({ field }) => (
-                                <FormItem className='lg:col-span-3 md:col-span-2'>
-                                    
-                                    {/* <FormLabel className=''>Upload an Image</FormLabel> */}
-                                    <FormControl className=''>
-                                        <ImageUpload
-                                            buttonName='Upload an Image'
-                                            value={field.value ? [field.value] : []}
-                                            onChange={(url)=>field.onChange(url)}
-                                            onRemove={()=>field.onChange("")}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input disabled={loading} placeholder='John Doe' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Contact No <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='+88016********' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="NID"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>NID No <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input  type='number' disabled={loading} placeholder='5345634644' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="propertyId"
-                            render={(item) => (
-                                <FormItem>
-                                    <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
-                                    <Select
-                                            disabled={loading} 
-                                            onValueChange={e=> {
-                                                setPropertyId(e)
-                                                item.formState.validatingFields.unitId
-                                                
-                                                return item.field.onChange(e)
-                                            }}
-                                            value={item.field.value}
-                                            defaultValue={item.field.value}
-                                            
-                                            
-                                        >
-                                            <FormControl >
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={item.field.value}
-                                                        placeholder="Select Property"
-                                                    
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent  >
-                                                {properties.map(({_id, name} : PropertyProps,index)=>(
-                                                    <div >
-                                                    <SelectItem key={index} value={_id} >
-                                                        {name}
-                                                    </SelectItem>
-                                                    </div>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="unitId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>
-                                    <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={thisUnits?.length === 0 ? '' : field.value}
-                                            defaultValue={thisUnits?.length === 0 ? '' : field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Unit"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {
-                                                    thisUnits
-                                                    ? thisUnits.map(({_id, name} : UnitProps,index)=>(
-                                                        <SelectItem key={index} value={_id} >
-                                                            {name}
-                                                        </SelectItem>
-                                                    ))
-                                                    :
-                                                    <SelectItem value="">
-                                                            Select Property
-                                                    </SelectItem>
-                                                }
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="age"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Age in Years<span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='25' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="occupation"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Occupation <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='Teacher' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="familyMember"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Family Members <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='2' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="due"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Due (in dollers)<span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='20' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="startDate"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Start Date <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='date' disabled={loading} placeholder='' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                                <FormItem className='flex flex-row rounded-md border p-4 items-start space-x-3 space-y-0'>
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <div className='space-y-1 leading-none'>
-                                        <FormLabel>
-                                            Active <span className='text-red-500'>*</span>
-                                        </FormLabel>
-                                        <FormDescription>
-                                            This package will be Activated.
-                                        </FormDescription>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
-                        
+            <div className='flex items-center justify-center mb-10'>
+                <button onClick={()=>setForm(0)}>
+                    <div className={`flex flex-col items-center gap-2`}>
+                        <div className={`${form >= 0 ? 'bg-green-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <User className={`${form >= 0 ? 'text-green-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form >= 0 ? 'text-black font-semibold' : 'text-gray-500'}`}>Tenant Informations</h3>
                     </div>
-                    <Button disabled={loading} className='ml-auto bg-purple-600' type='submit'>
-                        {action}
-                    </Button>
-                </form>
-            </Form> 
+                </button>
+                
+
+                <Separator className={`${form > 0 && 'bg-black'} w-1/4 mx-1`} />
+                
+                <button disabled={form < 1 && true} onClick={()=>setForm(1)}>
+                    <div className='flex flex-col items-center gap-2'>
+                        <div className={`${form > 0 ? 'bg-orange-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <Home className={`${form > 0 ? 'text-orange-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form > 0 ? 'text-black font-semibold' : 'text-gray-500'}`}>Property Informations</h3>
+                    </div>
+                </button>
+
+                <Separator className={`${form === 2 && 'bg-black'} w-1/4 mx-1`} />
+
+                <button disabled={form < 2 && true} onClick={()=>setForm(2)}>
+                    <div className='flex flex-col items-center gap-2'>
+                        <div className={`${form === 2 ? 'bg-indigo-100' : 'bg-gray-300'}  p-2 rounded-full`}>
+                            <FileText className={`${form === 2 ? 'text-indigo-500' : 'text-gray-500'}`} size={20} />
+                        </div>
+                        <h3 className={`text-center text-xs ${form === 2 ? 'text-black font-semibold' : 'text-gray-500'}`}>Documents</h3>
+                    </div>
+                </button>
+            </div>
+
+            {
+                form === 0 &&
+
+                <Form {...form1}>
+                    <form onSubmit={form1.handleSubmit(onForm1Submit)} className='space-y-8 w-full'>
+                        <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
+                            <FormField
+                                control={form1.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Tenant Name <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input disabled={loading} placeholder='John Doe' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Contact No <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='+88016********' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="NID"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>NID <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input  type='number' disabled={loading} placeholder='5345634644' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form1.control}
+                                name="age"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Age (in Years)</FormLabel>
+                                        <FormControl>
+                                            <Input type='number' disabled={loading} placeholder='25' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="occupation"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Occupation</FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='Teacher' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="familyMember"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Family Members</FormLabel>
+                                        <FormControl>
+                                            <Input type='number' disabled={loading} placeholder='2' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="image"
+                                render={({ field }) => (
+                                    <FormItem className='lg:col-span-3 md:col-span-2'>
+                                        
+                                        {/* <FormLabel className=''>Upload an Image</FormLabel> */}
+                                        <FormControl className=''>
+                                            <ImageUpload
+                                                buttonName='Upload an Image'
+                                                value={field.value ? [field.value] : []}
+                                                onChange={(url)=>field.onChange(url)}
+                                                onRemove={()=>field.onChange("")}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form1.control}
+                                name="address"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Permanent Address<span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            
+                            <FormField
+                                control={form1.control}
+                                name="city"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>City <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form1.control}
+                                name="state"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>State <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form1.control}
+                                name="country"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Country <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form1.control}
+                                name="postalCode"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Post Code <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='text' disabled={loading} placeholder='' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form1.control}
+                                name="status"
+                                render={({ field }) => (
+                                    <FormItem className='flex flex-row rounded-md border p-4 items-start space-x-3 space-y-0'>
+                                        <FormControl>
+                                            <Checkbox
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <div className='space-y-1 leading-none'>
+                                            <FormLabel>
+                                                Active <span className='text-red-500'>*</span>
+                                            </FormLabel>
+                                            <FormDescription>
+                                                Tenant activity status.
+                                            </FormDescription>
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className='flex justify-end'>
+                            <Button className='bg-purple-600' disabled={loading} type='submit'>
+                                Save & Next
+                            </Button>
+                        </div>
+                    </form>
+                </Form> 
+
+            }
+
+            {
+                form === 1 &&
+
+                <Form {...form2}>
+                    <form onSubmit={form2.handleSubmit(onForm2Submit)} className='space-y-8 w-full'>
+                        <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
+                            <FormField
+                                    control={form2.control}
+                                    name="property"
+                                    render={(item) => (
+                                        <FormItem>
+                                            <FormLabel>Property Name<span className='text-red-500'>*</span></FormLabel>
+                                            <Select
+                                                    disabled={loading} 
+                                                    onValueChange={e=> {
+                                                        setPropertyId(e)
+                                                        item.formState.validatingFields.unit
+                                                        
+                                                        return item.field.onChange(e)
+                                                    }}
+                                                    value={item.field.value}
+                                                    defaultValue={item.field.value}
+                                                    
+                                                    
+                                                >
+                                                    <FormControl >
+                                                        <SelectTrigger>
+                                                            <SelectValue 
+                                                                defaultValue={item.field.value}
+                                                                placeholder="Select Property"
+                                                            
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent  >
+                                                        {properties.map(({_id, name} : PropertyProps,index)=>(
+                                                            <div key={_id}>
+                                                            <SelectItem  value={_id} >
+                                                                {name}
+                                                            </SelectItem>
+                                                            </div>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                            /> 
+                            <FormField
+                                    control={form2.control}
+                                    name="unit"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>
+                                            <Select 
+                                                    disabled={loading} 
+                                                    onValueChange={field.onChange}
+                                                    value={thisUnits?.length === 0 ? '' : field.value}
+                                                    defaultValue={thisUnits?.length === 0 ? '' : field.value}
+                                                >
+                                                    <FormControl>
+                                                        <SelectTrigger>
+                                                            <SelectValue 
+                                                                defaultValue={field.value}
+                                                                placeholder="Select Unit"
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent>
+                                                        {
+                                                            thisUnits
+                                                            ? thisUnits.map(({_id, name} : UnitProps)=>(
+                                                                <SelectItem key={_id} value={_id} >
+                                                                    {name}
+                                                                </SelectItem>
+                                                            ))
+                                                            :
+                                                            <SelectItem value="">
+                                                                    Select Unit
+                                                            </SelectItem>
+                                                        }
+                                                    </SelectContent>
+                                                </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                            /> 
+                            <FormField
+                                control={form2.control}
+                                name="due"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Due (in BDT)</FormLabel>
+                                        <FormControl>
+                                            <Input  type='number' disabled={loading} placeholder='20' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form2.control}
+                                name="startDate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lease Start Date <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='date' disabled={loading} placeholder='example@gmail.com' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form2.control}
+                                name="endDate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Lease End Date <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='date' disabled={loading} placeholder='example@gmail.com' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className='flex justify-between'>
+                            <Button className='bg-purple-600' disabled={loading}  onClick={()=>(setForm(0))}>
+                                Back
+                            </Button>
+                            <Button className='bg-purple-600' disabled={loading}  type='submit'>
+                                Save & Next
+                            </Button>
+                        </div>
+                    </form>
+                </Form> 
+            }
+
+            {
+                form === 2 &&
+
+                <Form {...form3}>
+                    <form onSubmit={form3.handleSubmit(onForm3Submit)} className='space-y-8 w-full'>
+                        <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
+                            <FormField
+                                control={form3.control}
+                                name="propertyDoc"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Property Document <span className="text-red-500">*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='file' required onChange={(e)=>setPropertyDoc(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form3.control}
+                                name="personalDoc"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Personal Document <span className="text-red-500">*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='file' required onChange={(e)=>setPersonalDoc(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        
+                        </div>
+                        <div className='flex justify-between'>
+                            <Button className='bg-purple-600' disabled={loading}  onClick={()=>(setForm(1))}>
+                                Back
+                            </Button>
+                            <Button className='bg-purple-600' disabled={loading}  type='submit'>
+                                {action}
+                            </Button>
+                        </div>
+                    </form>
+                </Form> 
+
+            }
+
         </div>
     )
 }

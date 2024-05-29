@@ -1,0 +1,20 @@
+.maintainer-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 900px) {     
+    .maintainer-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+ }
+@media (max-width: 750px) {     
+    .heading {
+        flex-direction: column-reverse;
+        align-items: start;
+        row-gap: 20px;
+    }
+ }

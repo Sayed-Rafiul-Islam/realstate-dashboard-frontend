@@ -1,7 +1,7 @@
 "use client"
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { PropertiesReducerProps, UnitsReducerProps } from "@/types";
+import { PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useSelector } from "react-redux";
 import { UnitColumn } from "./components/column";
 import { UnitsClient } from "./components/client";
@@ -10,24 +10,27 @@ const AllUnitsPage = () => {
 
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
 
     const formattedUnits : UnitColumn[] = units.map((
         {
             _id,
             propertyId,
             name,
-            tenant,
-            rent
+            tenantId,
+            image
 
         },index : number) => {
-            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0].name
+            const property = properties.filter(({_id}) =>_id === propertyId)[0]
+            const tenant  = tenants.filter(({_id}) =>_id === tenantId)[0]?.name
             return {
                 _id,
                 serial : index + 1,
                 name,
                 tenant,
-                propertyName,
-                rent
+                propertyName : property.name,
+                rent : property.rent,
+                image
             }
         })
 

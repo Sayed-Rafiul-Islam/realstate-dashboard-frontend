@@ -486,7 +486,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 
                             
                         </div>
-                            <div className='flex justify-end'>
+                        <div className='flex justify-end'>
                             <Button className='bg-purple-600' disabled={loading} type='submit'>
                                 Save & Next
                             </Button>
@@ -598,19 +598,6 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                             </FormItem>
                                         )}
                                     />
-                                    {/* <FormField
-                                        control={form2.control}
-                                        name={`units.${index}.image`}
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Image <span className='text-red-500'>*</span></FormLabel>
-                                                <FormControl>
-                                                    <Input type='text' disabled={loading} placeholder='Te Home' {...field} />
-                                                </FormControl>
-                                                
-                                            </FormItem>
-                                        )}
-                                    /> */}
                                     <FormField
                                         control={form2.control}
                                         name={`units.${index}.description`}

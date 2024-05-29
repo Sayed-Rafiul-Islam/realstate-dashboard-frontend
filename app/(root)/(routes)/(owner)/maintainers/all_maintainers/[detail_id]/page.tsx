@@ -1,6 +1,6 @@
 "use client"
 
-import { MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
@@ -34,6 +34,7 @@ const MaintainerDetails = ({
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {invoices} = useSelector(({ invoicesReducer } : InvoicesReducerProps) => invoicesReducer)
     const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
 
     const onDelete = async () => {
@@ -64,67 +65,31 @@ const MaintainerDetails = ({
         } 
     })[0]
 
-    const invoices = [
-        {
-            _id : '1',
-            date : '2024-05-02T17:34:59.911+00:00',
-            invoiceNo : 446689,
-            amount : 15000,
-            category : "Rent",
-            status : true
-        },
-        {
-            _id : '2',
-            date : '2024-05-02T17:34:59.911+00:00',
-            invoiceNo : 477689,
-            amount : 2000,
-            category : "Utility",
-            status : true
-        },
-        {
-            _id : '3',
-            date : '2024-05-02T17:34:59.911+00:00',
-            invoiceNo : 449689,
-            amount : 15000,
-            category : "Rent",
-            status : false
-        }
-    ]
+
 
     const formattedInvoices = invoices.map((
         {
             _id,
-            date,
+            dateOfPayment,
+            dueDate,
             invoiceNo,
             amount,
-            category,
+            type,
             status
         }) => ({
             _id,
-            date : format(date,"MMMM do, yyyy"),
+            date : dateOfPayment ? format(dateOfPayment,"MMMM do, yyyy") : format(dueDate,"MMMM do, yyyy"),
             invoiceNo : `#${invoiceNo}`,
             amount : `BDT ${amount}`,
-            category,
+            type,
             status
     }))
 
 
     const [isMounted, setIsMounted] = useState(false)
-    const [data, setData] = useState<{label : string,number : number}[]>()
 
     useEffect(()=>{
         setIsMounted(true)
-        let x : {label : string,number : number}[] = []
-
-        invoices.map(({amount,category})=>{
-            const index = x.findIndex(item => item.label === category)
-            if (index === -1) {
-                x.push({label : category,number : amount})
-            } else {
-                x[index].number = x[index].number + amount
-            }
-        })
-        setData(x)
     },[])
 
     if (!isMounted) {
@@ -248,7 +213,7 @@ const MaintainerDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">General Rent</h5>
-                                    <h5>{unit ? '$ ' + unit.rent : "N/A"}</h5>
+                                    <h5>{unit ? '$ ' + property.rent : "N/A"}</h5>
                                 </div>
                             </div>
                         </div>
@@ -257,7 +222,7 @@ const MaintainerDetails = ({
 
                 {/* invoices */}
 
-                <div className="mt-10 flex lg:flex-row flex-col gap-5">
+                <div className="my-10 flex lg:flex-row flex-col gap-5">
                     
                    <div className="rounded-lg all-shadow py-4 md:px-4 px-4 lg:w-1/2 md:w-full">
                    <div className="mb-4 flex justify-between items-center">
@@ -267,9 +232,9 @@ const MaintainerDetails = ({
                     <div className="flex flex-col gap-2">
                         {
                             threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0].name
-                                const unit = units.filter((item) => unitId === item._id)[0].name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0].name
+                                const property = properties.filter((item) => propertyId === item._id)[0]?.name
+                                const unit = units.filter((item) => unitId === item._id)[0]?.name
+                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
 
                                 let statusStyle = ''
                                 let border = ''

@@ -33,10 +33,10 @@ const Pathname = () => {
                                 if (x.length > 1) {
                                     return (
                                     <BreadcrumbItem key={index}>
-                                        <BreadcrumbPage>
+                                        <BreadcrumbPage >
                                             {
-                                                 x.map((y)=>
-                                                    <span>{y[0].toUpperCase()+y.slice(1)} </span>
+                                                 x.map((y,index)=>
+                                                    <span key={index}>{y[0].toUpperCase()+y.slice(1)} </span>
                                                 )
                                             }
                                         </BreadcrumbPage>

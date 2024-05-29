@@ -18,24 +18,22 @@ const tenantsSlice = createSlice({
             localStorage.removeItem("tenants")
             localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
-        // updatetenantstatus : (state, {payload}) => {
-        //     const temp = state.tenants.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.tenants = temp
-        //     localStorage.removeItem("tenants")
-        //     localStorage.setItem("tenants", JSON.stringify(state.tenants))
-        // },
+        updateTenant : (state, {payload}) => {
+            const {propertyFile, personalFile, ...rest} = payload 
+            const index = state.tenants.findIndex((item : TenantProps) => item._id === payload._id)
+            state.tenants[index] = rest
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+        },
 
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.tenants.push(payload)
-        //     console.log(state.tenants)
-        //     localStorage.removeItem("tenants")
-        //     localStorage.setItem("tenants", JSON.stringify(state.tenants))
-        // },
+        addTenant : (state, {payload} ) => {
+            const {propertyFile, personalFile, ...rest} = payload 
+            const data = {...rest, _id : '5'}
+
+            state.tenants.push(data)
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+        },
         removeTenant : (state, {payload}) => {
             const temp = state.tenants.filter(({_id} : TenantProps) => _id !== payload._id)
             state.tenants = temp
@@ -45,5 +43,5 @@ const tenantsSlice = createSlice({
     }
 })
 
-export const {getTenants,removeTenant} = tenantsSlice.actions
+export const {getTenants,removeTenant,addTenant,updateTenant} = tenantsSlice.actions
 export default tenantsSlice.reducer

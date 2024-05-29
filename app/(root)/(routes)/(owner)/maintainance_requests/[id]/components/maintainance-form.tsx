@@ -112,7 +112,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
-        if ( initialData) {
+        if ( initialData ) {
             if (file) {
                 if (file[0].type.split("/")[1] !=='pdf') {
                    toast.error('Attached file must be a pdf')
@@ -268,7 +268,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                                     ))
                                                     :
                                                     <SelectItem value="">
-                                                            Select Property
+                                                            Select Unit
                                                     </SelectItem>
                                                 }
                                             </SelectContent>

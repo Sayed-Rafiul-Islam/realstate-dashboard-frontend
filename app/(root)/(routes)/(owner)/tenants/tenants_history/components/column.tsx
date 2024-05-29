@@ -18,12 +18,15 @@ export interface TenantColumn {
   phone : string,
   occupation : string,
   startDate : string,
+  endDate : string,
   NID : number,
   due : number,
   age : number,
   familyMember : number,
   status : boolean,
-  monthlyRent : string
+  monthlyRent : string,
+  personalDoc : string,
+  propertyDoc : string,
 }
 
 

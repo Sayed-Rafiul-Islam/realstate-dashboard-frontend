@@ -20,6 +20,7 @@ import { removeOrder } from "@/redux/orders/ordersSlice"
 import { PreviewOrder } from "@/components/modals/preview-order-modal"
 import { UnitColumn } from "./column"
 import { removeUnit } from "@/redux/units/unitsSlice"
+import { PreviewUnit } from "@/components/modals/preview-unit"
 // import { AlertModal } from "@/components/modals/alert-modal"
 // import { deleteCategory } from "@/app/actions/categories"
 
@@ -33,6 +34,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const dispatch = useDispatch()
 
     const [open, setOpen] = useState(false)
+    const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
@@ -52,7 +54,38 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={()=>onDelete()} 
                 loading={loading}
             />
-            <button onClick={()=>setOpen(true)}><Trash2 className="hover:text-red-600 transition-all" size={15} /></button>
+            <PreviewUnit 
+                isOpen={openPreview}
+                onClose={()=>setOpenPreview(false)}
+                data={data}
+            />
+             <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant='ghost' className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>
+                        Actions
+                    </DropdownMenuLabel>
+                    <DropdownMenuItem onClick={()=>router.push(`/properties/all_units/${data._id}`)}>
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                        onClick={()=>setOpenPreview(true)}
+                    >
+                        <Eye className="h-4 w-4 mr-2" />
+                        Details
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={()=>setOpen(true)}>
+                        <Trash className="h-4 w-4 mr-2" />
+                        Delete
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </>
     )
 }

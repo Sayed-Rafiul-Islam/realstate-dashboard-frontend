@@ -9,7 +9,8 @@ export interface UnitColumn {
   name : string,
   propertyName : string,
   tenant : string,
-  rent : number
+  rent : number,
+  image : string
 }
 
 export const columns: ColumnDef<UnitColumn>[] = [

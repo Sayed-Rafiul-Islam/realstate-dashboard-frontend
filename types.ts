@@ -135,13 +135,12 @@ export interface UnitProps {
   name : string,
   description : string,
   condition : string,
-  tenant : string,
+  tenantId : string,
   image : string,
   squareFeet : number,
   bedrooms : number,
   washrooms : number,
   kitchen : number,
-  rent :number,
 }
 
 export interface UnitsReducerProps {
@@ -158,6 +157,7 @@ export interface TenantProps {
   phone : string,
   occupation : string,
   startDate : string,
+  endDate : string,
   dueDate : string,
   address : string,
   city : string,
@@ -168,7 +168,10 @@ export interface TenantProps {
   due : number,
   age : number,
   familyMember : number,
-  status : boolean
+  status : boolean,       
+  personalDoc : string,
+  propertyDoc : string
+
 }
 
 export interface TenantsReducerProps {
