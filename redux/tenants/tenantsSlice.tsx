@@ -29,12 +29,12 @@ const tenantsSlice = createSlice({
         addTenant : (state, {payload} ) => {
             const {propertyFile, personalFile, ...rest} = payload 
             const data = {...rest, _id : '5'}
-
             state.tenants.push(data)
             localStorage.removeItem("tenants")
             localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
         removeTenant : (state, {payload}) => {
+            console.log(payload)
             const temp = state.tenants.filter(({_id} : TenantProps) => _id !== payload._id)
             state.tenants = temp
             localStorage.removeItem("tenants")

@@ -20,11 +20,13 @@ const MaintainanceIssuePage = () => {
         {
             _id,
             type,
+            maintainer,
             date,
         },index) => {
             return {
                 SL : index + 1,
                 _id,
+                maintainer,
                 type,
                 date : format(date,"MMMM do, yyyy")
             }

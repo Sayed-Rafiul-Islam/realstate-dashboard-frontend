@@ -218,7 +218,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     const onForm1Submit = async (data : TenantForm1Values) => {
         dispatch(addTenantData1(data))
         setForm(1)
-        console.log(form)
+        console.log(data)
     }
 
     const onForm2Submit = async (data : TenantForm2Values) => {

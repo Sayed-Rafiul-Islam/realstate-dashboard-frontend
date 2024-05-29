@@ -7,6 +7,7 @@ export interface MaintainanceTypeColumn {
   SL : number,
   _id : string,
   type : string,
+  maintainer : string,
   date : string
 }
 
@@ -22,6 +23,10 @@ export const columns: ColumnDef<MaintainanceTypeColumn>[] = [
   {
     accessorKey: "type",
     header: "Maintainance Type",
+  },
+  {
+    accessorKey: "maintainer",
+    header: "Maintainer Type",
   },
   {
     id: "actions",

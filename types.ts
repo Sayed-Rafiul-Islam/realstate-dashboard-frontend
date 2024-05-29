@@ -349,6 +349,7 @@ export interface ExpenseTypesReducerProps {
 export interface MaintainanceTypeProps {
   _id : string,
   type : string,
+  maintainer : string,
   date : string
 }
 

@@ -268,7 +268,7 @@ const TenantDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">General Rent</h5>
-                                    <h5>{unit ? '$ ' + unit.rent : "N/A"}</h5>
+                                    <h5>{unit ? '$ ' + property.rent : "N/A"}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Payment Due Date</h5>

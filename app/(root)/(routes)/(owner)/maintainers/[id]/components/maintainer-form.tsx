@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, MaintainerProps, UnitProps, UnitsReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, MaintainerProps, UnitProps, UnitsReducerProps, MaintainanceTypesReducerProps, MaintainanceTypeProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -24,7 +24,9 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
+import { addMaintainer, updateMaintainer } from "@/redux/maintainers/maintainersSlice"
 
 
 type MaintainerFormValues = z.infer<typeof formSchema>
@@ -52,6 +54,10 @@ const formSchema = z.object({
 export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     initialData
 }) => {
+
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const dispatch = useDispatch()
+    const router = useRouter()
     
     const title = initialData ? 'Edit Maintainer' : 'Create Maintainer'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -80,18 +86,15 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
 
     
     const onSubmit = async (data : MaintainerFormValues) => {
-        console.log(data)
-        try {
-            setLoading(true)
-                const updatePackage = {
-                 
-                }
-                
-        } catch (error) {
-            toast.error("Something went wrong.")
-        } finally {
-            setLoading(false)
+        if (initialData) {
+            const updatedData = {...data, _id : initialData._id}
+            dispatch(updateMaintainer(updatedData))
+            toast.success(toastMessage)
+        } else {
+            dispatch(addMaintainer(data))
+            toast.success(toastMessage)
         }
+        router.push('/maintainers')
     }
 
     const [isMounted, setIsMounted] = useState(false)
@@ -170,19 +173,43 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Type <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input  type='text' disabled={loading} placeholder='Plumber' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        /> 
+                          <FormField
+                                    control={form.control}
+                                    name="type"
+                                    render={(item) => (
+                                        <FormItem>
+                                            <FormLabel>Type<span className='text-red-500'>*</span></FormLabel>
+                                            <Select
+                                                    disabled={loading} 
+                                                    onValueChange={e=> item.field.onChange(e)}
+                                                    value={item.field.value}
+                                                    defaultValue={item.field.value}
+                                                    
+                                                    
+                                                >
+                                                    <FormControl >
+                                                        <SelectTrigger>
+                                                            <SelectValue 
+                                                                defaultValue={item.field.value}
+                                                                placeholder="Select Type"
+                                                            
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent  >
+                                                        {maintainanceTypes.map(({_id, maintainer} : MaintainanceTypeProps,index)=>(
+                                                            <div key={_id}>
+                                                            <SelectItem  value={_id} >
+                                                                {maintainer}
+                                                            </SelectItem>
+                                                            </div>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                            /> 
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}

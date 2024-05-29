@@ -362,7 +362,7 @@ const loadTenants = async () => {
             propertyId : '1',
             unitId : '3',
             name : 'Rodan',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             email : "rodan@gmail.com",
             phone : '01788544463',
             occupation : 'Student',
@@ -387,7 +387,7 @@ const loadTenants = async () => {
             propertyId : '2',
             unitId : '2',
             name : 'Rafsan',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             email : "rafsan@gmail.com",
             phone : '01788544463',
             occupation : 'Shopkeeper',
@@ -412,7 +412,7 @@ const loadTenants = async () => {
             propertyId : '1',
             unitId : '2',
             name : 'Godzilla',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             email : "godzilla@gmail.com",
             phone : '01788566463',
             occupation : 'Military',
@@ -639,11 +639,11 @@ const loadMaintainers = async () => {
     const maintainers = [
         {
             _id : '1',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             name : 'Rex',
             phone : '01788544463',
             email : "rex@gmail.com",
-            type : "Electrician",
+            type : "1",
             pendingRequest : 12,
             status : 'Available',
             propertyId : '1',
@@ -658,11 +658,11 @@ const loadMaintainers = async () => {
         },
         {
             _id : '2',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             name : 'Max',
             phone : '01788544463',
             email : "max@gmail.com",
-            type : "Plumber",
+            type : "3",
             pendingRequest : 4,
             status : "Unavailable",
             propertyId : '1',
@@ -677,11 +677,11 @@ const loadMaintainers = async () => {
         },
         {
             _id : '3',
-            image : tenant_1,
+            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
             name : 'Alex',
             phone : '01788544463',
             email : "alex@gmail.com",
-            type : "Electrician",
+            type : "4",
             pendingRequest : 2,
             status : "Pending",
             propertyId : '1',
@@ -916,26 +916,31 @@ const loadMaintainanceTypes = async () => {
         {
             _id : '1',
             type : 'Electrical problems',
+            maintainer : 'Electritian',
             date : '2024-05-02T17:34:59.911+00:00'
         },
         {
             _id : '2',
             type : 'Pest infestations',
+            maintainer : 'Pest Resolver',
             date : '2024-05-03T17:34:59.911+00:00'
         },
         {
             _id : '3',
             type : 'Plumbing problem',
+            maintainer : 'Plumber',
             date : '2024-05-03T17:34:59.911+00:00'
         },
         {
             _id : '4',
             type : 'Structural Problem',
+            maintainer : 'Structural Engineer',
             date : '2024-05-04T17:34:59.911+00:00'
         },
         {
             _id : '5',
             type : 'HVAC malfunctions',
+            maintainer : 'HVAC Resolver',
             date : '2024-05-05T17:34:59.911+00:00'
         }
     ]
