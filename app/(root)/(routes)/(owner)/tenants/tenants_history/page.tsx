@@ -36,16 +36,16 @@ const AllTenants = () => {
             personalDoc,
             propertyDoc
         } : TenantProps,index : number) => {
-            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
+            const property  = properties.filter(({_id}) =>_id === propertyId)[0]
             const unit  = units.filter(({_id}) =>_id === unitId)[0]
             return {
                 serial : index + 1,
                 _id,
                 propertyId,
                 unitId,
-                propertyName : propertyName ? propertyName : '',
+                propertyName : property ? property.name : '',
                 unitName : unit ? unit.name : '',
-                monthlyRent : unit ? `${unit.rent} BDT` : '',
+                monthlyRent : unit ? `${property.rent} BDT` : '',
                 name,
                 image,
                 email,

@@ -49,7 +49,7 @@ const Pathname = () => {
                                         <BreadcrumbItem key={index}>
                                             <BreadcrumbPage>
                                                 {
-                                                    (params && z.length < 3) ?
+                                                    (params && z !== 'add') ?
                                                     <div>
                                                         { details && "Details" }
                                                         { id && "Edit" }
