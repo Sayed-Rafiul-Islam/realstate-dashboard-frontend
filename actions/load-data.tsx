@@ -449,14 +449,13 @@ const loadInvoices = async () => {
             unitId : '3',
             month : 'April',
             dueDate : '2024-05-02T17:34:59.911+00:00',
-            type : 'Rent',
+            type : '3',
             description : 'alaba alaba alaba',
             status : 'Paid',
             amount : 20000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
-            gateway : 'Cash',
-            transactionId : '00000',
-            payment : 20000
+            gateway : '1',
+            transactionId : '00000'
         },
         {
             _id : '2',
@@ -466,14 +465,13 @@ const loadInvoices = async () => {
             unitId : '2',
             month : 'April',
             dueDate : '2024-05-02T17:34:59.911+00:00',
-            type : 'Maintainance',
+            type : '2',
             description : 'alaba alaba alaba',
             status : 'Pending',
             amount : 2000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
-            gateway : 'Bkash',
-            transactionId : '00000',
-            payment : 2000
+            gateway : '2',
+            transactionId : '00000'
         },
         {
             _id : '3',
@@ -483,14 +481,13 @@ const loadInvoices = async () => {
             unitId : '2',
             month : 'April',
             dueDate : '2024-05-02T17:34:59.911+00:00',
-            type : 'Utility',
+            type : '1',
             description : 'alaba alaba alaba',
             status : 'Due',
             amount : 1500,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
-            gateway : 'Bkash',
-            transactionId : '00000',
-            payment : 1500
+            gateway : '3',
+            transactionId : '00000'
         }
     ]
     dispatch(getInvoices(invoices))

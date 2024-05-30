@@ -1,8 +1,8 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { PackageEditForm } from "./components/package-edit-form";
-import { PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitsReducerProps } from "@/types";
+import { InvoiceForm } from "./components/invoice-form";
+import { InvoiceProps, InvoicesReducerProps, PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitsReducerProps } from "@/types";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 
@@ -11,24 +11,19 @@ const PackagePage = ({
 } : {
     params : { id : string}
 }) => {
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
-    const initialData = properties.filter((item : PropertyProps)  =>{
+    const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps) => invoicesReducer)
+
+    const initialData = invoices.filter((item : InvoiceProps)  =>{
         if (item._id === params.id) {
             return item
         } 
-    })
+    })[0]
     
     return ( 
         <div>
             <div className="flex-1 p-8 pt-6 space-y-4">
-                <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
-                    <h1 className="font-bold text-xl">All Packages</h1>
-                    <Pathname />
-                </div>
-                <Separator />
-            <PackageEditForm initialData={initialData[0]} />
+                <InvoiceForm initialData={initialData} />
             </div>
         </div>
      );

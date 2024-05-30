@@ -190,7 +190,7 @@ export interface InvoiceProps {
   description : string,
   status : string,
   amount : number,
-  dateOfPayment ?: string,
+  dateOfPayment : string,
   gateway ?: string,
   transactionId ?: string,
   payment ?: number

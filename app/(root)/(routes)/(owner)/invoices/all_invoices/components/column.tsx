@@ -25,7 +25,7 @@ export interface InvoiceColumn {
 export const columns: ColumnDef<InvoiceColumn>[] = [
   {
     accessorKey: "dueDate",
-    header: "Date",
+    header: "Due Date",
   },
   {
     accessorKey: "invoiceNo",

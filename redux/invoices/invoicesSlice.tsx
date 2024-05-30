@@ -18,24 +18,19 @@ const invoicesSlice = createSlice({
             localStorage.removeItem("invoices")
             localStorage.setItem("invoices", JSON.stringify(state.invoices))
         },
-        // updateinvoicestatus : (state, {payload}) => {
-        //     const temp = state.invoices.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.invoices = temp
-        //     localStorage.removeItem("invoices")
-        //     localStorage.setItem("invoices", JSON.stringify(state.invoices))
-        // },
+        updateInvoice : (state, {payload}) => {
+            const index = state.invoices.findIndex((item : InvoiceProps) => item._id === payload._id)
+            state.invoices[index] = payload
+            // localStorage.removeItem("invoices")
+            // localStorage.setItem("invoices", JSON.stringify(state.invoices))
+        },
 
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.invoices.push(payload)
-        //     console.log(state.invoices)
-        //     localStorage.removeItem("invoices")
-        //     localStorage.setItem("invoices", JSON.stringify(state.invoices))
-        // },
+        addInvoice : (state, {payload}) => {
+            state.invoices.push(payload)
+            console.log(state.invoices)
+            localStorage.removeItem("invoices")
+            localStorage.setItem("invoices", JSON.stringify(state.invoices))
+        },
         removeInvoice : (state, {payload}) => {
             const temp = state.invoices.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.invoices = temp
@@ -45,5 +40,5 @@ const invoicesSlice = createSlice({
     }
 })
 
-export const {getInvoices,removeInvoice} = invoicesSlice.actions
+export const {getInvoices,removeInvoice,addInvoice,updateInvoice} = invoicesSlice.actions
 export default invoicesSlice.reducer
