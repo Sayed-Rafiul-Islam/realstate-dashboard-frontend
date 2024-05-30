@@ -2,7 +2,7 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainanceRequestsReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
+import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ const AllRequests = () => {
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
     
     const formattedRequests = maintainanceRequests.map((
         {
@@ -32,6 +33,8 @@ const AllRequests = () => {
         }) => {
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
             const unitName  = units.filter(({_id}) =>_id === unitId)[0].name
+            const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
+
             return {
                 _id,
                 propertyId,
@@ -39,8 +42,8 @@ const AllRequests = () => {
                 property_unit : `${propertyName}/${unitName}`,
                 date : format(date,"MMMM do, yyyy"),
                 requestNo,
-                type,
-                issue,
+                type : typeName,
+                issue : details,
                 status,
                 details,
                 cost,

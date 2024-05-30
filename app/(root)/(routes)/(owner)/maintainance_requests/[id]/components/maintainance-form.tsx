@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -27,6 +27,8 @@ import axios from "axios"
 import api from "@/actions/api"
 import { useRouter } from "next/navigation"
 import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
+import { nanoid } from "@reduxjs/toolkit"
+import { getTime } from "date-fns"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -60,7 +62,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
     const [file,setFile] = useState<FileList | null>()
     const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
@@ -68,7 +70,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
 
-    const [types, setTypes] = useState<string[]>([''])
+    // const [types, setTypes] = useState<string[]>([''])
     const router = useRouter()
 
     useEffect(()=>{
@@ -79,15 +81,15 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     },[propertyId])
 
 
-    useEffect(()=>{
-        maintainanceRequests.map((item)=> {
-            const index = types.findIndex(i => i === item.type)
-            if (index === -1) {
-                types.push(item.type)
-            }
-        })
-        setTypes(types.slice(1))
-    },[])
+    // useEffect(()=>{
+    //     maintainanceTypes.map((item)=> {
+    //         const index = types.findIndex(i => i === item.type)
+    //         if (index === -1) {
+    //             types.push(item.type)
+    //         }
+    //     })
+    //     setTypes(types.slice(1))
+    // },[])
 
 
     const title = initialData ? 'Edit Request' : 'Create Request'
@@ -117,7 +119,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                 if (file[0].type.split("/")[1] !=='pdf') {
                    toast.error('Attached file must be a pdf')
                 } else {
-                   const formData = {...data,file : file[0],_id : initialData._id}
+                   const formData = {...data,file : file[0],_id : initialData._id, requestNo : initialData.requestNo}
                    const result = await api.post(`updateRequest`, 
                    formData,
                    {
@@ -139,7 +141,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                 if (file[0].type.split("/")[1] !=='pdf') {
                    toast.error('Attached file must be a pdf')
                 } else {
-                   const formData = {...data,file : file[0]}
+                   const formData = {...data,file : file[0],requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
                    const result = await api.post(`createRequest`, 
                    formData,
                    {
@@ -179,6 +181,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     if (!isMounted) {
         return null
     }
+
+
 
     return (
         <div className='add mt-5'>
@@ -299,9 +303,9 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {types.map((type,index)=>(
-                                                    <div >
-                                                        <SelectItem key={index} value={type} >
+                                                {maintainanceTypes.map(({_id,type})=>(
+                                                    <div key={_id}>
+                                                        <SelectItem  value={_id} >
                                                             {type}
                                                         </SelectItem>
                                                     </div>

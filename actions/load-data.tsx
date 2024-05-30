@@ -700,7 +700,7 @@ const loadMaintainers = async () => {
 
 const loadMaintainanceRequests = async (dispatch : any) => {
     const {data,status} = await api.get(`getRequests`,{validateStatus: () => true})
-    dispatch(getMaintainanceRequests(data))
+
 
     // const data = [
     //     {
@@ -743,6 +743,7 @@ const loadMaintainanceRequests = async (dispatch : any) => {
     //         cost : 600
     //     }
     // ]
+        dispatch(getMaintainanceRequests(data))
 
 }
 
