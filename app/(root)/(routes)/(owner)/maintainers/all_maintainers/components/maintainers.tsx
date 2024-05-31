@@ -5,7 +5,7 @@ interface MaintainersProps {
 
 import './maintainer-card.css'
 import { useEffect, useState } from 'react';
-import { MaintainerProps } from '@/types';
+import { MaintainanceTypesReducerProps, MaintainerProps } from '@/types';
 
 import { 
     Select, 
@@ -16,27 +16,15 @@ import {
 } from '@/components/ui/select'
 import { Button } from '@/components/ui/button';
 import MaintainerCard from './maintainer-card';
+import { useSelector } from 'react-redux';
 
 const Maintainers : React.FC<MaintainersProps> = ({data}) => {
 
     const [maintainers, setMaintainers] = useState(data)
-
-    const [types, setTypes] = useState<string[]>([''])
-
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
     const [type, setType] = useState('')
     const [status, setStatus] = useState('')
-
-
-    useEffect(()=>{
-        data.map((item)=> {
-            const index = types.findIndex(i => i === item.type)
-            if (index === -1) {
-                types.push(item.type)
-            }
-        })
-        setTypes(types.slice(1))
-    },[])
 
 
     useEffect(()=>{
@@ -70,7 +58,13 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
             <div className="select-filters-wrapper">
                 <div>
                     <Select
-                        onValueChange={e=> setType(e)}
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                showAll()
+                            } else {
+                                setType(e)
+                            }
+                        }}
                         value={type}                              
                     >
                         <SelectTrigger className="select-filters">
@@ -78,18 +72,25 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
                                 placeholder="Select Type"
                             />
                         </SelectTrigger>
-                            <SelectContent  >
-                                {types.map((type,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={type} >
-                                            {type}
-                                        </SelectItem>
-                                    </div>
+                            <SelectContent >
+                                <SelectItem value='all' >
+                                    Clear Filter
+                                </SelectItem>
+                                {maintainanceTypes.map(({maintainer,_id})=>(
+                                    <SelectItem key={_id} value={_id} >
+                                        {maintainer}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                     </Select>
                     <Select
-                        onValueChange={e=> setStatus(e)}
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                setStatus('')
+                            } else {
+                                setStatus(e)
+                            }
+                        }}
                         value={status}                              
                     >
                         <SelectTrigger className="select-filters">
@@ -98,6 +99,9 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
                             />
                         </SelectTrigger>
                             <SelectContent >
+                                <SelectItem value="all" >
+                                    All
+                                </SelectItem>
                                 <SelectItem value="Available" >
                                     Available
                                 </SelectItem>
@@ -110,14 +114,14 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
                             
             <div className="cards">
                 {
-                    maintainers.map((maintainer) => 
-                        <MaintainerCard key={maintainer._id} data={maintainer} />
-                    )
+                    maintainers.map((maintainer) => {
+                        const type = maintainanceTypes.filter((item)=> item._id === maintainer.type)[0]
+                        return <MaintainerCard key={maintainer._id} data={maintainer} type={type} />
+                    })
                 }
             </div>
         </>

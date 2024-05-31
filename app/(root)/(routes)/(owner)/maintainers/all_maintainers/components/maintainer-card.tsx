@@ -1,8 +1,9 @@
 "use client"
 
-import { MaintainerProps } from "@/types";
+import { MaintainanceTypeProps, MaintainanceTypesReducerProps, MaintainerProps } from "@/types";
 interface MaintainerCardProps {
-    data : MaintainerProps
+    data : MaintainerProps,
+    type : MaintainanceTypeProps
 }
 
 import { CircleCheck, Edit, Eye, Home, LayoutDashboardIcon, MapPinned, MoreVertical, Trash } from "lucide-react";
@@ -17,7 +18,7 @@ import Image from "next/image";
 import './maintainer-card.css'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AlertModal } from "@/components/modals/alert-modal";
 import toast from "react-hot-toast";
 import { removeProperty } from "@/redux/properties/propertiesSlice";
@@ -27,7 +28,7 @@ import { removeTenant } from "@/redux/tenants/tenantsSlice";
 import { removeMaintainer } from "@/redux/maintainers/maintainersSlice";
 
 
-const MaintainerCard : React.FC<MaintainerCardProps> = ({data}) => {
+const MaintainerCard : React.FC<MaintainerCardProps> = ({data,type}) => {
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -115,7 +116,7 @@ const MaintainerCard : React.FC<MaintainerCardProps> = ({data}) => {
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Type</h4>
-                        <h4>{data.type}</h4>
+                        <h4>{type.maintainer}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Pending Requests</h4>

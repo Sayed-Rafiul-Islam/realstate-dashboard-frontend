@@ -60,8 +60,15 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
         <>
             <div className="select-filters-wrapper">
                 <div>
-                    <Select
-                        onValueChange={e=> setProperty(e)}
+                <Select
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                showAll()
+                            } else {
+                                
+                                setProperty(e)
+                            }                            
+                        }}
                         value={property}                              
                     >
                         <SelectTrigger className="select-filters">
@@ -70,12 +77,13 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
                             />
                         </SelectTrigger>
                             <SelectContent  >
+                                    <SelectItem value='all' >
+                                        For All Properties
+                                    </SelectItem>
                                 {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <div key={_id}>
-                                        <SelectItem  value={_id} >
-                                            {name}
-                                        </SelectItem>
-                                    </div>
+                                    <SelectItem key={index} value={_id} >
+                                        {name}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                     </Select>
@@ -100,7 +108,6 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
                             
             <div className="cards">

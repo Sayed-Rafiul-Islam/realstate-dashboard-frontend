@@ -79,23 +79,31 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
             <div className="select-filters-wrapper mb-5">
                 <div>
                 <Select
-                    onValueChange={e=> setProperty(e)}
-                    value={property}                              
-                >
-                    <SelectTrigger className="select-filters">
-                        <SelectValue 
-                            placeholder="Select Property"
-                        />
-                    </SelectTrigger>
-                        <SelectContent  >
-                            {properties.map(({_id, name} : PropertyProps,index)=>(
-                                <div >
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                showAll()
+                            } else {
+                                
+                                setProperty(e)
+                            }                            
+                        }}
+                        value={property}                              
+                    >
+                        <SelectTrigger className="select-filters">
+                            <SelectValue 
+                                placeholder="Select Property"
+                            />
+                        </SelectTrigger>
+                            <SelectContent  >
+                                    <SelectItem value='all' >
+                                        For All Properties
+                                    </SelectItem>
+                                {properties.map(({_id, name} : PropertyProps,index)=>(
                                     <SelectItem key={index} value={_id} >
                                         {name}
                                     </SelectItem>
-                                </div>
-                            ))}
-                        </SelectContent>
+                                ))}
+                            </SelectContent>
                 </Select>
                 <Select
                     onValueChange={e=> setUnit(e)}
@@ -118,7 +126,6 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                         </SelectContent>
                 </Select>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
             <DataTable pagination={true} searchKey="invoiceNo" columns={columns} data={rents} />
         </>

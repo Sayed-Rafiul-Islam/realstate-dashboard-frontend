@@ -76,7 +76,14 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                 <div className="select-filters-wrapper">
                     <div>
                     <Select
-                        onValueChange={e=> setProperty(e)}
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                showAll()
+                            } else {
+                                
+                                setProperty(e)
+                            }                            
+                        }}
                         value={property}                              
                     >
                         <SelectTrigger className="select-filters">
@@ -85,12 +92,13 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                             />
                         </SelectTrigger>
                             <SelectContent  >
+                                    <SelectItem value='all' >
+                                        For All Properties
+                                    </SelectItem>
                                 {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={_id} >
-                                            {name}
-                                        </SelectItem>
-                                    </div>
+                                    <SelectItem key={index} value={_id} >
+                                        {name}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                     </Select>
@@ -115,7 +123,6 @@ export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                     </div>
-                    <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
                 </div>  
             <DataTable pagination={true} searchKey="name" columns={columns} data={tenants} />
         </>
