@@ -21,17 +21,27 @@ interface DatePickerProps {
 
 export const DatePicker  : React.FC<DatePickerProps> = ({
     onPickDate,
-    label
+    label,
+    clearDate
 }) => {
     const [date, setDate] = React.useState<Date>()
+    const [open, setOpen] = React.useState(false)
 
     React.useEffect(()=>{
         onPickDate(date ? date.toISOString() : '')
       },[date])
+    React.useEffect(()=>{
+      if (clearDate === true) {
+        onPickDate('')
+        setDate(undefined)
+      }
+        
+      },[clearDate])
   return (
-    <Popover>
+    <Popover open={open}>
       <PopoverTrigger asChild>
         <Button
+        onClick={()=>setOpen(true)}
           variant={"outline"}
           className={cn(
             "w-[280px] justify-start text-left font-normal",
@@ -42,11 +52,16 @@ export const DatePicker  : React.FC<DatePickerProps> = ({
           {date ? format(date, "PPP") : <span>{label}</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0" onInteractOutside={()=>setOpen(false)}>
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={e=>{
+            setDate(e)
+            // setOpen(false)
+          }}
+          onDayClick={()=>setOpen(false)}
+          // onDayBlur={()=>setOpen(false)}
           initialFocus
         />
       </PopoverContent>

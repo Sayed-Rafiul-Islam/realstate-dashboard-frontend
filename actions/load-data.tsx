@@ -503,7 +503,7 @@ const loadExpenses = async () => {
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
             unitId : '1',
-            type : 'Cleaning & Maintenance',
+            type : '1',
             amount : 14000,
             description : 'qwbdweuvfu',
             date : '2024-11-02T17:34:59.911+00:00'
@@ -513,7 +513,7 @@ const loadExpenses = async () => {
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
             unitId : '2',
-            type : 'Cleaning & Maintenance',
+            type : '2',
             amount : 1500,
             description : 'qwbdweuvfu',
             date : '2024-04-02T17:34:59.911+00:00'
@@ -523,7 +523,7 @@ const loadExpenses = async () => {
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
             unitId : '3',
-            type : 'Cleaning & Maintenance',
+            type : '3',
             amount : 2500,
             description : 'qwbdweuvfu',
             date : '2024-08-02T17:34:59.911+00:00'
@@ -533,7 +533,7 @@ const loadExpenses = async () => {
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
             unitId : '1',
-            type : 'Cleaning & Maintenance',
+            type : '4',
             amount : 14000,
             description : 'qwbdweuvfu',
             date : '2024-05-02T17:34:59.911+00:00'

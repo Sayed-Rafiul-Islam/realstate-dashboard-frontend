@@ -13,6 +13,7 @@ export interface ExpenseColumn {
   total : string
   propertyId : string,
   unitId : string,
+  typeId : string,
 }
 
 export const columns: ColumnDef<ExpenseColumn>[] = [

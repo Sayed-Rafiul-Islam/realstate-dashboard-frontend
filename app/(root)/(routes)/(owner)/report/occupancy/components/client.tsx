@@ -63,27 +63,34 @@ export const EarningsClient : React.FC<OccupancyClientProps> = ({data}) => {
         <>        
             <div className="select-filters-wrapper mb-5">
                 <div>
-                    <Select
-                        onValueChange={e=> setProperty(e)}
-                        value={property}                              
-                    >
+                <Select
+                            onValueChange={e=> {
+                                if (e === 'all') {
+                                    showAll()
+                                } else {
+                                    
+                                    setProperty(e)
+                                }                            
+                            }}
+                            value={property}                              
+                        >
                         <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Property"
                             />
                         </SelectTrigger>
                             <SelectContent  >
-                                {data.map(({_id, name} : PropertyProps,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={_id} >
-                                            {name}
-                                        </SelectItem>
-                                    </div>
+                                    <SelectItem value='all' >
+                                        For All Properties
+                                    </SelectItem>
+                                {properties.map(({_id, name} : PropertyProps,index)=>(
+                                    <SelectItem key={index} value={_id} >
+                                        {name}
+                                    </SelectItem>
                                 ))}
-                            </SelectContent>
-                    </Select>
+                        </SelectContent>
+                </Select>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
             </div>  
             <DataTable pagination={true} searchKey="name" columns={columns} data={properties} />
 

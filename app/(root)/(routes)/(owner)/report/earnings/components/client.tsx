@@ -42,35 +42,39 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
 
 
     useEffect(()=>{
+         setDateFilters(false)
       
         if (property === '') {
-            if( fromDate === '' || toDate === '') {
+            if( fromDate === '' && toDate === '') {
                 setEarnings(data)
-            } else {
-                setDateFilters(true)
+            } 
+            else if (fromDate !== '' && toDate !== '') {
                 const temp = data.filter((item) => fromDate <= item.isoDate && toDate >= item.isoDate) 
                 setEarnings(temp)
+            } else {
+                setEarnings(data)
             }
         } 
         else {
-            if( fromDate === '' || toDate === '') {
+            if( fromDate === '' && toDate === '') {
                 const temp = data.filter((item) => item.propertyId === property) 
                 setEarnings(temp)
-            } else {
                 
-                setDateFilters(true)
-                const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
+            } else if (fromDate !== '' && toDate !== '') {
+                const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate)
+                setEarnings(temp)
+            } 
+            
+            else { 
+                const temp = data.filter((item) => item.propertyId === property) 
                 setEarnings(temp)
             }
-            // const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
-            // setEarnings(temp)
-            // console.log(temp)
         }
         
     },[property,data,fromDate,toDate])
 
     const showAll = () => {
-        setDateFilters(false)
+        setDateFilters(true)
         setProperty('')
         setFromDate('')
         setToDate('')
@@ -96,28 +100,32 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
         <>        
             <div className="select-filters-wrapper mb-5">
                 <div>
-                    {/* <Input 
-                        value={search}
-                        onChange={(e) =>setSearch(e.target.value)}
-                    /> */}
                     <Select
-                        onValueChange={e=> setProperty(e)}
-                        value={property}                              
-                    >
+                            onValueChange={e=> {
+                                if (e === 'all') {
+                                    showAll()
+                                } else {
+                                    
+                                    setProperty(e)
+                                }                            
+                            }}
+                            value={property}                              
+                        >
                         <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Property"
                             />
                         </SelectTrigger>
                             <SelectContent  >
+                                    <SelectItem value='all' >
+                                        Clear Filters
+                                    </SelectItem>
                                 {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={_id} >
-                                            {name}
-                                        </SelectItem>
-                                    </div>
+                                    <SelectItem key={index} value={_id} >
+                                        {name}
+                                    </SelectItem>
                                 ))}
-                            </SelectContent>
+                        </SelectContent>
                     </Select>
                     <div className="select-filters flex">          
                         <DatePicker clearDate={datefilters} label='From' onPickDate={(date)=> setFromDate(date)} />
@@ -126,7 +134,7 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                         <DatePicker clearDate={datefilters} label='To' onPickDate={(date)=> setToDate(date)} />
                     </div>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Clear Filters</Button>
+                {/* <Button className='bg-purple-600' onClick={showAll}>Clear Filters</Button> */}
             </div>  
             <DataTable search={search} total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
 
