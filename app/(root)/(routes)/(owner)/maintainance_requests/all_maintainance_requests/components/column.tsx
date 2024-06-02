@@ -7,6 +7,7 @@ export interface MaintainanceRequestColumn {
   _id : string,
   propertyId : string,
   unitId : string,
+  typeId : string,
   property_unit : string,
   date : string,
   requestNo : string,

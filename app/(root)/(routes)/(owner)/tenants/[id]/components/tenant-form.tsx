@@ -28,7 +28,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { DollarSign, FileText, Home, Landmark, User } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { addTenantData1, addTenantData2 } from "@/redux/forms/formsSlice"
-import { addTenant } from "@/redux/tenants/tenantsSlice"
+import { addTenant, updateTenant } from "@/redux/tenants/tenantsSlice"
+import PdfUpload from "@/components/pdf-upload"
+import api from "@/actions/api"
 
 
 type TenantForm1Values = z.infer<typeof form1Schema>
@@ -138,8 +140,8 @@ const form2Schema = z.object({
 })
 
 const form3Schema = z.object({
-    propertyDoc : z.string(),
-    personalDoc : z.string(),
+    propertyDoc : z.string().min(1, {message : 'Property document required.'}),
+    personalDoc : z.string().min(1, {message : 'Personal document required.'}),
 })
 
 
@@ -160,8 +162,8 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 
-    const [propertyDoc,setPropertyDoc] = useState<FileList | null>()
-    const [personalDoc,setPersonalDoc] = useState<FileList | null>()
+    // const [propertyDoc,setPropertyDoc] = useState<FileList | null>()
+    // const [personalDoc,setPersonalDoc] = useState<FileList | null>()
 
 
     
@@ -230,11 +232,9 @@ export const TenantForm : React.FC<TenantFormProps> = ({
 
 
     const onForm3Submit = async (data : TenantForm3Values) => {
+
+
         if ( initialData ) {
-            if (propertyDoc && personalDoc) {
-                if (propertyDoc[0].type.split("/")[1] !=='pdf' && personalDoc[0].type.split("/")[1] !=='pdf') {
-                   toast.error('Attached files must be pdfs')
-                } else {
                    const formData = {
                     _id : initialData.initialData1._id,
                     propertyId : tenantForm.initialData2.property,
@@ -256,27 +256,18 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     age : tenantForm.initialData1.age,
                     familyMember : tenantForm.initialData1.familyMember,
                     status : tenantForm.initialData1.status,      
-                    personalDoc : '',
-                    propertyDoc : '',
-                    propertyFile : propertyDoc[0], 
-                    personalFile : personalDoc[0], 
+                    personalDoc : data.personalDoc,
+                    propertyDoc : data.propertyDoc,
                 }
-                //    const result = await api.post(`updateRequest`, 
-                //    formData,
-                //    {
-                //        headers : { 'Content-Type' : 'multipart/form-data'}
-                //    })
+                // const result = await api.post(`updateTenant`, formData)
                 //    dispatch(updateMaintainanceRequest(result.data))
-                dispatch(addTenant(formData))
+                dispatch(updateTenant(formData))
                 toast.success(toastMessage)
                 router.push('/tenants')
                 }
-           } 
-        } else {
-            if (propertyDoc && personalDoc) {
-                if (propertyDoc[0].type.split("/")[1] !=='pdf' && personalDoc[0].type.split("/")[1] !=='pdf') {
-                   toast.error('Attached files must be pdfs')
-                } else {
+           
+        else {
+
                    const formData = {
                     propertyId : tenantForm.initialData2.property,
                     unitId : tenantForm.initialData2.unit,
@@ -297,26 +288,20 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     age : tenantForm.initialData1.age,
                     familyMember : tenantForm.initialData1.familyMember,
                     status : tenantForm.initialData1.status,      
-                    personalDoc : '',
-                    propertyDoc : '',
-                    propertyFile : propertyDoc[0], 
-                    personalFile : personalDoc[0], 
+                    personalDoc : data.personalDoc,
+                    propertyDoc : data.propertyDoc,
                 }
                 
-                //    const result = await api.post(`createRequest`, 
-                //    formData,
-                //    {
-                //        headers : { 'Content-Type' : 'multipart/form-data'}
-                //    })
+                // const result = await api.post(`createTenant`, formData)
                    dispatch(addTenant(formData))
                    toast.success(toastMessage)
                    router.push('/tenants')
                 }
-           } 
+           
         // dispatch(addTenantData2(data))
         // setForm(0)
     }
-}
+
 
     const [isMounted, setIsMounted] = useState(false)
 
@@ -739,14 +724,19 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                 <Form {...form3}>
                     <form onSubmit={form3.handleSubmit(onForm3Submit)} className='space-y-8 w-full'>
                         <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
-                            <FormField
+                        <FormField
                                 control={form3.control}
                                 name="propertyDoc"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Property Document <span className="text-red-500">*</span></FormLabel>
                                         <FormControl>
-                                            <Input type='file' required onChange={(e)=>setPropertyDoc(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
+                                        <PdfUpload
+                                                buttonName='Upload Property Pdf'
+                                                value={field.value ? [field.value] : []}
+                                                onChange={(url)=>field.onChange(url)}
+                                                onRemove={()=>field.onChange("")}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -759,7 +749,12 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                     <FormItem>
                                         <FormLabel>Personal Document <span className="text-red-500">*</span></FormLabel>
                                         <FormControl>
-                                            <Input type='file' required onChange={(e)=>setPersonalDoc(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
+                                        <PdfUpload
+                                                buttonName='Upload pdf'
+                                                value={field.value ? [field.value] : []}
+                                                onChange={(url)=>field.onChange(url)}
+                                                onRemove={()=>field.onChange("")}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

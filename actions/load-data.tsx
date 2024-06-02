@@ -379,8 +379,8 @@ const loadTenants = async () => {
             age : 25,
             familyMember : 5,
             status : true,
-            personalDoc : '',
-            propertyDoc : ''
+            personalDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf',
+            propertyDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf'
         },
         {
             _id : '2',

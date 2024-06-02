@@ -36,24 +36,48 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
     const [property, setProperty] = useState('')
     const [fromDate, setFromDate] = useState('')
     const [toDate, setToDate] = useState('')
+    const [datefilters, setDateFilters] = useState(false)
+
+   
 
 
     useEffect(()=>{
-        if (property === '' || fromDate === '' || toDate === '') {
-            setEarnings(data)
-        } else {
-            const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
-            setEarnings(temp)
+      
+        if (property === '') {
+            if( fromDate === '' || toDate === '') {
+                setEarnings(data)
+            } else {
+                setDateFilters(true)
+                const temp = data.filter((item) => fromDate <= item.isoDate && toDate >= item.isoDate) 
+                setEarnings(temp)
+            }
+        } 
+        else {
+            if( fromDate === '' || toDate === '') {
+                const temp = data.filter((item) => item.propertyId === property) 
+                setEarnings(temp)
+            } else {
+                
+                setDateFilters(true)
+                const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
+                setEarnings(temp)
+            }
+            // const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate) 
+            // setEarnings(temp)
+            // console.log(temp)
         }
         
     },[property,data,fromDate,toDate])
 
     const showAll = () => {
+        setDateFilters(false)
         setProperty('')
         setFromDate('')
         setToDate('')
         setEarnings(data)
     }
+
+
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -96,13 +120,13 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                             </SelectContent>
                     </Select>
                     <div className="select-filters flex">          
-                        <DatePicker label='From' onPickDate={(date)=> setFromDate(date)} />
+                        <DatePicker clearDate={datefilters} label='From' onPickDate={(date)=> setFromDate(date)} />
                     </div>
                     <div className="select-filters flex">          
-                        <DatePicker label='To' onPickDate={(date)=> setToDate(date)} />
+                        <DatePicker clearDate={datefilters} label='To' onPickDate={(date)=> setToDate(date)} />
                     </div>
                 </div>
-                <Button className='bg-purple-600' onClick={showAll}>Show All</Button>
+                <Button className='bg-purple-600' onClick={showAll}>Clear Filters</Button>
             </div>  
             <DataTable search={search} total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
 

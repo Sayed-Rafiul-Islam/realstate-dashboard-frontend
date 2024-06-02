@@ -15,7 +15,8 @@ import {
 
 interface DatePickerProps {
     onPickDate : (date : string) => void,
-    label : string
+    label : string,
+    clearDate : boolean
 }
 
 export const DatePicker  : React.FC<DatePickerProps> = ({

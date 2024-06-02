@@ -6,7 +6,7 @@ interface MaintainanceClientProps {
 
 import { MaintainanceRequestColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types"
+import { MaintainanceTypesReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { 
@@ -24,24 +24,13 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
 
     
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+
 
     const [requests, setRequests] = useState(data)
-    const [types, setTypes] = useState<string[]>([''])
 
     const [property, setProperty] = useState('')
     const [type, setType] = useState('')
-
-    useEffect(()=>{
-        data.map((item)=> {
-            const index = types.findIndex(i => i === item.type)
-            if (index === -1) {
-                types.push(item.type)
-            }
-        })
-        setTypes(types.slice(1))
-    },[])
-
-    
 
 
     useEffect(()=>{
@@ -49,7 +38,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
             setRequests(data)
         } else {
             if (type !== '' && property === '') {
-                const temp = data.filter((item) => item.type === type) 
+                const temp = data.filter((item) => item.typeId === type) 
                 setRequests(temp)
             } 
             else if ( property !== '' && type === '') {
@@ -57,7 +46,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                 setRequests(temp)
             }
             else {
-                const temp = data.filter((item) => item.propertyId === property && item.type === type) 
+                const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 
                 setRequests(temp)
             }
         }
@@ -88,47 +77,61 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
         <>
             <div className="select-filters-wrapper">
                 <div>
-                    <Select
-                        onValueChange={e=> setProperty(e)}
-                        value={property}                              
-                    >
-                        <SelectTrigger className="select-filters">
-                            <SelectValue 
-                                placeholder="Select Property"
-                            />
-                        </SelectTrigger>
-                            <SelectContent  >
-                                {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={_id} >
-                                            {name}
-                                        </SelectItem>
-                                    </div>
-                                ))}
-                            </SelectContent>
-                    </Select>
+                <Select
+                    onValueChange={e=> {
+                        if (e === 'all') {
+                            showAll()
+                        } else {
+                            
+                            setProperty(e)
+                        }                            
+                    }}
+                    value={property}                              
+                >
+                    <SelectTrigger className="select-filters">
+                        <SelectValue 
+                            placeholder="Select Property"
+                        />
+                    </SelectTrigger>
+                        <SelectContent  >
+                                <SelectItem value='all' >
+                                    For All Properties
+                                </SelectItem>
+                            {properties.map(({_id, name} : PropertyProps,index)=>(
+                                <SelectItem key={index} value={_id} >
+                                    {name}
+                                </SelectItem>
+                            ))}
+                    </SelectContent>
+                </Select>
 
-                    <Select
-                        onValueChange={e=> setType(e)}
-                        value={type}                              
-                    >
+                <Select
+                    onValueChange={e=> {
+                        if (e === 'all') {
+                            showAll()
+                        } else {
+                            setType(e)
+                        }
+                    }}
+                    value={type}                              
+                >
                         <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Type"
                             />
                         </SelectTrigger>
-                            <SelectContent  >
-                                {types.map((type,index)=>(
-                                    <div >
-                                        <SelectItem key={index} value={type} >
-                                            {type}
-                                        </SelectItem>
-                                    </div>
+                            <SelectContent >
+                                <SelectItem value='all' >
+                                    Clear Filter
+                                </SelectItem>
+                                {maintainanceTypes.map(({type,_id})=>(
+                                    <SelectItem key={_id} value={_id} >
+                                        {type}
+                                    </SelectItem>
                                 ))}
                             </SelectContent>
                     </Select>
                     </div>
-                    <Button className="bg-purple-600" onClick={showAll}>Show All</Button>
                 </div>  
             <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
         </>

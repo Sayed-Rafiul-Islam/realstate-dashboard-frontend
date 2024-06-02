@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation"
 import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 import { nanoid } from "@reduxjs/toolkit"
 import { getTime } from "date-fns"
+import PdfUpload from "@/components/pdf-upload"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -64,7 +65,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
-    const [file,setFile] = useState<FileList | null>()
+    // const [file,setFile] = useState<FileList | null>()
     const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
     const dispatch = useDispatch()
 
@@ -115,11 +116,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
         if ( initialData ) {
-            if (file) {
-                if (file[0].type.split("/")[1] !=='pdf') {
-                   toast.error('Attached file must be a pdf')
-                } else {
-                   const formData = {...data,file : file[0],_id : initialData._id, requestNo : initialData.requestNo}
+                   const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
                    const result = await api.post(`updateRequest`, 
                    formData,
                    {
@@ -129,48 +126,15 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                    toast.success(toastMessage)
                    router.push('/maintainance_requests')
                 }
-           } else {
-            const formData = {...data,_id : initialData._id}
-            const result = await api.post(`updateRequest`, formData)
-            dispatch(updateMaintainanceRequest(result.data))
-            toast.success(toastMessage)
-            router.push('/maintainance_requests')
-           }
-        } else {
-            if (file) {
-                if (file[0].type.split("/")[1] !=='pdf') {
-                   toast.error('Attached file must be a pdf')
-                } else {
-                   const formData = {...data,file : file[0],requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
-                   const result = await api.post(`createRequest`, 
-                   formData,
-                   {
-                       headers : { 'Content-Type' : 'multipart/form-data'}
-                   })
-                   dispatch(addMaintainanceRequest(result.data))
-                   toast.success(toastMessage)
-                   router.push('/maintainance_requests')
-                }
-           } else {
-            const result = await api.post(`createRequest`, data)
+           else {
+            const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
+            const result = await api.post(`createRequest`, formData)
             dispatch(addMaintainanceRequest(result.data))
             toast.success(toastMessage)
             router.push('/maintainance_requests')
            }
         }
-
-        // try {
-        //     setLoading(true)
-        //         const updatePackage = {
-                 
-        //         }
-                
-        // } catch (error) {
-        //     toast.error("Something went wrong.")
-        // } finally {
-        //     setLoading(false)
-        // }
-    }
+    
 
     const [isMounted, setIsMounted] = useState(false)
 
@@ -372,9 +336,13 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 <FormItem>
                                     <FormLabel>Attachment</FormLabel>
                                     <FormControl>
-                                        <Input type='file' onChange={(e)=>setFile(e.target.files)} accept="application/pdf" disabled={loading} placeholder=''  />
-                                    </FormControl>
-                                    <FormMessage />
+                                        <PdfUpload
+                                                buttonName='Add Attachment'
+                                                value={field.value ? [field.value] : []}
+                                                onChange={(url)=>field.onChange(url)}
+                                                onRemove={()=>field.onChange("")}
+                                            />
+                                        </FormControl>
                                 </FormItem>
                             )}
                         />

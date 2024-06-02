@@ -78,17 +78,17 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
         <>        
             <div className="select-filters-wrapper mb-5">
                 <div>
-                <Select
-                        onValueChange={e=> {
-                            if (e === 'all') {
-                                showAll()
-                            } else {
-                                
-                                setProperty(e)
-                            }                            
-                        }}
-                        value={property}                              
-                    >
+                    <Select
+                            onValueChange={e=> {
+                                if (e === 'all') {
+                                    showAll()
+                                } else {
+                                    
+                                    setProperty(e)
+                                }                            
+                            }}
+                            value={property}                              
+                        >
                         <SelectTrigger className="select-filters">
                             <SelectValue 
                                 placeholder="Select Property"
@@ -103,28 +103,28 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                                         {name}
                                     </SelectItem>
                                 ))}
-                            </SelectContent>
-                </Select>
-                <Select
-                    onValueChange={e=> setUnit(e)}
-                    value={unit}                              
-                >
-                    <SelectTrigger className="select-filters">
-                        <SelectValue 
-                            placeholder="Select Unit"
-                        />
-                    </SelectTrigger>
-                        <SelectContent  >
-                            { thisUnits &&
-                            thisUnits.map(({_id, name} : UnitProps,index)=>(
-                                <div >
-                                    <SelectItem key={index} value={_id} >
-                                        {name}
-                                    </SelectItem>
-                                </div>
-                            ))}
                         </SelectContent>
-                </Select>
+                    </Select>
+                    <Select
+                        onValueChange={e=> setUnit(e)}
+                        value={unit}                              
+                    >
+                        <SelectTrigger className="select-filters">
+                            <SelectValue 
+                                placeholder="Select Unit"
+                            />
+                        </SelectTrigger>
+                            <SelectContent  >
+                                { thisUnits &&
+                                thisUnits.map(({_id, name} : UnitProps,index)=>(
+                                    <div >
+                                        <SelectItem key={index} value={_id} >
+                                            {name}
+                                        </SelectItem>
+                                    </div>
+                                ))}
+                        </SelectContent>
+                    </Select>
                 </div>
             </div>  
             <DataTable pagination={true} searchKey="invoiceNo" columns={columns} data={rents} />

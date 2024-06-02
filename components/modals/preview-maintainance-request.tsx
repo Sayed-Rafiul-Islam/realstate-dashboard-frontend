@@ -97,7 +97,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
 
                             <div className="flex gap-4 mt-4">
                                 <h5 className="text-xs font-semibold">Invoice:</h5>
-                                <Link target="_blank" href={`${baseURL_vercel}files/${data.attachment}`} className="text-xs"><File size={15} /> {data.requestNo}</Link>
+                                <Link target="_blank" href={data.attachment} className="text-xs flex gap-1 hover:text-blue-500 transition-all"><File size={15} /> {data.requestNo}</Link>
                             </div>
                         </div>
 

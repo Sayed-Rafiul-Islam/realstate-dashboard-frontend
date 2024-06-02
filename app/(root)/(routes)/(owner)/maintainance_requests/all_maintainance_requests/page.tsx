@@ -43,6 +43,7 @@ const AllRequests = () => {
                 date : format(date,"MMMM do, yyyy"),
                 requestNo,
                 type : typeName,
+                typeId : type,
                 issue : details,
                 status,
                 details,

@@ -16,6 +16,8 @@ const Pathname = () => {
     const params = useParams()
     const id = params.id
     const details = params.detail_id
+
+
     
     return ( 
         <div>
@@ -30,6 +32,7 @@ const Pathname = () => {
                         pathname.map((z,index) => {
                             if (pathname.length -1 === index) {
                                 const x = z.split("_")
+
                                 if (x.length > 1) {
                                     return (
                                     <BreadcrumbItem key={index}>
@@ -49,7 +52,7 @@ const Pathname = () => {
                                         <BreadcrumbItem key={index}>
                                             <BreadcrumbPage>
                                                 {
-                                                    (params && z !== 'add') ?
+                                                    ((details || id) && z !== 'add') ?
                                                     <div>
                                                         { details && "Details" }
                                                         { id && "Edit" }
