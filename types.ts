@@ -292,6 +292,19 @@ export interface MaintainanceRequestsReducerProps {
   maintainanceReducer :  { maintainanceRequests : MaintainanceRequestProps[]} 
 }
 
+export interface NotificationsProps {
+  _id : string,
+  propertyId : string,
+  unitId : string,
+  issue : string,
+  body : string,
+  date : string
+}
+
+export interface NotificationsReducerProps {
+  notificationsReducer :  { notifications : NotificationsProps[]} 
+}
+
 export interface EarningsProps {
   _id : string,
   invoiceNo : string,

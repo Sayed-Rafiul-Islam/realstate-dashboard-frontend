@@ -16,6 +16,7 @@ import rentsReducer from '@/redux/rents/rentsSlice'
 import maintainersReducer from '@/redux/maintainers/maintainersSlice'
 import maintainanceReducer from '@/redux/maintainanceRequests/maintainanceRequestsSlice'
 import earningsReducer from '@/redux/report/earningsSlice'
+import notificationsReducer from '@/redux/report/notificationsSlice'
 import monthlyRecordsReducer from '@/redux/report/monthlyRecordsSlice'
 import gatewaysReducer from '@/redux/settings/gatewaySlice'
 import invoiceTypesReducer from '@/redux/settings/invoiceTypesSlice'
@@ -42,6 +43,7 @@ export const store = configureStore({
     maintainersReducer,
     maintainanceReducer,
     earningsReducer,
+    notificationsReducer,
     monthlyRecordsReducer,
     gatewaysReducer,
     invoiceTypesReducer,

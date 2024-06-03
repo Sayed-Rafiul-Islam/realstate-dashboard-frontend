@@ -30,6 +30,7 @@ import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maint
 import { nanoid } from "@reduxjs/toolkit"
 import { getTime } from "date-fns"
 import PdfUpload from "@/components/pdf-upload"
+import { addNotification } from "@/redux/report/notificationsSlice"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -129,7 +130,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
            else {
             const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
             const result = await api.post(`createRequest`, formData)
-            dispatch(addMaintainanceRequest(result.data))
+            dispatch(addMaintainanceRequest(result.data.newRequest))
+            dispatch(addNotification(result.data.newNotification))
             toast.success(toastMessage)
             router.push('/maintainance_requests')
            }

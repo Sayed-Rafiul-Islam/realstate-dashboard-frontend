@@ -26,6 +26,7 @@ import { getInvoiceTypes } from '@/redux/settings/invoiceTypesSlice'
 import { getExpenseTypes } from '@/redux/settings/expenseTypesSlice'
 import { getMaintainanceTypes } from '@/redux/settings/maintainanceTypesSlice'
 import api from './api'
+import { getNotifications } from '@/redux/report/notificationsSlice'
 
 
 
@@ -945,6 +946,37 @@ const loadMaintainanceTypes = async () => {
     dispatch(getMaintainanceTypes(types))
 }
 
+const loadNotifications = async (dispatch : any) => {
+    const {data,status} = await api.get(`getNotifications`,{validateStatus: () => true})
+    // const notifications = [
+    //     {
+    //         _id : '1',
+    //         propertyId : '1',
+    //         unitId : "1",
+    //         issue : "New Invoice",
+    //         body : 'Package Assign Successfully',
+    //         date : '2024-05-02T17:34:59.911+00:00'
+    //     },
+    //     {
+    //         _id : '2',
+    //         propertyId : '1',
+    //         unitId : "2",
+    //         issue : "New Invoice",
+    //         body : 'Package Assign Successfully',
+    //         date : '2024-07-02T17:34:59.911+00:00'
+    //     },
+    //     {
+    //         _id : '3',
+    //         propertyId : '1',
+    //         unitId : "3",
+    //         issue : "New Invoice",
+    //         body : 'Package Assign Successfully',
+    //         date : '2024-06-02T17:34:59.911+00:00'
+    //     }
+    // ]
+    dispatch(getNotifications(data))
+}
+
 export default async function LoadData() {
 
     const dispatch = useDispatch()
@@ -972,5 +1004,6 @@ export default async function LoadData() {
     loadInvoiceTypes()
     loadExpenseTypes()
     loadMaintainanceTypes()
+    loadNotifications(dispatch)
       
 }
