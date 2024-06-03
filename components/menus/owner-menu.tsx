@@ -12,7 +12,7 @@ const OwnerMenu = () => {
     const pathname = usePathname()
     const params = useParams()
     const router = useRouter()
-    const [open, setOpen] = useState(false)
+
     
     const [menu,setMenu] = useState
     ([

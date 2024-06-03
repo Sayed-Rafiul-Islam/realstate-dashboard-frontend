@@ -209,7 +209,8 @@ export interface ExpenseProps {
   type : string,
   amount : number,
   description : string,
-  date : string
+  date : string,
+  status : boolean
 }
 
 export interface ExpensesReducerProps {

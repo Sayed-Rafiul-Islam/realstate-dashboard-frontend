@@ -507,7 +507,8 @@ const loadExpenses = async () => {
             type : '1',
             amount : 14000,
             description : 'qwbdweuvfu',
-            date : '2024-11-02T17:34:59.911+00:00'
+            date : '2024-11-02T17:34:59.911+00:00',
+            status : true
         },
         {
             _id : '2',
@@ -517,7 +518,8 @@ const loadExpenses = async () => {
             type : '2',
             amount : 1500,
             description : 'qwbdweuvfu',
-            date : '2024-04-02T17:34:59.911+00:00'
+            date : '2024-04-02T17:34:59.911+00:00',
+            status : true
         },
         {
             _id : '3',
@@ -527,7 +529,8 @@ const loadExpenses = async () => {
             type : '3',
             amount : 2500,
             description : 'qwbdweuvfu',
-            date : '2024-08-02T17:34:59.911+00:00'
+            date : '2024-08-02T17:34:59.911+00:00',
+            status : false
         },
         {
             _id : '4',
@@ -537,7 +540,8 @@ const loadExpenses = async () => {
             type : '4',
             amount : 14000,
             description : 'qwbdweuvfu',
-            date : '2024-05-02T17:34:59.911+00:00'
+            date : '2024-05-02T17:34:59.911+00:00',
+            status : false
         },
     ]
     dispatch(getExpenses(expenses))
