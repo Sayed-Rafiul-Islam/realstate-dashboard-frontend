@@ -23,9 +23,22 @@ const maintainanceTypesSlice = createSlice({
             state.maintainanceTypes = temp
             localStorage.removeItem("maintainanceTypes")
             localStorage.setItem("maintainanceTypes", JSON.stringify(state.maintainanceTypes))
+        },        
+        updateMaintainanceType : (state, {payload}) => {
+            const index = state.maintainanceTypes.findIndex((item : MaintainanceTypeProps) => item._id === payload._id)
+            state.maintainanceTypes[index] = payload
+            localStorage.removeItem("maintainanceTypes")
+            localStorage.setItem("maintainanceTypes", JSON.stringify(state.maintainanceTypes))
         },
+
+        addMaintainanceType : (state, {payload}) => {
+            state.maintainanceTypes.push(payload)
+            localStorage.removeItem("maintainanceTypes")
+            localStorage.setItem("maintainanceTypes", JSON.stringify(state.maintainanceTypes))
+        }
+
     }
 })
 
-export const {getMaintainanceTypes,removeMaintainanceType} = maintainanceTypesSlice.actions
+export const {getMaintainanceTypes,removeMaintainanceType,addMaintainanceType,updateMaintainanceType} = maintainanceTypesSlice.actions
 export default maintainanceTypesSlice.reducer

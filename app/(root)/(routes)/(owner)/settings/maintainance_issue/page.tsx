@@ -38,7 +38,7 @@ const MaintainanceIssuePage = () => {
                 <Pathname />
                 <div className="flex gap-2 justify-between items-center">
                     <h1 className="font-bold text-xl">Maintainance Issue</h1>
-                    <Button  className="flex gap-2 bg-purple-600">New Request</Button>
+                    <Button onClick={()=>router.push('/settings/maintainance_issue/add')} className="flex gap-2 bg-purple-600">New Request</Button>
                 </div>
                 <Separator />
                 <div>

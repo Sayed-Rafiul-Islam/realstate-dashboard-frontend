@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { format } from "date-fns"
+import { format, getDate, parse } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -13,30 +13,43 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-interface DatePickerProps {
+interface DatePickerFormProps {
     onPickDate : (date : string) => void,
     label : string,
-    clearDate : boolean
+    initialDate : string
 }
 
-export const DatePicker  : React.FC<DatePickerProps> = ({
+export const DatePickerForm  : React.FC<DatePickerFormProps> = ({
     onPickDate,
     label,
-    clearDate
+    initialDate
 }) => {
     const [date, setDate] = React.useState<Date>()
     const [open, setOpen] = React.useState(false)
 
     React.useEffect(()=>{
-        onPickDate(date ? date.toISOString() : '')
+        if (date) {
+          // const localDate = date.toLocaleDateString()
+          // const isoTime = date.toISOString().split("T")[1]
+
+          // const year = localDate.split("/")[2]
+          // const day = localDate.split("/")[1]
+          // const month = localDate.split("/")[0]
+
+          // const newDay = day.length === 1 ? '0'+day : day
+          // const newMonth = month.length === 1 ? '0'+month : month
+
+          // const newDate = year + '-' + newMonth + '-' + newDay + 'T' + isoTime
+
+          onPickDate(date.toISOString())
+
+        } else if(initialDate) {
+          onPickDate(initialDate)
+        }
+        else {
+          onPickDate('')
+        }
       },[date])
-    React.useEffect(()=>{
-      if (clearDate === true) {
-        onPickDate('')
-        setDate(undefined)
-      }
-        
-      },[clearDate])
   return (
     <Popover open={open}>
       <PopoverTrigger asChild>
@@ -49,17 +62,14 @@ export const DatePicker  : React.FC<DatePickerProps> = ({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>{label}</span>}
+          {date ? format(date, "PPP") : <span>{initialDate ? format(initialDate, "PPP") : label}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" onInteractOutside={()=>setOpen(false)}>
         <Calendar
           mode="single"
           selected={date}
-          onSelect={e=>{
-            setDate(e)
-            // setOpen(false)
-          }}
+          onSelect={setDate}
           onDayClick={()=>setOpen(false)}
           // onDayBlur={()=>setOpen(false)}
           initialFocus
