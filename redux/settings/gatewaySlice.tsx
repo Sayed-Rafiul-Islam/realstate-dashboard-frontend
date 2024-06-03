@@ -1,4 +1,4 @@
-import { InvoiceProps } from "@/types"
+import { GatewayProps, InvoiceProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
 const gatewaysJson = typeof window !== "undefined" && localStorage.getItem("gateways")
@@ -18,24 +18,18 @@ const gatewaysSlice = createSlice({
             localStorage.removeItem("gateways")
             localStorage.setItem("gateways", JSON.stringify(state.gateways))
         },
-        // updategatewaystatus : (state, {payload}) => {
-        //     const temp = state.gateways.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.gateways = temp
-        //     localStorage.removeItem("gateways")
-        //     localStorage.setItem("gateways", JSON.stringify(state.gateways))
-        // },
+        updateGateway : (state, {payload}) => {
+            const index = state.gateways.findIndex((item : GatewayProps) => item._id === payload._id)
+            state.gateways[index] = payload
+            localStorage.removeItem("gateways")
+            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+        },
 
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.gateways.push(payload)
-        //     console.log(state.gateways)
-        //     localStorage.removeItem("gateways")
-        //     localStorage.setItem("gateways", JSON.stringify(state.gateways))
-        // },
+        addGateway : (state, {payload}) => {
+            state.gateways.push(payload)
+            localStorage.removeItem("gateways")
+            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+        },
         removeGateway : (state, {payload}) => {
             const temp = state.gateways.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.gateways = temp
@@ -45,5 +39,5 @@ const gatewaysSlice = createSlice({
     }
 })
 
-export const {getGateways,removeGateway} = gatewaysSlice.actions
+export const {getGateways,removeGateway,addGateway,updateGateway} = gatewaysSlice.actions
 export default gatewaysSlice.reducer

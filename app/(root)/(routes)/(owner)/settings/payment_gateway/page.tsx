@@ -34,7 +34,7 @@ const gatewayPage = () => {
                 <Pathname />
                 <div className="flex gap-2 justify-between items-center">
                     <h1 className="font-bold text-xl">Payment Gateway</h1>
-                    <Button className="flex gap-2 bg-purple-600">New Gateway</Button>
+                    <Button className="flex gap-2 bg-purple-600" onClick={()=>router.push(`/settings/payment_gateway/add`)}>New Gateway</Button>
                 </div>
                 <Separator />
                 <div>
