@@ -58,14 +58,14 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem className="cursor-pointer" 
-                    // onClick={()=>setOpenPreview(true)}
+                    {/* <DropdownMenuItem className="cursor-pointer" 
+                    onClick={()=>setOpenPreview(true)}
                     >
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem className="cursor-pointer"
-                    //  onClick={()=>router.push(`/invoices/${data._id}`)}
+                     onClick={()=>router.push(`/settings/expense_type/${data._id}`)}
                      >
                         <Edit className="h-4 w-4 mr-2" />
                         Edit

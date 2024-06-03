@@ -25,8 +25,20 @@ const expenseTypesSlice = createSlice({
             localStorage.removeItem("expenseTypes")
             localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
         },
+        updateExpenseType : (state, {payload}) => {
+            const index = state.expenseTypes.findIndex((item : ExpenseTypeProps) => item._id === payload._id)
+            state.expenseTypes[index] = payload
+            localStorage.removeItem("expenseTypes")
+            localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+        },
+
+        addExpenseType : (state, {payload}) => {
+            state.expenseTypes.push(payload)
+            localStorage.removeItem("expenseTypes")
+            localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+        },
     }
 })
 
-export const {getExpenseTypes,removeExpenseType} = expenseTypesSlice.actions
+export const {getExpenseTypes,removeExpenseType,addExpenseType,updateExpenseType} = expenseTypesSlice.actions
 export default expenseTypesSlice.reducer
