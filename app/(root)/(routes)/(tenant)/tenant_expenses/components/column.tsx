@@ -1,7 +1,7 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { CellAction } from "./cell-action"
 
 export interface ExpenseColumn {
   _id : string
@@ -37,12 +37,18 @@ export const columns: ColumnDef<ExpenseColumn>[] = [
     </>,
     header: "Status",
   },
-  // {
-  //   accessorKey: "property_unit",
-  //   header: "Property/Unit",
-  // },
   {
-    id: "actions",
-    cell: ({row}) => <CellAction data={row.original} />,
+    id: "action",
+    cell: ({row}) => 
+      <>
+        {
+          row.original.status ||
+          <button 
+            className="border border-green-500 text-green-500 px-4 py-1 rounded-lg hover:bg-green-500 hover:text-white transition-all"
+          >
+            Pay
+          </button> 
+        }
+      </>,
   },
 ]
