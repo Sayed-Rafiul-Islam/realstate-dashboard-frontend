@@ -41,7 +41,7 @@ export const ExpenseTypeForm : React.FC<ExpenseTypeFormProps> = ({
 
     const title = initialData ? 'Edit Expense Type' : 'Create Expense Type'
     const action = initialData ? 'Save Changes' : 'Create'
-    const description = initialData ? "Edit a exxpense type" : "Create a new expense type"
+    const description = initialData ? "Edit a expense type" : "Create a new expense type"
     const toastMessage = initialData ? "Expense type updated" : "Expense type created"
  
 

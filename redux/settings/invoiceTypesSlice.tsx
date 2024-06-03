@@ -24,8 +24,20 @@ const invoiceTypesSlice = createSlice({
             localStorage.removeItem("invoiceTypes")
             localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
         },
+        updateInvoiceType : (state, {payload}) => {
+            const index = state.invoiceTypes.findIndex((item : InvoiceTypeProps) => item._id === payload._id)
+            state.invoiceTypes[index] = payload
+            localStorage.removeItem("invoiceTypes")
+            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+        },
+
+        addInvoiceType : (state, {payload}) => {
+            state.invoiceTypes.push(payload)
+            localStorage.removeItem("invoiceTypes")
+            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+        }
     }
 })
 
-export const {getInvoiceTypes,removeInvoiceType} = invoiceTypesSlice.actions
+export const {getInvoiceTypes,removeInvoiceType,addInvoiceType,updateInvoiceType} = invoiceTypesSlice.actions
 export default invoiceTypesSlice.reducer

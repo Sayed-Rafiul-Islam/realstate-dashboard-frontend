@@ -1,6 +1,6 @@
 "use client"
 
-import { GatewayProps } from "@/types"
+import { InvoiceTypeProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -11,31 +11,29 @@ import toast from 'react-hot-toast'
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PackageProps } from '@/types'
 import Pathname from '@/components/pathname'
-import { Checkbox } from '@/components/ui/checkbox'
-import './gateway-form.css'
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/navigation"
-import { addGateway, updateGateway } from "@/redux/settings/gatewaySlice"
+import './invoice-type-form.css'
+import { addInvoiceType, updateInvoiceType } from "@/redux/settings/invoiceTypesSlice"
 
 
-type GatewayFormValues = z.infer<typeof formSchema>
 
-interface GatewayFormProps {
-    initialData: GatewayProps
+type InvoiceTypeFormValues = z.infer<typeof formSchema>
+
+interface InvoiceTypeFormProps {
+    initialData: InvoiceTypeProps
 }
 
 const formSchema = z.object({
     title : z.string().min(1, {message : "Title Required"}),
-    mode : z.string().min(1, {message : "Mode Required"}),
-    slug : z.string().min(1, {message : "Slug Required"})
+    tax : z.coerce.number().min(0, {message : "Tax Required"}),
 })
 
 
-export const GatewayForm : React.FC<GatewayFormProps> = ({
+export const InvoiceTypeForm : React.FC<InvoiceTypeFormProps> = ({
     initialData
 }) => {
 
@@ -43,33 +41,32 @@ export const GatewayForm : React.FC<GatewayFormProps> = ({
     const router = useRouter()
 
 
-    const title = initialData ? 'Edit Gateway' : 'Create Gateway'
+    const title = initialData ? 'Edit Invoice Type' : 'Create Invoice Type'
     const action = initialData ? 'Save Changes' : 'Create'
-    const description = initialData ? "Edit a gateway method" : "Create a new gateway method"
-    const toastMessage = initialData ? "Gateway updated" : "Gateway created"
+    const description = initialData ? "Edit a invoice type" : "Create a new invoice type"
+    const toastMessage = initialData ? "Invoice type updated" : "Invoice type created"
  
 
     const [loading, setLoading] = useState(false)
-    const form = useForm<GatewayFormValues>({
+    const form = useForm<InvoiceTypeFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialData || {
             title : '',
-            slug : '',
-            mode : ''
+            tax : 0
         }
     })
 
-    const onSubmit = async (data : GatewayFormValues) => {
+    const onSubmit = async (data : InvoiceTypeFormValues) => {
 
         if (initialData) {
             const formData = {...data, _id : initialData._id}
-            dispatch(updateGateway(formData))
+            dispatch(updateInvoiceType(formData))
         } else {
             const formData = {...data, _id : '10'}
-            dispatch(addGateway(formData))
+            dispatch(addInvoiceType(formData))
         }
         toast.success(toastMessage)
-        router.push('/settings/payment_gateway')
+        router.push('/settings/invoice_type')
     }
 
     const [isMounted, setIsMounted] = useState(false)
@@ -103,7 +100,7 @@ export const GatewayForm : React.FC<GatewayFormProps> = ({
                                 <FormItem>
                                     <FormLabel>Title <span className='text-red-500'>*</span></FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='PayPal' {...field} />
+                                        <Input disabled={loading} placeholder='Utilities' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -111,25 +108,12 @@ export const GatewayForm : React.FC<GatewayFormProps> = ({
                         />
                         <FormField
                             control={form.control}
-                            name="slug"
+                            name="tax"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Slug <span className='text-red-500'>*</span></FormLabel>
+                                    <FormLabel>Tax (in BDT)<span className='text-red-500'>*</span></FormLabel>
                                     <FormControl>
-                                        <Input disabled={loading} placeholder='paypal ' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="mode"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Mode <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input disabled={loading} placeholder='Live' {...field} />
+                                        <Input type="number" disabled={loading} placeholder='1200' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
