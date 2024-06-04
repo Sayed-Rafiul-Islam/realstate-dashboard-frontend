@@ -1,0 +1,89 @@
+.select-filters-wrapper {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.select-filters-wrapper > div {
+    display: flex; 
+    justify-content: end;
+    gap: 10px;
+    width: 100%;
+}
+.select-filters-wrapper > button {
+    width: 15%;
+}
+
+.select-filters {
+    width: 25%;
+}
+
+@media (max-width: 1350px) { 
+    .select-filters {
+        width: 30%;
+    }
+ }
+@media (max-width: 1210px) { 
+    .select-filters {
+        width: 40%;
+    }
+ }
+@media (max-width: 1100px) { 
+
+    .select-filters {
+        width: 25%;
+    }
+ }
+@media (max-width: 890px) { 
+
+    .select-filters {
+        width: 30%;
+    }
+
+ }
+@media (max-width: 850px) { 
+
+    .select-filters {
+        width: 35%;
+    }
+ }
+@media (max-width: 700px) { 
+    .select-filters-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 10px;
+    }
+    
+    .select-filters-wrapper > div {
+        display: flex; 
+        justify-content: start;
+        gap: 10px;
+        width: 100%;
+    }
+    .select-filters-wrapper > button {
+        width: 50%;
+    }
+
+    .select-filters {
+        width: 50%;
+    }
+ }
+
+@media (max-width: 480px) { 
+
+    .select-filters-wrapper > div {
+        display: flex; 
+        flex-direction: column;
+        justify-content: start;
+        gap: 10px;
+        width: 100%;
+    }
+    .select-filters-wrapper > button {
+        width: 100%;
+    }
+
+    .select-filters {
+        width: 100%;
+    }
+}

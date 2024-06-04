@@ -598,6 +598,7 @@ const loadRents = async () => {
             propertyId : '1',
             unitId : '3',
             month : 'April',
+            year : '2024',
             amount : 20000,
             status : 'Paid',
             description : 'alaba alaba alaba',
@@ -612,7 +613,8 @@ const loadRents = async () => {
             invoiceNo : 'CW10086675',
             propertyId : '1',
             unitId : '2',
-            month : 'April',
+            month : 'May',
+            year : '2024',
             amount : 15000,
             status : 'Paid',
             description : 'alaba alaba alaba',
@@ -627,7 +629,8 @@ const loadRents = async () => {
             invoiceNo : 'CW10086680',
             propertyId : '1',
             unitId : '1',
-            month : 'April',
+            month : 'June',
+            year : '2024',
             amount : 22000,
             status : 'Paid',
             description : 'alaba alaba alaba',
@@ -987,6 +990,40 @@ const loadNotifications = async (dispatch : any) => {
     dispatch(getNotifications(data))
 }
 
+const loadTenanrDocuments = async () => {
+    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+    
+    const dispatch = useDispatch()
+    const documents = [
+        {
+            _id : '1',
+            type : 'NID',
+            tenantId : '1',
+            document : '',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "Accepted"
+        },
+        {
+            _id : '2',
+            type : 'NID',
+            tenantId : '2',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "Declined"
+        },
+        {
+            _id : '3',
+            type : 'NID',
+            tenantId : '3',
+            docFront : building_1,
+            docBack : tenant_1,
+            status : "In Progress"
+        }
+    ]
+    dispatch(getDocuments(documents))
+}
+
 export default async function LoadData() {
 
     const dispatch = useDispatch()
@@ -1015,5 +1052,7 @@ export default async function LoadData() {
     loadExpenseTypes()
     loadMaintainanceTypes()
     loadNotifications(dispatch)
+    loadTenanrDocuments()
+    
       
 }

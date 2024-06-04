@@ -28,16 +28,8 @@ export const columns: ColumnDef<RentColumn>[] = [
     header: "Date",
   },
   {
-    accessorKey: "invoiceNo",
-    header: "Invoice No",
-  },
-  {
-    accessorKey: "property_unit",
-    header: "Property/Unit",
-  },
-  {
-    cell: ({row}) => <span>{row.original.tenant?.name}</span>,
-    header: "Tenant Name",
+    accessorKey: "month_year",
+    header: "Month/Year",
   },
   {
     accessorKey: "amount",

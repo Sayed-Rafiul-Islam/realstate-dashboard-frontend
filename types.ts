@@ -243,6 +243,7 @@ export interface RentProps {
   propertyId : string,
   unitId : string,
   month : string,
+  year : string,
   amount : number,
   status : string,
   description : string,

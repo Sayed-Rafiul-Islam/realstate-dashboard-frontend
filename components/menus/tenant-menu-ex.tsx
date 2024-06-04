@@ -66,7 +66,15 @@ const TenantMenuEx = () => {
         },
         {
             id : 5,
-            group : [],
+            group : [
+                {
+                    id : 51,
+                    label : "All Rents",
+                    g_href : "/tenant_reports/all_rents",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],  
             label : "Reports",
             href : "/tenant_reports",
             href1 : '',

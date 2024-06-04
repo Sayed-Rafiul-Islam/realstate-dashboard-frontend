@@ -5,7 +5,7 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { RentsClient } from "./components/client";
@@ -13,14 +13,15 @@ import { RentsClient } from "./components/client";
 
 const RentsPage = () => {
 
-    const router = useRouter()
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer)
+    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    const thisTenantRents = rents.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
 
-    const formattedRents = rents.map((
+    const formattedRents = thisTenantRents.map((
         {
             _id,
             dueDate,
