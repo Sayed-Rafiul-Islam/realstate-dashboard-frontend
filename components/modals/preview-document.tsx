@@ -34,18 +34,6 @@ export const PreviewDocument : React.FC<PreviewDocumentProps> = ({
 
     const router = useRouter()
 
-    // const [print,setPrint] = useState(false)
-    // const [statusStyle,setStatusStyle] = useState('')
-    // useEffect(()=>{
-    //     if (data.status === "Paid") {
-    //         setStatusStyle('bg-green-100 text-green-500 text-xs w-fit px-6 py-2 rounded-md')
-    //     } else if (data.status === "Pending") {
-    //         setStatusStyle('bg-amber-100 text-amber-500 text-xs w-fit px-6 py-2 rounded-md')
-    //     } else {
-    //         setStatusStyle('bg-red-100 text-red-500 text-xs px-6 py-2 rounded-md')
-    //     }
-    // })
-
     const onChange = (open:boolean) => {
         if(!open) {
             onClose();

@@ -27,6 +27,7 @@ import { getExpenseTypes } from '@/redux/settings/expenseTypesSlice'
 import { getMaintainanceTypes } from '@/redux/settings/maintainanceTypesSlice'
 import api from './api'
 import { getNotifications } from '@/redux/report/notificationsSlice'
+import { getTenantDocuments } from '@/redux/documents/tenantDocumentsSlice'
 
 
 
@@ -998,30 +999,41 @@ const loadTenanrDocuments = async () => {
         {
             _id : '1',
             type : 'NID',
+            tenantName : 'Beru',
             tenantId : '1',
-            document : '',
-            docFront : building_1,
-            docBack : tenant_1,
+            propertyId : '1',
+            unitId : '1',
+            document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+            docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+            docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
             status : "Accepted"
         },
         {
             _id : '2',
             type : 'NID',
-            tenantId : '2',
-            docFront : building_1,
-            docBack : tenant_1,
+            tenantName : 'Nahid',
+            tenantId : '1',
+            propertyId : '1',
+            unitId : '2',
+            document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+            docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+            docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
             status : "Declined"
         },
         {
             _id : '3',
             type : 'NID',
-            tenantId : '3',
-            docFront : building_1,
-            docBack : tenant_1,
+            tenantName : 'Conquest',
+            tenantId : '1',
+            propertyId : '1',
+            unitId : '3',
+            document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+            docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+            docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
             status : "In Progress"
         }
     ]
-    dispatch(getDocuments(documents))
+    dispatch(getTenantDocuments(documents))
 }
 
 export default async function LoadData() {

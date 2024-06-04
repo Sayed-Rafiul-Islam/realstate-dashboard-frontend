@@ -236,6 +236,23 @@ export interface DocumentsReducerProps {
   documentsReducer :  { documents : DocumentProps[]} 
 }
 
+export interface TenantDocumentProps {
+  _id : string,
+  type : string,
+  tenantId : string,
+  propertyId : string,
+  unitId : string,
+  tenantName : string,
+  docFront : string,
+  docBack : string,
+  document : string,
+  status : string
+}
+
+export interface TenantDocumentsReducerProps {
+  tenantDocumentsReducer :  { tenantDocuments : TenantDocumentProps[]} 
+}
+
 export interface RentProps {
   _id : string,
   dueDate : string,
