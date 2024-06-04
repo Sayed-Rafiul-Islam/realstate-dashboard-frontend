@@ -91,14 +91,7 @@ const OwnerMenuEx = () => {
                     g_href : "/maintainers/all_maintainers",
                     g_href1 : ``,
                     g_active : false,
-                },
-                // {
-                //     id : 92,
-                //     label : "Maintainance Request",
-                //     g_href : "/maintainancerequest",
-                //     g_href1 : ``,
-                //     g_active : false,
-                // }
+                }
             ],
             label : "Maintainers",
             href : "/maintainers",

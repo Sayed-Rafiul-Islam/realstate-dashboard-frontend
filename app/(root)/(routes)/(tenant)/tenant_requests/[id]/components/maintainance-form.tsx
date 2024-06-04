@@ -93,7 +93,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
         if ( initialData ) {
                    const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
                    const result = await api.patch(`updateRequest`,formData)
-                   console.log(result)
                    dispatch(updateMaintainanceRequest(result.data))
                    toast.success(toastMessage)
                    router.push('/tenant_requests')

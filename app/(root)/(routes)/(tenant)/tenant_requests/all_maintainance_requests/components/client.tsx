@@ -133,7 +133,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                             </SelectContent>
                 </Select>
                     </div>
-                </div>  
+            </div>  
             <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
         </>
     )

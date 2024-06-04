@@ -1,6 +1,6 @@
 "use client"
 
-import { BookText, ChevronDown, CornerUpLeft, FileText, Handshake, Info, LayoutDashboard, Power, Tag, UserCircle, Wrench } from "lucide-react"
+import { BellIcon, BookText, ChevronDown, CornerUpLeft, FileText, Handshake, Info, LayoutDashboard, Power, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -100,6 +100,16 @@ const TenantMenuEx = () => {
             href1 : '',
             drop : false,
             icon : <Handshake size={20} />,
+            active : false
+        },
+        {
+            id : 6,
+            group : [],
+            label : "Notifications",
+            href : "/notifications",
+            href1 : '',
+            drop : false,
+            icon : <BellIcon size={20} />,
             active : false
         },
         {
