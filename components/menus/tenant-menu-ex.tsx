@@ -122,7 +122,6 @@ const TenantMenuEx = () => {
     ])
 
     useEffect(()=>{
-
         const temp = menu.map((item) =>{
             if (pathname === item.href || pathname === item.href1) {
                 item.active = true

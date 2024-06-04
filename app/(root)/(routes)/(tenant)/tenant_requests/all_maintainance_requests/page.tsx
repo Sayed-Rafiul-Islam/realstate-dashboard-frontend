@@ -17,6 +17,8 @@ const AllRequests = () => {
 
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
     const thisTenantRequests = maintainanceRequests.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
     const formattedRequests = thisTenantRequests.map((
@@ -34,6 +36,8 @@ const AllRequests = () => {
             attachment
         }) => {
             const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
+            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
+            const unitName  = units.filter(({_id}) =>_id === unitId)[0].name
 
             return {
                 _id,
@@ -47,7 +51,8 @@ const AllRequests = () => {
                 status,
                 details,
                 cost,
-                attachment
+                attachment,
+                property_unit : `${propertyName}/${unitName}`,
             }
     })
    

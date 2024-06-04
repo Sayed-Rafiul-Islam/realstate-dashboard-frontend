@@ -11,10 +11,10 @@ import {
 import { Button } from "../ui/button";
 import {DockIcon, File, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(owner)/maintainance_requests/all_maintainance_requests/components/column";
-import { baseURL_local, baseURL_vercel } from "@/actions/api";
+
 
 interface PreviewRequestProps {
     isOpen : boolean,
@@ -27,6 +27,8 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
     onClose,
     data
 }) => {
+
+    const pathname = usePathname().split("/")[1]
 
     const router = useRouter()
     const [statusStyle,setStatusStyle] = useState('')
@@ -103,7 +105,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            <Button className="bg-purple-600" onClick={()=>router.push(`/maintainance_requests/${data._id}`)}>Update</Button>
+                            <Button className="bg-purple-600" onClick={()=>router.push(`/${pathname}/${data._id}`)}>Update</Button>
                         </div>
                     </div>
                 </DialogContent>
