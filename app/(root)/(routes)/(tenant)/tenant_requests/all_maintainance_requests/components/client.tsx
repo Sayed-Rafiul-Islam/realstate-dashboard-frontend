@@ -16,7 +16,7 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-import './tenant-history.css'
+import './maintainance-requests.css'
 
 
 export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) => { 
@@ -46,7 +46,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
             }
         }
         
-    },[status,type])
+    },[status,type,data])
 
     const showAll = () => {
         setStatus('')

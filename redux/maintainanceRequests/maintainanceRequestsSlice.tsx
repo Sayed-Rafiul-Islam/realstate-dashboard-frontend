@@ -31,7 +31,7 @@ const maintainanceRequestsSlice = createSlice({
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
         },
         removeMaintainanceRequests : (state, {payload}) => {
-            const temp = state.maintainanceRequests.filter(({_id} : InvoiceProps) => _id !== payload._id)
+            const temp = state.maintainanceRequests.filter(({_id} : MaintainanceRequestProps) => _id !== payload._id)
             state.maintainanceRequests = temp
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))

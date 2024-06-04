@@ -16,7 +16,7 @@ import { DataTable } from "../ui/data-table";
 import Image from "next/image";
 import { format } from "date-fns";
 import { InvoiceColumn } from "@/app/(root)/(routes)/(owner)/invoices/all_invoices/components/column";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
@@ -32,10 +32,10 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
     data
 }) => {
     
-
-
-
+    const pathname = usePathname().split("/")[1]
     const router = useRouter()
+
+    console.log(pathname)
 
     const [print,setPrint] = useState(false)
     const [statusStyle,setStatusStyle] = useState('')
@@ -143,7 +143,9 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            <Button className="bg-purple-600" onClick={()=>router.push(`/invoices/${data._id}`)}>Update</Button>
+                            {
+                                pathname === 'invoices' && <Button className="bg-purple-600" onClick={()=>router.push(`/invoices/${data._id}`)}>Update</Button>
+                            }
                         </div>
                     </div>
                 </DialogContent>

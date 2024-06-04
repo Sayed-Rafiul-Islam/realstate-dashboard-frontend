@@ -5,8 +5,8 @@ export const baseURL_local = 'http://localhost:5000/'
 
 
 export default axios.create({
-    baseURL : "http://localhost:5000/api/"
-    // baseURL : "https://realstate-dashboard-backend.vercel.app/api/"
+    // baseURL : "http://localhost:5000/api/"   
+    baseURL : "https://realstate-dashboard-backend.vercel.app/api/"
 })
 
 // https://realstate-dashboard-backend.vercel.app/api/
