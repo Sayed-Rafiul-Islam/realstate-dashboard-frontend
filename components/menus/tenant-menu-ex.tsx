@@ -38,7 +38,15 @@ const TenantMenuEx = () => {
         },
         {
             id : 4,
-            group : [],
+            group : [
+                {
+                    id : 41,
+                    label : "All Requests",
+                    g_href : "/tenant_requests/all_maintainance_requests",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Maintainance Requests",
             href : "/tenant_requests",
             href1 : '',
@@ -116,7 +124,7 @@ const TenantMenuEx = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href1 ||  pathname === item.href + '/' + params.id) {
+            if (pathname === item.href || pathname === item.href1) {
                 item.active = true
             }
 

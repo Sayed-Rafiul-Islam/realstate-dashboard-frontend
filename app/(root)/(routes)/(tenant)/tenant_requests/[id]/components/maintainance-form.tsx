@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, TenantInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -41,12 +41,12 @@ interface MaintainanceRequestFormProps {
 
 const formSchema = z.object({
 
-    propertyId : z.string().min(1, {message : "Property Name Required"}),
-    unitId : z.string().min(1, {message : "Unit Name Required"}),
+    propertyId : z.string().min(1),
+    unitId : z.string().min(1),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
     status : z.string().min(1, {message : "Status Required"}),
     details : z.string().min(1, {message : "Description Required"}),
-    attachment : z.string(),
+    attachment : z.string().min(1, {message : "Attachment Required"}),
 
 })
 
@@ -62,37 +62,11 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 }) => {
 
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
-    // const [file,setFile] = useState<FileList | null>()
-    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
     const dispatch = useDispatch()
-
-    const [thisUnits,setThisUnits] = useState<UnitProps[]>()
-
-    // const [types, setTypes] = useState<string[]>([''])
     const router = useRouter()
-
-    useEffect(()=>{
-        const temp = units.filter((item)=> item.propertyId === propertyId)
-        setThisUnits(temp)
-        form.setValue('unitId', '')       
-
-    },[propertyId])
-
-
-    // useEffect(()=>{
-    //     maintainanceTypes.map((item)=> {
-    //         const index = types.findIndex(i => i === item.type)
-    //         if (index === -1) {
-    //             types.push(item.type)
-    //         }
-    //     })
-    //     setTypes(types.slice(1))
-    // },[])
-
 
     const title = initialData ? 'Edit Request' : 'Create Request'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -105,8 +79,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialData || {
-            propertyId : '',
-            unitId : '',
+            propertyId : tenant.propertyId,
+            unitId : tenant.unitId,
             type : '',
             status : '',
             details : '',
@@ -118,14 +92,11 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
         if ( initialData ) {
                    const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
-                   const result = await api.post(`updateRequest`, 
-                   formData,
-                   {
-                       headers : { 'Content-Type' : 'multipart/form-data'}
-                   })
+                   const result = await api.patch(`updateRequest`,formData)
+                   console.log(result)
                    dispatch(updateMaintainanceRequest(result.data))
                    toast.success(toastMessage)
-                   router.push('/maintainance_requests')
+                   router.push('/tenant_requests')
                 }
            else {
             const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
@@ -133,7 +104,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             dispatch(addMaintainanceRequest(result.data.newRequest))
             dispatch(addNotification(result.data.newNotification))
             toast.success(toastMessage)
-            router.push('/maintainance_requests')
+            router.push('/tenant_requests')
            }
         }
     
@@ -164,90 +135,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
                     <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
-                    <FormField
-                            control={form.control}
-                            name="propertyId"
-                            render={(item) => (
-                                <FormItem>
-                                    <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
-                                    <Select
-                                            disabled={loading} 
-                                            onValueChange={e=> {
-                                                setPropertyId(e)
-                                                item.formState.validatingFields.unitId
-                                                
-                                                return item.field.onChange(e)
-                                            }}
-                                            value={item.field.value}
-                                            defaultValue={item.field.value}
-                                            
-                                            
-                                        >
-                                            <FormControl >
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={item.field.value}
-                                                        placeholder="Select Property"
-                                                    
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent  >
-                                                {properties.map(({_id, name} : PropertyProps,index)=>(
-                                                    <div key={_id}>
-                                                    <SelectItem key={index} value={_id} >
-                                                        {name}
-                                                    </SelectItem>
-                                                    </div>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />  
-                         
-                            
-                        <FormField
-                            control={form.control}
-                            name="unitId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>
-                                    <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={thisUnits?.length === 0 ? '' : field.value}
-                                            defaultValue={thisUnits?.length === 0 ? '' : field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Unit"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {
-                                                    thisUnits
-                                                    ? thisUnits.map(({_id, name} : UnitProps,index)=>(
-                                                        <SelectItem key={index} value={_id} >
-                                                            {name}
-                                                        </SelectItem>
-                                                    ))
-                                                    :
-                                                    <SelectItem value="">
-                                                            Select Unit
-                                                    </SelectItem>
-                                                }
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         
+
                          <FormField
                             control={form.control}
                             name="type"

@@ -28,10 +28,6 @@ const TenantExpensesPage = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {expenseTypes} = useSelector(({expenseTypesReducer} : ExpenseTypesReducerProps) => expenseTypesReducer)
 
-    console.log(expenses)
-
-
-
     const formattedExpenses = expenses.map((
         {
             _id,
@@ -49,7 +45,8 @@ const TenantExpensesPage = () => {
             return {
                 _id,
                 property_unit : `${property.name}/${unit.name}`,
-                type : expense?.title,
+                typeName : expense?.title,
+                typeId : type,
                 description,
                 amount : `BDT ${amount}`,
                 date : format(date,"MMMM do, yyyy"),
@@ -61,8 +58,6 @@ const TenantExpensesPage = () => {
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
-                <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
-                    <h1 className="font-bold text-xl">All Expenses</h1>
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem className="hover:text-indigo-500 transition-all">
@@ -76,6 +71,8 @@ const TenantExpensesPage = () => {
                             </BreadcrumbPage>
                         </BreadcrumbList>
                     </Breadcrumb>
+                <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
+                    <h1 className="font-bold text-xl">All Expenses</h1>
                 </div>
                 <Separator />
                 <ExpensesClient data={formattedExpenses} />

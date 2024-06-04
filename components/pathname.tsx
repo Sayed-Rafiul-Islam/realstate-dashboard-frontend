@@ -72,8 +72,8 @@ const Pathname = () => {
                                             <BreadcrumbItem className="hover:text-indigo-500 transition-all">
                                                 <Link prefetch href={`/${z}`}>
                                                     {
-                                                        x.map((y)=>
-                                                            <span>{y[0].toUpperCase()+y.slice(1)} </span>
+                                                        x.map((y,index)=>
+                                                            <span key={index}>{y[0].toUpperCase()+y.slice(1)} </span>
                                                         )
                                                     }
                                                 </Link>

@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 
 export interface ExpenseColumn {
-  _id : string
-  property_unit : string
-  type : string
-  description : string
+  _id : string,
+  property_unit : string,
+  typeName : string,
+  typeId : string,
+  description : string,
   amount : string,
   status : boolean
 }
@@ -18,7 +19,7 @@ export const columns: ColumnDef<ExpenseColumn>[] = [
     header: "Date",
   },
   {
-    accessorKey: "type",
+    accessorKey: "typeName",
     header: "Expense Type",
   },
   {

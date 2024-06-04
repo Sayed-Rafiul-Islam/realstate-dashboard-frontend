@@ -1,4 +1,5 @@
 export interface UserProps {
+      _id : string,
       email : string,
       role : string,
       firstName ?: string,
@@ -13,6 +14,9 @@ export interface UserProps {
       printLogo ?: string,
 }
 
+export interface TenantInfoReducerProps {
+  tenantInfoReducer : { tenantInfo : TenantProps}
+}
 export interface UsersReducerProps {
     usersReducer : {user : UserProps}
   }
@@ -149,6 +153,8 @@ export interface UnitsReducerProps {
 
 export interface TenantProps {
   _id : string,
+  userId : string,
+  ownerId : string,
   propertyId : string,
   unitId : string,
   name : string,

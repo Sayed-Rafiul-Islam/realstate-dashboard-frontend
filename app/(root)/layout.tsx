@@ -7,7 +7,7 @@ import './content.css'
 import LoadData from "@/actions/load-data";
 import AccessProvider from "@/actions/accessProvider";
 import { useState } from "react";
-import { ArrowLeftFromLine, ArrowRightFromLine, ChevronLeft, PanelLeftClose } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 
 
@@ -20,6 +20,7 @@ const RoutesLayout = ({
   const [expand, setExpand] = useState(true)
   AccessProvider()
   LoadData()
+  
     return ( 
         <div className="pt-5 px-5">
 

@@ -167,7 +167,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
                                     </SelectItem>
                                 ))}
                             </SelectContent>
-                    </Select>
+                </Select>
                    
                 </div>
             </div>  

@@ -360,6 +360,8 @@ const loadTenants = async () => {
     const tenants = [
         {
             _id : '1',
+            userId : '662774f150924ade5f6ce70f',
+            ownerId : '662774a250924ade5f6ce70b',
             propertyId : '1',
             unitId : '3',
             name : 'Rodan',
@@ -385,6 +387,8 @@ const loadTenants = async () => {
         },
         {
             _id : '2',
+            userId : '662774f150924ade5f6ce70f',
+            ownerId : '662774a250924ade5f6ce70b',
             propertyId : '2',
             unitId : '2',
             name : 'Rafsan',
@@ -410,6 +414,8 @@ const loadTenants = async () => {
         },
         {
             _id : '3',
+            userId : '662774f150924ade5f6ce70f',
+            ownerId : '662774a250924ade5f6ce70b',
             propertyId : '1',
             unitId : '2',
             name : 'Godzilla',
