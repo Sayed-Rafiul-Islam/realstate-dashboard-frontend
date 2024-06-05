@@ -11,6 +11,14 @@
 .owner-section-1 > div {
     width: 50%;
 }
+
+.tenant-section-1 {
+    display: flex;
+}
+
+.tenant-section-1 > div {
+    width: 50%;
+}
 .admin-section-1 {
     display: flex;
 }
@@ -35,6 +43,14 @@
     }
 
     .owner-section-1 > div {
+        width: 100%;
+    }
+    .tenant-section-1 {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .tenant-section-1 > div {
         width: 100%;
     }
     .chart {

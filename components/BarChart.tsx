@@ -6,21 +6,24 @@ import './bar-chart.css'
 ChartJS.register(CategoryScale,LinearScale,LineElement,PointElement,Filler,Tooltip);
 
 interface BarChartProps {
-    rents : {
+    dataset1 : {
         month : string,
         amount : number
     }[],
-    expenses : {
+    dateset2 : {
         month : string,
         amount : number
     }[],
+    stepSize : number,
+    min : number,
+    max : number
 }
 
 
-const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
+const BarChart : React.FC<BarChartProps> = ({dataset1,dateset2,stepSize,min,max}) => {
 
     
-    let revenue = [
+    let arrar1 = [
         {
             month : '01',
             amount : 0,
@@ -71,8 +74,8 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
         },
     ]
 
-    revenue.map(({amount},index) =>{
-        revenue[index].amount = rents[index].amount - expenses[index].amount
+    arrar1.map(({amount},index) =>{
+        arrar1[index].amount = dataset1[index].amount - dataset1[index].amount
     })
 
     const data = {
@@ -80,7 +83,7 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
         datasets : [
             {
                 label : "Rents",
-                data : rents.map(({amount})=> amount),
+                data : dataset1.map(({amount})=> amount),
                 borderColor : 'rgba(255, 148, 39, 1)',
                 pointBorderColor : "transparent",
                 tension : 0.5,
@@ -95,7 +98,7 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
             },
             {
                 label : "Expenses",
-                data : expenses.map(({amount})=> amount),
+                data : dateset2.map(({amount})=> amount),
                 borderColor : 'rgba(0, 0, 255, 1)',
                 pointBorderColor : "transparent",
                 tension : 0.5,
@@ -155,10 +158,10 @@ const BarChart : React.FC<BarChartProps> = ({rents,expenses}) => {
                             }
                         },
                         y : {
-                            min : 0,
-                            max : 100000,
+                            min,
+                            max,
                             ticks : {
-                                stepSize : 20000,
+                                stepSize,
                                 // callback : (value : any) => value + 'K'
                             },
                             grid : {

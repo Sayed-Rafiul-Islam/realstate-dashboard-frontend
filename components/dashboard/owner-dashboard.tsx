@@ -264,7 +264,13 @@ const OwnerDashboard = () => {
                         </div>
                     </div>
                     <div className="relative overflow-x-scroll">
-                        <BarChart rents={chartRents} expenses={chartExpenses} />
+                        <BarChart 
+                            dataset1={chartRents} 
+                            dateset2={chartExpenses}
+                            min={0}
+                            max={100000} 
+                            stepSize={20000}
+                        />
                     </div>
 
                 </div>

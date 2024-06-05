@@ -308,6 +308,7 @@ export interface MaintainanceRequestProps {
   maintainerId : string,
   issue : string,
   status : string,
+  paymentStatus : string,
   details : string,
   cost : number,
   attachment : string

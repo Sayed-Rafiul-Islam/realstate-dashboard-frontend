@@ -1,6 +1,6 @@
 "use client"
 
-import { BookText, ChevronDown, FileText, Handshake, Info, LayoutDashboard, Power, Tag, UserCircle, Wrench } from "lucide-react"
+import { BarChart3, BellIcon, BookText, ChevronDown, DollarSign, FileText, Handshake, Info, LayoutDashboard, Mail, Power, Receipt, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -27,53 +27,89 @@ const TenantMenu = () => {
             active : false,
         },
         {
+            id : 3,
+            group : [],
+            label : "Expenses",
+            href : "/tenant_expenses",
+            href1 : '',
+            drop : false,
+            icon : <DollarSign size={20} />,
+            active : false
+        },
+        {
+            id : 4,
+            group : [
+                {
+                    id : 41,
+                    label : "All Requests",
+                    g_href : "/tenant_requests/all_maintainance_requests",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
+            label : "Maintainance Requests",
+            href : "/tenant_requests",
+            href1 : '',
+            drop : false,
+            icon : <Wrench size={20} />,
+            active : false
+        },
+        {
             id : 2,
             group : [],
-            label : "Invoice",
-            href : "/invoice",
+            label : "Invoices",
+            href : "/tenant_invoices",
             href1 : '',
             drop : false,
             icon : <BookText size={20} />,
             active : false
         },
         {
-            id : 3,
-            group : [],
-            label : "My Tickets",
-            href : "/mytickets",
+            id : 5,
+            group : [
+                {
+                    id : 51,
+                    label : "All Rents",
+                    g_href : "/tenant_reports/all_rents",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],  
+            label : "Reports",
+            href : "/tenant_reports",
             href1 : '',
             drop : false,
-            icon : <Tag size={20} />,
-            active : false
-        },
-        {
-            id : 4,
-            group : [],
-            label : "Information",
-            href : "/information",
-            href1 : '',
-            drop : false,
-            icon : <Info size={20} />,
+            icon : <BarChart3 size={20} />,
             active : false
         },
         {
             id : 5,
             group : [],
-            label : "Documents",
-            href : "/documents",
+            label : "Messages",
+            href : "/tenant_messages",
             href1 : '',
             drop : false,
-            icon : <FileText size={20} />,
+            icon : <Mail size={20} />,
             active : false
         },
         {
             id : 6,
             group : [],
-            label : "Aggrement Request",
-            href : "/maintainance",
+            label : "Documents",
+            href : "/tenant_documents",
             href1 : '',
             drop : false,
             icon : <Handshake size={20} />,
+            active : false
+        },
+        {
+            id : 6,
+            group : [],
+            label : "Notifications",
+            href : "/notifications",
+            href1 : '',
+            drop : false,
+            icon : <BellIcon size={20} />,
             active : false
         },
         {

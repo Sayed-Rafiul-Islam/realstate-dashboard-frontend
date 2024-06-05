@@ -529,7 +529,29 @@ const loadExpenses = async () => {
             status : true
         },
         {
-            _id : '3',
+            _id : '6',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '3',
+            type : '1',
+            amount : 2200,
+            description : 'ANOTHER',
+            date : '2024-05-02T17:34:59.911+00:00',
+            status : false
+        },
+        {
+            _id : '7',
+            name : 'Cracked Pavement in Parking Lot',
+            propertyId : '1',
+            unitId : '3',
+            type : '1',
+            amount : 12500,
+            description : 'qwbdweuvfu',
+            date : '2024-01-02T17:34:59.911+00:00',
+            status : true
+        },
+        {
+            _id : '8',
             name : 'Cracked Pavement in Parking Lot',
             propertyId : '1',
             unitId : '3',
@@ -915,8 +937,12 @@ const loadExpenseTypes = async () => {
         },
         {
             _id : '3',
+            title : 'Rent',
+        },
+        {
+            _id : '4',
             title : 'Texes',
-        }
+        },
     ]
     dispatch(getExpenseTypes(types))
 }

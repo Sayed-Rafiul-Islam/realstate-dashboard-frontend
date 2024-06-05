@@ -45,6 +45,7 @@ const formSchema = z.object({
     unitId : z.string().min(1),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
     status : z.string().min(1, {message : "Status Required"}),
+    paymentStatus : z.string(),
     details : z.string().min(1, {message : "Description Required"}),
     attachment : z.string().min(1, {message : "Attachment Required"}),
 
@@ -84,7 +85,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             type : '',
             status : '',
             details : '',
-            attachment : ''
+            attachment : '',
+            paymentStatus : 'Due'
         }
     })
 

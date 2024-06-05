@@ -1,6 +1,6 @@
 "use client"
 
-import { BellIcon, BookText, ChevronDown, CornerUpLeft, FileText, Handshake, Info, LayoutDashboard, Power, Tag, UserCircle, Wrench } from "lucide-react"
+import { BarChart3, BellIcon, BookText, ChevronDown, CornerUpLeft, DollarSign, FileText, Handshake, Info, LayoutDashboard, Mail, Power, Receipt, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -33,7 +33,7 @@ const TenantMenuEx = () => {
             href : "/tenant_expenses",
             href1 : '',
             drop : false,
-            icon : <Tag size={20} />,
+            icon : <DollarSign size={20} />,
             active : false
         },
         {
@@ -51,7 +51,7 @@ const TenantMenuEx = () => {
             href : "/tenant_requests",
             href1 : '',
             drop : false,
-            icon : <Info size={20} />,
+            icon : <Wrench size={20} />,
             active : false
         },
         {
@@ -79,7 +79,7 @@ const TenantMenuEx = () => {
             href : "/tenant_reports",
             href1 : '',
             drop : false,
-            icon : <FileText size={20} />,
+            icon : <BarChart3 size={20} />,
             active : false
         },
         {
@@ -89,7 +89,7 @@ const TenantMenuEx = () => {
             href : "/tenant_messages",
             href1 : '',
             drop : false,
-            icon : <FileText size={20} />,
+            icon : <Mail size={20} />,
             active : false
         },
         {
