@@ -13,25 +13,29 @@ import {DockIcon, File, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(owner)/maintainance_requests/all_maintainance_requests/components/column";
+import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(tenant)/tenant_reports/maintainance_requests/components/column";
+
 
 
 interface PreviewRequestProps {
     isOpen : boolean,
     onClose : () => void,
     data : MaintainanceRequestColumn,
+    status ?: boolean
 }
 
 export const PreviewRequest : React.FC<PreviewRequestProps> = ({
     isOpen,
     onClose,
-    data
+    data,
+    status
 }) => {
 
     const pathname = usePathname().split("/")[1]
 
     const router = useRouter()
     const [statusStyle,setStatusStyle] = useState('')
+    const [paymentStatusTyle,setPaymentStatusStyle] = useState('')
     useEffect(()=>{
         if (data.status === "Complete") {
             setStatusStyle('bg-green-100 text-green-500 text-xs w-fit px-3 py-2 rounded-md')
@@ -39,6 +43,14 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
             setStatusStyle('bg-amber-100 text-amber-500 text-xs w-fit px-3 py-2 rounded-md')
         } else {
             setStatusStyle('bg-red-100 text-red-500 text-xs px-3 py-2 rounded-md')
+        }
+
+        if (data.paymentStatus === "Paid") {
+            setPaymentStatusStyle('bg-green-100 text-green-500 text-xs w-fit px-3 py-2 rounded-md')
+        } else if (data.paymentStatus === "Pending") {
+            setPaymentStatusStyle('bg-amber-100 text-amber-500 text-xs w-fit px-3 py-2 rounded-md')
+        } else {
+            setPaymentStatusStyle('bg-red-100 text-red-500 text-xs px-3 py-2 rounded-md')
         }
     })
 
@@ -74,8 +86,8 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
                             <div className="flex flex-col gap-6">
                                 <div className="flex flex-col items-end">
                                     <h4 className="font-semibold mb-2">Status</h4>
-                                    <h6 className={statusStyle}>
-                                        {data.status}
+                                    <h6 className={status ? paymentStatusTyle : statusStyle}>
+                                        {status ? data.paymentStatus : data.status}
                                     </h6>
                                 </div>
                                 <div className="flex flex-col items-end">

@@ -28,7 +28,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 2500
+//         "cost" : 2500,
+//             "responsibility" : "Owner"
 //     },
 //     {
         
@@ -43,7 +44,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 3200
+//         "cost" : 3200,
+//             "responsibility" : "Tenant"
 //     },
 //     {
         
@@ -58,7 +60,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 5200
+//         "cost" : 5200,
+//             "responsibility" : "Owner"
 //     },
 //     {
         
@@ -73,7 +76,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 200
+//         "cost" : 200,
+//             "responsibility" : "Tenant"
 //     },
 //     {
         
@@ -88,7 +92,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 1200
+//         "cost" : 1200,
+//             "responsibility" : "Owner"
 //     },
 //     {
         
@@ -103,7 +108,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 1500
+//         "cost" : 1500,
+//             "responsibility" : "Tenant"
 //     },
 //     {
         
@@ -118,7 +124,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 4000
+//         "cost" : 4000,
+//             "responsibility" : "Owner"
 //     },
 //     {
         
@@ -133,7 +140,8 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 1300
+//         "cost" : 1300,
+//             "responsibility" : "Tenant"
 //     },
 //     {
         
@@ -148,6 +156,7 @@ export default Summery;
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
 //         "issue" : "",
-//         "cost" : 1800
+//         "cost" : 1800,
+//             "responsibility" : "Owner"
 //     }
 // ]

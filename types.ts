@@ -311,7 +311,8 @@ export interface MaintainanceRequestProps {
   paymentStatus : string,
   details : string,
   cost : number,
-  attachment : string
+  attachment : string,
+  responsibility : string
 }
 
 export interface MaintainanceRequestsReducerProps {

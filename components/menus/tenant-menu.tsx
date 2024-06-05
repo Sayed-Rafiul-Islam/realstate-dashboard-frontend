@@ -73,7 +73,14 @@ const TenantMenu = () => {
                     g_href : "/tenant_reports/all_rents",
                     g_href1 : ``,
                     g_active : false,
-                }
+                },
+                {
+                    id : 52,
+                    label : "All Maintainance",
+                    g_href : "/tenant_reports/maintainance_requests",
+                    g_href1 : ``,
+                    g_active : false,
+                },
             ],  
             label : "Reports",
             href : "/tenant_reports",
