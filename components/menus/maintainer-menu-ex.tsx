@@ -1,13 +1,17 @@
 "use client"
 
-import { ChevronDown, Info, LayoutDashboard, Tag, UserCircle, Wrench } from "lucide-react"
+import { removeUser } from "@/redux/auth/authSlice"
+import { BarChart3, Bell, BookText, ChevronDown, File, Info, LayoutDashboard, Mail, Power, Tag, UserCircle, Wrench } from "lucide-react"
 import Link from "next/link"
-import { useParams, usePathname } from "next/navigation"
+import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
 
 const MaintainerMenuEx = () => {
+    const dispatch = useDispatch()
     const pathname = usePathname()
     const params = useParams()
+    const router = useRouter()
     const [menu,setMenu] = useState
     ([
         {
@@ -23,31 +27,76 @@ const MaintainerMenuEx = () => {
         {
             id : 2,
             group : [],
-            label : "Tickets",
-            href : "/tickets",
+            label : "Maintainance Requests",
+            href : "/maintainer_requests",
             href1 : '',
             drop : false,
-            icon : <Tag size={20} />,
+            icon : <Wrench size={20} />,
             active : false
         },
         {
             id : 3,
             group : [],
-            label : "Information",
-            href : "/information",
+            label : "Invoices",
+            href : "/maintainer_invoices",
             href1 : '',
             drop : false,
-            icon : <Info size={20} />,
+            icon : <BookText size={20} />,
             active : false
         },
         {
             id : 4,
-            group : [],
-            label : "Maintainance Request",
-            href : "/maintainance",
+            group : [
+                {
+                    id : 41,
+                    label : "Invoices",
+                    g_href : "/maintainer_reports/invoices",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 42,
+                    label : "All Maintainance",
+                    g_href : "/maintainer_reports/requests",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+            ],
+            label : "Reports",
+            href : "/maintainer_reports",
             href1 : '',
             drop : false,
-            icon : <Wrench size={20} />,
+            icon : <BarChart3 size={20} />,
+            active : false
+        },
+        {
+            id : 5,
+            group : [],
+            label : "Messages",
+            href : "/maintainer_messages",
+            href1 : '',
+            drop : false,
+            icon : <Mail size={20} />,
+            active : false
+        },
+        {
+            id : 6,
+            group : [],
+            label : "Documents",
+            href : "/maintainer_documents",
+            href1 : '',
+            drop : false,
+            icon : <File size={20} />,
+            active : false
+        },
+        {
+            id : 8,
+            group : [],
+            label : "Notifications",
+            href : "/maintainer_notifications",
+            href1 : '',
+            drop : false,
+            icon : <Bell size={20} />,
             active : false
         },
         {
@@ -63,7 +112,7 @@ const MaintainerMenuEx = () => {
                 {
                     id : 72,
                     label : "Change Password",
-                    g_href : "/profile/changepassword",
+                    g_href : "/profile/change_password",
                     g_href1 : ``,
                     g_active : false,
                 }
@@ -182,6 +231,12 @@ const MaintainerMenuEx = () => {
         </div>
     )
 }
+            <button 
+                onClick={()=>dispatch(removeUser()) && router.push('/authentication')}
+                className="text-left text-gray-500 flex items-center gap-4 hover:text-red-500 transition-all"
+            >
+               <Power size={20} /> Log Out
+            </button>
         </>
         
      );

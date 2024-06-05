@@ -10,7 +10,8 @@ interface ProfileImageUploadProps {
     disabled?: boolean,
     onChange : (value: string) => void,
     onRemove : (value: string) => void,
-    value : string[]
+    value : string[],
+    defaultValue ?: string
 
 }
 
@@ -19,8 +20,11 @@ const ProfileImageUpload : React.FC<ProfileImageUploadProps> = ({
     disabled,
     onChange,
     onRemove,
-    value
+    value,
+    defaultValue
 }) => {
+
+    console.log(defaultValue)
 
     const [mounted, setMounted] = useState(false)
 
@@ -70,7 +74,8 @@ const ProfileImageUpload : React.FC<ProfileImageUploadProps> = ({
                                     value.length > 0
                                     ? 
                                     <div className="">
-                                    {value.map((url)=>(
+                                    {   
+                                        value.map((url)=>(
                                         <div key={url} className="relative w-[100px] h-[100px] rounded-full overflow-hidden border-indigo-500 border-4">
                                                 {/* <div className="z-10 absolute top-2 right-2">
                                                     <Button type="button" onClick={()=>onRemove(url)} variant='destructive' size='icon'>
@@ -85,9 +90,28 @@ const ProfileImageUpload : React.FC<ProfileImageUploadProps> = ({
                                             />
                                         </div>
                                     ))}
-                                </div>  
+                                    </div>  
                                     :
-                                    <ImagePlus size={25} className="text-gray-400" />
+                                    <div>
+                                        {
+                                            defaultValue ?
+                                            <div key={defaultValue} className="relative w-[100px] h-[100px] rounded-full overflow-hidden border-indigo-500 border-4">
+                                            {/* <div className="z-10 absolute top-2 right-2">
+                                                <Button type="button" onClick={()=>onRemove(url)} variant='destructive' size='icon'>
+                                                    <Trash />
+                                                </Button>
+                                            </div> */}
+                                        <Image 
+                                            fill
+                                            className="object-cover"
+                                            alt="Image"
+                                            src={defaultValue}
+                                        />
+                                    </div>
+                                            :
+                                            <ImagePlus size={25} className="text-gray-400" />
+                                        }
+                                    </div>
                                 }
                                 
                             </div>

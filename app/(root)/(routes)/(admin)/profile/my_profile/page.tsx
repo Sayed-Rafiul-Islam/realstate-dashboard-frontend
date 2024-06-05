@@ -59,7 +59,6 @@ const MyProfile = () => {
 
     const onSubmit = async (profileData : ProfileValue) => {
         const data = await api.patch(`updateUser`,profileData,{validateStatus: () => true})
-        console.log(data)
         toast.success("Profile updated.")
     }
 
@@ -83,14 +82,13 @@ const MyProfile = () => {
                             name="imageUrl"
                             render={({ field }) => (
                                 <FormItem className=''>
-                                    
-                                    {/* <FormLabel className=''>Upload an Image</FormLabel> */}
                                     <FormControl className=''>
                                         <ProfileImageUpload
                                             buttonName='Upload an Image'
                                             value={field.value ? [field.value] : []}
                                             onChange={(url)=>field.onChange(url)}
                                             onRemove={()=>field.onChange("")}
+                                            defaultValue={user.imageUrl}
                                         />
                                     </FormControl>
                                     <FormMessage />

@@ -132,7 +132,7 @@ const TenantMenu = () => {
                 {
                     id : 72,
                     label : "Change Password",
-                    g_href : "/profile/changepassword",
+                    g_href : "/profile/change_password",
                     g_href1 : ``,
                     g_active : false,
                 }
