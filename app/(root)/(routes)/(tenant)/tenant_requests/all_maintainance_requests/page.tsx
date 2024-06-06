@@ -33,7 +33,9 @@ const AllRequests = () => {
             status,
             details,
             cost,
-            attachment
+            attachment,
+            responsibility,
+            paymentStatus
         }) => {
             const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
@@ -53,6 +55,8 @@ const AllRequests = () => {
                 cost,
                 attachment,
                 property_unit : `${propertyName}/${unitName}`,
+                responsibility,
+                paymentStatus
             }
     })
    

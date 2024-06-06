@@ -21,28 +21,36 @@ import './maintainance-requests.css'
 
 export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) => { 
 
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)   
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer) 
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer) 
+    let propertySelect : {id : string, name : string}[] = [] 
+    data.map((item)=>{
+        const index = propertySelect.findIndex(({id}) => id === item.propertyId)
+        if(index === -1) {
+            propertySelect.push({id : item.propertyId, name : properties.filter(({_id})=>_id === item.propertyId)[0].name})
+        }
+    })
+
 
     const [requests, setRequests] = useState(data)
     const [type, setType] = useState('')
-    const [status, setStatus] = useState('')
+    const [property, setProperty] = useState('')
 
 
     useEffect(()=>{
-        if (type === '' && status === '') {
+        if (type === '' && property === '') {
             setRequests(data)
         } else {
-            if (type !== '' && status === '') {
+            if (type !== '' && property === '') {
                 const temp = data.filter((item) => item.typeId === type) 
                 setRequests(temp)
             } 
-            else if ( status !== '' && type === '') {
-                const temp = data.filter((item) => item.status === status) 
+            else if ( property !== '' && type === '') {
+                const temp = data.filter((item) => item.propertyId === property) 
                 setRequests(temp)
             }
             else {
-                const temp = data.filter((item) => item.status === status && item.typeId === type) 
+                const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 
                 setRequests(temp)
             }
         }
@@ -50,7 +58,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
     },[status,type,data])
 
     const showAll = () => {
-        setStatus('')
+        setProperty('')
         setType('')
         setRequests(data)
     }
@@ -78,32 +86,31 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                 <Select
                     onValueChange={e=> {
                         if (e === 'all') {
-                            setStatus('')
+                            setProperty('')
                         } else {
                             
-                            setStatus(e)
+                            setProperty(e)
                         }                            
                     }}
-                    value={status}                              
+                    value={property}                              
                 >
                     <SelectTrigger className="select-filters">
                         <SelectValue 
-                            placeholder="Select Status"
+                            placeholder="Select Property"
                         />
                     </SelectTrigger>
                         <SelectContent  >
                                 <SelectItem value='all' >
                                     Show All
                                 </SelectItem>
-                                <SelectItem value='Complete' >
-                                    Complete
-                                </SelectItem>
-                                <SelectItem value='Incomplete' >
-                                    Incomplete
-                                </SelectItem>
-                                <SelectItem value='In Progress' >
-                                    In Progress
-                                </SelectItem>
+                                {
+                                    propertySelect.map(({id,name})=>
+                                        <SelectItem key={id} value={id} >
+                                            {name}
+                                        </SelectItem>
+                                    )
+                                }
+                                
                     </SelectContent>
                 </Select>
 
