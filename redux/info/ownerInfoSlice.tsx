@@ -4,7 +4,7 @@ import {createSlice } from "@reduxjs/toolkit"
 const ownerInfoJson = typeof window !== "undefined" && localStorage.getItem("ownerInfo")
 
 const initialState = {
-    ownerInfo : ownerInfoJson ? JSON.parse(ownerInfoJson) : [],
+    ownerInfo : (ownerInfoJson) ? JSON.parse(ownerInfoJson) : [],
 }
 
 

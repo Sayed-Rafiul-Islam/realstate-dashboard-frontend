@@ -19,7 +19,7 @@ const RoutesLayout = ({
 
   const [expand, setExpand] = useState(true)
   AccessProvider()
-  // LoadData()
+  LoadData()
   
     return ( 
         <div className="pt-5 px-5">

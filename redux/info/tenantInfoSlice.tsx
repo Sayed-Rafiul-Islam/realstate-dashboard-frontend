@@ -4,7 +4,7 @@ import {createSlice } from "@reduxjs/toolkit"
 const tenantInfoJson = typeof window !== "undefined" && localStorage.getItem("tenantInfo")
 
 const initialState = {
-    tenantInfo : tenantInfoJson ? JSON.parse(tenantInfoJson) : [],
+    tenantInfo : (tenantInfoJson) ? JSON.parse(tenantInfoJson) : [],
 }
 
 
