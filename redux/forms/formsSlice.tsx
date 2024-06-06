@@ -1,4 +1,4 @@
-
+"use client"
 import { UnitProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 

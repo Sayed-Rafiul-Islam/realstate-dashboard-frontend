@@ -21,10 +21,10 @@ export default function AccessProvider() {
             if (status === 401 || status === 403 || status === 500) {
               router.push('/authentication')
               dispatch(removeUser())
-              localStorage.removeItem('accessToken')
             }
           }
           else {
+            dispatch(removeUser())
             router.push('/authentication')
           }
         }

@@ -1,4 +1,4 @@
-import { InvoiceProps } from "@/types"
+"use client"
 import {createSlice } from "@reduxjs/toolkit"
 
 const ownerInfoJson = typeof window !== "undefined" && localStorage.getItem("ownerInfo")

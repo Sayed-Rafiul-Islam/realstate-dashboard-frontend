@@ -1,4 +1,4 @@
-import { InvoiceProps } from "@/types"
+"use client"
 import {createSlice } from "@reduxjs/toolkit"
 
 const maintainerInfoJson = typeof window !== "undefined" && localStorage.getItem("maintainerInfo")
