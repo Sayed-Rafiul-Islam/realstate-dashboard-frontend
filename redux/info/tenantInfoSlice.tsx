@@ -15,8 +15,10 @@ const tenantInfoSlice = createSlice({
     reducers : {
         getTenantInfo : (state, {payload}) => {
             state.tenantInfo = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("tenantInfo")
             localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
+            }
         }
     }
 })

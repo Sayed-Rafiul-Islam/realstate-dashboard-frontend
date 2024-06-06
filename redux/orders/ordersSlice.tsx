@@ -20,14 +20,18 @@ const orderSlice = createSlice({
     reducers : {
         getOrders : (state, {payload}) => {
             state.orders = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("orders")
             localStorage.setItem("orders", JSON.stringify(state.orders))
+            }
         },
         removeOrder : (state, {payload}) => {
             const temp = state.orders.filter(({_id} : OrderProps) => _id !== payload._id)
             state.orders = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("orders")
             localStorage.setItem("orders", JSON.stringify(state.orders))
+            }
         },
     }
 })

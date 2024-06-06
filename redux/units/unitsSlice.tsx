@@ -16,20 +16,26 @@ const unitsSlice = createSlice({
     reducers : {
         getUnits : (state, {payload}) => {
             state.units = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("units")
             localStorage.setItem("units", JSON.stringify(state.units))
+            }
         },
         removeUnit : (state, {payload}) => {
             const temp = state.units.filter(({_id} : UnitProps) => _id !== payload)
             state.units = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("units")
             localStorage.setItem("units", JSON.stringify(state.units))
+            }
         },
         updateUnit : (state, {payload}) => {
             const index = state.units.findIndex((item : UnitProps) => item._id === payload._id)
             state.units[index] = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("units")
             localStorage.setItem("units", JSON.stringify(state.units))
+            }
         },
         
         addUnits : (state, {payload}) => {

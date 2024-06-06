@@ -87,12 +87,6 @@ const formsSlice = createSlice({
         addTenantData3 : (state, {payload}) => {
             state.tenantForm.initialData3 = payload
         },
-        // removeUnit : (state, {payload}) => {
-        //     const temp = state.units.filter(({_id} : UnitProps) => _id !== payload)
-        //     state.units = temp
-        //     localStorage.removeItem("units")
-        //     localStorage.setItem("units", JSON.stringify(state.units))
-        // },
     }
 })
 

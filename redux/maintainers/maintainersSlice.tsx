@@ -15,8 +15,10 @@ const maintainersSlice = createSlice({
     reducers : {
         getMaintainers : (state, {payload}) => {
             state.maintainers = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainers")
             localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            }
         },
         updateMaintainer : (state, {payload}) => {
             const temp = state.maintainers.filter((item : MaintainerProps) => {
@@ -47,14 +49,18 @@ const maintainersSlice = createSlice({
             const data = {...payload,_id : '5'}
             state.maintainers.push(data)
             // console.log(state.maintainers)
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainers")
             localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            }
         },
         removeMaintainer : (state, {payload}) => {
             const temp = state.maintainers.filter(({_id} : MaintainerProps) => _id !== payload._id)
             state.maintainers = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainers")
             localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            }
         },
     }
 })

@@ -15,14 +15,18 @@ const packageSlice = createSlice({
     reducers : {
         getPackages : (state, {payload}) => {
             state.packages = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("packages")
             localStorage.setItem("packages", JSON.stringify(state.packages))
+            }
         },
         removePackage : (state, {payload}) => {
             const temp = state.packages.filter(({_id} : PackageProps) => _id !== payload._id)
             state.packages = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("packages")
             localStorage.setItem("packages", JSON.stringify(state.packages))
+            }
         },
     }
 })

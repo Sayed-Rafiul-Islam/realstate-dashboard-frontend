@@ -16,26 +16,34 @@ const maintainanceRequestsSlice = createSlice({
     reducers : {
         getMaintainanceRequests : (state, {payload}) => {
             state.maintainanceRequests = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+            }
         },
         updateMaintainanceRequest : (state, {payload}) => {
             const index = state.maintainanceRequests.findIndex((item : MaintainanceRequestProps) => item._id === payload._id)
             state.maintainanceRequests[index] = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+            }
         },
 
         addMaintainanceRequest : (state, {payload}) => {
             state.maintainanceRequests.push(payload)
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+            }
         },
         removeMaintainanceRequests : (state, {payload}) => {
             const temp = state.maintainanceRequests.filter(({_id} : MaintainanceRequestProps) => _id !== payload._id)
             state.maintainanceRequests = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainanceRequests")
             localStorage.setItem("maintainanceRequests", JSON.stringify(state.maintainanceRequests))
+            }
         },
     }
 })

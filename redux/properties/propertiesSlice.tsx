@@ -16,8 +16,10 @@ const propertiesSlice = createSlice({
     reducers : {
         getProperties : (state, {payload}) => {
             state.properties = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("properties")
             localStorage.setItem("properties", JSON.stringify(state.properties))
+            }
         },
         updateProperty : (state, {payload}) => {
 
@@ -42,22 +44,27 @@ const propertiesSlice = createSlice({
                 return item
             })
             state.properties = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("properties")
             localStorage.setItem("properties", JSON.stringify(state.properties))
+            }
         },
 
         addProperty : (state, {payload}) => {
 
             state.properties.push(payload)
-            console.log(state.properties)
+            if (typeof window !== 'undefined') {
             // localStorage.removeItem("properties")
             // localStorage.setItem("properties", JSON.stringify(state.properties))
+            }
         },
         removeProperty : (state, {payload}) => {
             const temp = state.properties.filter(({_id} : PropertyProps) => _id !== payload._id)
             state.properties = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("properties")
             localStorage.setItem("properties", JSON.stringify(state.properties))
+            }
         },
     }
 })

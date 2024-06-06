@@ -15,21 +15,17 @@ const ownerPackageSlice = createSlice({
     reducers : {
         getOwnerPackages : (state, {payload}) => {
             state.ownerPackages = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("ownerPackages")
             localStorage.setItem("ownerPackages", JSON.stringify(state.ownerPackages))
+            }
         },
         addOwnerPackage : (state, {payload}) => {
             state.ownerPackages.push(payload)
-            console.log(state.ownerPackages)
             // localStorage.removeItem("ownerPackages")
             // localStorage.setItem("ownerPackages", JSON.stringify(state.ownerPackages))
         },
-        // removePackage : (state, {payload}) => {
-        //     const temp = state.packages.filter(({_id} : PackageProps) => _id !== payload._id)
-        //     state.packages = temp
-        //     localStorage.removeItem("packages")
-        //     localStorage.setItem("packages", JSON.stringify(state.packages))
-        // },
+
     }
 })
 

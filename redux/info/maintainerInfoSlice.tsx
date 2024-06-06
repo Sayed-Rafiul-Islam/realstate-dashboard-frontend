@@ -15,8 +15,10 @@ const maintainerInfoSlice = createSlice({
     reducers : {
         getMaintainerInfo : (state, {payload}) => {
             state.maintainerInfo = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("maintainerInfo")
             localStorage.setItem("maintainerInfo", JSON.stringify(state.maintainerInfo))
+            }
         }
     }
 })

@@ -16,8 +16,10 @@ const ownersSlice = createSlice({
     reducers : {
         getOwners : (state, {payload}) => {
             state.owners = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("owners")
             localStorage.setItem("owners", JSON.stringify(state.owners))
+            }
         },
         updateOwnerStatus : (state, {payload}) => {
             const temp = state.owners.filter((item : OwnerProps) => {
@@ -27,22 +29,11 @@ const ownersSlice = createSlice({
                 return item
             })
             state.owners = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("owners")
             localStorage.setItem("owners", JSON.stringify(state.owners))
-        },
-
-        // addOwnerPackage : (state, {payload}) => {
-        //     state.owners.push(payload)
-        //     console.log(state.owners)
-        //     localStorage.removeItem("owners")
-        //     localStorage.setItem("owners", JSON.stringify(state.owners))
-        // },
-        // removePackage : (state, {payload}) => {
-        //     const temp = state.packages.filter(({_id} : PackageProps) => _id !== payload._id)
-        //     state.packages = temp
-        //     localStorage.removeItem("packages")
-        //     localStorage.setItem("packages", JSON.stringify(state.packages))
-        // },
+            }
+        }
     }
 })
 

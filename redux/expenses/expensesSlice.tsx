@@ -16,32 +16,18 @@ const expensesSlice = createSlice({
     reducers : {
         getExpenses : (state, {payload}) => {
             state.expenses = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenses")
             localStorage.setItem("expenses", JSON.stringify(state.expenses))
+            }
         },
-        // updateexpensestatus : (state, {payload}) => {
-        //     const temp = state.expenses.filter((item : PropertyProps) => {
-        //         if ( item._id  === payload._id) {
-        //             item.status = true
-        //         }
-        //         return item
-        //     })
-        //     state.expenses = temp
-        //     localStorage.removeItem("expenses")
-        //     localStorage.setItem("expenses", JSON.stringify(state.expenses))
-        // },
-
-        // addpropertiePackage : (state, {payload}) => {
-        //     state.expenses.push(payload)
-        //     console.log(state.expenses)
-        //     localStorage.removeItem("expenses")
-        //     localStorage.setItem("expenses", JSON.stringify(state.expenses))
-        // },
         removeExpense : (state, {payload}) => {
             const temp = state.expenses.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.expenses = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenses")
             localStorage.setItem("expenses", JSON.stringify(state.expenses))
+            }
         },
     }
 })

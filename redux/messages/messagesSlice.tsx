@@ -16,8 +16,10 @@ const messagesSlice = createSlice({
     reducers : {
         getmessages : (state, {payload}) => {
             state.messages = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("messages")
             localStorage.setItem("messages", JSON.stringify(state.messages))
+            }
         },
         updateMessageStatus : (state, {payload}) => {
             const temp = state.messages.filter((item : MessageProps) => {
@@ -27,22 +29,11 @@ const messagesSlice = createSlice({
                 return item
             })
             state.messages = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("messages")
             localStorage.setItem("messages", JSON.stringify(state.messages))
-        },
-
-        // addOwnerPackage : (state, {payload}) => {
-        //     state.messages.push(payload)
-        //     console.log(state.messages)
-        //     localStorage.removeItem("messages")
-        //     localStorage.setItem("messages", JSON.stringify(state.messages))
-        // },
-        // removePackage : (state, {payload}) => {
-        //     const temp = state.packages.filter(({_id} : PackageProps) => _id !== payload._id)
-        //     state.packages = temp
-        //     localStorage.removeItem("packages")
-        //     localStorage.setItem("packages", JSON.stringify(state.packages))
-        // },
+            }
+        }
     }
 })
 
