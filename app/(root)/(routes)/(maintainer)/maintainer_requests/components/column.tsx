@@ -17,6 +17,8 @@ export interface MaintainanceRequestColumn {
   cost : number,
   attachment : string,
   property_unit : string,
+  responsibility : string,
+  paymentStatus : string
 }
 
 

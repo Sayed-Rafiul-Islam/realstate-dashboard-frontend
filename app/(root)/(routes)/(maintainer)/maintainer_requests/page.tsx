@@ -33,7 +33,9 @@ const AllRequests = () => {
             status,
             details,
             cost,
-            attachment
+            attachment,
+            responsibility,
+            paymentStatus
         }) => {
             const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
             const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
@@ -47,12 +49,14 @@ const AllRequests = () => {
                 requestNo,
                 type : typeName,
                 typeId : type,
-                issue : details,
+                issue,
                 status,
                 details,
                 cost,
                 attachment,
                 property_unit : `${propertyName}/${unitName}`,
+                responsibility,
+                paymentStatus
             }
     })
    
@@ -65,18 +69,13 @@ const AllRequests = () => {
                             <Link prefetch href='/'>Dashboard</Link>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
-                        <BreadcrumbItem className="hover:text-indigo-500 transition-all">
-                            <Link prefetch href='/tenant_requests'>Maintainance Requests</Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
                         <BreadcrumbPage>
                             All Maintainance Requests
                         </BreadcrumbPage>
                     </BreadcrumbList>
                 </Breadcrumb>
                 <div className="flex justify-between md:flex-row flex-col gap-2"> 
-                    <h1 className="font-bold text-xl">Maintainance Requests</h1>
-                    <Button className="lg:w-1/4 md:w-1/5 w-2/3 bg-purple-500" onClick={()=>router.push('/tenant_requests/add')}>New Request</Button>
+                    <h1 className="font-bold text-xl">All Maintainance Requests</h1>
                 </div>
                 <Separator />
 
