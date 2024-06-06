@@ -1,4 +1,4 @@
-
+"use client"
 import { ExpenseTypeProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 

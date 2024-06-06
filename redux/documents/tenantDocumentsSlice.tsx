@@ -1,3 +1,5 @@
+"use client"
+
 import { InvoiceProps, TenantDocumentProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
