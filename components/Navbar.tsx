@@ -55,17 +55,18 @@ const Navbar : React.FC<NavbarProps> = ({expand}) => {
                             {
                                 expand ? 
                                 <div className="nav-links px-5 flex flex-col gap-2 pb-[150px]">
-                                    {role === 'admin' && <AdminMenuEx />}
+                                    <AdminMenuEx />
+                                    {/* {role === 'admin' && <AdminMenuEx />}
                                     {role === 'owner' && <OwnerMenuEx />}
                                     {role === 'tenant' && <TenantMenuEx />}
-                                    {role === 'maintainer' && <MaintainerMenuEx />}
+                                    {role === 'maintainer' && <MaintainerMenuEx />} */}
                                 </div>
                                 :
                                 <div className="nav-links items-center flex flex-col justify-center gap-2 pb-[150px]">
-                                    {role === 'admin' && <AdminMenu />}
+                                    {/* {role === 'admin' && <AdminMenu />}
                                     {role === 'owner' && <OwnerMenu />}
                                     {role === 'tenant' && <TenantMenu />}
-                                    {role === 'maintainer' && <MaintainerMenu />}
+                                    {role === 'maintainer' && <MaintainerMenu />} */}
                                 </div>
                             }
                           
