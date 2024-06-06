@@ -6,7 +6,7 @@ interface MaintainanceClientProps {
 
 import { MaintainanceRequestColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { MaintainanceTypesReducerProps} from "@/types"
+import { MaintainanceTypesReducerProps, PropertiesReducerProps} from "@/types"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { 
@@ -22,6 +22,7 @@ import './maintainance-requests.css'
 export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) => { 
 
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)   
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
     const [requests, setRequests] = useState(data)
     const [type, setType] = useState('')
