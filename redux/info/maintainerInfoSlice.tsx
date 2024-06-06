@@ -17,15 +17,9 @@ const maintainerInfoSlice = createSlice({
             state.maintainerInfo = payload
             localStorage.removeItem("maintainerInfo")
             localStorage.setItem("maintainerInfo", JSON.stringify(state.maintainerInfo))
-        },
-        removeMaintainerInfo : (state, {payload}) => {
-            const temp = state.maintainerInfo.filter(({_id} : InvoiceProps) => _id !== payload._id)
-            state.maintainerInfo = temp
-            localStorage.removeItem("maintainerInfo")
-            localStorage.setItem("maintainerInfo", JSON.stringify(state.maintainerInfo))
-        },
+        }
     }
 })
 
-export const {getMaintainerInfo,removeMaintainerInfo} = maintainerInfoSlice.actions
+export const {getMaintainerInfo} = maintainerInfoSlice.actions
 export default maintainerInfoSlice.reducer

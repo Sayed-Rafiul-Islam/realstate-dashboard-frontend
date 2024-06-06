@@ -17,15 +17,9 @@ const tenantInfoSlice = createSlice({
             state.tenantInfo = payload
             localStorage.removeItem("tenantInfo")
             localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
-        },
-        removeTenantInfo : (state, {payload}) => {
-            const temp = state.tenantInfo.filter(({_id} : InvoiceProps) => _id !== payload._id)
-            state.tenantInfo = temp
-            localStorage.removeItem("tenantInfo")
-            localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
-        },
+        }
     }
 })
 
-export const {getTenantInfo,removeTenantInfo} = tenantInfoSlice.actions
+export const {getTenantInfo} = tenantInfoSlice.actions
 export default tenantInfoSlice.reducer

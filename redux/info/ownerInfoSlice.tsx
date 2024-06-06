@@ -17,15 +17,9 @@ const ownerInfoSlice = createSlice({
             state.ownerInfo = payload
             localStorage.removeItem("ownerInfo")
             localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
-        },
-        removeOwnerInfo : (state, {payload}) => {
-            const temp = state.ownerInfo.filter(({_id} : InvoiceProps) => _id !== payload._id)
-            state.ownerInfo = temp
-            localStorage.removeItem("ownerInfo")
-            localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
-        },
+        }
     }
 })
 
-export const {getOwnerInfo,removeOwnerInfo} = ownerInfoSlice.actions
+export const {getOwnerInfo} = ownerInfoSlice.actions
 export default ownerInfoSlice.reducer
