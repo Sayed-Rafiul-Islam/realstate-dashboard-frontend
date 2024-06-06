@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { OrderProps } from "@/types"
 
-const ordersJson = typeof window !== "undefined" && localStorage.getItem("orders")
+const ordersJson = typeof window !== "undefined" && window.localStorage.getItem("orders")
 
 interface InitialStateProps {
       orders : OrderProps[]
@@ -20,14 +20,14 @@ const orderSlice = createSlice({
     reducers : {
         getOrders : (state, {payload}) => {
             state.orders = payload
-            localStorage.removeItem("orders")
-            localStorage.setItem("orders", JSON.stringify(state.orders))
+            window.localStorage.removeItem("orders")
+            window.localStorage.setItem("orders", JSON.stringify(state.orders))
         },
         removeOrder : (state, {payload}) => {
             const temp = state.orders.filter(({_id} : OrderProps) => _id !== payload._id)
             state.orders = temp
-            localStorage.removeItem("orders")
-            localStorage.setItem("orders", JSON.stringify(state.orders))
+            window.localStorage.removeItem("orders")
+            window.localStorage.setItem("orders", JSON.stringify(state.orders))
         },
     }
 })

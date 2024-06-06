@@ -26,7 +26,7 @@ export default function LogInForm() {
 
     const handleSubmit = async () => {
         setLoading(true)
-        localStorage.removeItem("accessToken")
+        window.localStorage.removeItem("accessToken")
         // setMessage("Logging in...")
         
         if (email === '' || password === '') {
@@ -41,7 +41,7 @@ export default function LogInForm() {
             } else if (status === 200) {
                 setMessage("")
                 dispatch(addUser(data))
-                localStorage.setItem("accessToken",data.accessToken)
+                window.localStorage.setItem("accessToken",data.accessToken)
                 window.location.assign('/')
             }
             

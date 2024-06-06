@@ -2,8 +2,8 @@
 import { UnitProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const propertyFormJson = typeof window !== "undefined" && localStorage.getItem("propertyForm")
-const tenantFormJson = typeof window !== "undefined" && localStorage.getItem("tenantForm")
+const propertyFormJson = typeof window !== "undefined" && window.localStorage.getItem("propertyForm")
+const tenantFormJson = typeof window !== "undefined" && window.localStorage.getItem("tenantForm")
 
 const initialState = {
     propertyForm : propertyFormJson ? JSON.parse(propertyFormJson) : {
@@ -90,8 +90,8 @@ const formsSlice = createSlice({
         // removeUnit : (state, {payload}) => {
         //     const temp = state.units.filter(({_id} : UnitProps) => _id !== payload)
         //     state.units = temp
-        //     localStorage.removeItem("units")
-        //     localStorage.setItem("units", JSON.stringify(state.units))
+        //     window.localStorage.removeItem("units")
+        //     window.localStorage.setItem("units", JSON.stringify(state.units))
         // },
     }
 })

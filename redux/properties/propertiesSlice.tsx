@@ -2,7 +2,7 @@
 import { PropertyProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const propertiesJson = typeof window !== "undefined" && localStorage.getItem("properties")
+const propertiesJson = typeof window !== "undefined" && window.localStorage.getItem("properties")
 
 const initialState = {
     properties : propertiesJson ? JSON.parse(propertiesJson) : [],
@@ -16,8 +16,8 @@ const propertiesSlice = createSlice({
     reducers : {
         getProperties : (state, {payload}) => {
             state.properties = payload
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+            window.localStorage.removeItem("properties")
+            window.localStorage.setItem("properties", JSON.stringify(state.properties))
         },
         updateProperty : (state, {payload}) => {
 
@@ -42,22 +42,22 @@ const propertiesSlice = createSlice({
                 return item
             })
             state.properties = temp
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+            window.localStorage.removeItem("properties")
+            window.localStorage.setItem("properties", JSON.stringify(state.properties))
         },
 
         addProperty : (state, {payload}) => {
 
             state.properties.push(payload)
             console.log(state.properties)
-            // localStorage.removeItem("properties")
-            // localStorage.setItem("properties", JSON.stringify(state.properties))
+            // window.localStorage.removeItem("properties")
+            // window.localStorage.setItem("properties", JSON.stringify(state.properties))
         },
         removeProperty : (state, {payload}) => {
             const temp = state.properties.filter(({_id} : PropertyProps) => _id !== payload._id)
             state.properties = temp
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+            window.localStorage.removeItem("properties")
+            window.localStorage.setItem("properties", JSON.stringify(state.properties))
         },
     }
 })

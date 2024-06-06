@@ -14,7 +14,7 @@ export default function AccessProvider() {
 
     useEffect(()=>{
         const varify = async () => {
-          const access = localStorage.getItem("accessToken")
+          const access = window.localStorage.getItem("accessToken")
           if (access) {
             const {data,status} = await api.get(`varify?accessToken=${access}`,{validateStatus: () => true})
             dispatch(addUser(data))

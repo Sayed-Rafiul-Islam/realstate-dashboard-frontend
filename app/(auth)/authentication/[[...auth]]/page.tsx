@@ -14,7 +14,7 @@ export default function Authentication() {
     const [account,setAccount] = useState(true)
 
     useEffect(()=> {
-      const isSignedIn = Boolean(localStorage.getItem('accessToken'))
+      const isSignedIn = Boolean(window.localStorage.getItem('accessToken'))
       
       if (isSignedIn) {
         router.push('/')

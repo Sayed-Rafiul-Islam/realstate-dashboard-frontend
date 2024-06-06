@@ -3,7 +3,7 @@
 import { InvoiceProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const documentsJson = typeof window !== "undefined" && localStorage.getItem("documents")
+const documentsJson = typeof window !== "undefined" && window.localStorage.getItem("documents")
 
 const initialState = {
     documents : documentsJson ? JSON.parse(documentsJson) : [],
@@ -17,8 +17,8 @@ const documentsSlice = createSlice({
     reducers : {
         getDocuments : (state, {payload}) => {
             state.documents = payload
-            localStorage.removeItem("documents")
-            localStorage.setItem("documents", JSON.stringify(state.documents))
+            window.localStorage.removeItem("documents")
+            window.localStorage.setItem("documents", JSON.stringify(state.documents))
         },
         // updatedocumentstatus : (state, {payload}) => {
         //     const temp = state.documents.filter((item : PropertyProps) => {
@@ -28,21 +28,21 @@ const documentsSlice = createSlice({
         //         return item
         //     })
         //     state.documents = temp
-        //     localStorage.removeItem("documents")
-        //     localStorage.setItem("documents", JSON.stringify(state.documents))
+        //     window.localStorage.removeItem("documents")
+        //     window.localStorage.setItem("documents", JSON.stringify(state.documents))
         // },
 
         // addpropertiePackage : (state, {payload}) => {
         //     state.documents.push(payload)
         //     console.log(state.documents)
-        //     localStorage.removeItem("documents")
-        //     localStorage.setItem("documents", JSON.stringify(state.documents))
+        //     window.localStorage.removeItem("documents")
+        //     window.localStorage.setItem("documents", JSON.stringify(state.documents))
         // },
         removeDocument : (state, {payload}) => {
             const temp = state.documents.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.documents = temp
-            localStorage.removeItem("documents")
-            localStorage.setItem("documents", JSON.stringify(state.documents))
+            window.localStorage.removeItem("documents")
+            window.localStorage.setItem("documents", JSON.stringify(state.documents))
         },
     }
 })
