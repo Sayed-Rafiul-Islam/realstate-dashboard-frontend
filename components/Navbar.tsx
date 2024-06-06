@@ -1,6 +1,5 @@
 "use client"
 
-import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
 import './navbar.css'
@@ -17,6 +16,7 @@ import OwnerMenuEx from "./menus/owner-menu-ex";
 import AdminMenuEx from "./menus/admin-menu-ex";
 import TenantMenuEx from "./menus/tenant-menu-ex";
 import MaintainerMenuEx from "./menus/maintainer-menu-ex";
+import { useEffect, useState } from "react";
 
 interface NavbarProps {
     expand : boolean
@@ -24,8 +24,17 @@ interface NavbarProps {
 
 const Navbar : React.FC<NavbarProps> = ({expand}) => {
     AccessProvider()
-    const {email,role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
-    const path = usePathname()
+    const {role} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+
+    const [isMounted, setIsMounted] = useState(false)
+
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
+    if (!isMounted) {
+        return null
+    }
    
     return ( 
         <div className={`${expand ? "header" : "header-1" } hidden md:block`}>

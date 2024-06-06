@@ -23,7 +23,6 @@ const RoutesLayout = ({
   
     return ( 
         <div className="pt-5 px-5">
-
           <div>
             <Navbar expand={expand} />              
             <button onClick={()=>setExpand(!expand)} className={`${expand ? "exp-btn-1" : "exp-btn-2"}`}><ChevronLeft /></button>

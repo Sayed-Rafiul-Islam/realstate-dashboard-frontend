@@ -1,7 +1,7 @@
 "use client"
 import {createSlice } from "@reduxjs/toolkit"
 
-const tenantInfoJson = typeof window !== "undefined" && window.localStorage.getItem("tenantInfo")
+const tenantInfoJson = typeof window !== "undefined" && localStorage.getItem("tenantInfo")
 
 const initialState = {
     tenantInfo : tenantInfoJson ? JSON.parse(tenantInfoJson) : [],
@@ -15,8 +15,8 @@ const tenantInfoSlice = createSlice({
     reducers : {
         getTenantInfo : (state, {payload}) => {
             state.tenantInfo = payload
-            window.localStorage.removeItem("tenantInfo")
-            window.localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
+            localStorage.removeItem("tenantInfo")
+            localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
         }
     }
 })

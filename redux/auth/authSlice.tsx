@@ -10,14 +10,15 @@ const userSlice = createSlice({
     initialState,
     reducers : {
         addUser: (state, {payload}) => {
+
             state.user = payload
         },
         removeUser: (state) => {
-            window.localStorage.removeItem('tenantInfo')
-            window.localStorage.removeItem('ownerInfo')
-            window.localStorage.removeItem('maintainerInfo')
-            window.localStorage.removeItem('accessToken')
-            window.localStorage.removeItem('role')
+            localStorage.removeItem('tenantInfo')
+            localStorage.removeItem('ownerInfo')
+            localStorage.removeItem('maintainerInfo')
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('role')
             state.user = []
         }
     },

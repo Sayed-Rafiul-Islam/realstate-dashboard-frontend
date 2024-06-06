@@ -1,7 +1,7 @@
 import { MaintainerProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const maintainersJson = typeof window !== "undefined" && window.localStorage.getItem("maintainers")
+const maintainersJson = typeof window !== "undefined" && localStorage.getItem("maintainers")
 
 const initialState = {
     maintainers : maintainersJson ? JSON.parse(maintainersJson) : [],
@@ -15,8 +15,8 @@ const maintainersSlice = createSlice({
     reducers : {
         getMaintainers : (state, {payload}) => {
             state.maintainers = payload
-            window.localStorage.removeItem("maintainers")
-            window.localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            localStorage.removeItem("maintainers")
+            localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
         },
         updateMaintainer : (state, {payload}) => {
             const temp = state.maintainers.filter((item : MaintainerProps) => {
@@ -31,30 +31,30 @@ const maintainersSlice = createSlice({
 
             console.log(temp)
             state.maintainers = temp
-            window.localStorage.removeItem("tenants")
-            window.localStorage.setItem("tenants", JSON.stringify(state.maintainers))
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.maintainers))
         },
 
         // addTenant : (state, {payload} ) => {
         //     const {propertyFile, personalFile, ...rest} = payload 
         //     const data = {...rest, _id : '5'}
         //     state.tenants.push(data)
-        //     window.localStorage.removeItem("tenants")
-        //     window.localStorage.setItem("tenants", JSON.stringify(state.tenants))
+        //     localStorage.removeItem("tenants")
+        //     localStorage.setItem("tenants", JSON.stringify(state.tenants))
         // },
 
         addMaintainer : (state, {payload}) => {
             const data = {...payload,_id : '5'}
             state.maintainers.push(data)
             // console.log(state.maintainers)
-            window.localStorage.removeItem("maintainers")
-            window.localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            localStorage.removeItem("maintainers")
+            localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
         },
         removeMaintainer : (state, {payload}) => {
             const temp = state.maintainers.filter(({_id} : MaintainerProps) => _id !== payload._id)
             state.maintainers = temp
-            window.localStorage.removeItem("maintainers")
-            window.localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
+            localStorage.removeItem("maintainers")
+            localStorage.setItem("maintainers", JSON.stringify(state.maintainers))
         },
     }
 })

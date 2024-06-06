@@ -21,7 +21,7 @@ export default function SignUpForm() {
     const [ message, setMessage] = useState('')
 
     const handleSubmit = async () => {
-        window.localStorage.removeItem("accessToken")
+        localStorage.removeItem("accessToken")
         setLoading(true)
 
         if (name === '' || password1 === '' || password === '') {
@@ -36,7 +36,7 @@ export default function SignUpForm() {
                 setMessage("Email already in use")
             }
             else {
-                window.localStorage.setItem("accessToken",data.accessToken)
+                localStorage.setItem("accessToken",data.accessToken)
                 setMessage("")
                 router.push('/')
             }

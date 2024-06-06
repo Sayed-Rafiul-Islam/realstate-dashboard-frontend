@@ -1,7 +1,5 @@
 "use client"
 
-import AccessProvider from "@/actions/accessProvider";
-import LoadData from "@/actions/load-data";
 import AdminDashboard from "@/components/dashboard/admin-dashboard";
 import MaintainerDashboard from "@/components/dashboard/maintainer-dashboard";
 import OwnerDashboard from "@/components/dashboard/owner-dashboard";
@@ -10,6 +8,7 @@ import { getMaintainerInfo } from "@/redux/info/maintainerInfoSlice";
 import { getOwnerInfo } from "@/redux/info/ownerInfoSlice";
 import { getTenantInfo } from "@/redux/info/tenantInfoSlice";
 import { MaintainersReducerProps, OwnersReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
+import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,6 +30,17 @@ export default function Home() {
   } else if (user.role === 'owner') {
     const owner = owners.filter(({userId}) => userId === user._id)[0]
     dispatch(getOwnerInfo(owner))
+  }
+
+  
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(()=>{
+      setIsMounted(true)
+  },[])
+
+  if (!isMounted) {
+      return null
   }
 
   return (

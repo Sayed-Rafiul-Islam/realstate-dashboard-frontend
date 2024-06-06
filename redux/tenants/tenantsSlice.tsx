@@ -1,7 +1,7 @@
 import { TenantProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const tenantsJson = typeof window !== "undefined" && window.localStorage.getItem("tenants")
+const tenantsJson = typeof window !== "undefined" && localStorage.getItem("tenants")
 
 const initialState = {
     tenants : tenantsJson ? JSON.parse(tenantsJson) : [],
@@ -15,29 +15,29 @@ const tenantsSlice = createSlice({
     reducers : {
         getTenants : (state, {payload}) => {
             state.tenants = payload
-            window.localStorage.removeItem("tenants")
-            window.localStorage.setItem("tenants", JSON.stringify(state.tenants))
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
         updateTenant : (state, {payload}) => {
             const {propertyFile, personalFile, ...rest} = payload 
             const index = state.tenants.findIndex((item : TenantProps) => item._id === payload._id)
             state.tenants[index] = rest
-            window.localStorage.removeItem("tenants")
-            window.localStorage.setItem("tenants", JSON.stringify(state.tenants))
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
 
         addTenant : (state, {payload} ) => {
             const {propertyFile, personalFile, ...rest} = payload 
             const data = {...rest, _id : '5'}
             state.tenants.push(data)
-            window.localStorage.removeItem("tenants")
-            window.localStorage.setItem("tenants", JSON.stringify(state.tenants))
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
         removeTenant : (state, {payload}) => {
             const temp = state.tenants.filter(({_id} : TenantProps) => _id !== payload._id)
             state.tenants = temp
-            window.localStorage.removeItem("tenants")
-            window.localStorage.setItem("tenants", JSON.stringify(state.tenants))
+            localStorage.removeItem("tenants")
+            localStorage.setItem("tenants", JSON.stringify(state.tenants))
         },
     }
 })
