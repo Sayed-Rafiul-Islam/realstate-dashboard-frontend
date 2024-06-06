@@ -2,7 +2,7 @@
 import { ExpenseTypeProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const expenseTypesJson = typeof window !== "undefined" && window.window.localStorage.getItem("expenseTypes")
+const expenseTypesJson = typeof window !== "undefined" && window.localStorage.getItem("expenseTypes")
 
 const initialState = {
     expenseTypes : expenseTypesJson ? JSON.parse(expenseTypesJson) : [],
