@@ -1100,7 +1100,7 @@ const loadTenanrDocuments = async () => {
     dispatch(getTenantDocuments(documents))
 }
 
-export default async function LoadData() {
+export default function LoadData() {
 
     const dispatch = useDispatch()
 
@@ -1120,14 +1120,14 @@ export default async function LoadData() {
     loadDocuments()
     loadRents()
     loadMaintainers()
-    loadMaintainanceRequests(dispatch)
+    // loadMaintainanceRequests(dispatch)
     loadEarnings()
     loadMonthlyRecords()
     loadGateways()
     loadInvoiceTypes()
     loadExpenseTypes()
     loadMaintainanceTypes()
-    loadNotifications(dispatch)
+    // loadNotifications(dispatch)
     loadTenanrDocuments()
     
       
