@@ -15,8 +15,10 @@ const earningsSlice = createSlice({
     reducers : {
         getEarnings : (state, {payload}) => {
             state.earnings = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("earnings")
             localStorage.setItem("earnings", JSON.stringify(state.earnings))
+            }
         },
         // updateearningstatus : (state, {payload}) => {
         //     const temp = state.earnings.filter((item : PropertyProps) => {
@@ -39,8 +41,10 @@ const earningsSlice = createSlice({
         removeEarning : (state, {payload}) => {
             const temp = state.earnings.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.earnings = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("earnings")
             localStorage.setItem("earnings", JSON.stringify(state.earnings))
+            }
         },
     }
 })

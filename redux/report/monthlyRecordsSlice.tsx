@@ -13,9 +13,12 @@ const monthlyRecordsSlice = createSlice({
     initialState,
     reducers : {
         getMonthlyRecords : (state, {payload}) => {
+
             state.monthlyRecords = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("monthlyRecords")
             localStorage.setItem("monthlyRecords", JSON.stringify(state.monthlyRecords))
+            }
         },
     }
 })

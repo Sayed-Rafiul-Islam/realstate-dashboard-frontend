@@ -17,8 +17,10 @@ const documentsSlice = createSlice({
     reducers : {
         getDocuments : (state, {payload}) => {
             state.documents = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("documents")
             localStorage.setItem("documents", JSON.stringify(state.documents))
+            }
         },
         // updatedocumentstatus : (state, {payload}) => {
         //     const temp = state.documents.filter((item : PropertyProps) => {
@@ -41,8 +43,10 @@ const documentsSlice = createSlice({
         removeDocument : (state, {payload}) => {
             const temp = state.documents.filter(({_id} : InvoiceProps) => _id !== payload._id)
             state.documents = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("documents")
             localStorage.setItem("documents", JSON.stringify(state.documents))
+            }
         },
     }
 })

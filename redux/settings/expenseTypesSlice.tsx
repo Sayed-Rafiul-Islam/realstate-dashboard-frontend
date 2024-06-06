@@ -16,26 +16,34 @@ const expenseTypesSlice = createSlice({
         getExpenseTypes : (state, {payload}) => {
 
             state.expenseTypes = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenseTypes")
             localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+            }
         },
         removeExpenseType : (state, {payload}) => {
             const temp = state.expenseTypes.filter(({_id} : ExpenseTypeProps) => _id !== payload._id)
             state.expenseTypes = temp
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenseTypes")
             localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+            }
         },
         updateExpenseType : (state, {payload}) => {
             const index = state.expenseTypes.findIndex((item : ExpenseTypeProps) => item._id === payload._id)
             state.expenseTypes[index] = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenseTypes")
             localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+            }
         },
 
         addExpenseType : (state, {payload}) => {
             state.expenseTypes.push(payload)
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("expenseTypes")
             localStorage.setItem("expenseTypes", JSON.stringify(state.expenseTypes))
+            }
         },
     }
 })

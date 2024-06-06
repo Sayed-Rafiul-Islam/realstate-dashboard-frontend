@@ -6,8 +6,10 @@ import SignOut from "@/components/signout";
 import './content.css'
 import LoadData from "@/actions/load-data";
 import AccessProvider from "@/actions/accessProvider";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
+import { useSelector } from "react-redux";
+import { UsersReducerProps } from "@/types";
 
 
 
@@ -16,6 +18,8 @@ const RoutesLayout = ({
 } : {
     children : React.ReactNode
 }) => {
+
+  const {user} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer)
 
   const [expand, setExpand] = useState(true)
   AccessProvider()

@@ -14,11 +14,13 @@ const userSlice = createSlice({
             state.user = payload
         },
         removeUser: (state) => {
+            if (typeof window !== 'undefined') {
             localStorage.removeItem('tenantInfo')
             localStorage.removeItem('ownerInfo')
             localStorage.removeItem('maintainerInfo')
             localStorage.removeItem('accessToken')
             localStorage.removeItem('role')
+            }
             state.user = []
         }
     },

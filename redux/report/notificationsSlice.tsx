@@ -15,13 +15,17 @@ const notificationsSlice = createSlice({
     reducers : {
         getNotifications : (state, {payload}) => {
             state.notifications = payload
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("notifications")
             localStorage.setItem("notifications", JSON.stringify(state.notifications))
+            }
         },
         addNotification : (state, {payload}) => {
             state.notifications.push(payload)
+            if (typeof window !== 'undefined') {
             localStorage.removeItem("notifications")
             localStorage.setItem("notifications", JSON.stringify(state.notifications))
+            }
         },
         // updatenotificationstatus : (state, {payload}) => {
         //     const temp = state.notifications.filter((item : PropertyProps) => {

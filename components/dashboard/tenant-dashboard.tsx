@@ -1,3 +1,4 @@
+"use client"
 import { ArrowRight, Calendar, CircleCheck, DollarSign, Hammer, Home, MoreVertical, Tags, UserRound, Users, UsersRound, Warehouse, WarehouseIcon, Wrench } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
@@ -10,8 +11,14 @@ import { useSelector } from "react-redux";
 import { ColumnDef } from "@tanstack/react-table";
 import { InvoiceColumn } from "@/app/(root)/(routes)/(tenant)/tenant_invoices/components/column";
 
+interface TenantDashboardProps {
 
-const TenantDashboard = () => {
+}
+
+
+const TenantDashboard : React.FC<TenantDashboardProps> = () => {
+
+    
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)

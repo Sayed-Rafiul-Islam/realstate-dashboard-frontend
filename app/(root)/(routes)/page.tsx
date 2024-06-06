@@ -7,7 +7,7 @@ import TenantDashboard from "@/components/dashboard/tenant-dashboard";
 import { getMaintainerInfo } from "@/redux/info/maintainerInfoSlice";
 import { getOwnerInfo } from "@/redux/info/ownerInfoSlice";
 import { getTenantInfo } from "@/redux/info/tenantInfoSlice";
-import { MaintainersReducerProps, OwnersReducerProps, TenantProps, TenantsReducerProps, UsersReducerProps } from "@/types";
+import { MaintainersReducerProps, OwnersReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -21,40 +21,16 @@ export default function Home() {
   const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=> maintainersReducer)
   const {owners} = useSelector(({ownersReducer} : OwnersReducerProps)=> ownersReducer)
 
-  // if (user.role === 'tenant') {
-  //     const tenant = tenants.filter(({userId}) => userId === user._id)[0]
-  //     dispatch(getTenantInfo(tenant))
-  // } else if (user.role === 'maintainer') {
-  //   const maintainer = maintainers.filter(({userId}) => userId === user._id)[0]
-  //   dispatch(getMaintainerInfo(maintainer))
-  // } else if (user.role === 'owner') {
-  //   const owner = owners.filter(({userId}) => userId === user._id)[0]
-  //   dispatch(getOwnerInfo(owner))
-  // }
-
-
-
-  
-  const [isMounted, setIsMounted] = useState(false)
-  const [tenant, setTenant] = useState<TenantProps | undefined>()
-
-  useEffect(()=>{
-    if (user.role === 'tenant') {
-      const tenant = tenants.filter(({userId}) => userId === user._id)[0] 
-      setTenant(tenant)
+  if (user.role === 'tenant') {
+      const tenant = tenants.filter(({userId}) => userId === user._id)[0]
+      dispatch(getTenantInfo(tenant))
+  } else if (user.role === 'maintainer') {
+    const maintainer = maintainers.filter(({userId}) => userId === user._id)[0]
+    dispatch(getMaintainerInfo(maintainer))
+  } else if (user.role === 'owner') {
+    const owner = owners.filter(({userId}) => userId === user._id)[0]
+    dispatch(getOwnerInfo(owner))
   }
-      setIsMounted(true)
-  },[])
-
-  if (!isMounted) {
-      return null
-  }
-
-  if (tenant) {
-    dispatch(getTenantInfo(tenant))
-  }
-
-
 
   return (
    <div className="px-5 mt-10 md:px-0">
