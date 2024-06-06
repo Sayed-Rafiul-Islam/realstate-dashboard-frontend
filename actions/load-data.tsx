@@ -466,7 +466,11 @@ const loadInvoices = async () => {
             amount : 20000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
             gateway : '1',
-            transactionId : '00000'
+            transactionId : '00000',
+            by : {
+                role : 'owner',
+                id : '662774a250924ade5f6ce70b'
+            }
         },
         {
             _id : '2',
@@ -482,7 +486,11 @@ const loadInvoices = async () => {
             amount : 2000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
             gateway : '2',
-            transactionId : '00000'
+            transactionId : '00000',
+            by : {
+                role : 'owner',
+                id : '662774a250924ade5f6ce70b'
+            }
         },
         {
             _id : '3',
@@ -498,7 +506,11 @@ const loadInvoices = async () => {
             amount : 2000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
             gateway : '2',
-            transactionId : '00000'
+            transactionId : '00000',
+            by : {
+                role : 'owner',
+                id : '662774a250924ade5f6ce70b'
+            }
         },
         {
             _id : '4',
@@ -506,7 +518,7 @@ const loadInvoices = async () => {
             prefix : 'INV',
             propertyId : '1',
             unitId : '3',
-            month : 'April',
+            month : '',
             dueDate : '2024-05-02T17:34:59.911+00:00',
             type : '2',
             description : 'alaba alaba alaba',
@@ -514,7 +526,12 @@ const loadInvoices = async () => {
             amount : 2000,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
             gateway : '2',
-            transactionId : '00000'
+            transactionId : '00000',
+            by : {
+                role : 'maintainer',
+                id : '662774b650924ade5f6ce70d'
+            },
+            issue : '3'
         },
         {
             _id : '5',
@@ -522,7 +539,7 @@ const loadInvoices = async () => {
             prefix : 'INV',
             propertyId : '1',
             unitId : '2',
-            month : 'April',
+            month : '',
             dueDate : '2024-05-02T17:34:59.911+00:00',
             type : '1',
             description : 'alaba alaba alaba',
@@ -530,7 +547,33 @@ const loadInvoices = async () => {
             amount : 1500,
             dateOfPayment : '2024-05-02T17:34:59.911+00:00',
             gateway : '3',
-            transactionId : '00000'
+            transactionId : '00000',
+            by : {
+                role : 'maintainer',
+                id : '662774b650924ade5f6ce70d'
+            },
+            issue : '2'
+        },
+        {
+            _id : '6',
+            invoiceNo : 'CW10086675',
+            prefix : 'INV',
+            propertyId : '1',
+            unitId : '2',
+            month : '',
+            dueDate : '2024-05-02T17:34:59.911+00:00',
+            type : '1',
+            issue : '1',
+            description : 'alaba alaba alaba',
+            status : 'Due',
+            amount : 1500,
+            dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+            gateway : '3',
+            transactionId : '00000',
+            by : {
+                role : 'maintainer',
+                id : '662774b650924ade5f6ce70d'
+            }
         }
     ]
     dispatch(getInvoices(invoices))
@@ -1105,24 +1148,24 @@ export default function LoadData() {
     const dispatch = useDispatch()
 
 
-    // loadOrders()
-    // loadPackages()
-    // loadOwnerPackages()
-    // loadMessages()
-    // loadOwners()
+    loadOrders()
+    loadPackages()
+    loadOwnerPackages()
+    loadMessages()
+    loadOwners()
 
 
-    // loadProperties()
-    // loadUnits()
-    // loadTenants()
-    // loadInvoices()
-    // loadExpenses()
-    // loadDocuments()
-    // loadRents()
-    // loadMaintainers()
-    // loadMaintainanceRequests(dispatch)
-    // loadEarnings()
-    // loadMonthlyRecords()
+    loadProperties()
+    loadUnits()
+    loadTenants()
+    loadInvoices()
+    loadExpenses()
+    loadDocuments()
+    loadRents()
+    loadMaintainers()
+    loadMaintainanceRequests(dispatch)
+    loadEarnings()
+    loadMonthlyRecords()
     loadGateways()
     loadInvoiceTypes()
     loadExpenseTypes()

@@ -44,8 +44,6 @@ const DocumnetsPage = () => {
            
     })
 
-    console.log(documents)
-
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">

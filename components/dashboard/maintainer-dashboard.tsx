@@ -3,7 +3,7 @@ import Summery from "../summery";
 import './dashboard.css'
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerInfoReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useSelector } from "react-redux";
 import BarChart from "../BarChart";
 import { format } from "date-fns";
@@ -28,6 +28,7 @@ const MaintainerDashboard = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer)
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
     const requests = maintainanceRequests.filter(({maintainerId})=> maintainerId === maintainer._id)
     const pendingReq = requests.filter(({status})=> status === 'In Progress')
@@ -240,29 +241,25 @@ const MaintainerDashboard = () => {
     })
 
 
-    const thisInvoices = invoices.filter(({_id}) => {
-        const invoice = requests.filter(({invoiceId})=> _id === invoiceId)
-        return invoice[0]
-    })
-
-
+    const thisInvoices = invoices.filter(({by}) => by.id === maintainer.userId)
 
     const formattedInvoices = thisInvoices.map((
         {
             _id,
             invoiceNo,
             propertyId,
+            issue,
             unitId,
             amount,
         }) => {
             const property = properties.filter((item)=> item._id === propertyId)[0]
             const unit = units.filter((item)=> item._id === unitId)[0]
-            const maintainance = requests.filter((item)=> item.invoiceId === _id)[0]
+            const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
             return {
                 _id,
                 property : property.name,
                 unit : unit.name,
-                issue : maintainance.issue,
+                issue : maintainanceIssue?.type,
                 cost : `BDT ${amount}`,
                 invoiceNo,
             }

@@ -208,9 +208,14 @@ export interface InvoiceProps {
   status : string,
   amount : number,
   dateOfPayment : string,
+  issue : string,
   gateway ?: string,
   transactionId ?: string,
-  payment ?: number
+  payment ?: number,
+  by : {
+    role : string,
+    id : string
+}
 }
 
 

@@ -37,10 +37,6 @@ export const columns: ColumnDef<InvoiceColumn>[] = [
     header: "Invoice Type",
   },
   {
-    accessorKey: "property_unit",
-    header: "Property/Unit",
-  },
-  {
     accessorKey: "amount",
     header: "Amount",
   },
