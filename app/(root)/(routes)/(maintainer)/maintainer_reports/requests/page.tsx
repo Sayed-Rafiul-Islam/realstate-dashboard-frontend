@@ -1,8 +1,8 @@
 "use client"
-import Pathname from "@/components/pathname";
+
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, PropertiesReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps, UsersReducerProps } from "@/types";
+import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, PropertiesReducerProps, TenantInfoReducerProps, UnitsReducerProps, UsersReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -13,16 +13,15 @@ import { PrinterIcon } from "lucide-react";
 
 const AllRequests = () => {
 
-    const router = useRouter()
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
-    const thisTenantRequests = maintainanceRequests.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
-    const formattedRequests = thisTenantRequests.map((
+    const requests = maintainanceRequests.filter(({maintainerId})=>maintainerId === maintainer._id)
+    const formattedRequests = requests.map((
         {
             _id,
             date,
@@ -50,7 +49,7 @@ const AllRequests = () => {
                 requestNo,
                 type : typeName,
                 typeId : type,
-                issue : details,
+                issue,
                 status,
                 details,
                 cost,

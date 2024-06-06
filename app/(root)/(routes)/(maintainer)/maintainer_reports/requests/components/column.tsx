@@ -29,12 +29,12 @@ export interface MaintainanceRequestColumn {
       header: "Date",
     },
     {
-      accessorKey: "type",
-      header: "Maintainance Type",
+      accessorKey: "requestNo",
+      header: "Request",
     },
     {
-      accessorKey: "responsibility",
-      header: "Responsibility",
+      accessorKey: "type",
+      header: "Maintainance Type",
     },
     {
       cell: ({row}) => <span>{row.original.cost} BDT</span>,
@@ -43,13 +43,13 @@ export interface MaintainanceRequestColumn {
     {
       header: "Status",
       cell: ({row}) => {
-        if (row.original.paymentStatus === "Paid") {
-            return <p className="text-indigo-600 bg-indigo-100 px-4 py-2 rounded-lg">Paid</p> 
+        if (row.original.status === "Complete") {
+            return <p className="text-indigo-600 bg-indigo-100 px-4 py-2 rounded-lg">Complete</p> 
         }
-        else if (row.original.paymentStatus === "Due") {
-            return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
+        else if (row.original.status === "Incomplete") {
+            return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Incomplete</p> 
         } else {
-            return <p className="text-amber-600 bg-amber-100 px-3 py-2 rounded-lg">Pending</p> 
+            return <p className="text-amber-600 bg-amber-100 px-3 py-2 rounded-lg">In progress</p> 
         }
       }        
     },

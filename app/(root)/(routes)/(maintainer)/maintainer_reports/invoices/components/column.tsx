@@ -2,17 +2,18 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-import { TenantProps } from "@/types"
+import { OrderProps, TenantProps } from "@/types"
 
-export interface RentColumn {
+export interface InvoiceColumn {
   _id : string,
   invoiceNo : string,
-  propertyId : string,
-  unitId : string,
+  prefix : string,
   property_unit : string,
   tenant : TenantProps,
-  month_year : string,
+  month : string,
   dueDate : string,
+  type : string,
+  typeId : string,
   description : string,
   status : string,
   amount : string,
@@ -22,14 +23,18 @@ export interface RentColumn {
   payment ?: string
 }
 
-export const columns: ColumnDef<RentColumn>[] = [
+export const columns: ColumnDef<InvoiceColumn>[] = [
   {
     accessorKey: "dueDate",
-    header: "Date",
+    header: "Due Date",
   },
   {
-    accessorKey: "month_year",
-    header: "Month/Year",
+    accessorKey: "invoiceNo",
+    header: "Invoice No",
+  },
+  {
+    accessorKey: "type",
+    header: "Invoice Type",
   },
   {
     accessorKey: "amount",

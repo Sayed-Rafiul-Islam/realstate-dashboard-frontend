@@ -1,9 +1,11 @@
 "use client"
 
-interface RentsClientProps {
-    data : RentColumn[]
+interface InvoicesClientProps {
+    data : InvoiceColumn[]
 }
 
+
+import { useEffect, useState } from "react"
 import { 
     Select, 
     SelectContent, 
@@ -11,34 +13,40 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-
-
-import { useEffect, useState } from "react"
-
-
-
-import { RentColumn, columns } from "./column"
+import { InvoiceColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { useSelector } from 'react-redux'
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
+import { InvoiceTypesReducerProps } from "@/types"
+import { useSelector } from "react-redux"
+import '../invoices.css'
 
-import '../rents.css'
+export const InvoicesClient : React.FC<InvoicesClientProps> = ({data}) => {
 
-export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
+    const [invoices, setInvoices] = useState(data)
+    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer) 
 
-    const [rents, setRents] = useState(data)
+
+    const [type, setType] = useState('')
     const [status, setStatus] = useState('')
 
-
     useEffect(()=>{
-        if (status === '') {
-            setRents(data)
+        if (type === '' && status === '') {
+            setInvoices(data)
         } else {
-            const temp = data.filter((item) => item.status === status) 
-            setRents(temp) 
+            if (type !== '' && status === '') {
+                const temp = data.filter((item) => item.typeId === type) 
+                setInvoices(temp)
+            } 
+            else if ( status !== '' && type === '') {
+                const temp = data.filter((item) => item.status === status) 
+                setInvoices(temp)
+            }
+            else {
+                const temp = data.filter((item) => item.status === status && item.typeId === type) 
+                setInvoices(temp)
+            }
         }
         
-    },[status,data])
+    },[status,type,data])
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -53,7 +61,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
         return null
     }
     return (
-        <>        
+        <>
             <div className="select-filters-wrapper mb-4">
                 <div>
                     <Select
@@ -87,9 +95,36 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                                     </SelectItem>
                         </SelectContent>
                     </Select>
+
+                    <Select
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                setType('')
+                            } else {
+                                setType(e)
+                            }
+                        }}
+                        value={type}                              
+                    >
+                        <SelectTrigger className="select-filters">
+                            <SelectValue 
+                                placeholder="Select Type"
+                            />
+                        </SelectTrigger>
+                            <SelectContent >
+                                <SelectItem value='all' >
+                                    Clear Filter
+                                </SelectItem>
+                                {invoiceTypes.map(({title,_id})=>(
+                                    <SelectItem key={_id} value={_id} >
+                                        {title}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                    </Select>
                 </div>
-            </div>   
-            <DataTable pagination={true} searchKey="month_year" columns={columns} data={rents} />
+            </div> 
+            <DataTable pagination={true} searchKey="invoiceNo" columns={columns} data={invoices} />
         </>
     )
 }

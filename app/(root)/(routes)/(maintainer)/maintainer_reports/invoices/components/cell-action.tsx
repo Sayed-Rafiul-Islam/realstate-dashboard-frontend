@@ -2,6 +2,7 @@
 
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { useState } from "react"
+import { InvoiceColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
@@ -9,12 +10,10 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-// import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { RentColumn } from "./column"
-import { removeRent } from "@/redux/rents/rentsSlice"
+import { PreviewInvoice } from "@/components/modals/preview-invoice"
 
 interface CellActionProps {
-    data : RentColumn
+    data : InvoiceColumn
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -27,10 +26,13 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeRent(data))
-        toast.success("Rent Deleted.")
+        dispatch(removeInvoice(data))
+        toast.success("Invoice Deleted.")
         setOpen(false)
     }
+
+
+
 
     return (
         <>
@@ -40,11 +42,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            {/* <PreviewInvoice
+            <PreviewInvoice
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            /> */}
+            />
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>

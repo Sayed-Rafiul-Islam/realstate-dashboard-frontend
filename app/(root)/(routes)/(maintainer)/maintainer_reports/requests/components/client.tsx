@@ -21,25 +21,28 @@ import './maintainance-requests.css'
 
 export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) => {   
 
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+
     const [requests, setRequests] = useState(data)
     const [responsibility, setResponsibility] = useState('')
+    const [type, setType] = useState('')
     const [status, setStatus] = useState('')
 
 
     useEffect(()=>{
-        if (responsibility === '' && status === '') {
+        if (type === '' && status === '') {
             setRequests(data)
         } else {
-            if (responsibility !== '' && status === '') {
-                const temp = data.filter((item) => item.responsibility === responsibility) 
+            if (type !== '' && status === '') {
+                const temp = data.filter((item) => item.typeId === type) 
                 setRequests(temp)
             } 
-            else if ( status !== '' && responsibility === '') {
-                const temp = data.filter((item) => item.paymentStatus === status) 
+            else if ( status !== '' && type === '') {
+                const temp = data.filter((item) => item.status === status) 
                 setRequests(temp)
             }
             else {
-                const temp = data.filter((item) => item.paymentStatus === status && item.responsibility === responsibility) 
+                const temp = data.filter((item) => item.status === status && item.typeId === type) 
                 setRequests(temp)
             }
         }
@@ -64,66 +67,94 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
         <>
             <div className="select-filters-wrapper">
                 <div>
-                <Select
-                    onValueChange={e=> {
-                        if (e === 'all') {
-                            setStatus('')
-                        } else {
-                            
-                            setStatus(e)
-                        }                            
-                    }}
-                    value={status}                              
-                >
-                    <SelectTrigger className="select-filters">
-                        <SelectValue 
-                            placeholder="Select Status"
-                        />
-                    </SelectTrigger>
-                        <SelectContent  >
-                                <SelectItem value='all' >
-                                    Show All
-                                </SelectItem>
-                                <SelectItem value='Paid' >
-                                    Paid
-                                </SelectItem>
-                                <SelectItem value='Due' >
-                                    Due
-                                </SelectItem>
-                                <SelectItem value='Pending' >
-                                    Pending
-                                </SelectItem>
-                    </SelectContent>
-                </Select>
-
-                <Select
-                    onValueChange={e=> {
-                        if (e === 'all') {
-                            setResponsibility('')
-                        } else {
-                            setResponsibility(e)
-                        }
-                    }}
-                    value={responsibility}                              
-                >
+                    <Select
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                setStatus('')
+                            } else {
+                                
+                                setStatus(e)
+                            }                            
+                        }}
+                        value={status}                              
+                    >
                         <SelectTrigger className="select-filters">
                             <SelectValue 
-                                placeholder="Select Responsibility"
+                                placeholder="Select Status"
                             />
                         </SelectTrigger>
-                            <SelectContent >
-                                <SelectItem value='all' >
-                                    For Both
-                                </SelectItem>
-                                    <SelectItem value="Owner" >
-                                        Owner
+                            <SelectContent  >
+                                    <SelectItem value='all' >
+                                        Show All
                                     </SelectItem>
-                                    <SelectItem value="Tenant" >
-                                        Tenant
+                                    <SelectItem value='Complete' >
+                                    Complete
                                     </SelectItem>
-                            </SelectContent>
-                </Select>
-                    </div>
+                                    <SelectItem value='Incolplete' >
+                                    Incolplete
+                                    </SelectItem>
+                                    <SelectItem value='In Progress' >
+                                    In Progress
+                                    </SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    {/* <Select
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                setResponsibility('')
+                            } else {
+                                setResponsibility(e)
+                            }
+                        }}
+                        value={responsibility}                              
+                    >
+                            <SelectTrigger className="select-filters">
+                                <SelectValue 
+                                    placeholder="Select Responsibility"
+                                />
+                            </SelectTrigger>
+                                <SelectContent >
+                                    <SelectItem value='all' >
+                                        For Both
+                                    </SelectItem>
+                                        <SelectItem value="Owner" >
+                                            Owner
+                                        </SelectItem>
+                                        <SelectItem value="Tenant" >
+                                            Tenant
+                                        </SelectItem>
+                                </SelectContent>
+                    </Select> */}
+                    <Select
+                        onValueChange={e=> {
+                            if (e === 'all') {
+                                setType('')
+                            } else {
+                                setType(e)
+                            }
+                        }}
+                        value={type}                              
+                    >
+                            <SelectTrigger className="select-filters">
+                                <SelectValue 
+                                    placeholder="Select Type"
+                                />
+                            </SelectTrigger>
+                                <SelectContent >
+                                    <SelectItem value='all' >
+                                        All Types
+                                    </SelectItem>
+                                    {
+                                        maintainanceTypes.map(({_id,type})=>
+                                        <SelectItem key={_id} value={_id} >
+                                            {type}
+                                        </SelectItem>
+                                        )
+                                    }
+                                </SelectContent>
+                    </Select>
+                </div>
             </div>  
             <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
         </>
