@@ -99,7 +99,7 @@ const AdminDashboard = () => {
             {/* summery */}
             <div className="summery">
                 {
-                    summery.map(({id,subtitle,title,icon,color}) => <Summery color={color} id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery key={id} color={color} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
 

@@ -69,7 +69,8 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=>router.push(`/tenant_requests/${data._id}`)}>
+                    <DropdownMenuItem 
+                        onClick={()=>router.push(`/maintainer_requests/${data._id}`)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                     </DropdownMenuItem>

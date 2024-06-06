@@ -28,8 +28,7 @@ const MaintainerDashboard = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
+
     const requests = maintainanceRequests.filter(({maintainerId})=> maintainerId === maintainer._id)
     const pendingReq = requests.filter(({status})=> status === 'In Progress')
     const completedReq = requests.filter(({status})=> status === 'Complete')
@@ -299,7 +298,7 @@ const MaintainerDashboard = () => {
             {/* summery */}
             <div className="summery">
                 {
-                    summery.map(({id,subtitle,title,icon,color}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} color={color} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery key={id} id={id} subtitle={subtitle} title={title} icon={icon} color={color} />)
                 }
             </div>
 

@@ -43,18 +43,13 @@ const formSchema = z.object({
 
     propertyId : z.string().min(1),
     unitId : z.string().min(1),
-    type : z.string().min(1, {message : "Maintainer Type Required"}),
+    type : z.string().min(1),
     status : z.string().min(1, {message : "Status Required"}),
     paymentStatus : z.string(),
-    details : z.string().min(1, {message : "Description Required"}),
-    attachment : z.string().min(1, {message : "Attachment Required"}),
+    details : z.string().min(1),
+    attachment : z.string().min(1),
 
 })
-
-
-
-// propertyId : string,
-// unitId : string,
 
 
 
@@ -69,10 +64,10 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const title = initialData ? 'Edit Request' : 'Create Request'
-    const action = initialData ? 'Save Changes' : 'Create'
-    const description = initialData ? "Edit maintaince request info" : "Add a new maintainance request"
-    const toastMessage = initialData ? "Request info updated" : "New request created"
+    const title = 'Edit Maintainance'
+    const action = 'Save Changes'
+    const description = "Edit maintaince info"
+    const toastMessage = "Maintainance info updated"
 
 
 
@@ -92,21 +87,11 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
-        if ( initialData ) {
-                   const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
-                   const result = await api.patch(`updateRequest`,formData)
-                   dispatch(updateMaintainanceRequest(result.data))
-                   toast.success(toastMessage)
-                   router.push('/tenant_requests')
-                }
-           else {
-            const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
-            const result = await api.post(`createRequest`, formData)
-            dispatch(addMaintainanceRequest(result.data.newRequest))
-            dispatch(addNotification(result.data.newNotification))
+            const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
+            const result = await api.patch(`updateRequest`,formData)
+            dispatch(updateMaintainanceRequest(result.data))
             toast.success(toastMessage)
-            router.push('/tenant_requests')
-           }
+            router.push('/maintainer_requests')
         }
     
 
@@ -136,41 +121,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8 w-full'>
                     <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
-
-                         <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Type <span className='text-red-500'>*</span></FormLabel>
-                                    <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>                            
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Type"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {maintainanceTypes.map(({_id,type})=>(
-                                                    <div key={_id}>
-                                                        <SelectItem  value={_id} >
-                                                            {type}
-                                                        </SelectItem>
-                                                    </div>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
                          <FormField
                             control={form.control}
                             name="status"
@@ -207,37 +157,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="details"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Description <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='blah blah blash...' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="attachment"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Attachment</FormLabel>
-                                    <FormControl>
-                                        <PdfUpload
-                                                buttonName='Add Attachment'
-                                                value={field.value ? [field.value] : []}
-                                                onChange={(url)=>field.onChange(url)}
-                                                onRemove={()=>field.onChange("")}
-                                            />
-                                        </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                       
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}
