@@ -66,7 +66,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
 
 
 
-// ---------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
     // anti hydration
 
     const [isMounted, setIsMounted] = useState(false)
