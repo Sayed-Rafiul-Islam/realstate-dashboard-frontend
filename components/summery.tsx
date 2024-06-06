@@ -1,12 +1,16 @@
 import { SummryItemProps } from "@/types";
 
 
-const Summery : React.FC<SummryItemProps> = ({id,title,subtitle,icon}) => {
+const Summery : React.FC<SummryItemProps> = ({id,title,subtitle,icon,color}) => {
     return ( 
-        <div className="bg-gray-100 rounded-md py-6 px-6">
-            {icon}
-            <h5 className="text-sm text-gray-500 mt-2">{subtitle}</h5>
-            <h2 className="text-4xl font-semibold mt-4">{title}</h2>
+        <div className="border-2 border-gray-300 rounded-3xl py-6 px-6 flex items-center justify-evenly">
+            <div className="text-center">
+                <h5 className="text-sm font-semibold mt-2">{subtitle}</h5>
+                <h2 className={`text-2xl font-bold mt-4 text-${color}-500`}>{title}</h2>
+            </div>
+            <div className={`bg-${color}-100 flex justify-center items-center w-[40px] h-[40px] rounded-xl`}>
+                {icon}
+            </div>
         </div>
      );
 }
@@ -27,9 +31,10 @@ export default Summery;
 //         "date" : "2024-05-24T13:46:15.523+00:00",
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
-//         "issue" : "",
+//         "issue" : "Electrical Problem",
 //         "cost" : 2500,
-//             "responsibility" : "Owner"
+//         "responsibility" : "Owner",
+//         "invoiceId" : "1"
 //     },
 //     {
         
@@ -43,9 +48,10 @@ export default Summery;
 //         "date" : "2024-05-24T13:46:15.523+00:00",
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
-//         "issue" : "",
+//         "issue" : "Water Problem",
 //         "cost" : 3200,
-//             "responsibility" : "Tenant"
+//         "responsibility" : "Tenant",
+//         "invoiceId" : "2"
 //     },
 //     {
         
@@ -59,9 +65,10 @@ export default Summery;
 //         "date" : "2024-05-24T13:46:15.523+00:00",
 //         "requestNo" : "CW720824",
 //         "maintainerId" : "1",
-//         "issue" : "",
+//         "issue" : "Gas Problem",
 //         "cost" : 5200,
-//             "responsibility" : "Owner"
+//         "responsibility" : "Owner",
+//         "invoiceId" : "4"
 //     },
 //     {
         
@@ -77,7 +84,8 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 200,
-//             "responsibility" : "Tenant"
+//         "responsibility" : "Tenant",
+//         "invoiceId" : ""
 //     },
 //     {
         
@@ -93,7 +101,8 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 1200,
-//             "responsibility" : "Owner"
+//         "responsibility" : "Owner",
+//         "invoiceId" : ""
 //     },
 //     {
         
@@ -109,7 +118,8 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 1500,
-//             "responsibility" : "Tenant"
+//         "responsibility" : "Tenant",
+//         "invoiceId" : ""
 //     },
 //     {
         
@@ -125,7 +135,8 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 4000,
-//             "responsibility" : "Owner"
+//         "responsibility" : "Owner",
+//         "invoiceId" : ""
 //     },
 //     {
         
@@ -141,7 +152,8 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 1300,
-//             "responsibility" : "Tenant"
+//         "responsibility" : "Tenant",
+//         "invoiceId" : ""
 //     },
 //     {
         
@@ -157,6 +169,7 @@ export default Summery;
 //         "maintainerId" : "1",
 //         "issue" : "",
 //         "cost" : 1800,
-//             "responsibility" : "Owner"
+//         "responsibility" : "Owner",
+//         "invoiceId" : ""
 //     }
 // ]

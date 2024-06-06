@@ -1,16 +1,12 @@
 "use client"
-import { ArrowRight, Calendar, Home, UserRound, UsersRound, Warehouse } from "lucide-react";
+import { ArrowRight, Calendar, Home, UserRound, Warehouse } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
 import { useSelector } from "react-redux";
 import {OrderProps, OrderReducersProps, OwnersReducerProps, PackagesReducersProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
-import { ThreeOrdersClient } from "@/app/(root)/(routes)/components/orders/client";
-import { ThreePackagesClient } from "@/app/(root)/(routes)/components/packages/client";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import DoughnutChart from "../DoughnutChart";
 import { DataTable } from "../ui/data-table";
-import { packagecolumns } from "@/app/(root)/(routes)/(admin)/packages/components/column";
 import { CellAction } from "@/app/(root)/(routes)/(admin)/packages/components/cell-action";
 import { orderColumns } from "@/app/(root)/(routes)/(admin)/all_orders/components/column";
 import { format } from "date-fns";
@@ -27,25 +23,29 @@ const AdminDashboard = () => {
             id : 1,
             subtitle : "Total Owner",
             title : `${ownerCount}`,
-            icon : <UsersRound className="bg-white p-2 w-[32px] h-[32px]"  color="#ff8c2e" size={20} />
+            icon : <UserRound color="#22c55e" size={20} />,
+            color : 'green'
         },
         {
             id : 2,
             subtitle : "Total Property",
             title : `${propertyCount}`,
-            icon : <Warehouse className="bg-white p-2 w-[32px] h-[32px]"  color="#2563eb" size={20} />
+            icon : <Warehouse color="#f97316" size={20} />,
+            color : 'orange'
         },
         {
             id : 3,
             subtitle : "Total Unit",
             title : `${unitCount}`,
-            icon : <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#e11d48" size={20} />
+            icon : <Home color="#f59e0b" size={20} />,
+            color : 'amber'
         },
         {
             id : 4,
             subtitle : "Total Tenant",
             title : `${tenantCount}`,
-            icon : <UserRound className="bg-white p-2 w-[32px] h-[32px]" color="#16a34a" size={20} />
+            icon : <UserRound color="#6366f1" size={20} />,
+            color : 'indigo'
         }
     ]
 
@@ -99,7 +99,7 @@ const AdminDashboard = () => {
             {/* summery */}
             <div className="summery">
                 {
-                    summery.map(({id,subtitle,title,icon},index) => <Summery key={index} id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery color={color} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
 

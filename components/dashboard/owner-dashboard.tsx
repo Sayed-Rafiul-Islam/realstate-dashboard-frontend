@@ -31,25 +31,29 @@ const OwnerDashboard = () => {
             id : 1,
             subtitle : "Total Property",
             title : `${properties.length}`,
-            icon : <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#ff8c2e" size={20} />
+            icon : <Warehouse color="#22c55e" size={20} />,
+            color : 'green'
         },
         {
             id : 2,
             subtitle : "Total Units",
             title : `${units.length}`,
-            icon : <Warehouse className="bg-white p-2 w-[32px] h-[32px]"  color="#2563eb" size={20} />
+            icon : <Home color="#f97316" size={20} />,
+            color : 'orange'
         },
         {
             id : 3,
             subtitle : "Total Tenants",
             title : `${tenantCount}`,
-            icon : <Users className="bg-white p-2 w-[32px] h-[32px]"  color="#e11d48" size={20} />
+            icon : <Users color="#f59e0b" size={20} />,
+            color : 'amber'
         },
         {
             id : 4,
             subtitle : "Total Maintainers",
             title : `${maintainers.length}`,
-            icon : <Wrench className="bg-white p-2 w-[32px] h-[32px]" color="#16a34a" size={20} />
+            icon : <Wrench color="#6366f1" size={20} />,
+            color : 'indigo'
         }
     ]
 
@@ -221,7 +225,7 @@ const OwnerDashboard = () => {
             {/* summery */}
             <div className="summery">
                 {
-                    summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery color={color} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
 

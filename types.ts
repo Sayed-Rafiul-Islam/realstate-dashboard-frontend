@@ -14,18 +14,28 @@ export interface UserProps {
       printLogo ?: string,
 }
 
+export interface UsersReducerProps {
+    usersReducer : {user : UserProps}
+}
+
+export interface OwnerInfoReducerProps {
+  ownerInfoReducer : { ownerInfo : OwnerProps}
+}
+
 export interface TenantInfoReducerProps {
   tenantInfoReducer : { tenantInfo : TenantProps}
 }
-export interface UsersReducerProps {
-    usersReducer : {user : UserProps}
-  }
+
+export interface MaintainerInfoReducerProps {
+  maintainerInfoReducer : { maintainerInfo : MaintainerProps}
+}
 
 export interface SummryItemProps {
     id : number,
     subtitle : string,
     title : string,
-    icon : any
+    icon : any,
+    color : string
 }
 
 export interface TenantSummryItemProps {
@@ -99,6 +109,7 @@ export interface MessagesReducerProps {
 
 export interface OwnerProps {
     _id : string,
+    userId : string,
     name : string,
     email : string,
     contactNo : string,
@@ -276,6 +287,9 @@ export interface RentsReducerProps {
 
 export interface MaintainerProps {
   _id : string,
+  userId : string,
+  propertyId : string,
+  unitId : string,
   image : any,
   name : string,
   phone : string,
@@ -283,8 +297,6 @@ export interface MaintainerProps {
   type : string,
   pendingRequest : number,
   status : string,
-  propertyId : string,
-  unitId : string,
   address : string,
   city : string,
   state : string,
@@ -312,7 +324,8 @@ export interface MaintainanceRequestProps {
   details : string,
   cost : number,
   attachment : string,
-  responsibility : string
+  responsibility : string,
+  invoiceId : string
 }
 
 export interface MaintainanceRequestsReducerProps {

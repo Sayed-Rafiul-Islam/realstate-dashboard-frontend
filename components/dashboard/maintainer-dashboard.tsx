@@ -2,53 +2,111 @@ import { ArrowRight, Calendar, CircleCheck, DollarSign, Hammer, Home, MoreVertic
 import Summery from "../summery";
 import './dashboard.css'
 import { Button } from "../ui/button";
-import { DataTable } from "../ui/data-table";
-import { format } from "date-fns";
-import BarChart from "../BarChart";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerInfoReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useSelector } from "react-redux";
+import BarChart from "../BarChart";
+import { format } from "date-fns";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "../ui/data-table";
+
+export interface InvoiceColumn {
+    _id : string,
+    property : string,
+    unit : string,
+    issue : string,
+    cost : string,
+    invoiceNo : string
+  }
 
 const MaintainerDashboard = () => {
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
+
+ 
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
-    const tenantCount = useSelector(({tenantsReducer} : TenantsReducerProps)=>tenantsReducer).tenants.length
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
-    const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer)
-    const requests = maintainanceRequests.filter(({propertyId,unitId})=> propertyId === tenant.propertyId && unitId === tenant.unitId)
+    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
+    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
+    const requests = maintainanceRequests.filter(({maintainerId})=> maintainerId === maintainer._id)
     const pendingReq = requests.filter(({status})=> status === 'In Progress')
     const completedReq = requests.filter(({status})=> status === 'Complete')
+    const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
 
-    const propertyName = properties.filter(({_id}) => _id === tenant.propertyId)[0].name
-    const unitName = units.filter(({_id}) => _id === tenant.unitId)[0].name
+    // let data : {propertyId : string, unitId : string, invoiceIds : {id : string}[]}[] = []
+    // requests.filter(({propertyId,unitId})=> {
+    //     const index = data.findIndex(item => propertyId === item.propertyId && unitId === item.unitId)
+    //     if (index === -1) {
+    //         let invoiceIds : {id : string}[] = []
+    //         invoices.filter((item)=> {
+    //             if (item.propertyId === propertyId && item.unitId === unitId) {
+    //                 const invocieIndex = invoiceIds.findIndex(({id}) => item._id === id)
+    //                 if (invocieIndex === -1) {
+    //                     invoiceIds.push({id : item._id})
+    //                 }
+                    
+    //             }
+    //         })
+    //         data.push({propertyId,unitId,invoiceIds})
+    //     }
+    // })
+
+    // const thisInvoices = invoices.filter((item)=>{
+    //     const temp = data.filter(({invoiceIds})=>{
+    //         const i = invoiceIds.filter(({id})=>id === item._id)
+    //         return i[0]
+    //     })
+
+    //     return temp[0]
+    // }).slice(0,5)
+
 
     const router = useRouter()
 
+    let totalProperty : {propertyId : string}[] = []
+
+    requests.map(({propertyId})=>{
+        const index = totalProperty.findIndex(item => propertyId === item.propertyId)
+        if (index === -1) {
+            totalProperty.push({propertyId})
+        }
+    })
+
     const summery = [
+        {
+            id : 0,
+            subtitle : `Total Property`,
+            title : `${totalProperty.length}`,
+            icon : <Home  color="#50C878" size={20} />,
+            color : 'green'
+        },
 
         {
             id : 1,
             subtitle : `Total Requests`,
             title : `${requests.length}`,
-            icon : <Wrench className="bg-white p-2 w-[32px] h-[32px]"  color="#2563eb" size={20} />
+            icon : <Wrench color="#FFA500" size={20} />,
+            color : 'orange'
         },
         {
             id : 2,
             subtitle : "Pending Requests",
             title : `${pendingReq.length}`,
-            icon : <Hammer className="bg-white p-2 w-[32px] h-[32px]"  color="#e11d48" size={20} />
+            icon : <Hammer color="#FFBF00" size={20} />,
+            color : 'amber'
         },
         {
             id : 2,
             subtitle : "Completed Requests",
             title : `${completedReq.length}`,
-            icon : <CircleCheck className="bg-white p-2 w-[32px] h-[32px]"  color="#50C878" size={20} />
+            icon : <CircleCheck color="#4f46e5" size={20} />,
+            color : 'indigo'
         }
     ]
+
+ 
 
     
     let totalCost = 0
@@ -182,38 +240,66 @@ const MaintainerDashboard = () => {
         }
     })
 
-    console.log(chartDue)
 
-    // const propertyColumns = [
-    //     {
-    //       accessorKey: "name",
-    //       header: "Property Name",
-    //     },
-    //     {
-    //       accessorKey: "unitCount",
-    //       header: "Units",
-    //     },
-    //     {
-    //       accessorKey: "available",
-    //       header: "Available Units",
-    //     },
-    //     {
-    //       accessorKey: "tenants",
-    //       header: "Tenants",
-    //     }
-    //   ]
+    const thisInvoices = invoices.filter(({_id}) => {
+        const invoice = requests.filter(({invoiceId})=> _id === invoiceId)
+        return invoice[0]
+    })
+
+
+
+    const formattedInvoices = thisInvoices.map((
+        {
+            _id,
+            invoiceNo,
+            propertyId,
+            unitId,
+            amount,
+        }) => {
+            const property = properties.filter((item)=> item._id === propertyId)[0]
+            const unit = units.filter((item)=> item._id === unitId)[0]
+            const maintainance = requests.filter((item)=> item.invoiceId === _id)[0]
+            return {
+                _id,
+                property : property.name,
+                unit : unit.name,
+                issue : maintainance.issue,
+                cost : `BDT ${amount}`,
+                invoiceNo,
+            }
+           
+    })
+
+
+    const invoiceColumn : ColumnDef<InvoiceColumn>[] = [
+        {
+          accessorKey: "property",
+          header: "Property",
+        },
+        {
+          accessorKey: "unit",
+          header: "Unit",
+        },
+        {
+          accessorKey: "issue",
+          header: "Issue",
+        },
+        {
+          accessorKey: "cost",
+          header: "Cost",
+        },
+        {
+          accessorKey: "invoiceNo",
+          header: "Invoice No",
+        }
+      ]
 
     return ( 
         <div>
             {/* summery */}
             <div className="summery">
-                <div className="bg-gray-100 rounded-md py-6 px-6">
-                <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#ff8c2e" size={20} />
-                    <h5 className="text-sm text-gray-500 mt-2">{unitName}</h5>
-                    <h2 className="text-2xl font-semibold mt-4">{propertyName}</h2>
-                </div>
                 {
-                    summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} color={color} />)
                 }
             </div>
 
@@ -256,7 +342,7 @@ const MaintainerDashboard = () => {
                         </div>
                     </div>
                     <div className="relative overflow-x-scroll">
-                        {/* <BarChart dataset1={chartPaid} dateset2={chartDue} /> */}
+                        <BarChart min={0} max={50000} stepSize={10000} dataset1={chartPaid} dateset2={chartDue} />
                     </div>
 
                 </div>
@@ -268,7 +354,7 @@ const MaintainerDashboard = () => {
                             <p className="text-gray-500 text-xs">Total 44,559 Tickets</p>
                         </div>
                         <button 
-                            onClick={()=>router.push('/maintainance_requests/all_maintainance_requests')} 
+                            onClick={()=>router.push('/maintainer_requests')} 
                             className="flex gap-2 items-center w-fit text-sm text-blue-500"
                         >
                             View All <ArrowRight size={15} />
@@ -276,8 +362,8 @@ const MaintainerDashboard = () => {
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        {/* {
-                            threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
+                        {
+                            requests.slice(0,3).map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
                                 const property = properties.filter((item) => propertyId === item._id)[0].name
                                 const unit = units.filter((item) => unitId === item._id)[0].name
                                 const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
@@ -314,7 +400,7 @@ const MaintainerDashboard = () => {
                                     </div>
                                 )
                             })
-                        } */}
+                        }
                     </div>
 
                 </div>
@@ -322,16 +408,15 @@ const MaintainerDashboard = () => {
 
             <div className="shadow-md my-10 p-4">
                 <div className="flex md:flex-row flex-col justify-between md:items-center gap-2 mb-4">
-                    <h3 className="text-xl font-semibold">My Properties</h3>
-                    <Button 
-                        onClick={()=>router.push('/properties/all_properties')} 
-                        variant='outline' 
-                        className="flex gap-2 items-center w-fit"
+                    <h3 className="text-xl font-semibold">Invoices</h3>
+                    <button 
+                        onClick={()=>router.push('/maintainer_invoices')} 
+                        className="flex gap-2 items-center w-fit text-sm text-blue-500"
                     >
                         View All <ArrowRight size={15} />
-                    </Button>
+                    </button>
                 </div>
-                {/* <DataTable pagination={false} columns={propertyColumns} data={properties} /> */}
+                    <DataTable pagination={false} columns={invoiceColumn} data={formattedInvoices} />
                 <div>
                     
                 </div>

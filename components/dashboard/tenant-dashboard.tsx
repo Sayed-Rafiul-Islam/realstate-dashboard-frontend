@@ -1,7 +1,6 @@
-import { ArrowRight, Calendar, CircleCheck, DollarSign, Hammer, Home, MoreVertical, Tags, UserRound, Users, UsersRound, Warehouse, Wrench } from "lucide-react";
+import { ArrowRight, Calendar, CircleCheck, DollarSign, Hammer, Home, MoreVertical, Tags, UserRound, Users, UsersRound, Warehouse, WarehouseIcon, Wrench } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
-import { Button } from "../ui/button";
 import { DataTable } from "../ui/data-table";
 import { format } from "date-fns";
 import BarChart from "../BarChart";
@@ -37,16 +36,25 @@ const TenantDashboard = () => {
 
     const summery = [
         {
-            id : 2,
+            id : 0,
+            subtitle : "Unit",
+            title : `${unitName}`,
+            icon : <Home color="#f97316" size={20} />,
+            color : 'orange'
+        },
+        {
+            id : 1,
             subtitle : "Family Members",
             title : `${tenant.familyMember}`,
-            icon : <Users className="bg-white p-2 w-[32px] h-[32px]"  color="#FFCA4B" size={20} />
+            icon : <Users color="#FFCA4B" size={20} />,
+            color : 'amber'
         },
         {
             id : 2,
             subtitle : "Maintainance",
             title : `${requests.length}`,
-            icon : <Wrench className="bg-white p-2 w-[32px] h-[32px]"  color="#704BFF" size={20} />
+            icon : <UsersRound color="#704BFF" size={20} />,
+            color : 'indigo'
         }
     ]
 
@@ -269,18 +277,17 @@ const TenantDashboard = () => {
         <div>
             {/* summery */}
             <div className="summery">
-                <div className="bg-gray-100 rounded-md py-6 px-6">
-                <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#ff8c2e" size={20} />
-                    <h5 className="text-sm text-gray-500 mt-2">Property</h5>
-                    <h2 className="text-2xl font-semibold mt-4">{propertyName}</h2>
-                </div>
-                <div className="bg-gray-100 rounded-md py-6 px-6">
-                <Home className="bg-white p-2 w-[32px] h-[32px]"  color="#50C878" size={20} />
-                    <h5 className="text-sm text-gray-500 mt-2">Unit</h5>
-                    <h2 className="text-2xl font-semibold mt-4">{unitName}</h2>
+                <div className="border-2 border-gray-300 rounded-3xl py-6 px-6 flex items-center justify-evenly">
+                    <div className="text-center">
+                        <h5 className="text-sm font-semibold mt-2">Property</h5>
+                        <h2 className={`text-xl font-bold mt-4 text-green-500`}>{propertyName}</h2>
+                    </div>
+                    <div className={`bg-green-100 flex justify-center items-center w-[40px] h-[40px] rounded-xl`}>
+                        <Warehouse color="#22c55e" size={20} />
+                    </div>
                 </div>
                 {
-                    summery.map(({id,subtitle,title,icon}) => <Summery id={id} subtitle={subtitle} title={title} icon={icon} />)
+                    summery.map(({id,subtitle,title,icon,color}) => <Summery color={color} id={id} subtitle={subtitle} title={title} icon={icon} />)
                 }
             </div>
 
