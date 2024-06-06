@@ -55,7 +55,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
             }
         }
         
-    },[status,type,data])
+    },[type,data])
 
     const showAll = () => {
         setProperty('')

@@ -1,10 +1,8 @@
 "use client"
-import Pathname from "@/components/pathname";
-import { Button } from "@/components/ui/button";
+
 import { Separator } from "@/components/ui/separator";
 import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, PropertiesReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps, UsersReducerProps } from "@/types";
 import { format } from "date-fns";
-import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { MaintainanceClient } from "./components/client";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -12,7 +10,6 @@ import Link from "next/link";
 
 const AllRequests = () => {
 
-    const router = useRouter()
     const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
     const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
