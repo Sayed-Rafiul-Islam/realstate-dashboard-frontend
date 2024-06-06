@@ -16,14 +16,16 @@ const OwnerPackages = () => {
             name,
             email,
             contactNo,
-            status
+            status,
+            userId
         } : OwnerProps,index : number) => ({
             serial : index + 1,
             _id,
             name,
             email,
             contactNo,
-            status
+            status,
+            userId
     }))
 
 
