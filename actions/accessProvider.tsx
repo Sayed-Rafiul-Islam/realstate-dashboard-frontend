@@ -3,10 +3,8 @@
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import api from "./api"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { addUser, removeUser } from "@/redux/auth/authSlice"
-import { TenantsReducerProps } from "@/types"
-import { getTenantInfo } from "@/redux/info/tenantInfoSlice"
 
 export default function AccessProvider() {
     const dispatch = useDispatch()
