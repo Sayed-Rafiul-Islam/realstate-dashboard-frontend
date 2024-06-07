@@ -28,6 +28,8 @@ import { getMaintainanceTypes } from '@/redux/settings/maintainanceTypesSlice'
 import api from './api'
 import { getNotifications } from '@/redux/report/notificationsSlice'
 import { getTenantDocuments } from '@/redux/documents/tenantDocumentsSlice'
+import { getAllUsers } from '@/redux/users/usersSlice'
+
 
 
 
@@ -185,37 +187,14 @@ const loadMessages = async () => {
     dispatch(getmessages(messages))
 }
 
-const loadOwners = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const owners = [
-        {
-            _id : '1',
-            userId : '662774a250924ade5f6ce70b',
-            name : 'Kaisel',
-            email : "kaisel@gmail.com",
-            contactNo : "01877622099",
-            status : false,
-        },
-        {
-            _id : "2",
-            userId : '1',
-            name : "Beru",
-            email : "beru@gmail.com",
-            contactNo : "01877622099",
-            status : true,
-        },
-        {
-            _id : "3",
-            userId : "2",
-            name : "Igris",
-            email : "igris@gmail.com",
-            contactNo : "01877622099",
-            status : false,
-        }
-    ]
-    dispatch(getOwners(owners))
+const loadUsers = async (dispatch : any) => {
+    const {data,status} = await api.get(`getUsers`,{validateStatus: () => true})
+    dispatch(getAllUsers(data))
+}
+
+const loadOwners = async (dispatch : any) => {
+    const {data,status} = await api.get(`getOwners`,{validateStatus: () => true})
+    dispatch(getOwners(data))
 }
 
 
@@ -1147,12 +1126,12 @@ export default function LoadData() {
 
     const dispatch = useDispatch()
 
-
+    loadUsers(dispatch)
     loadOrders()
     loadPackages()
     loadOwnerPackages()
     loadMessages()
-    loadOwners()
+    loadOwners(dispatch)
 
 
     loadProperties()

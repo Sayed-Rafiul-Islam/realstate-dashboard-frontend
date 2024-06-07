@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import usersReducer from '@/redux/auth/authSlice'
+import allUsersReducer from '@/redux/users/usersSlice'
 import ownerInfoReducer from '@/redux/info/ownerInfoSlice'
 import tenantInfoReducer from '@/redux/info/tenantInfoSlice'
 import maintainerInfoReducer from '@/redux/info/maintainerInfoSlice'
@@ -30,6 +31,7 @@ import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 
 export const store = configureStore({
   reducer: {
+    allUsersReducer,
     usersReducer,
     ownerInfoReducer,
     tenantInfoReducer,

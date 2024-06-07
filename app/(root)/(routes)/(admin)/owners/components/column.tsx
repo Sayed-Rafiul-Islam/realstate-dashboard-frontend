@@ -1,27 +1,50 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import {  OwnerProps } from "@/types"
+import { UserProps } from "@/types"
 
-export const columns: ColumnDef<OwnerProps>[] = [
+export interface OwnerColumn {
+  _id : string,
+  SL : number,
+  status : boolean
+  user : UserProps
+
+}
+
+export const columns: ColumnDef<OwnerColumn>[] = [
   {
-    accessorKey: "serial",
+    accessorKey: "SL",
     header: "SL",
   },
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({row}) => {
+      if (row.original.user.firstName !== "" && row.original.user.lastName !== '' ) {
+          return <span>{row.original.user.firstName} {row.original.user.lastName}</span>
+      }
+      else if (row.original.user.firstName !== "" && row.original.user.lastName === '') {
+          return <span>{row.original.user.firstName}</span>
+      } 
+      else if (row.original.user.firstName === "" && row.original.user.lastName !== '') {
+        return <span>{row.original.user.lastName}</span>
+      }
+      else {
+        return <span>N/A</span>
+      }
+    } 
   },
   {
     accessorKey: "email",
     header: "Email",
+    cell: ({row}) => <span>{row.original.user.email}</span>
   },
   {
     accessorKey: "contactNo",
     header: "Contact No",
+    cell: ({row}) => <span>{row.original.user.contactNo}</span>
   },
   {
-    accessorKey: "status",
     header: "Status",
     cell: ({row}) => 
       <>

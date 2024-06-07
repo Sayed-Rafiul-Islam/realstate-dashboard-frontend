@@ -5,55 +5,55 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { PropertiesReducerProps, TenantDocumentsReducerProps, TenantInfoReducerProps, UnitsReducerProps } from "@/types";
+import { MaintainerInfoReducerProps, PropertiesReducerProps, TenantDocumentsReducerProps, TenantInfoReducerProps, UnitsReducerProps } from "@/types";
 import { DocumentsClient } from "./components/client";
 import Link from "next/link";
 
 
 const DocumnetsPage = () => {
     const router = useRouter()
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
     const {tenantDocuments} = useSelector(({tenantDocumentsReducer} : TenantDocumentsReducerProps) => tenantDocumentsReducer)
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
-    const thisTenantDocuments = tenantDocuments.filter(({tenantId})=>tenantId === tenant._id)
+    // const thisTenantDocuments = tenantDocuments.filter(({tenantId})=>tenantId === tenant._id)
 
 
 
 
-    const formattedDocuments = thisTenantDocuments.map((
-        {
-            _id,
-            type,
-            tenantId,
-            propertyId,
-            unitId,
-            tenantName,
-            docFront,
-            docBack,
-            document,
-            status,
-        },index : number) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            return {
-                serial : index + 1,
-                _id,
-                tenantId,
-                propertyId,
-                unitId,
-                type,
-                tenantName,
-                property_unit : `${property.name}/${unit.name}`,
-                docFront,
-                docBack,
-                document,
-                status
-            }
+    // const formattedDocuments = thisTenantDocuments.map((
+    //     {
+    //         _id,
+    //         type,
+    //         tenantId,
+    //         propertyId,
+    //         unitId,
+    //         tenantName,
+    //         docFront,
+    //         docBack,
+    //         document,
+    //         status,
+    //     },index : number) => {
+    //         const property = properties.filter((item)=> item._id === propertyId)[0]
+    //         const unit = units.filter((item)=> item._id === unitId)[0]
+    //         return {
+    //             serial : index + 1,
+    //             _id,
+    //             tenantId,
+    //             propertyId,
+    //             unitId,
+    //             type,
+    //             tenantName,
+    //             property_unit : `${property.name}/${unit.name}`,
+    //             docFront,
+    //             docBack,
+    //             document,
+    //             status
+    //         }
            
-    })
+    // })
 
 
     return ( 
@@ -76,7 +76,7 @@ const DocumnetsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <DocumentsClient data={formattedDocuments} />
+                    {/* <DocumentsClient data={formattedDocuments} /> */}
                 </div>
             </div>
         </div>

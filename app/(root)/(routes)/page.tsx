@@ -16,19 +16,19 @@ export default function Home() {
 
   const dispatch = useDispatch()
 
-  const {user} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer)
+  const {_id,role,firstName} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer).user
   const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps)=> tenantsReducer)
   const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=> maintainersReducer)
   const {owners} = useSelector(({ownersReducer} : OwnersReducerProps)=> ownersReducer)
 
-  if (user.role === 'tenant') {
-      const tenant = tenants.filter(({userId}) => userId === user._id)[0]
+  if (role === 'tenant') {
+      const tenant = tenants.filter(({userId}) => userId === _id)[0]
       dispatch(getTenantInfo(tenant))
-  } else if (user.role === 'maintainer') {
-    const maintainer = maintainers.filter(({userId}) => userId === user._id)[0]
+  } else if (role === 'maintainer') {
+    const maintainer = maintainers.filter(({userId}) => userId === _id)[0]
     dispatch(getMaintainerInfo(maintainer))
-  } else if (user.role === 'owner') {
-    const owner = owners.filter(({userId}) => userId === user._id)[0]
+  } else if (role === 'owner') {    
+    const owner = owners.filter(({user}) => user._id === _id)[0]
     dispatch(getOwnerInfo(owner))
   }
 
@@ -38,20 +38,20 @@ export default function Home() {
         <h1 className="text-4xl font-bold">Dashboard</h1>
         <h4 className="text-gray-500 text-sm">Welcome back, <span className="text-primary font-bold">
           {
-            user.firstName === undefined || user.firstName === '' ?
-            user.role
+            firstName === undefined || firstName === '' ?
+            role
             :
-            user.firstName
+            firstName
           }
           </span>
         </h4>  
       </div>
       <div className="w-full mt-5">
       {/* <AdminDashboard /> */}
-          {user.role === 'admin' && <AdminDashboard />}
-          {user.role === 'owner' && <OwnerDashboard />}
-          {user.role === 'tenant' && <TenantDashboard />}
-          {user.role === 'maintainer' && <MaintainerDashboard />}
+          {role === 'admin' && <AdminDashboard />}
+          {role === 'owner' && <OwnerDashboard />}
+          {role === 'tenant' && <TenantDashboard />}
+          {role === 'maintainer' && <MaintainerDashboard />}
       </div>
    </div>
   );

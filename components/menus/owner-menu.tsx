@@ -418,14 +418,7 @@ const OwnerMenu = () => {
                     g_href : "/profile/change_password",
                     g_href1 : ``,
                     g_active : false
-                },
-                {
-                    id : 82,
-                    label : "Change User Name",
-                    g_href : "/profile/change_email",
-                    g_href1 : ``,
-                    g_active : false
-                },
+                }
             ],
             label : "Profile",
             href : "/profile",

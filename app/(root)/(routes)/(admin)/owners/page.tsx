@@ -5,27 +5,22 @@ import { useSelector } from "react-redux";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { OwnersClient } from "./components/client";
+import { OwnerColumn } from "./components/column";
 
 const OwnerPackages = () => {
 
     const {owners} = useSelector(({ownersReducer} : OwnersReducerProps) => ownersReducer)
 
-    const formattedOwners : OwnerProps[] = owners.map((
+    const formattedOwners : OwnerColumn[] = owners.map((
         {
             _id,
-            name,
-            email,
-            contactNo,
             status,
-            userId
-        } : OwnerProps,index : number) => ({
-            serial : index + 1,
+            user
+        } ,index : number) => ({
+            SL : index + 1,
             _id,
-            name,
-            email,
-            contactNo,
             status,
-            userId
+            user
     }))
 
 

@@ -30,7 +30,7 @@ export default function SignUpForm() {
             setMessage("Passwords did not matched")
         }
         else {
-            const role = 'tenant'
+            const role = 'owner'
             const {status,data} = await signUp(name,password,role)
             if (status === 400) {
                 setMessage("Email already in use")

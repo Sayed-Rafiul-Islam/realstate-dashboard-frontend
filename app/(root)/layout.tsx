@@ -6,10 +6,8 @@ import SignOut from "@/components/signout";
 import './content.css'
 import LoadData from "@/actions/load-data";
 import AccessProvider from "@/actions/accessProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
-import { useSelector } from "react-redux";
-import { UsersReducerProps } from "@/types";
 
 
 
@@ -18,14 +16,19 @@ const RoutesLayout = ({
 } : {
     children : React.ReactNode
 }) => {
-
-  const {user} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer)
-
   const [expand, setExpand] = useState(true)
   AccessProvider()
   LoadData()
-
   
+
+  const [isMounted, setIsMounted] = useState(false)
+  useEffect(()=>{
+      setIsMounted(true)
+  },[])
+
+  if (!isMounted) {
+      return null
+  }
     return ( 
         <div className="pt-5 px-5">
           <div>

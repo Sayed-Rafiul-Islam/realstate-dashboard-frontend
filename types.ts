@@ -1,3 +1,6 @@
+export interface AllUsersReducerProps {
+    allUsersReducer : {allUsers : UserProps[]}
+}
 export interface UserProps {
       _id : string,
       email : string,
@@ -109,10 +112,7 @@ export interface MessagesReducerProps {
 
 export interface OwnerProps {
     _id : string,
-    userId : string,
-    name : string,
-    email : string,
-    contactNo : string,
+    user : UserProps,
     status : boolean,
 }
 
@@ -267,6 +267,21 @@ export interface TenantDocumentProps {
 
 export interface TenantDocumentsReducerProps {
   tenantDocumentsReducer :  { tenantDocuments : TenantDocumentProps[]} 
+}
+
+export interface MaintainerDocumentProps {
+  _id : string,
+  type : string,
+  maintainerId : string,
+  tenantName : string,
+  docFront : string,
+  docBack : string,
+  document : string,
+  status : string
+}
+
+export interface MaintainerDocumentsReducerProps {
+  maintainerDocumentsReducer :  { maintainerDocuments : MaintainerDocumentProps[]} 
 }
 
 export interface RentProps {

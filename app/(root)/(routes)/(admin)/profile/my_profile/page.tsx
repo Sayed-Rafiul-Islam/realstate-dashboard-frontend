@@ -60,6 +60,7 @@ const MyProfile = () => {
     const onSubmit = async (profileData : ProfileValue) => {
         const data = await api.patch(`updateUser`,profileData,{validateStatus: () => true})
         toast.success("Profile updated.")
+        window.location.assign(`/profile/my_profile`)
     }
 
 
