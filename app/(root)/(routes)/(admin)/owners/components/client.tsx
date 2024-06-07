@@ -1,7 +1,7 @@
 "use client"
 
 interface OwnersClientProps {
-    data : OwnerProps[]
+    data : OwnerColumn[]
 }
 
 
@@ -9,13 +9,9 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { OwnerProps, PackagesReducersProps } from "@/types"
-import { columns } from "./column"
+import { OwnerColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { Button } from "@/components/ui/button"
-import { addOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
-import { useDispatch, useSelector } from "react-redux"
-import { AssignPackageModal } from "@/components/modals/assign-package-modal"
+import { useDispatch } from "react-redux"
 
 export const OwnersClient : React.FC<OwnersClientProps> = ({data}) => {
 
@@ -23,7 +19,6 @@ export const OwnersClient : React.FC<OwnersClientProps> = ({data}) => {
     // anti hydration
 
     const [isMounted, setIsMounted] = useState(false)
-    const dispatch = useDispatch()
 
     useEffect(()=>{
         setIsMounted(true)
@@ -36,7 +31,6 @@ export const OwnersClient : React.FC<OwnersClientProps> = ({data}) => {
     return (
         <>
             <DataTable pagination={true} searchKey="email" columns={columns} data={data} />
-            <Toaster />
         </>
     )
 }
