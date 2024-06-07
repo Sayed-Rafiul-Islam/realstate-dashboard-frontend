@@ -8,14 +8,16 @@ interface OwnerPackagesClientProps {
 import { useEffect, useState } from "react"
 
 
-import { Toaster } from "react-hot-toast"
-import { OwnerPackageProps, PackagesReducersProps } from "@/types"
+import toast, { Toaster } from "react-hot-toast"
+import { OwnerPackageProps, OwnerProps, OwnersReducerProps, PackagesReducersProps } from "@/types"
 import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { Button } from "@/components/ui/button"
 import { addOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { useDispatch, useSelector } from "react-redux"
-import { AssignPackageModal } from "@/components/modals/assign-package-modal"
+import { AssignPackageFormProps, AssignPackageModal } from "@/components/modals/assign-package-modal"
+import api from "@/actions/api"
+import { useRouter } from "next/navigation"
 
 export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data}) => {
 
@@ -24,22 +26,9 @@ export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data})
 
     const [isMounted, setIsMounted] = useState(false)
     const dispatch = useDispatch()
+    const router = useRouter()
     const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
-    // const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
-    const owners = [
-        {
-            _id : "1",
-            name : "Beru"
-        },
-        {
-            _id : "2",
-            name : "Igris"
-        },
-        {
-            _id : "3",
-            name : "Levi"
-        }
-    ]
+    const {owners} = useSelector(({ownersReducer} : OwnersReducerProps) => ownersReducer)
 
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -52,38 +41,19 @@ export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data})
         return null
     }
 
-    const handleAssign = async (id : string) => {
-
-        console.log(id)
-
-        
-        const temp = 
-            {
-                _id : "4",
-                name : "nigga",
-                email : "ragib@gmail.com",
-                packageName : "Standard",
-                gateway : "Cash",
-                startDate : "2024-02-04T00:00:00.000Z",
-                endDate : "2025-02-04T00:00:00.000Z",
-                paymentStatus : "Canceled",
-                status : false
-            }
-
-        // get the owner package by this id from DB and send it to redux 
-
-        dispatch(addOwnerPackage(temp))
+    const handleAssign = async (data : AssignPackageFormProps) => {
+        const result = await api.post(`assignOwnerPackage`,data)
+        dispatch(addOwnerPackage(result.data))
+        router.refresh()
         setOpen(false)
-
-        
-        
+        toast.success("Package Assigned")
     }
     return (
         <>
             <AssignPackageModal
             isOpen={open} 
             onClose={()=>setOpen(false)} 
-            onConfirm={(id : string) => handleAssign(id)} 
+            onConfirm={(ownerPackage : AssignPackageFormProps) => handleAssign(ownerPackage)} 
             loading={loading}
             owners={owners}
             packages={packages}

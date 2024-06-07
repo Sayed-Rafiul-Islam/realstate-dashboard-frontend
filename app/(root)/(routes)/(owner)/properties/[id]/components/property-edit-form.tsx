@@ -11,7 +11,7 @@ import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { PackageProps, PropertyProps, UnitProps } from '@/types'
+import { OwnerInfoReducerProps, PackageProps, PropertyProps, UnitProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
 import './package-form.css'
@@ -95,7 +95,7 @@ interface FormProps {
 
 const form1Schema = z.object({
     propertyName : z.string().min(1, {message : "Label Required"}),
-    unitCount : z.coerce.number().min(1),
+    unitCount : z.coerce.number().min(1, {message : "Unit Required"}),
     description : z.string().min(1),
     image : z.string().min(1),
     address : z.string().min(1),
@@ -133,6 +133,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 }) => {
 
     const {propertyForm} = useSelector(({formsReducer} : FormProps) => formsReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -193,8 +194,18 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
     })
 
     const onForm1Submit = async (data : PropertyForm1Values) => {
-            dispatch(addPropertyData1(data))
-            setForm(1)
+        if (owner.activePackage) {
+            if ((data.unitCount + owner.unitCount) <= owner.activePackage.maxUnit) {
+                dispatch(addPropertyData1(data))
+                setForm(1)
+            } else {
+                toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit - owner.unitCount} units or less`)
+                form1.setError("unitCount", {type : "custom"})
+            }
+        }
+        
+
+            
     }
 
     const onForm2Submit = async (data : PropertyForm2Values) => {

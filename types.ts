@@ -112,6 +112,9 @@ export interface OwnerProps {
     _id : string,
     user : UserProps,
     status : boolean,
+    activePackage ?: PackageProps,
+    propertyCount : number,
+    unitCount : number
 }
 
 export interface OwnersReducerProps {

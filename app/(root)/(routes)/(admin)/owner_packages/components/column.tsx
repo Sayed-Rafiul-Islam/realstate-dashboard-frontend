@@ -11,17 +11,17 @@ export const columns: ColumnDef<OwnerPackageProps>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({row}) => <span>{row.original.owner.user.firstName}</span>
+    cell: ({row}) => <span>{row.original.owner.user?.firstName}</span>
   },
   {
     accessorKey: "email",
     header: "Email",
-    cell: ({row}) => <span>{row.original.owner.user.email}</span>
+    cell: ({row}) => <span>{row.original.owner.user?.email}</span>
   },
   {
     accessorKey: "packageName",
     header: "Package Name",
-    cell: ({row}) => <span>{row.original.pack.label}</span>
+    cell: ({row}) => <span>{row.original.pack?.label}</span>
   },
   {
     accessorKey: "gateway",

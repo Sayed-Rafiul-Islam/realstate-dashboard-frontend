@@ -1,18 +1,33 @@
 "use client"
 
-import { PropertiesReducerProps } from "@/types";
+import { OwnerInfoReducerProps, PropertiesReducerProps } from "@/types";
 import { useSelector } from "react-redux";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Properties from "@/app/(root)/(routes)/(owner)/properties/all_properties/components/properties";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 const AllPropertiesPage = () => {
     const router = useRouter()
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
+    const handleAddProperty = () => {
+        if (owner.activePackage) {
+            if (owner.activePackage.maxProperty > owner.propertyCount) {
+                router.push('/properties/add')
+            } else {
+                toast.error("Max property limit reached.")
+            }
+        } else {
+            toast.error("You have no active package")
+        }
+
+    }
 
     return ( 
         <div className="flex-col">
@@ -20,7 +35,15 @@ const AllPropertiesPage = () => {
                 <Pathname />
                 <div className="flex md:flex-row flex-col-reverse gap-2 justify-between md:items-center">
                     <h1 className="font-bold text-xl">All Packages</h1>
-                    <Button onClick={()=>router.push('/properties/add')}  className="bg-purple-600">Add New Property</Button>
+                    {
+                        owner.activePackage &&
+                        <Button 
+                            onClick={handleAddProperty}  
+                            className="bg-purple-600"
+                        >
+                            Add New Property
+                        </Button>
+                    }
                 </div>
                 <Separator />
                 <div>

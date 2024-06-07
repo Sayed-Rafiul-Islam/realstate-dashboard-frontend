@@ -17,23 +17,30 @@ import {
     DialogTitle 
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button"
-import { OwnerPackageProps, PackageProps } from "@/types";
+import { OwnerPackageProps, OwnerProps, PackageProps } from "@/types";
 import { Separator } from "../ui/separator";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { Input } from "../ui/input";
 
 interface AssignPackageModalProps {
     isOpen : boolean,
     onClose : () => void,
-    onConfirm : (id : string) => void,
+    onConfirm : (ownerPackage : AssignPackageFormProps) => void,
     loading : boolean,
-    owners : { 
-        _id : string,
-        name : string
-    }[],
+    owners : OwnerProps[],
     packages : PackageProps[]
+}
+
+export interface AssignPackageFormProps {
+    owner : string,
+    pack : string,
+    gateway : string,
+    status : boolean,
+    startDate : Date,
+    endDate : Date
 }
 
 export const AssignPackageModal : React.FC<AssignPackageModalProps> = ({
@@ -60,34 +67,58 @@ export const AssignPackageModal : React.FC<AssignPackageModalProps> = ({
 const formSchema = z.object({
     owner : z.string().min(1, {message : "Owner Required"}),
     package : z.string().min(1, {message : "Package Required"}),
-    type : z.string().min(1, {message : "Type Required"})
+    type : z.string().min(1, {message : "Type Required"}),
+    gateway : z.string().min(1, {message : "Gateway Required"})
 })
 
 const form = useForm<AssignPackageFormValues>({
     resolver : zodResolver(formSchema)})
 
     const onSubmit = async (data : AssignPackageFormValues) => {
-        console.log(data)
-        try {
-            // create owner package and send to database and receive id
-                const newOwner = {
-                  name : data.owner
-                }
-                // await createProduct(newproduct)
+        if (data.type === 'monthly') {
+            const endDate = new Date(new Date().setDate(new Date().getDate() + 30))
+            const ownerPackage = {
+                owner : data.owner,
+                pack : data.package,
+                gateway : data.gateway,
+                status : false,
+                startDate : new Date(),
+                endDate,
+            }
+            onConfirm(ownerPackage)
+        } else {
+            const endDate = new Date(new Date().setDate(new Date().getDate() + 365))
+            const ownerPackage = {
+                owner : data.owner,
+                pack : data.package,
+                gateway : data.gateway,
+                status : false,
+                startDate : new Date(),
+                endDate,
+            }
+            onConfirm(ownerPackage)
+
+        }
+        // try {
+        //     // create owner package and send to database and receive id
+        //         const newOwner = {
+        //           name : data.owner
+        //         }
+        //         // await createProduct(newproduct)
             
 
-            // router.push(`/${storeId}/products`)
-            // router.refresh()
-            // toast.success(`${toastMessage}`)
+        //     // router.push(`/${storeId}/products`)
+        //     // router.refresh()
+        //     // toast.success(`${toastMessage}`)
 
 
-            // send that id 
-            onConfirm("2")
+        //     // send that id 
+        //     onConfirm("2")
 
-        } catch (error) {
-            toast.error("Something went wrong.")
-        } finally {
-        }
+        // } catch (error) {
+        //     toast.error("Something went wrong.")
+        // } finally {
+        // }
     }
 
     return (
@@ -125,9 +156,9 @@ const form = useForm<AssignPackageFormValues>({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {owners.map(({_id, name},index)=>(
+                                                {owners.map(({_id, user},index)=>(
                                                     <SelectItem key={index} value={_id} >
-                                                        {name}
+                                                        {user.email}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -198,6 +229,19 @@ const form = useForm<AssignPackageFormValues>({
 
                                             </SelectContent>
                                         </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="gateway"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Gateway <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Bkash" {...field} />
+                                    </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}

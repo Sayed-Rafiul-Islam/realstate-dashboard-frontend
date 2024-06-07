@@ -49,12 +49,6 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
     const action = initialData ? 'Save Changes' : 'Create'
     const description = initialData ? "Edit a package" : "Create a new package"
     const toastMessage = initialData ? "Package updated" : "Package created"
- 
-
-
-
-
-
 
     const [loading, setLoading] = useState(false)
     const form = useForm<PackageFormValues>({

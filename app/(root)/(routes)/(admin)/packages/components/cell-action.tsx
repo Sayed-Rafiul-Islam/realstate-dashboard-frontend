@@ -13,8 +13,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { PackageProps } from "@/types"
-import { useDispatch } from "react-redux"
+import { OwnerPackagesReducersProps, PackageProps } from "@/types"
+import { useDispatch, useSelector } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { removePackage } from "@/redux/packages/packagesSlice"
 import api from "@/actions/api"
@@ -28,15 +28,21 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const router = useRouter()
     const dispatch = useDispatch()
 
+    const {ownerPackages} = useSelector(({ownerPackagesReducer} : OwnerPackagesReducersProps) => ownerPackagesReducer)
+
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
         setLoading(true)
-        await api.delete(`deletePackage?id=${data._id}`)
-        dispatch(removePackage(data))
-        toast.success('Package removed.')
-
+        const isPackage = ownerPackages.filter(({pack})=> pack._id === data._id)
+        if(isPackage.length === 0) {
+            await api.delete(`deletePackage?id=${data._id}`)
+            dispatch(removePackage(data))
+            toast.success('Package removed.')
+        } else {
+            toast.error('Package is in use. Remove the owner packages first where this package is being used.')
+        }
         setLoading(false)
         setOpen(false)
     
