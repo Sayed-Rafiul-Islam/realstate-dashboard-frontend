@@ -78,46 +78,9 @@ const loadPackages = async (dispatch : any) => {
     dispatch(getPackages(data))
 }
 
-const loadOwnerPackages = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const ownerPackages = [
-        {
-            _id : "1",
-            name : "Ragib",
-            email : "ragib@gmail.com",
-            packageName : "Standard",
-            gateway : "Cash",
-            startDate : "2024-02-04T00:00:00.000Z",
-            endDate : "2025-02-04T00:00:00.000Z",
-            paymentStatus : "Canceled",
-            status : false
-        },
-        {
-            _id : "2",
-            name : "Beru",
-            email : "beru@gmail.com",
-            packageName : "free",
-            gateway : "Cash",
-            startDate : "2024-02-04T00:00:00.000Z",
-            endDate : "2025-02-04T00:00:00.000Z",
-            paymentStatus : "Paid",
-            status : true
-        },
-        {
-            _id : "3",
-            name : "Igris",
-            email : "igris@gmail.com",
-            packageName : "Premeum",
-            gateway : "Cash",
-            startDate : "2024-02-04T00:00:00.000Z",
-            endDate : "2025-02-04T00:00:00.000Z",
-            paymentStatus : "Pending",
-            status : false
-        }
-    ]
-    dispatch(getOwnerPackages(ownerPackages))
+const loadOwnerPackages = async (dispatch : any) => {
+    const {data,status} = await api.get(`getOwnerPackages`,{validateStatus: () => true})
+    dispatch(getOwnerPackages(data))
 }
 
 const loadMessages = async () => {
@@ -1095,7 +1058,7 @@ export default function LoadData() {
     loadUsers(dispatch)
     loadOrders()
     loadPackages(dispatch)
-    loadOwnerPackages()
+    loadOwnerPackages(dispatch)
     loadMessages()
     loadOwners(dispatch)
 

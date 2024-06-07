@@ -92,7 +92,6 @@ export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data})
                 <Button onClick={()=>setOpen(true)} className="">Assign Package</Button>
             </div>
             <DataTable pagination={true} searchKey="email" columns={columns} data={data} />
-            <Toaster />
         </>
     )
 }

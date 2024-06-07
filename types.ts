@@ -67,13 +67,11 @@ export interface PackagesReducersProps {
 
 export interface OwnerPackageProps {
   _id : string,
-  name : string,
-  email : string,
-  packageName : string,
+  owner : OwnerProps,
+  pack : PackageProps,
   gateway : string,
   startDate : string,
   endDate : string,
-  paymentStatus : string,
   status : boolean
 }
 

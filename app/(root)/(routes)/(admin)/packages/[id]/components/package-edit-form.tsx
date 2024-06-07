@@ -29,8 +29,8 @@ interface PackageEditFormProps {
 
 const formSchema = z.object({
     label : z.string().min(1, {message : "Label Required"}),
-    monthlyPrice : z.coerce.number().min(1, {message : "Monthly Price Required"}),
-    yearlyPrice : z.coerce.number().min(1, {message : "Yearly Price Required"}),
+    monthlyPrice : z.coerce.number().min(0, {message : "Monthly Price Required"}),
+    yearlyPrice : z.coerce.number().min(0, {message : "Yearly Price Required"}),
     maxProperty : z.coerce.number().min(1, {message : "Max Property Required"}),
     maxUnit : z.coerce.number().min(1, {message : "Max unit Required"}),
     status : z.boolean().default(false),

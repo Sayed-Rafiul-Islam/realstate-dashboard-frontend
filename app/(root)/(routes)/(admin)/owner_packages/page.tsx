@@ -6,39 +6,30 @@ import { format } from 'date-fns'
 import { OwnerPackagesClient } from "./components/client";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { useEffect, useState } from "react";
 
 const OwnerPackages = () => {
 
     const {ownerPackages} = useSelector(({ownerPackagesReducer} : OwnerPackagesReducersProps) => ownerPackagesReducer)
 
-
-    const formattedOwnerPackages : OwnerPackageProps[] = ownerPackages.map((
+    const formattedOwnerPackages = ownerPackages.map((
         {
             _id,
-            name,
-            email,
-            packageName,
+            owner,
+            pack,
             gateway,
             startDate,
             endDate,
-            paymentStatus,
             status
         } : OwnerPackageProps,index : number) => ({
             serial : index + 1,
             _id,
-            name,
-            email,
-            packageName,
+            owner,
+            pack,
             gateway,
             startDate : format(startDate,"MMMM do, yyyy"),
             endDate : format(endDate,"MMMM do, yyyy"),
-            paymentStatus,
             status
     }))
-
-
-    // console.log(ownerPackages)
 
     return ( 
         <div className="flex-col">
