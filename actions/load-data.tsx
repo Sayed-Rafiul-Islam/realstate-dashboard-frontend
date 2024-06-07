@@ -73,43 +73,9 @@ const loadOrders = async () => {
     dispatch(getOrders(orders))
 }
 
-const loadPackages = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const packages = [
-        {
-            _id : "1",
-            label : "Standard",
-            monthlyPrice : 9.99,
-            yearlyPrice : 99.99,
-            maxProperty : 4,
-            maxUnit : 8,
-            status : true,
-            trial : false
-        },
-        {
-            _id : "2",
-            label : "Free",
-            monthlyPrice : 0,
-            yearlyPrice : 0,
-            maxProperty : 1,
-            maxUnit : 2,
-            status : true,
-            trial : true
-        },
-        {
-            _id : "3",
-            label : "Standard",
-            monthlyPrice : 9.99,
-            yearlyPrice : 99.99,
-            maxProperty : 4,
-            maxUnit : 8,
-            status : true,
-            trial : false
-        }
-    ]
-    dispatch(getPackages(packages))
+const loadPackages = async (dispatch : any) => {
+    const {data,status} = await api.get(`getPackages`,{validateStatus: () => true})
+    dispatch(getPackages(data))
 }
 
 const loadOwnerPackages = async () => {
@@ -1128,7 +1094,7 @@ export default function LoadData() {
 
     loadUsers(dispatch)
     loadOrders()
-    loadPackages()
+    loadPackages(dispatch)
     loadOwnerPackages()
     loadMessages()
     loadOwners(dispatch)

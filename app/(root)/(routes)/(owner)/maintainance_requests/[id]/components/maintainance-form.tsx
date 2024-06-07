@@ -11,7 +11,7 @@ import toast from 'react-hot-toast'
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
 import './maintainance-form.css'
@@ -23,12 +23,9 @@ import {
     SelectValue 
 } from '@/components/ui/select'
 import { useDispatch, useSelector } from "react-redux"
-import axios from "axios"
 import api from "@/actions/api"
 import { useRouter } from "next/navigation"
 import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
-import { nanoid } from "@reduxjs/toolkit"
-import { getTime } from "date-fns"
 import PdfUpload from "@/components/pdf-upload"
 import { addNotification } from "@/redux/report/notificationsSlice"
 
@@ -50,13 +47,6 @@ const formSchema = z.object({
 
 })
 
-
-
-// propertyId : string,
-// unitId : string,
-
-
-
 export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = ({
     initialData
 }) => {
@@ -66,13 +56,10 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
-    // const [file,setFile] = useState<FileList | null>()
     const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
     const dispatch = useDispatch()
 
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
-
-    // const [types, setTypes] = useState<string[]>([''])
     const router = useRouter()
 
     useEffect(()=>{
@@ -81,17 +68,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
         form.setValue('unitId', '')       
 
     },[propertyId])
-
-
-    // useEffect(()=>{
-    //     maintainanceTypes.map((item)=> {
-    //         const index = types.findIndex(i => i === item.type)
-    //         if (index === -1) {
-    //             types.push(item.type)
-    //         }
-    //     })
-    //     setTypes(types.slice(1))
-    // },[])
 
 
     const title = initialData ? 'Edit Request' : 'Create Request'

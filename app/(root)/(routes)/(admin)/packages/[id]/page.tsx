@@ -17,7 +17,7 @@ const PackagePage = ({
     })
     
     return ( 
-        <div>
+        <div className="mt-8">
             <PackageEditForm initialData={initialData[0]} />
         </div>
      );

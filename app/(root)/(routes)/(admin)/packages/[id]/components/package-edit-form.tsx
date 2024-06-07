@@ -15,6 +15,10 @@ import { PackageProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
 import './package-form.css'
+import { useRouter } from 'next/navigation'
+import api from '@/actions/api'
+import { useDispatch } from 'react-redux'
+import { addPackage, updatePackage } from '@/redux/packages/packagesSlice'
 
 
 type PackageFormValues = z.infer<typeof formSchema>
@@ -25,10 +29,10 @@ interface PackageEditFormProps {
 
 const formSchema = z.object({
     label : z.string().min(1, {message : "Label Required"}),
-    monthlyPrice : z.coerce.number().min(1),
-    yearlyPrice : z.coerce.number().min(1),
-    maxProperty : z.coerce.number().min(1),
-    maxUnit : z.coerce.number().min(1),
+    monthlyPrice : z.coerce.number().min(1, {message : "Monthly Price Required"}),
+    yearlyPrice : z.coerce.number().min(1, {message : "Yearly Price Required"}),
+    maxProperty : z.coerce.number().min(1, {message : "Max Property Required"}),
+    maxUnit : z.coerce.number().min(1, {message : "Max unit Required"}),
     status : z.boolean().default(false),
     trial : z.boolean().default(false),
 })
@@ -38,10 +42,13 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
     initialData
 }) => {
 
+    const router = useRouter()
+    const dispatch = useDispatch()
+
     const title = initialData ? 'Edit Package' : 'Create Package'
     const action = initialData ? 'Save Changes' : 'Create'
     const description = initialData ? "Edit a package" : "Create a new package"
-    const toastMessage = initialData ? "Color updated" : "Color created"
+    const toastMessage = initialData ? "Package updated" : "Package created"
  
 
 
@@ -56,26 +63,25 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
             label : '',
             monthlyPrice : 2,
             yearlyPrice : 20,
-            maxProperty : 10,
-            maxUnit : 8,
+            maxProperty : 1,
+            maxUnit : 1,
             status : false,
             trial : false
         }
     })
 
     const onSubmit = async (data : PackageFormValues) => {
-        console.log(data)
-        try {
-            setLoading(true)
-                const updatePackage = {
-                 
-                }
-                
-        } catch (error) {
-            toast.error("Something went wrong.")
-        } finally {
-            setLoading(false)
+        if (initialData) {
+            const formData = {...data,_id : initialData._id}
+            const result = await api.patch(`updatePackage`,formData)
+            dispatch(updatePackage(result.data))
+        } else {
+            const result = await api.post(`createPackage`,data)
+            dispatch(addPackage(result.data))
         }
+        toast.success(toastMessage)
+        router.push('/packages')
+        
     }
 
     const [isMounted, setIsMounted] = useState(false)

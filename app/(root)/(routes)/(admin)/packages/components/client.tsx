@@ -28,7 +28,6 @@ export const PackagesClient : React.FC<PackageClientProps> = ({data}) => {
     return (
         <>
             <DataTable pagination={true} searchKey="label" columns={packagecolumns} data={data} />
-            <Toaster />
         </>
     )
 }

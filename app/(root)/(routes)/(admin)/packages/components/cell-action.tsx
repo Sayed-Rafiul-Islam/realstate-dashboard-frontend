@@ -17,6 +17,7 @@ import { PackageProps } from "@/types"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { removePackage } from "@/redux/packages/packagesSlice"
+import api from "@/actions/api"
 
 interface CellActionProps {
     data : PackageProps
@@ -32,7 +33,9 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const onDelete = async () => {
         setLoading(true)
+        await api.delete(`deletePackage?id=${data._id}`)
         dispatch(removePackage(data))
+        toast.success('Package removed.')
 
         setLoading(false)
         setOpen(false)
