@@ -81,9 +81,11 @@ export const UnitForm : React.FC<UnitFormProps> = ({
     
     const onSubmit = async (data : UnitFormValues) => {
 
-        const formData = {...data, propertyId : initialData.property._id, _id : initialData._id}
-        dispatch(updateUnit(formData))
-        router.push(`/properties/all_units`)
+        console.log(data)
+
+        // const formData = {...data, propertyId : initialData.property._id, _id : initialData._id}
+        // dispatch(updateUnit(formData))
+        // router.push(`/properties/all_units`)
         toast.success('Unit updated.')
         
     }

@@ -41,7 +41,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
         if (property === '') {
             setRents(data)
         } else {
-            const tempUnits = units.filter((item) => property === item.propertyId )
+            const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
                 const temp = data.filter((item) => item.propertyId === property) 
