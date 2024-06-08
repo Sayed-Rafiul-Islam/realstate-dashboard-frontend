@@ -66,7 +66,7 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
     const router = useRouter()
 
     useEffect(()=>{
-        const temp = units.filter((item)=> item.propertyId === propertyId)
+        const temp = units.filter((item)=> item.property._id === propertyId)
         setThisUnits(temp)
         form.setValue('unitId', '')       
 

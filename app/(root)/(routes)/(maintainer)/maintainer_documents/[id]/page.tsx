@@ -3,7 +3,7 @@
 import { useSelector } from "react-redux";
 import {TenantDocumentProps, TenantDocumentsReducerProps } from "@/types";
 
-import { DocumentForm } from "./components/documant-form";
+import { DocumentForm } from "./components/document-form";
 
 const DocumentPage = ({
     params
