@@ -61,8 +61,6 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
     const dispatch = useDispatch()
 
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
-
-    // const [types, setTypes] = useState<string[]>([''])
     const router = useRouter()
 
     useEffect(()=>{
