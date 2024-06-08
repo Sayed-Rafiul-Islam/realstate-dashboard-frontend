@@ -83,9 +83,9 @@ export const EarningsClient : React.FC<OccupancyClientProps> = ({data}) => {
                                     <SelectItem value='all' >
                                         For All Properties
                                     </SelectItem>
-                                {properties.map(({_id, name} : PropertyProps,index)=>(
-                                    <SelectItem key={index} value={_id} >
-                                        {name}
+                                {properties.map((item,index)=>(
+                                    <SelectItem key={index} value={item._id} >
+                                        {item.name}
                                     </SelectItem>
                                 ))}
                         </SelectContent>
