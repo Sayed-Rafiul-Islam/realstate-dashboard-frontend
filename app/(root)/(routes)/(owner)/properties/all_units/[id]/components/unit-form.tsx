@@ -59,7 +59,7 @@ export const UnitForm : React.FC<UnitFormProps> = ({
     initialData
 }) => {
 
-    const propertyName = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties.filter(({_id}) => _id === initialData.propertyId)[0].name
+    const propertyName = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties.filter(({_id}) => _id === initialData.property._id)[0].name
     const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
     const dispatch = useDispatch()
     const router = useRouter()
@@ -81,7 +81,7 @@ export const UnitForm : React.FC<UnitFormProps> = ({
     
     const onSubmit = async (data : UnitFormValues) => {
 
-        const formData = {...data, propertyId : initialData.propertyId, _id : initialData._id}
+        const formData = {...data, propertyId : initialData.property._id, _id : initialData._id}
         dispatch(updateUnit(formData))
         router.push(`/properties/all_units`)
         toast.success('Unit updated.')
