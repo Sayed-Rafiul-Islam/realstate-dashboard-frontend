@@ -17,37 +17,36 @@ const unitsSlice = createSlice({
         getUnits : (state, {payload}) => {
             state.units = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("units")
-            localStorage.setItem("units", JSON.stringify(state.units))
+                localStorage.removeItem("units")
+                localStorage.setItem("units", JSON.stringify(state.units))
             }
         },
         removeUnit : (state, {payload}) => {
             const temp = state.units.filter(({_id} : UnitProps) => _id !== payload)
             state.units = temp
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("units")
-            localStorage.setItem("units", JSON.stringify(state.units))
+                localStorage.removeItem("units")
+                localStorage.setItem("units", JSON.stringify(state.units))
             }
         },
         updateUnit : (state, {payload}) => {
             const index = state.units.findIndex((item : UnitProps) => item._id === payload._id)
             state.units[index] = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("units")
-            localStorage.setItem("units", JSON.stringify(state.units))
+                localStorage.removeItem("units")
+                localStorage.setItem("units", JSON.stringify(state.units))
             }
         },
         
-        addUnits : (state, {payload}) => {
-
-            payload.map((item : UnitProps) => {
-                state.units.push(item)
-            })
-            // localStorage.removeItem("properties")
-            // localStorage.setItem("properties", JSON.stringify(state.properties))
+        addUnit : (state, {payload}) => {
+            state.units.push(payload)
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("units")
+                localStorage.setItem("units", JSON.stringify(state.units))
+            }
         },
     }
 })
 
-export const {getUnits,removeUnit,addUnits,updateUnit} = unitsSlice.actions
+export const {getUnits,removeUnit,addUnit,updateUnit} = unitsSlice.actions
 export default unitsSlice.reducer

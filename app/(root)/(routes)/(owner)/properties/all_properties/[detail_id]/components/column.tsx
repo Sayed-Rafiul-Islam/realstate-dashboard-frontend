@@ -10,7 +10,7 @@ export interface UnitColumn {
   squareFeet : number,
   bedrooms: number ,
   washrooms : number,
-  kitchen : number 
+  kitchens : number 
 }
 
 export const columns: ColumnDef<UnitColumn>[] = [

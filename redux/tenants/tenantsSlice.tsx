@@ -16,8 +16,8 @@ const tenantsSlice = createSlice({
         getTenants : (state, {payload}) => {
             state.tenants = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("tenants")
-            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+                localStorage.removeItem("tenants")
+                localStorage.setItem("tenants", JSON.stringify(state.tenants))
             }
         },
         updateTenant : (state, {payload}) => {
@@ -25,8 +25,8 @@ const tenantsSlice = createSlice({
             const index = state.tenants.findIndex((item : TenantProps) => item._id === payload._id)
             state.tenants[index] = rest
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("tenants")
-            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+                localStorage.removeItem("tenants")
+                localStorage.setItem("tenants", JSON.stringify(state.tenants))
             }
         },
 
@@ -35,16 +35,16 @@ const tenantsSlice = createSlice({
             const data = {...rest, _id : '5'}
             state.tenants.push(data)
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("tenants")
-            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+                localStorage.removeItem("tenants")
+                localStorage.setItem("tenants", JSON.stringify(state.tenants))
             }
         },
         removeTenant : (state, {payload}) => {
             const temp = state.tenants.filter(({_id} : TenantProps) => _id !== payload._id)
             state.tenants = temp
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("tenants")
-            localStorage.setItem("tenants", JSON.stringify(state.tenants))
+                localStorage.removeItem("tenants")
+                localStorage.setItem("tenants", JSON.stringify(state.tenants))
             }
         },
     }

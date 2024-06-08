@@ -33,9 +33,17 @@ const ownersSlice = createSlice({
             localStorage.removeItem("owners")
             localStorage.setItem("owners", JSON.stringify(state.owners))
             }
-        }
+        },
+        updateOwner : (state, {payload}) => {
+            const index = state.owners.findIndex((item : OwnerProps) => item._id === payload._id)
+            state.owners[index] = payload
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("owners")
+                localStorage.setItem("owners", JSON.stringify(state.owners))
+            }
+        },
     }
 })
 
-export const {getOwners,updateOwnerStatus} = ownersSlice.actions
+export const {getOwners,updateOwnerStatus,updateOwner} = ownersSlice.actions
 export default ownersSlice.reducer

@@ -296,8 +296,8 @@ const OwnerDashboard = () => {
                     <div className="flex flex-col gap-2">
                         {
                             threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0].name
-                                const unit = units.filter((item) => unitId === item._id)[0].name
+                                const property = properties.filter((item) => propertyId === item._id)[0]?.name
+                                const unit = units.filter((item) => unitId === item._id)[0]?.name
                                 const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
 
                                 let statusStyle = ''

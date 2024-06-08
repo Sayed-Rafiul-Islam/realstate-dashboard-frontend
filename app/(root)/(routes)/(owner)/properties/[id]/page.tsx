@@ -1,18 +1,15 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { PropertyEditForm } from "./components/property-edit-form";
-import { PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
-import Pathname from "@/components/pathname";
-import { Separator } from "@/components/ui/separator";
-import image from '@/images/buildings/b1.jpg'
+import { PropertyEditForm } from "./components/property-form";
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 
 const PropertyPage = ({
     params
 } : {
     params : { id : string}
 }) => {
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const properties = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
 
     const initialData1 = properties.filter((item : PropertyProps)  =>{
@@ -24,7 +21,7 @@ const PropertyPage = ({
     const data = initialData1.length === 0 ? false : initialData1[0] 
 
     const initialData2 = data ? units.filter((item : UnitProps)  =>{
-        if (item.propertyId === data._id) {
+        if (item.property._id === data._id) {
             return item
         } 
     })
@@ -36,13 +33,14 @@ const PropertyPage = ({
             _id : data._id,
             propertyName : data.name,
             description : data.description,
-            address : data.location,
+            address : data.address,
             image : data.coverImage,
             unitCount : data.unitCount,
             city : data.city,
             state : data.state,
             country : data.country,
-            postCode : data.postCode
+            postCode : data.postCode,
+            owner : data.owner._id
         },
         initialData2,
         initialData3 : {

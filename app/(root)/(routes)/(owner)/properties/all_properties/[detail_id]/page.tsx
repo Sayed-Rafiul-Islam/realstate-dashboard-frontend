@@ -20,46 +20,38 @@ const PropertyDetails = ({
     params : { detail_id : string}
 }) => {
     const router = useRouter()
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const property = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
+    .filter((property) => property._id === params.detail_id)[0]
+    const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
+    .filter((unit)=>unit.property?._id === params.detail_id)
 
-    const {
-        _id,
-        name,
-        description,
-        location,
-        coverImage,
-        unitCount,
-        rooms,
-        available,
-        tenants,
-        deposit,
-        lateFee
-    } = properties.filter((item : PropertyProps)  => item._id === params.detail_id)[0]
 
-    const thisPropertyUnits = units.filter((unit) =>unit.propertyId === _id)
-    const formattedUnits : UnitColumn[] = thisPropertyUnits.map((
-    {
-        _id,
-        name,
-        description,
-        condition,
-        squareFeet,
-        bedrooms,
-        washrooms,
-        kitchen
-    },index : number) => ({
-        serial : index + 1,
-        name,
-        description,
-        condition,
-        squareFeet,
-        bedrooms,
-        washrooms,
-        kitchen  
-    }))
+    const tenantsCount = units.filter(unit => unit.tenant).length
+    const available = property.unitCount - tenantsCount
 
-    
+    const formattedUnits = units.map((
+        {
+            _id,
+            name,
+            description,
+            condition,
+            squareFeet,
+            bedrooms,
+            washrooms,
+            kitchens,
+        },index : number) => {
+            return {
+                _id,
+                serial : index + 1,
+                name,
+                description,
+                condition,
+                squareFeet,
+                bedrooms,
+                washrooms,
+                kitchens,
+            }
+        })    
     
     return ( 
         <div className="flex-col">
@@ -91,10 +83,10 @@ const PropertyDetails = ({
                 <Separator />
                 <div className="flex md:flex-row flex-col md:justify-between md:items-center gap-4"> 
                     <div>
-                        <h2 className="text-2xl font-semibold">{name}</h2>
-                        <h5 className="text-sm flex items-center gap-2 text-gray-500 mt-2"><MapPinned size={20} /> {location}</h5>
+                        <h2 className="text-2xl font-semibold">{property.name}</h2>
+                        <h5 className="text-sm flex items-center gap-2 text-gray-500 mt-2"><MapPinned size={20} /> {property.address}</h5>
                     </div>
-                    <Button onClick={()=>router.push(`/properties/${_id}`)} variant='outline' className="flex gap-2 w-fit"><ArrowLeft size={20} /> Edit Property</Button>
+                    <Button onClick={()=>router.push(`/properties/${property._id}`)} variant='outline' className="flex gap-2 w-fit"><ArrowLeft size={20} /> Edit Property</Button>
                 </div>
 
 
@@ -102,11 +94,11 @@ const PropertyDetails = ({
                 <div>
                     {/* Heading */}
                     <div className="relative property-image">
-                        <Image className="rounded-xl" src={coverImage} fill alt="cover-image" />
+                        <Image className="rounded-xl" src={property.coverImage} fill alt="cover-image" />
                     </div>
                     <div className="my-8">
                         <h3 className="text-xl font-semibold">Description</h3>
-                        <p className="text-sm text-gray-500 text-justify mt-2">{description}</p>
+                        <p className="text-sm text-gray-500 text-justify mt-2">{property.description}</p>
                     </div>
                     {/* --------------------------------------------------------------------------------- */}
                     <div>
@@ -118,7 +110,7 @@ const PropertyDetails = ({
                         <div className="bg-gray-100 mt-2 py-2 text-sm text-gray-500 rounded-lg">
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Total Unit</h4>
-                                <h4>{unitCount}</h4>
+                                <h4>{property.unitCount}</h4>
                             </div>
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Lease Available</h4>
@@ -126,15 +118,15 @@ const PropertyDetails = ({
                             </div>
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Current Tenants</h4>
-                                <h4>{tenants}</h4>
+                                <h4>{tenantsCount}</h4>
                             </div>
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Security Deposit</h4>
-                                <h4>{deposit}</h4>
+                                <h4>{property.deposit}</h4>
                             </div>
                             <div className="flex justify-between border-b border-gray-200 py-4 mx-5">
                                 <h4>Late Fee</h4>
-                                <h4>{lateFee}</h4>
+                                <h4>{property.lateFee}</h4>
                             </div>
                         </div>
                     </div>

@@ -125,20 +125,18 @@ export interface PropertyProps {
     _id : string,
     name : string,
     description : string,
-    location : string,
     coverImage : string,
     unitCount : number,
-    rooms :number,
-    available :number,
-    tenants :number,
-    deposit :number,
-    lateFee :number,
-    rent : number,
-    rentType : string,
+    address : string,
     city : string,
     state : string,
     country : string,
     postCode : string
+    deposit :number,
+    lateFee :number,
+    rent : number,
+    rentType : string,
+    owner : OwnerProps
 }
 
 export interface PropertiesReducerProps {
@@ -147,16 +145,16 @@ export interface PropertiesReducerProps {
 
 export interface UnitProps {
   _id : string,
-  propertyId : string,
   name : string,
   description : string,
   condition : string,
-  tenantId : string,
   image : string,
   squareFeet : number,
   bedrooms : number,
   washrooms : number,
-  kitchen : number,
+  kitchens : number,
+  property : PropertyProps,
+  tenant ?: TenantProps,
 }
 
 export interface UnitsReducerProps {

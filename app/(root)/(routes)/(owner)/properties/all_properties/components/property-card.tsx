@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertyProps } from "@/types";
+import { PropertyProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 interface PropertyCardProps {
     data : PropertyProps
 }
@@ -17,13 +17,23 @@ import Image from "next/image";
 import './property-card.css'
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AlertModal } from "@/components/modals/alert-modal";
 import toast from "react-hot-toast";
 import { removeProperty } from "@/redux/properties/propertiesSlice";
+import api from "@/actions/api";
 
 
 const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
+
+    const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
+    .filter((unit)=>unit.property?._id === data._id)
+
+    const tenantsCount = units.filter(unit => unit.tenant).length
+    const available = data.unitCount - tenantsCount
+
+    // const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
+    // .filter((tenant)=> tenant.propertyId === data._id)
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -32,9 +42,15 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
-        toast.success("Property Removed")
+        if (units.length > 0) {
+            toast.error("Remove associated units first.")
+        } else {
+            await api.delete(`deleteProperty?id=${data._id}`,{validateStatus: () => true})
+            toast.success("Property Removed")
+            dispatch(removeProperty(data))       
+        }
         setOpen(false)
-        dispatch(removeProperty(data))       
+
     
 }
 
@@ -88,11 +104,11 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <h4 className="flex gap-2 items-center text-xs text-gray-500"><MapPinned size={17} /> {data.location}</h4>
+            <h4 className="flex gap-2 items-center text-xs text-gray-500"><MapPinned size={17} /> {data.address}</h4>
             <div className="grid grid-cols-2 gap-2 mt-4 bg-white rounded-md p-2 mb-2">
                 <h5 className="flex items-center text-xs  gap-2"><Home size={15} />{data.unitCount} Units</h5>
-                <h5 className="flex items-center text-xs  gap-2"><LayoutDashboardIcon size={15} />{data.rooms} Rooms</h5>
-                <h5 className="flex items-center text-xs  gap-2"><CircleCheck size={15} />{data.available} Available</h5>
+                <h5 className="flex items-center text-xs  gap-2"><LayoutDashboardIcon size={15} />{tenantsCount} Tenants</h5>
+                <h5 className="flex items-center text-xs  gap-2"><CircleCheck size={15} />{available} Available Units</h5>
             </div>
             <Button onClick={()=>router.push(`/properties/all_properties/${data._id}`)} className="w-full bg-purple-600">View Details</Button>
         </div>

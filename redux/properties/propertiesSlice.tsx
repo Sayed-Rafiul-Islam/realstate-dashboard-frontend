@@ -17,36 +17,16 @@ const propertiesSlice = createSlice({
         getProperties : (state, {payload}) => {
             state.properties = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+                localStorage.removeItem("properties")
+                localStorage.setItem("properties", JSON.stringify(state.properties))
             }
         },
         updateProperty : (state, {payload}) => {
-
-            const temp = state.properties.filter((item : PropertyProps) => {
-                if ( item._id  === payload._id) {
-                    item.name = payload.name
-                    item.description = payload.description
-                    item.location = payload.location
-                    item.coverImage = payload.coverImage
-                    item.unitCount = payload.unitCount
-                    item.rooms = payload.rooms
-                    item.available = payload.available
-                    item.tenants = payload.tenants
-                    item.deposit = payload.deposit
-                    item.lateFee = payload.lateFee
-                    item.rentType = payload.rentType
-                    item.city = payload.city
-                    item.state = payload.state
-                    item.country = payload.country
-                    item.postCode = payload.postCode
-                }
-                return item
-            })
-            state.properties = temp
+            const index = state.properties.findIndex((item : PropertyProps) => item._id === payload._id)
+            state.properties[index] = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+                localStorage.removeItem("properties")
+                localStorage.setItem("properties", JSON.stringify(state.properties))
             }
         },
 
@@ -54,16 +34,16 @@ const propertiesSlice = createSlice({
 
             state.properties.push(payload)
             if (typeof window !== 'undefined') {
-            // localStorage.removeItem("properties")
-            // localStorage.setItem("properties", JSON.stringify(state.properties))
+                localStorage.removeItem("properties")
+                localStorage.setItem("properties", JSON.stringify(state.properties))
             }
         },
         removeProperty : (state, {payload}) => {
             const temp = state.properties.filter(({_id} : PropertyProps) => _id !== payload._id)
             state.properties = temp
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("properties")
-            localStorage.setItem("properties", JSON.stringify(state.properties))
+                localStorage.removeItem("properties")
+                localStorage.setItem("properties", JSON.stringify(state.properties))
             }
         },
     }

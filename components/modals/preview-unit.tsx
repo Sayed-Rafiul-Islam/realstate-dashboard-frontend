@@ -79,7 +79,7 @@ export const PreviewUnit : React.FC<PreviewUnitProps> = ({
                                 </div>
                                 <div className="flex justify-between border-b border-gray-200 p-4">
                                     <h5 className="text-xs">Tenant Name:</h5>
-                                    <h6 className="text-xs font-semibold">{data.tenant}</h6>
+                                    <h6 className="text-xs font-semibold">{data.tenant ? data.tenant.name : "N/A"}</h6>
                                 </div>
                                 <div className="flex justify-between border-b border-gray-200 p-4">
                                     <h5 className="text-xs">Rent:</h5>

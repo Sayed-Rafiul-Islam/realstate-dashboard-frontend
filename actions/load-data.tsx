@@ -131,138 +131,14 @@ const loadOwners = async (dispatch : any) => {
 // owner -----------------------------------------------------------------------------------
 
 
-const loadProperties = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const properties = [
-        {
-            _id : '1',
-            name : 'The Ivy Residences',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            location : "Kenia, Alaska, United States",
-            coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
-            unitCount : 3,
-            rooms : 16,
-            available : 2,
-            tenants : 2,
-            deposit : 100,
-            lateFee : 2,
-            rent : 15000,
-            rentType : "monthly",
-            city : 'city',
-            state : 'state',
-            country : 'country',
-            postCode : '5400'
-        },
-        {
-            _id : '2',
-            name : 'The Ivy Residences 2',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            location : "Kenia, Alaska, United States",
-            coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
-            unitCount : 8,
-            rooms : 16,
-            available : 2,
-            tenants : 2,
-            deposit : 100,
-            lateFee : 2,
-            rent : 15000,
-            rentType : "monthly",
-            city : 'city',
-            state : 'state',
-            country : 'country',
-            postCode : '5400'
-        },
-        {
-            _id : '3',
-            name : 'The Ivy Residences 3',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            location : "Kenia, Alaska, United States",
-            coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
-            unitCount : 8,
-            rooms : 16,
-            available : 2,
-            tenants : 2,
-            deposit : 100,
-            lateFee : 2,
-            rent : 15000,
-            rentType : "monthly",
-            city : 'city',
-            state : 'state',
-            country : 'country',
-            postCode : '5400'
-        },
-        {
-            _id : '4',
-            name : 'The Ivy Residences 4',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            location : "Kenia, Alaska, United States",
-            coverImage : "https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg",
-            unitCount : 8,
-            rooms : 16,
-            available : 2,
-            tenants : 2,
-            deposit : 100,
-            lateFee : 2,
-            rent : 15000,
-            rentType : "monthly",
-            city : 'city',
-            state : 'state',
-            country : 'country',
-            postCode : '5400'
-
-        }
-    ]
-    dispatch(getProperties(properties))
+const loadProperties = async (dispatch : any) => {
+    const {data,status} = await api.get(`getProperties`,{validateStatus: () => true})
+    dispatch(getProperties(data))
 }
 
-const loadUnits = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const units = [
-        {
-            _id : '1',
-            propertyId : '1',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg',
-            name : 'Unit 1',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            condition : "Good",
-            tenantId : '2',
-            squareFeet : 200,
-            bedrooms : 3,
-            washrooms : 2,
-            kitchen : 1
-        },
-        {
-            _id : '2',
-            propertyId : '1',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg',
-            name : 'Unit 2',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            condition : "Good",
-            tenantId : '1',
-            squareFeet : 300,
-            bedrooms : 3,
-            washrooms : 2,
-            kitchen : 1
-        },
-        {
-            _id : '3',
-            propertyId : '1',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1715582360/etww2t2ztuariwws6su3.jpg',
-            name : 'Unit 3',
-            description : `The Ivy Resided, located in the USA, is a small residential property with only 2 units. Given its limited size, it is likely a duplex, townhouse, or small apartment building. With only two units, The Ivy Resided may offer a more private and intimate living experience compared to larger properties. Depending on the location and design, the two units may offer spacious living areas, modern amenities, and high-end finishes. The property's location in the USA, however, does not specify the exact location, which could impact the availability of services and amenities nearby. A more specific location would provide a better idea of the surrounding area and what The Ivy Resided has to offer.`,
-            condition : "Good",
-            tenantId : '',
-            squareFeet : 100,
-            bedrooms : 1,
-            washrooms : 1,
-            kitchen : 1
-        }
-    ]
-    dispatch(getUnits(units))
+const loadUnits = async (dispatch : any) => {
+    const {data,status} = await api.get(`getUnits`,{validateStatus: () => true})
+    dispatch(getUnits(data))
 }
 
 const loadTenants = async () => {
@@ -723,50 +599,7 @@ const loadMaintainers = async () => {
 
 const loadMaintainanceRequests = async (dispatch : any) => {
     const {data,status} = await api.get(`getRequests`,{validateStatus: () => true})
-
-
-    // const data = [
-    //     {
-    //         _id : '1',
-    //         date : '2024-05-02T17:34:59.911+00:00',
-    //         requestNo : 'CW10086675',
-    //         type : "Electrical Problem",
-    //         propertyId : '1',
-    //         unitId : '1',
-    //         maintainerId : '1',
-    //         issue : "Smoke Detector Battery Replacement",
-    //         status : "In Progress",
-    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-    //         cost : 800
-    //     },
-    //     {
-    //         _id : '2',
-    //         date : '2024-05-02T17:34:59.911+00:00',
-    //         requestNo : 'CW10086674',
-    //         type : "Plumbing Problem",
-    //         propertyId : '1',
-    //         unitId : '2',
-    //         maintainerId : '2',
-    //         issue : "Smoke Detector Battery Replacement",
-    //         status : "Complete",
-    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-    //         cost : 1200
-    //     },
-    //     {
-    //         _id : '3',
-    //         date : '2024-05-02T17:34:59.911+00:00',
-    //         requestNo : 'CW10086670',
-    //         type : "Pest Problem",
-    //         propertyId : '1',
-    //         unitId : '3',
-    //         maintainerId : '3',
-    //         issue : "Smoke Detector Battery Replacement",
-    //         status : "Incomplete",
-    //         details : "sdfbwaeufgewkjabfajkbfjlkasnc,kasncbdcvesvclihsevcis",
-    //         cost : 600
-    //     }
-    // ]
-        dispatch(getMaintainanceRequests(data))
+    dispatch(getMaintainanceRequests(data))
 
 }
 
@@ -1063,8 +896,8 @@ export default function LoadData() {
     loadOwners(dispatch)
 
 
-    loadProperties()
-    loadUnits()
+    loadProperties(dispatch)
+    loadUnits(dispatch)
     loadTenants()
     loadInvoices()
     loadExpenses()

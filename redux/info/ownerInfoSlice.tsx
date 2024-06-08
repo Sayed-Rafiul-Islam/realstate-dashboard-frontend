@@ -19,14 +19,21 @@ const ownerInfoSlice = createSlice({
     reducers : {
         getOwnerInfo : (state, {payload}) => {
             state.ownerInfo = payload
-            // console.log(payload)
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("ownerInfo")
-            localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
+                localStorage.removeItem("ownerInfo")
+                localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
             }
-        }
+        },
+        updateOwnerInfo : (state, {payload}) => {
+            state.ownerInfo.propertyCount = payload.propertyCount
+            state.ownerInfo.unitCount = payload.unitCount
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("ownerInfo")
+                localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
+            }
+        },
     }
 })
 
-export const {getOwnerInfo} = ownerInfoSlice.actions
+export const {getOwnerInfo,updateOwnerInfo} = ownerInfoSlice.actions
 export default ownerInfoSlice.reducer

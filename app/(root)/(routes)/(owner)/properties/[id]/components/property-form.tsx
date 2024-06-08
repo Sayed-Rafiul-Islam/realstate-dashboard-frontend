@@ -14,7 +14,7 @@ import { Input } from '@/components/ui/input'
 import { OwnerInfoReducerProps, PackageProps, PropertyProps, UnitProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
-import './package-form.css'
+import './property-form.css'
 import { StaticImageData } from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { addPropertyData1, addPropertyData2, addPropertyData3 } from '@/redux/forms/formsSlice'
@@ -30,7 +30,10 @@ import { DollarSign, Home, Landmark, School } from 'lucide-react'
 import ImageUpload from '@/components/image-upload'
 import { useRouter } from 'next/navigation'
 import { addProperty, updateProperty } from '@/redux/properties/propertiesSlice'
-import { addUnits, removeUnit } from '@/redux/units/unitsSlice'
+import { addUnit, removeUnit } from '@/redux/units/unitsSlice'
+import api from '@/actions/api'
+import { updateOwner } from '@/redux/owners/ownersSlice'
+import { updateOwnerInfo } from '@/redux/info/ownerInfoSlice'
 
 
 type PropertyForm1Values = z.infer<typeof form1Schema>
@@ -50,7 +53,8 @@ interface PropertyFormProps {
             city : string,
             state : string,
             country : string,
-            postCode : string
+            postCode : string,
+            owner : string
         },
         initialData2 : UnitProps[],
         initialData3 : {
@@ -96,15 +100,13 @@ interface FormProps {
 const form1Schema = z.object({
     propertyName : z.string().min(1, {message : "Label Required"}),
     unitCount : z.coerce.number().min(1, {message : "Unit Required"}),
-    description : z.string().min(1),
-    image : z.string().min(1),
-    address : z.string().min(1),
-    city : z.string().min(1),
-    state : z.string().min(1),
-    country : z.string().min(1),
-    postCode : z.string().min(1)
-    // status : z.boolean().default(false),
-    // trial : z.boolean().default(false),
+    description : z.string().min(1, {message : "Description Required"}),
+    image : z.string().min(1, {message : "Image Required"}),
+    address : z.string().min(1, {message : "Address Required"}),
+    city : z.string().min(1, {message : "City Required"}),
+    state : z.string().min(1, {message : "State Required"}),
+    country : z.string().min(1, {message : "Country Required"}),
+    postCode : z.string().min(1, {message : "Postal Code Required"})
 })
 
 const form2Schema = z.object({
@@ -116,7 +118,7 @@ const form2Schema = z.object({
         squareFeet : z.coerce.number().min(1),
         condition : z.string(),
         image : z.string(),
-        description : z.string(),
+        description : z.string()
     }))
 })
 
@@ -170,7 +172,7 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
             name : item.name,
             bedrooms : item.bedrooms,
             washrooms : item.washrooms,
-            kitchens : item.kitchen,
+            kitchens : item.kitchens,
             squareFeet : item.squareFeet,
             condition : item.condition,
             image : item.image,
@@ -195,12 +197,22 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 
     const onForm1Submit = async (data : PropertyForm1Values) => {
         if (owner.activePackage) {
-            if ((data.unitCount + owner.unitCount) <= owner.activePackage.maxUnit) {
-                dispatch(addPropertyData1(data))
-                setForm(1)
+            if (initialData) {
+                if ((data.unitCount + owner.unitCount - initialData.initialData1.unitCount) <= owner.activePackage.maxUnit) {
+                    dispatch(addPropertyData1(data))
+                    setForm(1)
+                } else {
+                    toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit + initialData.initialData1.unitCount - owner.unitCount} units or less`)
+                    form1.setError("unitCount", {type : "custom"})
+                }
             } else {
-                toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit - owner.unitCount} units or less`)
-                form1.setError("unitCount", {type : "custom"})
+                if ((data.unitCount + owner.unitCount) <= owner.activePackage.maxUnit) {
+                    dispatch(addPropertyData1(data))
+                    setForm(1)
+                } else {
+                    toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit - owner.unitCount} units or less`)
+                    form1.setError("unitCount", {type : "custom"})
+                }
             }
         }
         
@@ -208,110 +220,108 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
             
     }
 
-    const onForm2Submit = async (data : PropertyForm2Values) => {
+    const onForm2Submit = async (formData : PropertyForm2Values) => {
 
-        dispatch(addPropertyData2(data.units))
+        dispatch(addPropertyData2(formData.units))
         setForm(2)
     }
 
-    const onForm3Submit = async (data : PropertyForm3Values) => {
+    const onForm3Submit = async (formData : PropertyForm3Values) => {
      
-        dispatch(addPropertyData3(data))
+        dispatch(addPropertyData3(formData))
 
         if (initialData) {
             // update
             const updatePropertyData = {
                 _id : initialData.initialData1._id,
                 name : propertyForm.initialData1.propertyName,
-                description : propertyForm.initialData1.description,
-                location : propertyForm.initialData1.address,
                 coverImage : propertyForm.initialData1.image,
+                description : propertyForm.initialData1.description,
                 unitCount : propertyForm.initialData1.unitCount,
-                rooms : 2,
-                available : 2,
-                tenants : 2,
-                deposit : data.deposit,
-                lateFee : data.lateFee,
-                rent : data.rent,
-                rentType : data.rentType,
+                address : propertyForm.initialData1.address,
                 city : propertyForm.initialData1.city,
                 state : propertyForm.initialData1.state,
                 country : propertyForm.initialData1.country,
-                postCode : propertyForm.initialData1.postCode
+                postCode : propertyForm.initialData1.postCode,
+                deposit : formData.deposit,
+                lateFee : formData.lateFee,
+                rent : formData.rent,
+                rentType : formData.rentType,
+                owner : initialData.initialData1.owner
             }
-            
+
+            const {data,status} = await api.patch(`updateProperty`,updatePropertyData,{validateStatus: () => true})
             dispatch(updateProperty(updatePropertyData))
 
-            initialData.initialData2.map((item) => 
-                dispatch(removeUnit(item._id))
-            )
-            const updatedUnitsData = propertyForm.initialData2.map((item,index) => ({
-                _id : `${index + 5}`,
-                propertyId : updatePropertyData._id,
-                name : item.name,
-                description : item.description,
-                condition : item.condition,
-                tenant : `test ${index + 1} tenant`,
-                image : item.image,
-                squareFeet : item.squareFeet,
-                bedrooms : item.bedrooms,
-                washrooms : item.washrooms,
-                kitchen : item.kitchens,
-                rent : 12000 + index
-            }))
-            dispatch(addUnits(updatedUnitsData))
+            initialData.initialData2.map(async (item) => {
+                await api.delete(`deleteUnit?id=${item._id}`,{validateStatus: () => true})
+            })
+            propertyForm.initialData2.map(async (item) => {
+                const newUnit = {...item,property : data._id}
+                const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
+                dispatch(addUnit(result.data))
+                return result.data
+            })
+
+            if(initialData.initialData1.unitCount !== propertyForm.initialData1.unitCount) {
+                const update = {    
+                    _id : owner._id,
+                    user : owner.user,
+                    status : owner.status,
+                    propertyCount : owner.propertyCount,
+                    unitCount : owner.unitCount - initialData.initialData1.unitCount + propertyForm.initialData1.unitCount,
+                    activePackage : owner.activePackage
+                }
+                const result = await api.patch(`updateOwner`,update,{validateStatus: () => true})
+                dispatch(updateOwner(result.data))
+                dispatch(updateOwnerInfo(update))
+            }
         } 
         
         else {
             // add
             const newPropertyData = {
-                _id : "5",
                 name : propertyForm.initialData1.propertyName,
-                description : propertyForm.initialData1.description,
-                location : propertyForm.initialData1.address,
                 coverImage : propertyForm.initialData1.image,
+                description : propertyForm.initialData1.description,
                 unitCount : propertyForm.initialData1.unitCount,
-                rooms : 4,
-                available : 2,
-                tenants : 2,
-                deposit : data.deposit,
-                lateFee : data.lateFee,
-                rent : data.rent,
-                rentType : data.rentType,
+                address : propertyForm.initialData1.address,
                 city : propertyForm.initialData1.city,
                 state : propertyForm.initialData1.state,
                 country : propertyForm.initialData1.country,
-                postCode : propertyForm.initialData1.postCode
+                postCode : propertyForm.initialData1.postCode,
+                deposit : formData.deposit,
+                lateFee : formData.lateFee,
+                rent : formData.rent,
+                rentType : formData.rentType,
+                owner : owner._id
             }
+            
+            const {data,status} = await api.post(`addProperty`,newPropertyData,{validateStatus: () => true})
+            dispatch(addProperty(data))
 
-            dispatch(addProperty(newPropertyData))
+            propertyForm.initialData2.map(async (item) => {
+                const newUnit = {...item,property : data._id}
+                const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
+                dispatch(addUnit(result.data))
+                return result.data
+            })
 
-            const newUnitsData = propertyForm.initialData2.map((item,index) => ({
-                _id : `${index + 5}`,
-                propertyId : newPropertyData._id,
-                name : item.name,
-                description : item.description,
-                condition : item.condition,
-                tenant : `test ${index + 1} tenant`,
-                image : item.image,
-                squareFeet : item.squareFeet,
-                bedrooms : item.bedrooms,
-                washrooms : item.washrooms,
-                kitchen : item.kitchens,
-                rent : 12000 + index
-            }))
-
-            dispatch(addUnits(newUnitsData))
-
-
-
-            console.log(newPropertyData)
-            console.log(newUnitsData)
-
+            const update = {    
+                _id : owner._id,
+                user : owner.user,
+                status : owner.status,
+                propertyCount : owner.propertyCount + 1,
+                unitCount : owner.unitCount + propertyForm.initialData1.unitCount,
+                activePackage : owner.activePackage
+            }
+            const result = await api.patch(`updateOwner`,update,{validateStatus: () => true})
+            dispatch(updateOwner(result.data))
+            dispatch(updateOwnerInfo(update))
         }
 
-        router.push('/properties/all_properties')
         toast.success(toastMessage)
+        router.push('/properties/all_properties')
         setForm(0)
     }
 
@@ -417,10 +427,10 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                                     name="image"
                                     render={({ field }) => (
                                         <FormItem className=''>
-                                            <FormLabel className=''>Upload Image <span className='text-red-500'>*</span></FormLabel>
+                                            <FormLabel className=''>Cover Image <span className='text-red-500'>*</span></FormLabel>
                                             <FormControl className=''>
                                                 <ImageUpload
-                                                    buttonName='Upload an Image'
+                                                    buttonName='Upload an image'
                                                     value={field.value ? [field.value] : []}
                                                     onChange={(url)=>field.onChange(url)}
                                                     onRemove={()=>field.onChange("")}
