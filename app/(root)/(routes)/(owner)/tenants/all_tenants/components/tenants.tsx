@@ -35,7 +35,7 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
         if (property === '') {
             setTenants(data)
         } else {
-            const tempUnits = units.filter((item) => property === item.propertyId )
+            const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
                 const temp = data.filter((item) => item.propertyId === property) 

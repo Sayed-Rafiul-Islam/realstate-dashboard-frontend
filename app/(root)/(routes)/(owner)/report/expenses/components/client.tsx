@@ -44,7 +44,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
         if (property === '' && type === '') {
             setExpenses(data)
         } else if (property !== '' && type === '') {
-            const tempUnits = units.filter((item) => property === item.propertyId )
+            const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
                 const temp = data.filter((item) => item.propertyId === property) 
@@ -59,7 +59,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
         }
         
         else {
-            const tempUnits = units.filter((item) => property === item.propertyId )
+            const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
                 const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 

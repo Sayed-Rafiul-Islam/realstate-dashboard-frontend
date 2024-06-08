@@ -211,7 +211,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
 
     
     useEffect(()=>{
-        const temp = units.filter((item)=> item.propertyId === propertyId)
+        const temp = units.filter((item)=> item.property._id === propertyId)
         setThisUnits(temp)
         form2.setValue('unit', '')
         

@@ -205,7 +205,7 @@ const MaintainerDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    <h5>{property ? property.location : "N/A"}</h5>
+                                    <h5>{property ? property.address : "N/A"}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Unit</h5>
