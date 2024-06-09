@@ -29,7 +29,7 @@ const NotificationPage = () => {
         }) => {
             const property = properties.filter((item)=> item._id === propertyId)[0]
             const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.unitId === unitId && item.propertyId === propertyId)[0]
+            const tenant = tenants.filter((item)=> item.unit._id === unitId && item.property._id === propertyId)[0]
             return {
                 _id,
                 date,

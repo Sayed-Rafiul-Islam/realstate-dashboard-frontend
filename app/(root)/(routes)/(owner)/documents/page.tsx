@@ -29,8 +29,8 @@ const DocumnetsPage = () => {
             status
         },index : number) => {
             const tenant = tenants.filter((item)=> item._id === tenantId)[0]
-            const property = properties.filter((item)=> item._id === tenant.propertyId)[0]
-            const unit = units.filter((item)=> item._id === tenant.unitId)[0]
+            const property = properties.filter((item)=> item._id === tenant.property._id)[0]
+            const unit = units.filter((item)=> item._id === tenant.unit._id)[0]
             return {
                 serial : index + 1,
                 _id,
