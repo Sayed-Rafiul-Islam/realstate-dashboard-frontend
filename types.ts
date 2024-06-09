@@ -8,7 +8,7 @@ export interface UserProps {
       firstName ?: string,
       lastName ?: string,
       contactNo ?: string,
-      NID ?: number,
+      NID ?: string,
       birthDate ?: string,
       imageUrl : string,
       printName ?: string,
