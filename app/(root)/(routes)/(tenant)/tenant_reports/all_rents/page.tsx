@@ -17,7 +17,7 @@ const RentsPage = () => {
 
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer)
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
-    const thisTenantRents = rents.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
+    const thisTenantRents = rents.filter(({propertyId,unitId})=>propertyId === tenant.property._id && unitId === tenant.unit._id)
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
@@ -42,7 +42,7 @@ const RentsPage = () => {
         }) => {
             const property = properties.filter((item)=> item._id === propertyId)[0]
             const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.propertyId === property._id && item.unitId === unit._id)[0]
+            const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
             return {
                 _id,
                 invoiceNo,

@@ -21,7 +21,7 @@ const AllRequests = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
-    const thisTenantRequests = maintainanceRequests.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
+    const thisTenantRequests = maintainanceRequests.filter(({propertyId,unitId})=>propertyId === tenant.property._id && unitId === tenant.unit._id)
     const formattedRequests = thisTenantRequests.map((
         {
             _id,

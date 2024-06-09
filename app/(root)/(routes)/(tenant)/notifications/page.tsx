@@ -19,7 +19,7 @@ const NotificationPage = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
 
-    const thisTenantNotification = notifications.filter(({propertyId,unitId})=>propertyId === tenant.propertyId && unitId === tenant.unitId)
+    const thisTenantNotification = notifications.filter(({propertyId,unitId})=>propertyId === tenant.property._id && unitId === tenant.unit._id)
     const formattedNotifications = thisTenantNotification.map((
         {
             _id,
@@ -31,7 +31,7 @@ const NotificationPage = () => {
         }) => {
             const property = properties.filter((item)=> item._id === propertyId)[0]
             const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.unitId === unitId && item.propertyId === propertyId)[0]
+            const tenant = tenants.filter((item)=> item.unit._id === unitId && item.property._id === propertyId)[0]
             return {
                 _id,
                 date,
