@@ -75,8 +75,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialData || {
-            propertyId : tenant.propertyId,
-            unitId : tenant.unitId,
+            propertyId : tenant.property._id,
+            unitId : tenant.unit._id,
             type : '',
             status : '',
             details : '',
