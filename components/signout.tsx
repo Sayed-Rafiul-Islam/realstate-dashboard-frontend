@@ -27,7 +27,18 @@ const SignOut = () => {
 
     const dispatch = useDispatch()
     const router = useRouter()
-    const path = usePathname()
+
+    const handleSignOut = () => {
+        window.location.assign('/authentication')
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('tenantInfo')
+            localStorage.removeItem('ownerInfo')
+            localStorage.removeItem('maintainerInfo')
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('role')
+        }
+        // router.push('/authentication')
+    }
 
     return ( 
        <>
@@ -57,7 +68,7 @@ const SignOut = () => {
                     <UserCircle size={20} />
                     <span><Link prefetch href='/my_profile'>Profile</Link></span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-gray-500" onClick={()=>dispatch(removeUser()) && router.push('/authentication')}>
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-gray-500" onClick={handleSignOut}>
                     <Power size={20} />
                     <span>Sign Out</span>
                 </DropdownMenuItem>

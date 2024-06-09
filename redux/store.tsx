@@ -29,6 +29,12 @@ import expenseTypesReducer from '@/redux/settings/expenseTypesSlice'
 import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 
 
+import ownerPropertyReducer from '@/redux/data/owner/propertiesSlice'
+import ownerUnitsReducer from '@/redux/data/owner/unitsSlice'
+
+
+
+
 export const store = configureStore({
   reducer: {
     allUsersReducer,
@@ -58,7 +64,13 @@ export const store = configureStore({
     gatewaysReducer,
     invoiceTypesReducer,
     expenseTypesReducer,
-    maintainanceTypesReducer
+    maintainanceTypesReducer,
+
+
+    ownerPropertyReducer,
+    ownerUnitsReducer
+
+
   }
 })
 

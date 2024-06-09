@@ -20,6 +20,7 @@ const ownerInfoSlice = createSlice({
         getOwnerInfo : (state, {payload}) => {
             state.ownerInfo = payload
             if (typeof window !== 'undefined') {
+                localStorage.removeItem("user")
                 localStorage.removeItem("ownerInfo")
                 localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
             }

@@ -1,6 +1,6 @@
 "use client"
 
-import { OwnerInfoReducerProps, PropertiesReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerPropertyReducerProps, PropertiesReducerProps, PropertyProps  } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
@@ -8,13 +8,27 @@ import { Button } from "@/components/ui/button";
 import Properties from "@/app/(root)/(routes)/(owner)/properties/all_properties/components/properties";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 
 const AllPropertiesPage = () => {
-    const router = useRouter()
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const router = useRouter()
+    const dispatch = useDispatch()
+
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const {data,status} = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerProperties(data))
+                }
+            }
+            getData()
+        },)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
 
     const handleAddProperty = () => {
         if (owner.activePackage) {
@@ -47,7 +61,10 @@ const AllPropertiesPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <Properties data={properties} />
+                    {
+                        properties &&
+                        <Properties data={properties} />
+                    }
                 </div>
             </div>
         </div>

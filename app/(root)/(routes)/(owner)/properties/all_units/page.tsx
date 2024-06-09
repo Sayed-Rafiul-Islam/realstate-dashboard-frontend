@@ -1,19 +1,32 @@
 "use client"
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { OwnerInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
-import { useSelector } from "react-redux";
+import { OwnerInfoReducerProps, OwnerUnitsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
 import { UnitsClient } from "./components/client";
+import { useEffect, useState } from "react";
+import { getOwnerUnits } from "@/redux/data/owner/unitsSlice";
+import api from "@/actions/api";
 
 const AllUnitsPage = () => {
-
+    const dispatch = useDispatch()
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
 
-    const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
-    .filter((unit) => unit.property.owner._id === owner._id)
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const {data,status} = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerUnits(data))
+                }
+            }
+            getData()
+        })                
 
-   
+
+
+
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
 
     const formattedUnits = units.map((
         {
@@ -46,6 +59,16 @@ const AllUnitsPage = () => {
                 kitchens,
             }
         })
+
+        const [isMounted, setIsMounted] = useState(false)
+
+        useEffect(()=>{
+            setIsMounted(true)
+        },[])
+    
+        if (!isMounted) {
+            return null
+        }
 
     return ( 
         <div className="flex-col">

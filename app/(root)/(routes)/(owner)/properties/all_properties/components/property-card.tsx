@@ -22,19 +22,16 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import toast from "react-hot-toast";
 import { removeProperty } from "@/redux/properties/propertiesSlice";
 import api from "@/actions/api";
+import { updateOwnerInfo } from "@/redux/info/ownerInfoSlice";
+import { removeOwnerProperty } from "@/redux/data/owner/propertiesSlice";
 
 
 const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
 
     const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
-    const property = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
-    .filter((property) => property._id === data._id)[0]
-    const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
-    .filter((unit)=>unit.property?._id === data._id)
 
-
-    const tenantsCount = tenants.filter((tenant) => tenant.property._id === property._id).length
-    const available = property.unitCount - tenantsCount
+    const tenantsCount = tenants.filter((tenant) => tenant.property._id === data._id).length
+    const available = data.unitCount - tenantsCount
 
 
     const router = useRouter()
@@ -44,16 +41,16 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
-        if (units.length > 0) {
-            toast.error("Remove associated units first.")
-        } else {
-            await api.delete(`deleteProperty?id=${data._id}`,{validateStatus: () => true})
-            toast.success("Property Removed")
-            dispatch(removeProperty(data))       
-        }
-        setOpen(false)
+        const result = await api.delete(`deleteProperty?id=${data._id}&ownerId=${data.owner._id}`,{validateStatus: () => true})
 
-    
+        if (result.status === 200) {
+            toast.success("Property Removed")
+            dispatch(updateOwnerInfo(result.data))
+            dispatch(removeOwnerProperty(data)) 
+        } else {
+            toast.error("Remove associated units first.")
+        }
+        setOpen(false) 
 }
 
 

@@ -34,6 +34,9 @@ import { addUnit, removeUnit } from '@/redux/units/unitsSlice'
 import api from '@/actions/api'
 import { updateOwner } from '@/redux/owners/ownersSlice'
 import { updateOwnerInfo } from '@/redux/info/ownerInfoSlice'
+import { addOwnerProperty, updateOwnerProperty } from '@/redux/data/owner/propertiesSlice'
+import { addOwnerUnit, removeOwnerUnit } from '@/redux/data/owner/unitsSlice'
+
 
 
 type PropertyForm1Values = z.infer<typeof form1Schema>
@@ -251,31 +254,22 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
             }
 
             const {data,status} = await api.patch(`updateProperty`,updatePropertyData,{validateStatus: () => true})
-            dispatch(updateProperty(updatePropertyData))
+
+            dispatch(updateOwnerProperty(data))
 
             initialData.initialData2.map(async (item) => {
-                await api.delete(`deleteUnit?id=${item._id}`,{validateStatus: () => true})
+                const result = await api.delete(`deleteUnit?id=${item._id}&ownerId=${owner._id}`,{validateStatus: () => true})
+                dispatch(removeOwnerUnit(data._id))
+                dispatch(updateOwnerInfo(result.data.updatedOwner))
+                dispatch(updateOwnerProperty(result.data.updatedProperty))
             })
             propertyForm.initialData2.map(async (item) => {
-                const newUnit = {...item,property : data._id}
+                const newUnit = {...item,property : data._id,owner : owner._id}
                 const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
-                dispatch(addUnit(result.data))
-                return result.data
+                dispatch(addOwnerUnit(result.data.newUnit))
+                dispatch(updateOwnerInfo(result.data.updatedOwner))
+                dispatch(updateOwner(result.data.updatedOwner))
             })
-
-            if(initialData.initialData1.unitCount !== propertyForm.initialData1.unitCount) {
-                const update = {    
-                    _id : owner._id,
-                    user : owner.user,
-                    status : owner.status,
-                    propertyCount : owner.propertyCount,
-                    unitCount : owner.unitCount - initialData.initialData1.unitCount + propertyForm.initialData1.unitCount,
-                    activePackage : owner.activePackage
-                }
-                const result = await api.patch(`updateOwner`,update,{validateStatus: () => true})
-                dispatch(updateOwner(result.data))
-                dispatch(updateOwnerInfo(update))
-            }
         } 
         
         else {
@@ -298,28 +292,17 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
             }
             
             const {data,status} = await api.post(`addProperty`,newPropertyData,{validateStatus: () => true})
-            dispatch(addProperty(data))
+            dispatch(addOwnerProperty(data.newProperty))
 
             propertyForm.initialData2.map(async (item) => {
-                const newUnit = {...item,property : data._id}
+                const newUnit = {...item,property : data.newProperty._id,owner : owner._id}
                 const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
-                dispatch(addUnit(result.data))
-                return result.data
+                dispatch(addOwnerUnit(result.data.newUnit))
+                dispatch(updateOwnerInfo(result.data.updatedOwner))
+                dispatch(updateOwner(result.data.updatedOwner))
             })
-
-            const update = {    
-                _id : owner._id,
-                user : owner.user,
-                status : owner.status,
-                propertyCount : owner.propertyCount + 1,
-                unitCount : owner.unitCount + propertyForm.initialData1.unitCount,
-                activePackage : owner.activePackage
-            }
-            const result = await api.patch(`updateOwner`,update,{validateStatus: () => true})
-            dispatch(updateOwner(result.data))
-            dispatch(updateOwnerInfo(update))
         }
-
+ 
         toast.success(toastMessage)
         router.push('/properties/all_properties')
         setForm(0)

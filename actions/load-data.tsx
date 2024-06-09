@@ -4,7 +4,7 @@ import building_1 from '@/images/buildings/b1.jpg'
 import tenant_1 from '@/images/tenants/tenant_1.jpeg'
 
 
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
 import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
@@ -29,6 +29,10 @@ import api from './api'
 import { getNotifications } from '@/redux/report/notificationsSlice'
 import { getTenantDocuments } from '@/redux/documents/tenantDocumentsSlice'
 import { getAllUsers } from '@/redux/users/usersSlice'
+import { OwnerInfoReducerProps, OwnerProps } from '@/types'
+import { useEffect, useState } from 'react'
+import { getOwnerProperties } from '@/redux/data/owner/propertiesSlice'
+import { getOwnerUnits } from '@/redux/data/owner/unitsSlice'
 
 
 
@@ -884,7 +888,7 @@ const loadTenanrDocuments = async () => {
     dispatch(getTenantDocuments(documents))
 }
 
-export default function LoadData() {
+export function LoadData() {
 
     const dispatch = useDispatch()
 

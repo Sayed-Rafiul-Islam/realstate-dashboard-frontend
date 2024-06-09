@@ -1,5 +1,4 @@
 "use client"
-
 import AdminDashboard from "@/components/dashboard/admin-dashboard";
 import MaintainerDashboard from "@/components/dashboard/maintainer-dashboard";
 import OwnerDashboard from "@/components/dashboard/owner-dashboard";
@@ -30,6 +29,8 @@ export default function Home() {
   } else if (role === 'owner') {    
     const owner = owners.filter(({user}) => user._id === _id)[0]
     dispatch(getOwnerInfo(owner))
+    // loadOwnerData(owner)
+    
   }
 
   return (

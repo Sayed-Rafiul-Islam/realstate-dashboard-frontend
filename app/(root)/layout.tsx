@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import NavbarToggle from "@/components/navbar-toogle";
 import SignOut from "@/components/signout";
 import './content.css'
-import LoadData from "@/actions/load-data";
+import {LoadData} from "@/actions/load-data";
 import AccessProvider from "@/actions/accessProvider";
 import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";

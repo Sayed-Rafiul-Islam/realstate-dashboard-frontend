@@ -22,8 +22,10 @@ import { UnitColumn } from "./column"
 import { removeUnit } from "@/redux/units/unitsSlice"
 import { PreviewUnit } from "@/components/modals/preview-unit"
 import api from "@/actions/api"
-// import { AlertModal } from "@/components/modals/alert-modal"
-// import { deleteCategory } from "@/app/actions/categories"
+import { updateOwnerInfo } from "@/redux/info/ownerInfoSlice"
+import { updateProperty } from "@/redux/properties/propertiesSlice"
+import { removeOwnerUnit } from "@/redux/data/owner/unitsSlice"
+import { updateOwnerProperty } from "@/redux/data/owner/propertiesSlice"
 
 interface CellActionProps {
     data : UnitColumn
@@ -43,8 +45,10 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
         if (data.tenant) {
             toast.error("Remove associated tenants first")
         } else {
-            await api.delete(`deleteUnit?id=${data._id}`,{validateStatus: () => true})
-            dispatch(removeUnit(data._id))
+            const result = await api.delete(`deleteUnit?id=${data._id}&ownerId=${data.property.owner._id}&propertyId=${data.property._id}`,{validateStatus: () => true})
+            dispatch(removeOwnerUnit(data._id))
+            dispatch(updateOwnerInfo(result.data.updatedOwner))
+            dispatch(updateOwnerProperty(result.data.updatedProperty))
             toast.success("Unit Deleted")
         }
         setOpen(false)

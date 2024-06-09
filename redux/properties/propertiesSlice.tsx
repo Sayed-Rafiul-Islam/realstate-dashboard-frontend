@@ -31,7 +31,6 @@ const propertiesSlice = createSlice({
         },
 
         addProperty : (state, {payload}) => {
-
             state.properties.push(payload)
             if (typeof window !== 'undefined') {
                 localStorage.removeItem("properties")

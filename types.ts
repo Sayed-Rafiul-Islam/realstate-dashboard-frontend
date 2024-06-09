@@ -154,6 +154,7 @@ export interface UnitProps {
   washrooms : number,
   kitchens : number,
   property : PropertyProps,
+  owner : OwnerProps
 }
 
 export interface UnitsReducerProps {
@@ -420,4 +421,15 @@ export interface MaintainanceTypeProps {
 
 export interface MaintainanceTypesReducerProps {
   maintainanceTypesReducer :  { maintainanceTypes : MaintainanceTypeProps[]} 
+}
+
+
+// -------------------------------------
+
+export interface OwnerPropertyReducerProps {
+  ownerPropertyReducer :  { ownerProperties : PropertyProps[]} 
+}
+
+export interface OwnerUnitsReducerProps {
+  ownerUnitsReducer :  { ownerUnits : UnitProps[]} 
 }
