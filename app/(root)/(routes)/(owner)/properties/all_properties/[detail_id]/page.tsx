@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { PropertiesReducerProps, PropertyProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -20,13 +20,14 @@ const PropertyDetails = ({
     params : { detail_id : string}
 }) => {
     const router = useRouter()
+    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
     const property = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
     .filter((property) => property._id === params.detail_id)[0]
     const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
     .filter((unit)=>unit.property?._id === params.detail_id)
 
 
-    const tenantsCount = units.filter(unit => unit.tenant).length
+    const tenantsCount = tenants.filter((tenant) => tenant.property._id === property._id).length
     const available = property.unitCount - tenantsCount
 
     const formattedUnits = units.map((
