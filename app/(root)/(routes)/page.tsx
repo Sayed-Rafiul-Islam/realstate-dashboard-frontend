@@ -22,7 +22,7 @@ export default function Home() {
   const {owners} = useSelector(({ownersReducer} : OwnersReducerProps)=> ownersReducer)
 
   if (role === 'tenant') {
-      const tenant = tenants.filter(({userId}) => userId === _id)[0]
+      const tenant = tenants.filter(({user}) => user._id === _id)[0]
       dispatch(getTenantInfo(tenant))
   } else if (role === 'maintainer') {
     const maintainer = maintainers.filter(({userId}) => userId === _id)[0]
