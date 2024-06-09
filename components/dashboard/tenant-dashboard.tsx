@@ -31,13 +31,13 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
 
 
     const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
-    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.propertyId && unitId === tenant.unitId).slice(0,5)
-    const requests = maintainanceRequests.filter(({propertyId,unitId})=> propertyId === tenant.propertyId && unitId === tenant.unitId)
-    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.propertyId && unitId === tenant.unitId)
-    const thisProperty = properties.filter(({_id})=> _id === tenant.propertyId)[0]
+    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
+    const requests = maintainanceRequests.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
+    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
+    const thisProperty = properties.filter(({_id})=> _id === tenant.property._id)[0]
 
-    const propertyName = properties.filter(({_id}) => _id === tenant.propertyId)[0].name
-    const unitName = units.filter(({_id}) => _id === tenant.unitId)[0].name
+    const propertyName = properties.filter(({_id}) => _id === tenant.property._id)[0].name
+    const unitName = units.filter(({_id}) => _id === tenant.unit._id)[0].name
 
     const router = useRouter()
 
@@ -52,7 +52,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
         {
             id : 1,
             subtitle : "Family Members",
-            title : `${tenant.familyMember}`,
+            title : `${tenant.familyMembers}`,
             icon : <Users color="#FFCA4B" size={20} />,
             color : 'amber'
         },
