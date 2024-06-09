@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, TenantProps, UnitProps, UnitsReducerProps } from "@/types"
+import { AllUsersReducerProps, OwnerInfoReducerProps, PropertiesReducerProps, PropertyProps, TenantProps, UnitProps, UnitsReducerProps, UsersReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -43,17 +43,17 @@ interface TenantFormProps {
             _id : string,
             name : string,
             email : string,
-            phone : string,
-            NID : number,
+            contactNo : string | undefined,
+            NID : number | undefined,
             occupation : string,
             age : number,
-            familyMember : number,
-            image : string,
+            familyMembers : number,
+            image : string | undefined,
             address : string,
             city : string,
             state : string,
             country : string,
-            postalCode : string,
+            postCode : string,
             status : boolean
         },
         initialData2 : {
@@ -80,17 +80,18 @@ interface FormProps {
             initialData1: {
                 name : string,
                 email : string,
-                phone : string,
+                pass_word : string,
+                contactNo : string,
                 NID : number,
                 occupation : string,
                 age : number,
-                familyMember : number,
+                familyMembers : number,
                 image : string,
                 address : string,
                 city : string,
                 state : string,
                 country : string,
-                postalCode : string,
+                postCode : string,
                 status : boolean
               },
               initialData2: {
@@ -116,17 +117,18 @@ interface FormProps {
 const form1Schema = z.object({
     name : z.string().min(1, {message : "Name Required"}),
     email : z.string().min(1, {message : "Email Required"}),
-    phone : z.string().min(1, {message : "Contact No Required"}),
+    pass_word : z.string().min(1, {message : "Password Required"}),
+    contactNo : z.string().min(1, {message : "Contact No Required"}),
     NID : z.coerce.number().min(8),
     occupation : z.string(),
     age : z.coerce.number(),
-    familyMember : z.coerce.number(),
+    familyMembers : z.coerce.number(),
     image: z.string().min(1, {message : "Image Required"}),
     address : z.string().min(1, {message : "Address Required"}),
     city : z.string().min(1, {message : "City Required"}),
     state : z.string().min(1, {message : "State Required"}),
     country : z.string().min(1, {message : "Country Required"}),
-    postalCode : z.string().min(1, {message : "Postal Required"}),
+    postCode : z.string().min(1, {message : "Postal Required"}),
     status : z.boolean().default(false)
 })
 
@@ -145,14 +147,6 @@ const form3Schema = z.object({
 })
 
 
-
-
-
-// propertyId : string,
-// unitId : string,
-
-
-
 export const TenantForm : React.FC<TenantFormProps> = ({
     initialData
 }) => {
@@ -161,12 +155,9 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     const dispatch = useDispatch()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
-
-    // const [propertyDoc,setPropertyDoc] = useState<FileList | null>()
-    // const [personalDoc,setPersonalDoc] = useState<FileList | null>()
-
-
     
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const {allUsers} = useSelector(({allUsersReducer} : AllUsersReducerProps) => allUsersReducer)
     const {tenantForm} = useSelector(({formsReducer} : FormProps) => formsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
@@ -189,7 +180,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
         defaultValues : initialData?.initialData1 || {
             age : 0,
             occupation :'',
-            familyMember : 1,
+            familyMembers : 1,
             status : false
         }
     })
@@ -218,9 +209,19 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     },[propertyId])
 
     const onForm1Submit = async (data : TenantForm1Values) => {
-        dispatch(addTenantData1(data))
-        setForm(1)
-        console.log(data)
+        const isEmail = allUsers.filter((user) => user.email === data.email)
+       if (initialData) {
+            dispatch(addTenantData1(data))
+            setForm(1)
+       } else {
+        if (isEmail.length > 0) {
+            form1.setError('email', { type : 'required', message : "Email already in use"})
+        } else {
+            dispatch(addTenantData1(data))
+            setForm(1)
+        }
+       }
+       
     }
 
     const onForm2Submit = async (data : TenantForm2Values) => {
@@ -232,17 +233,18 @@ export const TenantForm : React.FC<TenantFormProps> = ({
 
 
     const onForm3Submit = async (data : TenantForm3Values) => {
-
+        // console.log(tenantForm)
 
         if ( initialData ) {
                    const formData = {
                     _id : initialData.initialData1._id,
-                    propertyId : tenantForm.initialData2.property,
-                    unitId : tenantForm.initialData2.unit,
+                    property : tenantForm.initialData2.property,
+                    unit : tenantForm.initialData2.unit,
                     name : tenantForm.initialData1.name,
+                    owner : owner._id,
                     image : tenantForm.initialData1.image,
                     email : tenantForm.initialData1.email,
-                    phone : tenantForm.initialData1.phone,
+                    contactNo : tenantForm.initialData1.contactNo,
                     occupation : tenantForm.initialData1.occupation,
                     startDate : tenantForm.initialData2.startDate,
                     endDate : tenantForm.initialData2.endDate,
@@ -250,31 +252,33 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     city : tenantForm.initialData1.city,
                     state : tenantForm.initialData1.state,
                     country : tenantForm.initialData1.country,
-                    postalCode : tenantForm.initialData1.postalCode,
+                    postCode : tenantForm.initialData1.postCode,
                     NID : tenantForm.initialData1.NID,
                     due : tenantForm.initialData2.due,
                     age : tenantForm.initialData1.age,
-                    familyMember : tenantForm.initialData1.familyMember,
+                    familyMembers : tenantForm.initialData1.familyMembers,
                     status : tenantForm.initialData1.status,      
                     personalDoc : data.personalDoc,
                     propertyDoc : data.propertyDoc,
                 }
-                // const result = await api.post(`updateTenant`, formData)
-                //    dispatch(updateMaintainanceRequest(result.data))
-                dispatch(updateTenant(formData))
+                const result = await api.patch(`updateTenant`, formData,{validateStatus: () => true})
+                dispatch(updateTenant(result.data))
                 toast.success(toastMessage)
                 router.push('/tenants')
                 }
            
         else {
+                
 
                    const formData = {
-                    propertyId : tenantForm.initialData2.property,
-                    unitId : tenantForm.initialData2.unit,
+                    property : tenantForm.initialData2.property,
+                    unit : tenantForm.initialData2.unit,
                     name : tenantForm.initialData1.name,
+                    owner : owner._id,
                     image : tenantForm.initialData1.image,
                     email : tenantForm.initialData1.email,
-                    phone : tenantForm.initialData1.phone,
+                    pass_word : tenantForm.initialData1.pass_word,
+                    contactNo : tenantForm.initialData1.contactNo,
                     occupation : tenantForm.initialData1.occupation,
                     startDate : tenantForm.initialData2.startDate,
                     endDate : tenantForm.initialData2.endDate,
@@ -282,24 +286,27 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     city : tenantForm.initialData1.city,
                     state : tenantForm.initialData1.state,
                     country : tenantForm.initialData1.country,
-                    postalCode : tenantForm.initialData1.postalCode,
+                    postCode : tenantForm.initialData1.postCode,
                     NID : tenantForm.initialData1.NID,
                     due : tenantForm.initialData2.due,
                     age : tenantForm.initialData1.age,
-                    familyMember : tenantForm.initialData1.familyMember,
+                    familyMembers : tenantForm.initialData1.familyMembers,
                     status : tenantForm.initialData1.status,      
                     personalDoc : data.personalDoc,
                     propertyDoc : data.propertyDoc,
                 }
                 
-                // const result = await api.post(`createTenant`, formData)
-                   dispatch(addTenant(formData))
-                   toast.success(toastMessage)
-                   router.push('/tenants')
-                }
-           
-        // dispatch(addTenantData2(data))
-        // setForm(0)
+                const result = await api.post(`createTenant`, formData,{validateStatus: () => true})
+                    if (result.status === 200) {
+                        dispatch(addTenant(result.data))
+                        toast.success(toastMessage)
+                        router.push('/tenants')
+                        setForm(0)
+                    } else {
+                        toast.error("Email already in use")
+                    }
+                   
+                }        
     }
 
 
@@ -377,7 +384,9 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
+                             {
+                                !initialData &&
+                                <FormField
                                 control={form1.control}
                                 name="email"
                                 render={({ field }) => (
@@ -390,9 +399,27 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                                     </FormItem>
                                 )}
                             />
+                            }
+                            
+                            {
+                                !initialData &&
+                                <FormField
+                                control={form1.control}
+                                name="pass_word"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password <span className='text-red-500'>*</span></FormLabel>
+                                        <FormControl>
+                                            <Input type='password' disabled={loading} placeholder='********' {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            }
                             <FormField
                                 control={form1.control}
-                                name="phone"
+                                name="contactNo"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Contact No <span className='text-red-500'>*</span></FormLabel>
@@ -445,7 +472,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                             />
                             <FormField
                                 control={form1.control}
-                                name="familyMember"
+                                name="familyMembers"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Family Members</FormLabel>
@@ -533,7 +560,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
 
                             <FormField
                                 control={form1.control}
-                                name="postalCode"
+                                name="postCode"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Post Code <span className='text-red-500'>*</span></FormLabel>

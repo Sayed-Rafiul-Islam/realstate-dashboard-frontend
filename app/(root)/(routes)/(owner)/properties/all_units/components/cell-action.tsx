@@ -34,15 +34,13 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
-    .filter((tenant)=> tenant.unitId === data._id)
 
     const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
-        if (tenants.length > 0) {
+        if (data.tenant) {
             toast.error("Remove associated tenants first")
         } else {
             await api.delete(`deleteUnit?id=${data._id}`,{validateStatus: () => true})

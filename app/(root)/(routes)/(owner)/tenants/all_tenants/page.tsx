@@ -2,7 +2,7 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -14,54 +14,46 @@ import { useEffect, useState } from "react";
 
 const AllTenants = () => {
     const router = useRouter()
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
+    .filter((tenant) => tenant.owner._id === owner._id)
 
     const formattedtenants : TenantColumn[] = tenants.map((
         {
             _id,
-            propertyId,
-            unitId,
             name,
-            image,
-            email,
-            phone,
             occupation,
             startDate,
             endDate,
-            NID,
             due,
             age,
-            familyMember,
+            familyMembers,
             status,
             personalDoc,
-            propertyDoc
+            propertyDoc,
+            property,
+            unit,
+            owner,
+            user
         } : TenantProps,index : number) => {
-            const property  = properties.filter(({_id}) =>_id === propertyId)[0]
-            const unit  = units.filter(({_id}) =>_id === unitId)[0]
             return {
                 serial : index + 1,
                 _id,
-                propertyId,
-                unitId,
-                propertyName : property ? property.name : '',
-                unitName : unit ? unit.name : '',
-                monthlyRent : unit ? `${property.rent}` : '',
                 name,
-                image,
-                email,
-                phone,
                 occupation,
                 startDate,
                 endDate,
-                NID,
                 due,
                 age,
-                familyMember,
+                familyMembers,
                 status,
                 personalDoc,
-                propertyDoc
+                propertyDoc,
+                property,
+                unit,
+                owner,
+                user
             }
     })
 

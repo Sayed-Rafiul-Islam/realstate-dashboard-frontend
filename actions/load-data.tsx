@@ -141,94 +141,94 @@ const loadUnits = async (dispatch : any) => {
     dispatch(getUnits(data))
 }
 
-const loadTenants = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
+const loadTenants = async (dispatch : any) => {
+    const {data,status} = await api.get(`getTenants`,{validateStatus: () => true})
     
-    const dispatch = useDispatch()
-    const tenants = [
-        {
-            _id : '1',
-            userId : '662774f150924ade5f6ce70f',
-            ownerId : '662774a250924ade5f6ce70b',
-            propertyId : '1',
-            unitId : '3',
-            name : 'Rodan',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            email : "rodan@gmail.com",
-            phone : '01788544463',
-            occupation : 'Student',
-            startDate : '2024-05-02T17:34:59.911+00:00',
-            endDate : '2024-010-02T17:34:59.911+00:00',
-            dueDate : '2024-06-02T17:34:59.911+00:00',
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            NID : 9978856723,
-            due : 0,
-            age : 25,
-            familyMember : 5,
-            status : true,
-            personalDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf',
-            propertyDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf'
-        },
-        {
-            _id : '2',
-            userId : '662774f150924ade5f6ce70f',
-            ownerId : '662774a250924ade5f6ce70b',
-            propertyId : '2',
-            unitId : '2',
-            name : 'Rafsan',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            email : "rafsan@gmail.com",
-            phone : '01788544463',
-            occupation : 'Shopkeeper',
-            startDate : '2024-05-02T17:34:59.911+00:00',
-            endDate : '2024-010-02T17:34:59.911+00:00',
-            dueDate : '2024-06-02T17:34:59.911+00:00',
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            NID : 9978856753,
-            due : 20,
-            age : 25,
-            familyMember : 5,
-            status : false,
-            personalDoc : '',
-            propertyDoc : ''
-        },
-        {
-            _id : '3',
-            userId : '662774f150924ade5f6ce70f',
-            ownerId : '662774a250924ade5f6ce70b',
-            propertyId : '1',
-            unitId : '2',
-            name : 'Godzilla',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            email : "godzilla@gmail.com",
-            phone : '01788566463',
-            occupation : 'Military',
-            startDate : '2024-05-02T17:34:59.911+00:00',
-            endDate : '2024-010-02T17:34:59.911+00:00',
-            dueDate : '2024-06-02T17:34:59.911+00:00',
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            NID : 9978855553,
-            due : 0,
-            age : 25,
-            familyMember : 1,
-            status : true,
-            personalDoc : '',
-            propertyDoc : ''
-        }
-    ]
-    dispatch(getTenants(tenants))
+    // const tenants = [
+    //     {
+    //         _id : '1',
+    //         userId : '662774f150924ade5f6ce70f',
+    //         ownerId : '662774a250924ade5f6ce70b',
+    //         propertyId : '1',
+    //         unitId : '3',
+    //         name : 'Rodan',
+    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
+    //         email : "rodan@gmail.com",
+    //         phone : '01788544463',
+    //         occupation : 'Student',
+    //         startDate : '2024-05-02T17:34:59.911+00:00',
+    //         endDate : '2024-010-02T17:34:59.911+00:00',
+    //         dueDate : '2024-06-02T17:34:59.911+00:00',
+    //         address : "1901 Thornridge Cir. Shiloh",
+    //         city : "Toronto West",
+    //         state : "Uttar Pradesh",
+    //         country : "Canada",
+    //         postalCode : "S0D 3C0",
+    //         NID : 9978856723,
+    //         due : 0,
+    //         age : 25,
+    //         familyMember : 5,
+    //         status : true,
+    //         personalDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf',
+    //         propertyDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf'
+    //     },
+    //     {
+    //         _id : '2',
+    //         userId : '662774f150924ade5f6ce70f',
+    //         ownerId : '662774a250924ade5f6ce70b',
+    //         propertyId : '2',
+    //         unitId : '2',
+    //         name : 'Rafsan',
+    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
+    //         email : "rafsan@gmail.com",
+    //         phone : '01788544463',
+    //         occupation : 'Shopkeeper',
+    //         startDate : '2024-05-02T17:34:59.911+00:00',
+    //         endDate : '2024-010-02T17:34:59.911+00:00',
+    //         dueDate : '2024-06-02T17:34:59.911+00:00',
+    //         address : "1901 Thornridge Cir. Shiloh",
+    //         city : "Toronto West",
+    //         state : "Uttar Pradesh",
+    //         country : "Canada",
+    //         postalCode : "S0D 3C0",
+    //         NID : 9978856753,
+    //         due : 20,
+    //         age : 25,
+    //         familyMember : 5,
+    //         status : false,
+    //         personalDoc : '',
+    //         propertyDoc : ''
+    //     },
+    //     {
+    //         _id : '3',
+    //         userId : '662774f150924ade5f6ce70f',
+    //         ownerId : '662774a250924ade5f6ce70b',
+    //         propertyId : '1',
+    //         unitId : '2',
+    //         name : 'Godzilla',
+    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
+    //         email : "godzilla@gmail.com",
+    //         phone : '01788566463',
+    //         occupation : 'Military',
+    //         startDate : '2024-05-02T17:34:59.911+00:00',
+    //         endDate : '2024-010-02T17:34:59.911+00:00',
+    //         dueDate : '2024-06-02T17:34:59.911+00:00',
+    //         address : "1901 Thornridge Cir. Shiloh",
+    //         city : "Toronto West",
+    //         state : "Uttar Pradesh",
+    //         country : "Canada",
+    //         postalCode : "S0D 3C0",
+    //         NID : 9978855553,
+    //         due : 0,
+    //         age : 25,
+    //         familyMember : 1,
+    //         status : true,
+    //         personalDoc : '',
+    //         propertyDoc : ''
+    //     }
+    // ]
+
+    dispatch(getTenants(data))
 }
 
 const loadInvoices = async () => {
@@ -898,7 +898,7 @@ export default function LoadData() {
 
     loadProperties(dispatch)
     loadUnits(dispatch)
-    loadTenants()
+    loadTenants(dispatch)
     loadInvoices()
     loadExpenses()
     loadDocuments()

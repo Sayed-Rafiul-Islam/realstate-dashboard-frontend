@@ -24,6 +24,7 @@ import { removeProperty } from "@/redux/properties/propertiesSlice";
 import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/tenants_history/components/column";
 import { Separator } from "@/components/ui/separator";
 import { removeTenant } from "@/redux/tenants/tenantsSlice";
+import api from "@/actions/api";
 
 
 const TenantCard : React.FC<TenantCardProps> = ({data}) => {
@@ -35,9 +36,10 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
+        await api.delete(`deleteTenant?id=${data._id}`,{validateStatus: () => true})
+        dispatch(removeTenant(data))       
         toast.success("Property Removed")
         setOpen(false)
-        dispatch(removeTenant(data))       
     
 }
 
@@ -66,7 +68,7 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
                 <div className="flex justify-between items-center mx-3 px-3 py-5 border-b border-gray-200">
                     <div className="flex items-center gap-2">
                         <div className="relative h-[40px] w-[40px]">
-                            <Image className="rounded-full" fill src={data.image} alt="human" />
+                            <Image className="rounded-full" fill src={data.user.imageUrl} alt="human" />
                         </div>
                         <h3>{data.name}</h3>
                     </div> 
@@ -96,19 +98,19 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
                 <div className="w-5/6 mx-auto flex flex-col gap-3 my-5">
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Contact</h4>
-                        <h4>{data.phone}</h4>
+                        <h4>{data.user.contactNo}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Propery</h4>
-                        <h4>{data.propertyName}</h4>
+                        <h4>{data.property.name}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Unit</h4>
-                        <h4>{data.unitName}</h4>
+                        <h4>{data.unit.name}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Rent</h4>
-                        <h4>{data.monthlyRent}</h4>
+                        <h4>{data.property.rent} BDT / {data.property.rentType}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Status</h4>

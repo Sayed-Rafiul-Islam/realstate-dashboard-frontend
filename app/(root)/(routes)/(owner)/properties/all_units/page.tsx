@@ -1,13 +1,19 @@
 "use client"
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useSelector } from "react-redux";
 import { UnitsClient } from "./components/client";
 
 const AllUnitsPage = () => {
 
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
+
+    const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
+    .filter((unit) => unit.property.owner._id === owner._id)
+
+   
 
     const formattedUnits = units.map((
         {
@@ -15,7 +21,6 @@ const AllUnitsPage = () => {
             name,
             image,
             property,
-            tenant,
             description,
             condition,
             squareFeet,
@@ -23,15 +28,16 @@ const AllUnitsPage = () => {
             washrooms,
             kitchens,
         },index : number) => {
+            const tenant = tenants.filter((tenant) => tenant.unit._id === _id)[0]
             return {
                 _id,
                 serial : index + 1,
                 name,
+                tenant,
                 propertyName : property?.name,
                 rent : property?.rent,
                 image,
                 property,
-                tenant,
                 description,
                 condition,
                 squareFeet,

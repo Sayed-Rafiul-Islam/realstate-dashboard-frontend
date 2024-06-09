@@ -8,9 +8,9 @@ export interface UserProps {
       firstName ?: string,
       lastName ?: string,
       contactNo ?: string,
-      NID ?: string,
+      NID ?: number,
       birthDate ?: string,
-      imageUrl ?: string,
+      imageUrl : string,
       printName ?: string,
       printAddress ?: string,
       printContact ?: string,
@@ -154,7 +154,6 @@ export interface UnitProps {
   washrooms : number,
   kitchens : number,
   property : PropertyProps,
-  tenant ?: TenantProps,
 }
 
 export interface UnitsReducerProps {
@@ -163,31 +162,25 @@ export interface UnitsReducerProps {
 
 export interface TenantProps {
   _id : string,
-  userId : string,
-  ownerId : string,
-  propertyId : string,
-  unitId : string,
+  user : UserProps,
+  owner : OwnerProps,
+  property : PropertyProps,
+  unit : UnitProps,
   name : string,
-  image : string,
-  email : string,
-  phone : string,
+  age : number,
   occupation : string,
-  startDate : string,
-  endDate : string,
-  dueDate : string,
+  familyMembers : number,
   address : string,
   city : string,
   state : string,
   country : string,
-  postalCode : string,
-  NID : number,
-  due : number,
-  age : number,
-  familyMember : number,
+  postCode : string,
   status : boolean,       
+  due : number,
+  startDate : string,
+  endDate : string,
   personalDoc : string,
   propertyDoc : string
-
 }
 
 export interface TenantsReducerProps {

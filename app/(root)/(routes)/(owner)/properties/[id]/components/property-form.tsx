@@ -202,16 +202,16 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
                     dispatch(addPropertyData1(data))
                     setForm(1)
                 } else {
-                    toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit + initialData.initialData1.unitCount - owner.unitCount} units or less`)
-                    form1.setError("unitCount", {type : "custom"})
+                    toast.error(`You can add ${owner.activePackage.maxUnit + initialData.initialData1.unitCount - owner.unitCount} units or less`)
+                    form1.setError("unitCount", {type : 'required', message : 'Max unit limit reached.'})
                 }
             } else {
                 if ((data.unitCount + owner.unitCount) <= owner.activePackage.maxUnit) {
                     dispatch(addPropertyData1(data))
                     setForm(1)
                 } else {
-                    toast.error(`Max unit limit reached. You can add ${owner.activePackage.maxUnit - owner.unitCount} units or less`)
-                    form1.setError("unitCount", {type : "custom"})
+                    toast.error(`You can add ${owner.activePackage.maxUnit - owner.unitCount} units or less`)
+                    form1.setError("unitCount", {type : 'required', message : 'Max unit limit reached.'})
                 }
             }
         }

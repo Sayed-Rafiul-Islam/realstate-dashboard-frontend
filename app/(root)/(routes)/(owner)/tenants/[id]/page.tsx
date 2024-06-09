@@ -22,7 +22,7 @@ const TenantSettingsPage = ({
     const data = tenantData.length === 0 ? false : tenantData[0] 
 
     const propertyData = data ? properties.filter((item : PropertyProps)  =>{
-        if (item._id === data.propertyId) {
+        if (item._id === data.property._id) {
             return item
         } 
     })
@@ -30,30 +30,30 @@ const TenantSettingsPage = ({
     []
 
     const unitData = data ? units.filter((item : UnitProps)  =>{
-        if (item._id === data.unitId) {
+        if (item._id === data.unit._id) {
             return item
         } 
     })
     :
     []
 
-
     const initialData = data ? {
         initialData1 : {
             _id : data._id,
             name : data.name,
-            email : data.email,
-            phone : data.phone,
-            NID : data.NID,
+            email : data.user.email,
+            contactNo : data.user.contactNo,
+            NID : data.user.NID,
             occupation : data.occupation,
             age : data.age,
-            familyMember : data.familyMember,
-            image : data.image,
+            pass_word : '123456',
+            familyMembers : data.familyMembers,
+            image : data.user.imageUrl,
             address : data.address,
             city : data.city,
             state : data.state,
             country : data.country,
-            postalCode : data.postalCode,
+            postCode : data.postCode,
             status : data.status
         },
         initialData2 : {

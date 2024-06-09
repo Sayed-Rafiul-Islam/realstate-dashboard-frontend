@@ -2,31 +2,26 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-import { PackageProps } from "@/types"
+import { OwnerProps, PackageProps, PropertyProps, UnitProps, UserProps } from "@/types"
 import Image from "next/image"
 
 export interface TenantColumn {
   serial : number,
   _id : string,
-  propertyId : string,
-  unitId : string,
-  propertyName : string,
-  unitName : string,
   name : string,
-  image : string,
-  email : string,
-  phone : string,
   occupation : string,
   startDate : string,
   endDate : string,
-  NID : number,
   due : number,
   age : number,
-  familyMember : number,
+  familyMembers : number,
   status : boolean,
-  monthlyRent : string,
   personalDoc : string,
   propertyDoc : string,
+  property : PropertyProps,
+  unit : UnitProps,
+  owner : OwnerProps,
+  user : UserProps
 }
 
 
@@ -34,27 +29,33 @@ export interface TenantColumn {
     {
       accessorKey: "image",
       header: "Image",
-      cell: ({row}) => <div className="relative h-[50px] w-[50px] rounded-full mx-auto border-2 border-indigo-600"><Image className="rounded-full" fill alt="Picture" src={row.original.image} /></div>
+      cell: ({row}) => <div className="relative h-[50px] w-[50px] rounded-full mx-auto border-2 border-indigo-600">
+          <Image className="rounded-full" fill alt="Picture" src={row.original.user.imageUrl} />
+        </div>
     },
     {
       accessorKey: "name",
       header: "Name",
     },
     {
-      accessorKey: "phone",
+      accessorKey: "contactNo",
       header: "Contact No",
+      cell: ({row}) => <span>{row.original.user.contactNo}</span>
     },
     {
       accessorKey: "propertyName",
       header: "Property",
+      cell: ({row}) => <span>{row.original.property.name}</span>
     },
     {
       accessorKey: "unitName",
       header: "Unit",
+      cell: ({row}) => <span>{row.original.unit.name}</span>
     },
     {
-      accessorKey: "monthlyRent",
+      accessorKey: "rent",
       header: "Current Rent",
+      cell: ({row}) => <span>{row.original.property.rent} BDT / {row.original.property.rentType}</span>
     },
     {
       accessorKey: "due",
