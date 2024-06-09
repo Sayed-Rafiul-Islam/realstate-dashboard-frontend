@@ -79,7 +79,7 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                     <div className="flex flex-col gap-1">
                                         <h6 className="text-xs">{data.tenant?.name}</h6>
                                         <h6 className="text-xs">{data.tenant?.address}</h6>
-                                        <h6 className="text-xs">{data.tenant?.phone}</h6>
+                                        <h6 className="text-xs">{data.tenant?.user.contactNo}</h6>
                                     </div>
                                 </div>
                             </div>
