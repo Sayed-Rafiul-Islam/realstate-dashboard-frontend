@@ -36,7 +36,7 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
     const [loading, setLoading] = useState(false)
 
     const onDelete = async () => {
-        await api.delete(`deleteTenant?id=${data._id}`,{validateStatus: () => true})
+        await api.delete(`deleteTenant?id=${data._id}&userId=${data.user._id}`,{validateStatus: () => true})
         dispatch(removeTenant(data))       
         toast.success("Property Removed")
         setOpen(false)

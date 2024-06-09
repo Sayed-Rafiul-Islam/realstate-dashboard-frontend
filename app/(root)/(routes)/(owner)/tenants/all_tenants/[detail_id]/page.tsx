@@ -22,6 +22,7 @@ import { AlertModal } from "@/components/modals/alert-modal";
 import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
 import { ArrowLeft, MoreVertical } from "lucide-react";
+import api from "@/actions/api";
 
 const TenantDetails = ({
     params
@@ -33,25 +34,22 @@ const TenantDetails = ({
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-
-    const onDelete = async () => {
-        dispatch(removeTenant(tenant))
-        router.push(`/tenants/all_tenants`)
-        toast.success(`Tenant Deleted`)
-    }
-
-
-
-
-
+    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)  
+    
     const tenant = tenants.filter((item : TenantProps)  =>{
         if (item._id === params.detail_id) {
             return item
-        } 
-    })[0]
+            } 
+        })[0]
+
+    const onDelete = async () => {
+        setLoading(true)
+        await api.delete(`deleteTenant?id=${params.detail_id}&userId=${tenant.user._id}`,{validateStatus: () => true})
+        dispatch(removeTenant(tenant))       
+        setLoading(false)
+        router.push(`/tenants/all_tenants`)
+        toast.success("Tenant Removed")
+    }
 
     const invoices = [
         {
