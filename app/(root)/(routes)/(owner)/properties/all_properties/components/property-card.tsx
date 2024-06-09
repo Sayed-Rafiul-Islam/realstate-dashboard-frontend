@@ -36,8 +36,6 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
     const tenantsCount = tenants.filter((tenant) => tenant.property._id === property._id).length
     const available = property.unitCount - tenantsCount
 
-    // const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
-    // .filter((tenant)=> tenant.propertyId === data._id)
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -112,7 +110,7 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
             <div className="grid grid-cols-2 gap-2 mt-4 bg-white rounded-md p-2 mb-2">
                 <h5 className="flex items-center text-xs  gap-2"><Home size={15} />{data.unitCount} Units</h5>
                 <h5 className="flex items-center text-xs  gap-2"><LayoutDashboardIcon size={15} />{tenantsCount} Tenants</h5>
-                <h5 className="flex items-center text-xs  gap-2"><CircleCheck size={15} />{available} Available Units</h5>
+                <h5 className="flex items-center text-xs  gap-2"><CircleCheck size={15} />{available} Available</h5>
             </div>
             <Button onClick={()=>router.push(`/properties/all_properties/${data._id}`)} className="w-full bg-purple-600">View Details</Button>
         </div>
