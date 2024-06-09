@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertyProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { PropertiesReducerProps, PropertyProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 interface PropertyCardProps {
     data : PropertyProps
 }
@@ -26,11 +26,15 @@ import api from "@/actions/api";
 
 const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
 
+    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
+    const property = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
+    .filter((property) => property._id === data._id)[0]
     const units = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer).units
     .filter((unit)=>unit.property?._id === data._id)
 
-    const tenantsCount = units.filter(unit => unit.tenant).length
-    const available = data.unitCount - tenantsCount
+
+    const tenantsCount = tenants.filter((tenant) => tenant.property._id === property._id).length
+    const available = property.unitCount - tenantsCount
 
     // const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
     // .filter((tenant)=> tenant.propertyId === data._id)
