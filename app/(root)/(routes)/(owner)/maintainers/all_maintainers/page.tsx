@@ -2,13 +2,13 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainersReducerProps, OwnerInfoReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerMaintainersReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import MaintainerCard from "./components/maintainer-card";
 import Maintainers from "./components/maintainers";
 import { useEffect, useState } from "react";
 import api from "@/actions/api";
+import { getOwnerMaintainers } from "@/redux/data/owner/maintainersSlice";
 import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
 
 
@@ -21,14 +21,16 @@ const ALLMaintainers = () => {
     useEffect(()=>{
         const getData = async () => {
             if (owner) {
-                    const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerMaintainanceTypes(data))
+                    const {data,status} = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
+                    const result = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerMaintainanceTypes(result.data))
+                    dispatch(getOwnerMaintainers(data))
                 }
                 setIsMounted(true)
             }
             getData()
     },[])
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
+    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
 
     if (!isMounted) {
         return null

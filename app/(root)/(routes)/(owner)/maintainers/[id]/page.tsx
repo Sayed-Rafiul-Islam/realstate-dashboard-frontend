@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { MaintainerProps, MaintainersReducerProps } from "@/types";
+import { MaintainerProps, MaintainersReducerProps, OwnerMaintainersReducerProps } from "@/types";
 import { MaintainerForm } from "./components/maintainer-form";
 
 const MaintainerSettingsPage = ({
@@ -9,7 +9,7 @@ const MaintainerSettingsPage = ({
 } : {
     params : { id : string}
 }) => {
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
+    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
 
     const initialData = maintainers.filter((item : MaintainerProps)  =>{
         if (item._id === params.id) {

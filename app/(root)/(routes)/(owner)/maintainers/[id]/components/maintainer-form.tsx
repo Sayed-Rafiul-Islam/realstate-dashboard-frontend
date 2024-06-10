@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, MaintainerProps, UnitProps, UnitsReducerProps, MaintainanceTypesReducerProps, MaintainanceTypeProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps } from "@/types"
+import { MaintainerProps, MaintainanceTypeProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -11,12 +11,10 @@ import toast from 'react-hot-toast'
 import { Button } from "@/components/ui/button"
 import { Heading } from "@/components/heading"
 import { Separator } from "@/components/ui/separator"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
-import { Checkbox } from '@/components/ui/checkbox'
 import './maintainer-form.css'
-import ImageUpload from "@/components/image-upload"
 import { 
     Select, 
     SelectContent, 
@@ -26,9 +24,8 @@ import {
 } from '@/components/ui/select'
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
-import { addMaintainer, updateMaintainer } from "@/redux/maintainers/maintainersSlice"
 import api from "@/actions/api"
-import { addOwnerMaintainer } from "@/redux/data/owner/maintainersSlice"
+import { addOwnerMaintainer, updateOwnerMaintainer } from "@/redux/data/owner/maintainersSlice"
 
 
 type MaintainerFormValues = z.infer<typeof formSchema>
@@ -42,16 +39,9 @@ const formSchema = z.object({
     name : z.string().min(1, {message : "Name Required"}),
     contactNo : z.string().min(1, {message : "Contact No Required"}),
     email : z.string().min(1, {message : "Email Required"}),
-    password : z.string().min(8, {message : "Password Required"}),
+    password : z.string().min(6, {message : "Password Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
 })
-
-
-
-// propertyId : string,
-// unitId : string,
-
-
 
 export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     initialData
@@ -70,28 +60,35 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainerFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
+        defaultValues : initialData ? {
+            name : initialData.name,
+            contactNo : initialData.user.contactNo,
+            type : initialData.type._id,
+            email : "g32uige32ge23iue",
+            password : 'e78g8f3g8w4gfw48f'
+
+        }
+        :
+        {
             name : '',
             contactNo : '',
-            email : '',
-            password : '',
-            type : '',
+            type : ''
         }
     })
 
     const onSubmit = async (data : MaintainerFormValues) => {
 
         if (initialData) {
-            
-            // const formData = {...data, _id : initialData._id,owner : owner._id}
-            // const result = await api.patch(`updateMaintainanceType`,formData,{validateStatus: () => true})
-            // if (result.status === 200) {
-                // dispatch(updateMaintainanceType(result.data))
-            //     toast.success(toastMessage)
-            //     router.push('/maintainers')
-            // } else {
-            //     toast.error("Something went wrong")
-            // }
+            const {email,password,...rest} = data
+            const formData = {...rest, _id : initialData._id}
+            const result = await api.patch(`updateMaintainer`,formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(updateOwnerMaintainer(result.data))
+                toast.success(toastMessage)
+                router.push('/maintainers')
+            } else {
+                toast.error("Something went wrong")
+            }
         } else {
             const formData = {...data, owner : owner._id}
             const result = await api.post(`createMaintainer`,formData,{validateStatus: () => true})
@@ -196,32 +193,38 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                         </FormItem>
                                     )}
                             /> 
-                            <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input  type='password' disabled={loading} placeholder='********' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            {
+                                !initialData &&
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
+                                            <FormControl>
+                                                <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            }
+                            {
+                                !initialData &&
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Password <span className='text-red-500'>*</span></FormLabel>
+                                            <FormControl>
+                                                <Input  type='password' disabled={loading} placeholder='********' {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            }
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}

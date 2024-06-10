@@ -3,8 +3,8 @@
 import { ArrowRight, Calendar, DollarSign, Home, MoreVertical, UserRound, Users, UsersRound, Warehouse, Wrench } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
-import { useSelector } from "react-redux";
-import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -12,19 +12,52 @@ import { useRouter } from "next/navigation";
 import BarChart from "../BarChart";
 import { useEffect, useState } from "react";
 import { DataTable } from "../ui/data-table";
-
+import api from "@/actions/api";
+import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
+import { getOwnerUnits } from "@/redux/data/owner/unitsSlice";
+import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
+import { getOwnerMaintainers } from "@/redux/data/owner/maintainersSlice";
+import { ColumnDef } from "@tanstack/react-table";
+import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 
 const OwnerDashboard = () => {
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
-    const tenantCount = useSelector(({tenantsReducer} : TenantsReducerProps)=>tenantsReducer).tenants.length
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
+    const [isMounted, setIsMounted] = useState(false)
+    const router = useRouter()
+    const dispatch = useDispatch()
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
+                    const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+                    const maintainers = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
+                    const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+                    
+                    dispatch(getOwnerProperties(properties.data))
+                    dispatch(getOwnerUnits(units.data))
+                    dispatch(getOwnerTenants(data))
+                    dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    dispatch(getOwnerMaintainers(maintainers.data))
+                }
+                setIsMounted(true)
+            }
+            getData()
+    })
+
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps)=>ownerPropertyReducer).ownerProperties
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps)=>ownerUnitsReducer).ownerUnits
+    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps)=>ownerMaintainersReducer).ownerMaintainers
+    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
+
+
+
+    const tenantCount = tenants.length
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)
     const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
     const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
-
-    const router = useRouter()
 
     const summery = [
         {
@@ -186,10 +219,11 @@ const OwnerDashboard = () => {
         })
     })
 
-    const propertyColumns = [
+    const propertyColumns : ColumnDef<PropertyProps>[] = [
         {
           accessorKey: "name",
           header: "Property Name",
+
         },
         {
           accessorKey: "unitCount",
@@ -198,22 +232,24 @@ const OwnerDashboard = () => {
         {
           accessorKey: "available",
           header: "Available Units",
+          cell: ({row}) => {
+            const totalTenants = tenants.filter((tenant)=> tenant.property._id === row.original._id).length
+            return <span>{row.original.unitCount - totalTenants}</span>
+          }
         },
         {
           accessorKey: "tenants",
           header: "Tenants",
+          cell: ({row}) => {
+            const totalTenants = tenants.filter((tenant)=> tenant.property._id === row.original._id).length
+            return <span>{totalTenants}</span>
+          }
         }
       ]
 
 
         // ---------------------------------------------------------------------------------------------
     // anti hydration
-
-    const [isMounted, setIsMounted] = useState(false)
-
-    useEffect(()=>{
-        setIsMounted(true)
-    },[])
 
     if (!isMounted) {
         return null

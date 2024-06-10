@@ -5,7 +5,7 @@ interface MaintainersProps {
 
 import './maintainer-card.css'
 import { useEffect, useState } from 'react';
-import { MaintainanceTypesReducerProps, MaintainerProps } from '@/types';
+import { MaintainanceTypesReducerProps, MaintainerProps, OwnerMaintainanceTypesReducerProps } from '@/types';
 
 import { 
     Select, 
@@ -21,7 +21,7 @@ import { useSelector } from 'react-redux';
 const Maintainers : React.FC<MaintainersProps> = ({data}) => {
 
     const [maintainers, setMaintainers] = useState(data)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes
 
     const [type, setType] = useState('')
     const [status, setStatus] = useState('')
@@ -32,7 +32,7 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
             setMaintainers(data)
         } else {
             if (type !== '' && status === '') {
-                const temp = data.filter((item) => item.type === type) 
+                const temp = data.filter((item) => item.type._id === type) 
                 setMaintainers(temp)
             } 
             else if ( status !== '' && type === '') {
@@ -40,7 +40,7 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
                 setMaintainers(temp)
             }
             else {
-                const temp = data.filter((item) => item.status === status && item.type === type) 
+                const temp = data.filter((item) => item.status === status && item.type._id === type) 
                 setMaintainers(temp)
             }
         }
@@ -119,8 +119,7 @@ const Maintainers : React.FC<MaintainersProps> = ({data}) => {
             <div className="cards">
                 {
                     maintainers.map((maintainer) => {
-                        const type = maintainanceTypes.filter((item)=> item._id === maintainer.type)[0]
-                        return <MaintainerCard key={maintainer._id} data={maintainer} type={type} />
+                        return <MaintainerCard key={maintainer._id} data={maintainer} />
                     })
                 }
             </div>

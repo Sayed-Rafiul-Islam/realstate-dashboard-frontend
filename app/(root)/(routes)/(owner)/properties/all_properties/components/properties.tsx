@@ -9,8 +9,6 @@ import { useSelector } from "react-redux";
 const Properties = () => {
 
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
-    console.log(properties)
-
     return ( 
         <div className="cards">
             {

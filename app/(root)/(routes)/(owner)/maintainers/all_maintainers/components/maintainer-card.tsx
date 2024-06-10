@@ -3,7 +3,6 @@
 import { MaintainanceTypeProps, MaintainanceTypesReducerProps, MaintainerProps } from "@/types";
 interface MaintainerCardProps {
     data : MaintainerProps,
-    type : MaintainanceTypeProps
 }
 
 import { CircleCheck, Edit, Eye, Home, LayoutDashboardIcon, MapPinned, MoreVertical, Trash } from "lucide-react";
@@ -21,14 +20,12 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AlertModal } from "@/components/modals/alert-modal";
 import toast from "react-hot-toast";
-import { removeProperty } from "@/redux/properties/propertiesSlice";
-import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/tenants_history/components/column";
-import { Separator } from "@/components/ui/separator";
-import { removeTenant } from "@/redux/tenants/tenantsSlice";
 import { removeMaintainer } from "@/redux/maintainers/maintainersSlice";
+import api from "@/actions/api";
+import { removeOwnerMaintainer } from "@/redux/data/owner/maintainersSlice";
 
 
-const MaintainerCard : React.FC<MaintainerCardProps> = ({data,type}) => {
+const MaintainerCard : React.FC<MaintainerCardProps> = ({data}) => {
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -48,9 +45,15 @@ const MaintainerCard : React.FC<MaintainerCardProps> = ({data,type}) => {
     },[data.status])
 
     const onDelete = async () => {
-        toast.success("Maintainer Removed")
-        setOpen(false)
-        dispatch(removeMaintainer(data))       
+        const result = await api.delete(`deleteMaintainer?id=${data._id}`,{validateStatus: () => true})
+        if (result.status === 200) {
+            dispatch(removeOwnerMaintainer(data))
+            toast.success("Maintainer Removed")
+        } else {
+            toast.error("Something went wrong.")
+            // toast.error("Remove associated units first.")
+        }
+        setOpen(false)   
     }
 
 
@@ -78,7 +81,7 @@ const MaintainerCard : React.FC<MaintainerCardProps> = ({data,type}) => {
                 <div className="flex justify-between items-center mx-3 px-3 py-5 border-b border-gray-200">
                     <div className="flex items-center gap-2">
                         <div className="relative h-[40px] w-[40px]">
-                            <Image className="rounded-full" fill src={data.image} alt="human" />
+                            <Image className="rounded-full" fill src={data.user.imageUrl} alt="human" />
                         </div>
                         <h3>{data.name}</h3>
                     </div> 
@@ -108,15 +111,15 @@ const MaintainerCard : React.FC<MaintainerCardProps> = ({data,type}) => {
                 <div className="w-5/6 mx-auto flex flex-col gap-3 my-5">
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Contact</h4>
-                        <h4>{data.phone}</h4>
+                        <h4>{data.user.contactNo}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Email</h4>
-                        <h4>{data.email}</h4>
+                        <h4>{data.user.email}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Type</h4>
-                        <h4>{type.maintainer}</h4>
+                        <h4>{data.type.maintainer}</h4>
                     </div>
                     <div className="flex justify-between items-center text-xs text-gray-500">
                         <h4>Pending Requests</h4>

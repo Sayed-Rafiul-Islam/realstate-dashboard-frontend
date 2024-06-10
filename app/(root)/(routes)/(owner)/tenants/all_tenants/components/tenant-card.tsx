@@ -25,6 +25,7 @@ import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/tenants_hist
 import { Separator } from "@/components/ui/separator";
 import { removeTenant } from "@/redux/tenants/tenantsSlice";
 import api from "@/actions/api";
+import { removeOwnerTenant } from "@/redux/data/owner/tenantsSlice";
 
 
 const TenantCard : React.FC<TenantCardProps> = ({data}) => {
@@ -37,7 +38,7 @@ const TenantCard : React.FC<TenantCardProps> = ({data}) => {
 
     const onDelete = async () => {
         await api.delete(`deleteTenant?id=${data._id}&userId=${data.user._id}`,{validateStatus: () => true})
-        dispatch(removeTenant(data))       
+        dispatch(removeOwnerTenant(data))       
         toast.success("Property Removed")
         setOpen(false)
     

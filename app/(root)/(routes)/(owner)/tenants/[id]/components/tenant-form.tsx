@@ -31,6 +31,7 @@ import { addTenantData1, addTenantData2 } from "@/redux/forms/formsSlice"
 import { addTenant, updateTenant } from "@/redux/tenants/tenantsSlice"
 import PdfUpload from "@/components/pdf-upload"
 import api from "@/actions/api"
+import { addOwnerTenant, updateOwnerTenant } from "@/redux/data/owner/tenantsSlice"
 
 
 type TenantForm1Values = z.infer<typeof form1Schema>
@@ -262,7 +263,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     propertyDoc : data.propertyDoc,
                 }
                 const result = await api.patch(`updateTenant`, formData,{validateStatus: () => true})
-                dispatch(updateTenant(result.data))
+                dispatch(updateOwnerTenant(result.data))
                 toast.success(toastMessage)
                 router.push('/tenants')
                 }
@@ -298,7 +299,7 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                 
                 const result = await api.post(`createTenant`, formData,{validateStatus: () => true})
                     if (result.status === 200) {
-                        dispatch(addTenant(result.data))
+                        dispatch(addOwnerTenant(result.data))
                         toast.success(toastMessage)
                         router.push('/tenants')
                         setForm(0)

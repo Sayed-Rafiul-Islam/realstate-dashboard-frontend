@@ -33,6 +33,7 @@ import ownerPropertyReducer from '@/redux/data/owner/propertiesSlice'
 import ownerUnitsReducer from '@/redux/data/owner/unitsSlice'
 import ownerMaintainanceTypesReducer from '@/redux/data/owner/settings/maintainanceTypesSlice'
 import ownerMaintainersReducer from '@/redux/data/owner/maintainersSlice'
+import ownerTenantsReducer from '@/redux/data/owner/tenantsSlice'
 
 
 
@@ -71,7 +72,9 @@ export const store = configureStore({
 
     ownerPropertyReducer,
     ownerUnitsReducer,
-    ownerMaintainanceTypesReducer
+    ownerMaintainanceTypesReducer,
+    ownerMaintainersReducer,
+    ownerTenantsReducer
 
 
   }

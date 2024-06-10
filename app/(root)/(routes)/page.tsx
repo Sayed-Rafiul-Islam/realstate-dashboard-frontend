@@ -24,7 +24,7 @@ export default function Home() {
       const tenant = tenants.filter(({user}) => user._id === _id)[0]
       dispatch(getTenantInfo(tenant))
   } else if (role === 'maintainer') {
-    const maintainer = maintainers.filter(({userId}) => userId === _id)[0]
+    const maintainer = maintainers.filter(({user}) => user._id === _id)[0]
     dispatch(getMaintainerInfo(maintainer))
   } else if (role === 'owner') {    
     const owner = owners.filter(({user}) => user._id === _id)[0]

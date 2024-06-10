@@ -241,7 +241,7 @@ const MaintainerDashboard = () => {
     })
 
 
-    const thisInvoices = invoices.filter(({by}) => by.id === maintainer.userId)
+    const thisInvoices = invoices.filter(({by}) => by.id === maintainer.user._id)
 
     const formattedInvoices = thisInvoices.map((
         {

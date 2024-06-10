@@ -300,23 +300,18 @@ export interface RentsReducerProps {
 
 export interface MaintainerProps {
   _id : string,
-  userId : string,
-  propertyId : string,
-  unitId : string,
-  image : any,
   name : string,
-  contactNo : string,
-  email : string,
-  type : string,
-  pendingRequest : number,
   status : string,
+  pendingRequest : number,
+  age : number,
   address : string,
   city : string,
-  state : string,
   country : string,
-  postalCode : string,
-  age : number,
-  NID : number,
+  state : string,
+  postCode : string,
+  type : MaintainanceTypeProps,
+  user : UserProps,
+  owner : OwnerProps
 }
 
 export interface MaintainersReducerProps {
@@ -441,4 +436,7 @@ export interface OwnerMaintainanceTypesReducerProps {
 
 export interface OwnerMaintainersReducerProps {
   ownerMaintainersReducer :  { ownerMaintainers : MaintainerProps[]} 
+}
+export interface OwnerTenantsReducerProps {
+  ownerTenantsReducer :  { ownerTenants : TenantProps[]} 
 }

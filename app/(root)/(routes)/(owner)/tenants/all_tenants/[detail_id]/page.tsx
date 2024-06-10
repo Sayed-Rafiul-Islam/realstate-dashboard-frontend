@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
 import { ArrowLeft, MoreVertical } from "lucide-react";
 import api from "@/actions/api";
+import { removeOwnerTenant } from "@/redux/data/owner/tenantsSlice";
 
 const TenantDetails = ({
     params
@@ -45,7 +46,7 @@ const TenantDetails = ({
     const onDelete = async () => {
         setLoading(true)
         await api.delete(`deleteTenant?id=${params.detail_id}&userId=${tenant.user._id}`,{validateStatus: () => true})
-        dispatch(removeTenant(tenant))       
+        dispatch(removeOwnerTenant(tenant))       
         setLoading(false)
         router.push(`/tenants/all_tenants`)
         toast.success("Tenant Removed")

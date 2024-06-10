@@ -1,6 +1,6 @@
 "use client"
 
-import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, OwnerMaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
@@ -20,6 +20,8 @@ import { useEffect, useState } from "react";
 import { InvoicesClient } from "./components/client";
 import { ArrowLeft } from "lucide-react";
 import { removeMaintainer } from "@/redux/maintainers/maintainersSlice";
+import api from "@/actions/api";
+import { removeOwnerMaintainer } from "@/redux/data/owner/maintainersSlice";
 
 const MaintainerDetails = ({
     params
@@ -31,39 +33,39 @@ const MaintainerDetails = ({
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
+    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
+    
+    const maintainer = maintainers.filter((item)  => item._id === params.detail_id)[0]
+
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {invoices} = useSelector(({ invoicesReducer } : InvoicesReducerProps) => invoicesReducer)
     const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
 
     const onDelete = async () => {
-        dispatch(removeMaintainer(maintainer))
-        router.push(`/maintainers/all_maintainers`)
-        toast.success(`Maintainer Deleted`)
+        const result = await api.delete(`deleteMaintainer?id=${maintainer._id}`,{validateStatus: () => true})
+        if (result.status === 200) {
+            toast.success("Maintainer Removed")
+            dispatch(removeOwnerMaintainer(maintainer))
+            router.push(`/maintainers/all_maintainers`)
+        } else {
+            toast.error("Something went wrong.")
+            // toast.error("Remove associated units first.")
+        }
+        setOpen(false)   
     }
 
+    // const property = properties.filter((item : PropertyProps)  =>{
+    //     if (item._id === maintainer?.) {
+    //         return item
+    //     } 
+    // })[0]
 
-
-
-
-    const maintainer = maintainers.filter((item : MaintainerProps)  =>{
-        if (item._id === params.detail_id) {
-            return item
-        } 
-    })[0]
-
-    const property = properties.filter((item : PropertyProps)  =>{
-        if (item._id === maintainer?.propertyId) {
-            return item
-        } 
-    })[0]
-
-    const unit = units.filter((item : UnitProps)  =>{
-        if (item._id === maintainer?.unitId) {
-            return item
-        } 
-    })[0]
+    // const unit = units.filter((item : UnitProps)  =>{
+    //     if (item._id === maintainer?.unitId) {
+    //         return item
+    //     } 
+    // })[0]
 
 
 
@@ -142,7 +144,7 @@ const MaintainerDetails = ({
                 <div className="details w-full mt-5 gap-4">
                     <div className="w-1/2 rounded-lg all-shadow">
                         <div className="maintainer-image-wrapper">
-                            <Image className="rounded-xl" fill src={maintainer.image}  alt="picture" />
+                            <Image className="rounded-xl" fill src={maintainer.user.imageUrl}  alt="picture" />
                         </div>
                         <div className="pb-5">
                             <h2 className="text-center text-2xl font-semibold my-5">{maintainer.name}</h2>
@@ -153,19 +155,19 @@ const MaintainerDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Contact</h5>
-                                    <h5>{maintainer.contactNo}</h5>
+                                    <h5>{maintainer.user.contactNo}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Email</h5>
-                                    <h5>{maintainer.email}</h5>
+                                    <h5>{maintainer.user.email}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Type</h5>
-                                    <h5>{maintainer.type}</h5>
+                                    <h5>{maintainer.type.maintainer}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">NID Number</h5>
-                                    <h5>{maintainer.NID}</h5>
+                                    <h5>{maintainer.user.NID}</h5>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +178,7 @@ const MaintainerDetails = ({
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    <h5>{maintainer.address}</h5>
+                                    {/* <h5>{maintainer.user.printAddress}</h5> */}
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">City</h5>
@@ -192,7 +194,7 @@ const MaintainerDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Postal Code</h5>
-                                    <h5>{maintainer.postalCode}</h5>
+                                    <h5>{maintainer.postCode}</h5>
                                 </div>
                             </div>
                         </div>
@@ -201,19 +203,19 @@ const MaintainerDetails = ({
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Name</h5>
-                                    <h5>{property ? property.name : "N/A"}</h5>
+                                    {/* <h5>{property ? property.name : "N/A"}</h5> */}
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    <h5>{property ? property.address : "N/A"}</h5>
+                                    {/* <h5>{property ? property.address : "N/A"}</h5> */}
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Unit</h5>
-                                    <h5>{unit ? unit.name : "N/A"}</h5>
+                                    {/* <h5>{unit ? unit.name : "N/A"}</h5> */}
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">General Rent</h5>
-                                    <h5>{unit ? '$ ' + property.rent : "N/A"}</h5>
+                                    {/* <h5>{unit ? '$ ' + property.rent : "N/A"}</h5> */}
                                 </div>
                             </div>
                         </div>

@@ -18,6 +18,7 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { TenantColumn } from "./column"
 import { removeTenant } from "@/redux/tenants/tenantsSlice"
 import api from "@/actions/api"
+import { removeOwnerTenant } from "@/redux/data/owner/tenantsSlice"
 
 
 interface CellActionProps {
@@ -36,7 +37,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const onDelete = async () => {
         setLoading(true)
         await api.delete(`deleteTenant?id=${data._id}&userId=${data.user._id}`,{validateStatus: () => true})
-        dispatch(removeTenant(data))       
+        dispatch(removeOwnerTenant(data))       
         toast.success("Property Removed")
         setOpen(false)
         setLoading(false)

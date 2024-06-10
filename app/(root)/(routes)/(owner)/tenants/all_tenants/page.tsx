@@ -2,22 +2,37 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { OwnerInfoReducerProps, PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerTenantsReducerProps, PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import Tenants from "./components/tenants";
 import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/tenants_history/components/column";
 import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 
 
 const AllTenants = () => {
+    const dispatch = useDispatch()
     const router = useRouter()
-
+    const [isMounted, setIsMounted] = useState(false)
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
-    .filter((tenant) => tenant.owner._id === owner._id)
+
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerTenants(data))
+                }
+                setIsMounted(true)
+            }
+            getData()
+        })   
+        
+        
+    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
     const formattedtenants : TenantColumn[] = tenants.map((
         {
@@ -56,6 +71,10 @@ const AllTenants = () => {
                 user
             }
     })
+
+    if (!isMounted) {
+        return null
+    }
 
 
    
