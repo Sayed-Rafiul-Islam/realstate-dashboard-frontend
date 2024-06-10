@@ -2,7 +2,7 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { OwnerInfoReducerProps, PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerTenantsReducerProps, PropertiesReducerProps, TenantProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { TenantColumn } from "./components/column";
@@ -11,10 +11,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 import Link from "next/link";
 
 const AllTenants = () => {
-
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
-    .filter((tenant) => tenant.owner._id === owner._id)
+    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
     const formattedtenants : TenantColumn[] = tenants.map((
         {

@@ -13,28 +13,28 @@ import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintaina
 
 
 const ALLMaintainers = () => {
-    const [isMounted, setIsMounted] = useState(false)
+    // const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
     const dispatch = useDispatch()
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
-                    const result = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerMaintainanceTypes(result.data))
-                    dispatch(getOwnerMaintainers(data))
-                }
-                setIsMounted(true)
-            }
-            getData()
-    },[])
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         if (owner) {
+    //                 const {data,status} = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
+    //                 const result = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+    //                 dispatch(getOwnerMaintainanceTypes(result.data))
+    //                 dispatch(getOwnerMaintainers(data))
+    //             }
+    //             setIsMounted(true)
+    //         }
+    //         getData()
+    // },[])
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
 
-    if (!isMounted) {
-        return null
-    }
+    // if (!isMounted) {
+    //     return null
+    // }
    
     return ( 
         <div className="flex-col">

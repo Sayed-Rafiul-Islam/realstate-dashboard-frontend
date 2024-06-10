@@ -14,22 +14,10 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 
 const AllPropertiesPage = () => {
-    const [isMounted, setIsMounted] = useState(false)
-
     const router = useRouter()
     const dispatch = useDispatch()
 
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerProperties(data))
-                }
-                setIsMounted(true)
-            }
-            getData()
-    },[])
 
     const handleAddProperty = () => {
         if (owner.activePackage) {
@@ -42,10 +30,6 @@ const AllPropertiesPage = () => {
             toast.error("You have no active package")
         }
 
-    }
-
-    if (!isMounted) {
-        return null
     }
 
     return ( 

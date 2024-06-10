@@ -17,19 +17,19 @@ import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 const AllTenants = () => {
     const dispatch = useDispatch()
     const router = useRouter()
-    const [isMounted, setIsMounted] = useState(false)
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const [isMounted, setIsMounted] = useState(false)
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerTenants(data))
-                }
-                setIsMounted(true)
-            }
-            getData()
-        })   
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         if (owner) {
+    //                 const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+    //                 dispatch(getOwnerTenants(data))
+    //             }
+    //             setIsMounted(true)
+    //         }
+    //         getData()
+    //     })   
         
         
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
@@ -72,9 +72,9 @@ const AllTenants = () => {
             }
     })
 
-    if (!isMounted) {
-        return null
-    }
+    // if (!isMounted) {
+    //     return null
+    // }
 
 
    

@@ -1,7 +1,7 @@
 "use client"
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
-import { OwnerInfoReducerProps, OwnerUnitsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { UnitsClient } from "./components/client";
 import { useEffect, useState } from "react";
@@ -10,18 +10,18 @@ import api from "@/actions/api";
 
 const AllUnitsPage = () => {
     const dispatch = useDispatch()
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    const tenants = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer).tenants
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerUnits(data))
-                }
-            }
-            getData()
-        })                
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         if (owner) {
+    //                 const {data,status} = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+    //                 dispatch(getOwnerUnits(data))
+    //             }
+    //         }
+    //         getData()
+    //     })                
 
 
 
@@ -60,15 +60,15 @@ const AllUnitsPage = () => {
             }
         })
 
-        const [isMounted, setIsMounted] = useState(false)
+        // const [isMounted, setIsMounted] = useState(false)
 
-        useEffect(()=>{
-            setIsMounted(true)
-        },[])
+        // useEffect(()=>{
+        //     setIsMounted(true)
+        // },[])
     
-        if (!isMounted) {
-            return null
-        }
+        // if (!isMounted) {
+        //     return null
+        // }
 
     return ( 
         <div className="flex-col">
