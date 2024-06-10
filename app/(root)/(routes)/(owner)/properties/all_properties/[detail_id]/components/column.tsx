@@ -31,7 +31,7 @@ export const columns: ColumnDef<UnitColumn>[] = [
     header: "Washroom",
   },
   {
-    accessorKey: "kitchen",
+    accessorKey: "kitchens",
     header: "Kitchen",
   },
   {

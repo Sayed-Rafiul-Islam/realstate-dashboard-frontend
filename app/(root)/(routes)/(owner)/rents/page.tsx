@@ -39,7 +39,7 @@ const RentsPage = () => {
         }) => {
             const property = properties.filter((item)=> item._id === propertyId)[0]
             const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
+            const tenant = tenants.filter((item)=> item.property?._id === property?._id && item.unit._id === unit._id)[0]
             return {
                 _id,
                 invoiceNo,

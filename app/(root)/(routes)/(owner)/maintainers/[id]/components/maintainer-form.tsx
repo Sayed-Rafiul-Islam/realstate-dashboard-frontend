@@ -134,19 +134,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                
                         <FormField
                             control={form.control}
                             name="phone"
@@ -160,19 +148,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input  type='password' disabled={loading} placeholder='********' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
                           <FormField
                                     control={form.control}
                                     name="type"
@@ -210,6 +186,32 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                         </FormItem>
                                     )}
                             /> 
+                            <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='text' disabled={loading} placeholder='example@gmail.com' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Password <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input  type='password' disabled={loading} placeholder='********' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}

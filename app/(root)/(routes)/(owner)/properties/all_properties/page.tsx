@@ -14,6 +14,7 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 
 const AllPropertiesPage = () => {
+    const [isMounted, setIsMounted] = useState(false)
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -25,10 +26,10 @@ const AllPropertiesPage = () => {
                     const {data,status} = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
                     dispatch(getOwnerProperties(data))
                 }
+                setIsMounted(true)
             }
             getData()
-        },)
-    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    },[])
 
     const handleAddProperty = () => {
         if (owner.activePackage) {
@@ -43,6 +44,10 @@ const AllPropertiesPage = () => {
 
     }
 
+    if (!isMounted) {
+        return null
+    }
+
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
@@ -52,6 +57,7 @@ const AllPropertiesPage = () => {
                     {
                         owner.activePackage &&
                         <Button 
+                            disabled={owner.activePackage.maxProperty > owner.propertyCount ? false : true}
                             onClick={handleAddProperty}  
                             className="bg-purple-600"
                         >
@@ -61,10 +67,7 @@ const AllPropertiesPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    {
-                        properties &&
-                        <Properties data={properties} />
-                    }
+                    <Properties />
                 </div>
             </div>
         </div>

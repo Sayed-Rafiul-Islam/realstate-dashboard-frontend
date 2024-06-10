@@ -41,15 +41,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
+
     const onDelete = async () => {
-        if (data.tenant) {
-            toast.error("Remove associated tenants first")
-        } else {
-            const result = await api.delete(`deleteUnit?id=${data._id}&ownerId=${data.property.owner._id}&propertyId=${data.property._id}`,{validateStatus: () => true})
+        const result = await api.delete(`deleteUnit?id=${data._id}&ownerId=${data.property.owner._id}&propertyId=${data.property._id}`,{validateStatus: () => true})
+        if (result.status === 200) {
             dispatch(removeOwnerUnit(data._id))
             dispatch(updateOwnerInfo(result.data.updatedOwner))
             dispatch(updateOwnerProperty(result.data.updatedProperty))
             toast.success("Unit Deleted")
+        } else {
+            toast.error("Remove associated tenants first")
         }
         setOpen(false)
     }
