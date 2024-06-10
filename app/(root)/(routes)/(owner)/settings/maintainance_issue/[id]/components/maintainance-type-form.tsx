@@ -1,6 +1,6 @@
 "use client"
 
-import { MaintainanceTypeProps } from "@/types"
+import { MaintainanceTypeProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -14,11 +14,13 @@ import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
 import './maintainance-type-form.css'
 import { addMaintainanceType, updateMaintainanceType } from "@/redux/settings/maintainanceTypesSlice"
 import { DatePickerForm } from "@/components/ui/date-picker-form"
+import api from "@/actions/api"
+import { addOwnerMaintainanceType } from "@/redux/data/owner/settings/maintainanceTypesSlice"
 
 
 
@@ -39,6 +41,8 @@ const formSchema = z.object({
 export const MaintainanceIssueForm : React.FC<MaintainanceTypeFormProps> = ({
     initialData
 }) => {
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
     const dispatch = useDispatch()
     const router = useRouter()
@@ -64,14 +68,27 @@ export const MaintainanceIssueForm : React.FC<MaintainanceTypeFormProps> = ({
     const onSubmit = async (data : MaintainanceTypeFormValues) => {
 
         if (initialData) {
-            const formData = {...data, _id : initialData._id}
-            dispatch(updateMaintainanceType(formData))
+            const formData = {...data, _id : initialData._id,owner : owner._id}
+            const result = await api.patch(`updateMaintainanceType`,formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(updateMaintainanceType(result.data))
+                toast.success(toastMessage)
+                router.push('/settings/maintainance_issue')
+            } else {
+                toast.error("Something went wrong")
+            }
         } else {
-            const formData = {...data, _id : '10'}
-            dispatch(addMaintainanceType(formData))
-        }
-        toast.success(toastMessage)
-        router.push('/settings/maintainance_issue')
+            const formData = {...data, owner : owner._id}
+            const result = await api.post(`createMaintainanceType`,formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(addOwnerMaintainanceType(result.data))
+                toast.success(toastMessage)
+                router.push('/settings/maintainance_issue')
+            } else {
+                toast.error("Something went wrong")
+            }
+            
+        }  
     }
 
     useEffect(()=>{

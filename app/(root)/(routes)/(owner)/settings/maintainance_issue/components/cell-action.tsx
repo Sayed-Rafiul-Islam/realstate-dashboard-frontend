@@ -13,6 +13,8 @@ import toast from "react-hot-toast"
 import { removeRent } from "@/redux/rents/rentsSlice"
 import { MaintainanceTypeColumn } from "./column"
 import { removeMaintainanceType } from "@/redux/settings/maintainanceTypesSlice"
+import { removeOwnerMaintainanceType } from "@/redux/data/owner/settings/maintainanceTypesSlice"
+import api from "@/actions/api"
 
 interface CellActionProps {
     data : MaintainanceTypeColumn
@@ -28,8 +30,14 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeMaintainanceType(data))
-        toast.success("Maintainance Type Deleted.")
+        const result = await api.delete(`deleteMaintainanceType?id=${data._id}`,{validateStatus: () => true})
+        if (result.status === 200) {
+            dispatch(removeOwnerMaintainanceType(data))
+            toast.success("Maintainance Type Deleted.")
+        } else {
+            toast.error("Maintainance Type is in use.")
+        }
+        
         setOpen(false)
     }
 

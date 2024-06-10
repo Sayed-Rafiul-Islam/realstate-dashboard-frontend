@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { MaintainanceTypeProps, MaintainanceTypesReducerProps} from "@/types";
+import { MaintainanceTypeProps, MaintainanceTypesReducerProps, OwnerMaintainanceTypesReducerProps} from "@/types";
 import { MaintainanceIssueForm } from "./components/maintainance-type-form";
 
 const MaintainanceIssueFormPage = ({
@@ -9,9 +9,9 @@ const MaintainanceIssueFormPage = ({
 } : {
     params : { id : string}
 }) => {
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
 
-    const initialData = maintainanceTypes.filter((item : MaintainanceTypeProps)  =>{
+    const initialData = ownerMaintainanceTypes.filter((item : MaintainanceTypeProps)  =>{
         if (item._id === params.id) {
             return item
         } 

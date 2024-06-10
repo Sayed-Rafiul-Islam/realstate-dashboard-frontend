@@ -153,7 +153,7 @@ const MaintainerDetails = ({
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Contact</h5>
-                                    <h5>{maintainer.phone}</h5>
+                                    <h5>{maintainer.contactNo}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="font-semibold w-1/2">Email</h5>

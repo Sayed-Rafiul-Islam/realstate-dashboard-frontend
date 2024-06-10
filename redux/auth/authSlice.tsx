@@ -57,6 +57,8 @@ const userSlice = createSlice({
                 localStorage.removeItem("tenants")
                 localStorage.removeItem("units")
                 localStorage.removeItem("allUsers")
+                localStorage.removeItem("ownerMaintainanceTypes")
+                localStorage.removeItem("ownerMaintainers")
          
             }
             state.user = []

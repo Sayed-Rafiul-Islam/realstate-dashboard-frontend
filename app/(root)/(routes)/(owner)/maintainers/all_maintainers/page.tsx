@@ -2,16 +2,37 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainersReducerProps } from "@/types";
+import { MaintainersReducerProps, OwnerInfoReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MaintainerCard from "./components/maintainer-card";
 import Maintainers from "./components/maintainers";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
 
 
 const ALLMaintainers = () => {
+    const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
+    const dispatch = useDispatch()
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerMaintainanceTypes(data))
+                }
+                setIsMounted(true)
+            }
+            getData()
+    },[])
     const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps) => maintainersReducer)
+
+    if (!isMounted) {
+        return null
+    }
    
     return ( 
         <div className="flex-col">

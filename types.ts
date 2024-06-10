@@ -305,7 +305,7 @@ export interface MaintainerProps {
   unitId : string,
   image : any,
   name : string,
-  phone : string,
+  contactNo : string,
   email : string,
   type : string,
   pendingRequest : number,
@@ -416,7 +416,8 @@ export interface MaintainanceTypeProps {
   _id : string,
   type : string,
   maintainer : string,
-  date : string
+  date : string,
+  owner : OwnerProps
 }
 
 export interface MaintainanceTypesReducerProps {
@@ -432,4 +433,12 @@ export interface OwnerPropertyReducerProps {
 
 export interface OwnerUnitsReducerProps {
   ownerUnitsReducer :  { ownerUnits : UnitProps[]} 
+}
+
+export interface OwnerMaintainanceTypesReducerProps {
+  ownerMaintainanceTypesReducer :  { ownerMaintainanceTypes : MaintainanceTypeProps[]} 
+}
+
+export interface OwnerMaintainersReducerProps {
+  ownerMaintainersReducer :  { ownerMaintainers : MaintainerProps[]} 
 }

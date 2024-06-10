@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, MaintainerProps, UnitProps, UnitsReducerProps, MaintainanceTypesReducerProps, MaintainanceTypeProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, MaintainerProps, UnitProps, UnitsReducerProps, MaintainanceTypesReducerProps, MaintainanceTypeProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -27,6 +27,8 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
 import { addMaintainer, updateMaintainer } from "@/redux/maintainers/maintainersSlice"
+import api from "@/actions/api"
+import { addOwnerMaintainer } from "@/redux/data/owner/maintainersSlice"
 
 
 type MaintainerFormValues = z.infer<typeof formSchema>
@@ -38,7 +40,7 @@ interface MaintainerFormProps {
 const formSchema = z.object({
 
     name : z.string().min(1, {message : "Name Required"}),
-    phone : z.string().min(1, {message : "Contact No Required"}),
+    contactNo : z.string().min(1, {message : "Contact No Required"}),
     email : z.string().min(1, {message : "Email Required"}),
     password : z.string().min(8, {message : "Password Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
@@ -55,7 +57,8 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     initialData
 }) => {
 
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
     const dispatch = useDispatch()
     const router = useRouter()
     
@@ -64,37 +67,46 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     const description = initialData ? "Edit maintainer info" : "Add a new maintainer"
     const toastMessage = initialData ? "Maintainer info updated" : "New maintainer created"
 
-
- 
-
-
-
-
-
-
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainerFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : initialData || {
             name : '',
-            phone : '',
+            contactNo : '',
             email : '',
             password : '',
             type : '',
         }
     })
 
-    
     const onSubmit = async (data : MaintainerFormValues) => {
+
         if (initialData) {
-            const updatedData = {...data, _id : initialData._id}
-            dispatch(updateMaintainer(updatedData))
-            toast.success(toastMessage)
+            
+            // const formData = {...data, _id : initialData._id,owner : owner._id}
+            // const result = await api.patch(`updateMaintainanceType`,formData,{validateStatus: () => true})
+            // if (result.status === 200) {
+                // dispatch(updateMaintainanceType(result.data))
+            //     toast.success(toastMessage)
+            //     router.push('/maintainers')
+            // } else {
+            //     toast.error("Something went wrong")
+            // }
         } else {
-            dispatch(addMaintainer(data))
-            toast.success(toastMessage)
-        }
-        router.push('/maintainers')
+            const formData = {...data, owner : owner._id}
+            const result = await api.post(`createMaintainer`,formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(addOwnerMaintainer(result.data))
+                toast.success(toastMessage)
+                router.push('/maintainers')
+            } else if (result.status === 400) {
+                toast.error("Email already in use")
+            }
+            else {
+                toast.error("Something went wrong")
+            }
+            
+        }  
     }
 
     const [isMounted, setIsMounted] = useState(false)
@@ -137,7 +149,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                 
                         <FormField
                             control={form.control}
-                            name="phone"
+                            name="contactNo"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Contact No <span className='text-red-500'>*</span></FormLabel>
@@ -173,12 +185,10 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent  >
-                                                        {maintainanceTypes.map(({_id, maintainer} : MaintainanceTypeProps,index)=>(
-                                                            <div key={_id}>
-                                                            <SelectItem  value={_id} >
+                                                        {ownerMaintainanceTypes.map(({_id, maintainer} : MaintainanceTypeProps,index)=>(
+                                                            <SelectItem key={_id} value={_id} >
                                                                 {maintainer}
                                                             </SelectItem>
-                                                            </div>
                                                         ))}
                                                     </SelectContent>
                                                 </Select>

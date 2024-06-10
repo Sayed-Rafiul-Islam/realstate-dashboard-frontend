@@ -25,7 +25,7 @@ const maintainersSlice = createSlice({
                 if (item._id === payload._id) {
                     item.name = payload.name,
                     item.email = payload.email,
-                    item.phone = payload.phone,
+                    item.contactNo = payload.contactNo,
                     item.type = payload.type
                 }
                 return item

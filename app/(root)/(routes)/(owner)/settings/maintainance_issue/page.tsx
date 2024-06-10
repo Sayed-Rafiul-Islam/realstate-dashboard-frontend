@@ -1,22 +1,38 @@
 "use client"
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {MaintainanceTypesReducerProps} from "@/types";
+import {MaintainanceTypesReducerProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps} from "@/types";
 import { format } from "date-fns";
 import { MaintainanceIssueClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
 
 
 const MaintainanceIssuePage = () => {
-
+    const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
+    const dispatch = useDispatch()
 
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    useEffect(()=>{
+        const getData = async () => {
+            if (owner) {
+                    const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    dispatch(getOwnerMaintainanceTypes(data))
+                }
+                setIsMounted(true)
+            }
+            getData()
+    },[])
 
-    const formattedTypes = maintainanceTypes.map((
+    const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
+
+    const formattedTypes = ownerMaintainanceTypes.map((
         {
             _id,
             type,
@@ -31,6 +47,11 @@ const MaintainanceIssuePage = () => {
                 date : format(date,"MMMM do, yyyy")
             }
     })
+
+    
+    if (!isMounted) {
+        return null
+    }
 
     return ( 
         <div className="flex-col">
