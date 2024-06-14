@@ -1,6 +1,6 @@
 "use client"
 
-import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, OwnerMaintainersReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
@@ -36,11 +36,8 @@ const MaintainerDetails = ({
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
     
     const maintainer = maintainers.filter((item)  => item._id === params.detail_id)[0]
-
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
     const {invoices} = useSelector(({ invoicesReducer } : InvoicesReducerProps) => invoicesReducer)
-    const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
+    const threeRequests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps)=>ownerMaintainanceReducer).ownerMaintainanceRequests.slice(0,3)
 
     const onDelete = async () => {
         const result = await api.delete(`deleteMaintainer?id=${maintainer._id}`,{validateStatus: () => true})
@@ -233,10 +230,8 @@ const MaintainerDetails = ({
                     </div>
                     <div className="flex flex-col gap-2">
                         {
-                            threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0]?.name
-                                const unit = units.filter((item) => unitId === item._id)[0]?.name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
+                            threeRequests.map(({_id,date,property,unit,maintainer,issue,status})=> {
+
 
                                 let statusStyle = ''
                                 let border = ''
@@ -256,8 +251,8 @@ const MaintainerDetails = ({
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue}</h5>
-                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
-                                            <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span></p>
+                                            <h5 className="text-xs text-gray-500"> in {property && property.name}/{unit && unit.name}</h5>
+                                            <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer && maintainer.name}</span></p>
                                         </div>
                                         <h4 className={`${statusStyle} md:my-0 my-2 w-fit`}>{status}</h4>
                                     </div>
