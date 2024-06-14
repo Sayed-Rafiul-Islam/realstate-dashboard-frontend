@@ -311,7 +311,8 @@ export interface MaintainerProps {
   postCode : string,
   type : MaintainanceTypeProps,
   user : UserProps,
-  owner : OwnerProps
+  owner : OwnerProps,
+  property: PropertyProps
 }
 
 export interface MaintainersReducerProps {

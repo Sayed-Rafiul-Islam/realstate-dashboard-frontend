@@ -1,6 +1,6 @@
 "use client"
 
-import { MaintainerProps, MaintainanceTypeProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps } from "@/types"
+import { MaintainerProps, MaintainanceTypeProps, OwnerInfoReducerProps, OwnerMaintainanceTypesReducerProps, OwnerPropertyReducerProps, PropertyProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -41,6 +41,7 @@ const formSchema = z.object({
     email : z.string().min(1, {message : "Email Required"}),
     password : z.string().min(6, {message : "Password Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
+    property : z.string().min(1, {message : "Maintainer Type Required"}),
 })
 
 export const MaintainerForm : React.FC<MaintainerFormProps> = ({
@@ -49,9 +50,12 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
 
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
     const dispatch = useDispatch()
     const router = useRouter()
     
+    const [propertyId,setPropertyId] = useState(initialData.property ? initialData.property._id : '')
+
     const title = initialData ? 'Edit Maintainer' : 'Create Maintainer'
     const action = initialData ? 'Save Changes' : 'Create'
     const description = initialData ? "Edit maintainer info" : "Add a new maintainer"
@@ -60,20 +64,23 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainerFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData ? {
-            name : initialData.name,
-            contactNo : initialData.user.contactNo,
-            type : initialData.type._id,
-            email : "g32uige32ge23iue",
-            password : 'e78g8f3g8w4gfw48f'
+        defaultValues : 
+        // initialData ? 
+        {
+            property : initialData.property ? initialData.property._id : '',
+            name : initialData && initialData.name,
+            contactNo : initialData.user ? initialData.user.contactNo : '',
+            type : initialData.type ? initialData.type._id : '',
+            email : initialData && "g32uige32ge23iue",
+            password : initialData && 'e78g8f3g8w4gfw48f'
 
         }
-        :
-        {
-            name : '',
-            contactNo : '',
-            type : ''
-        }
+        // :
+        // {
+        //     name : '',
+        //     contactNo : '',
+        //     type : ''
+        // }
     })
 
     const onSubmit = async (data : MaintainerFormValues) => {
@@ -225,6 +232,41 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
                                     )}
                                 />
                             }
+                            <FormField
+                                    control={form.control}
+                                    name="property"
+                                    render={(item) => (
+                                        <FormItem>
+                                            <FormLabel>Assign Property<span className='text-red-500'>*</span></FormLabel>
+                                            <Select
+                                                    disabled={loading} 
+                                                    onValueChange={e=> item.field.onChange(e)}
+                                                    value={item.field.value}
+                                                    defaultValue={item.field.value}
+                                                    
+                                                    
+                                                >
+                                                    <FormControl >
+                                                        <SelectTrigger>
+                                                            <SelectValue 
+                                                                defaultValue={item.field.value}
+                                                                placeholder="Select Property"
+                                                            
+                                                            />
+                                                        </SelectTrigger>
+                                                    </FormControl>
+                                                    <SelectContent  >
+                                                        {properties.map(({_id, name} : PropertyProps,index)=>(
+                                                            <SelectItem key={_id} value={_id} >
+                                                                {name}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                            /> 
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}

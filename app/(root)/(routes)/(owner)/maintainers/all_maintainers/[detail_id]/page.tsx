@@ -175,7 +175,7 @@ const MaintainerDetails = ({
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    {/* <h5>{maintainer.user.printAddress}</h5> */}
+                                    <h5>{maintainer.user.printAddress}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">City</h5>
@@ -200,19 +200,19 @@ const MaintainerDetails = ({
                             <div className="px-5 flex flex-col gap-5">
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Name</h5>
-                                    {/* <h5>{property ? property.name : "N/A"}</h5> */}
+                                    <h5>{maintainer.property ? maintainer.property.name : "N/A"}</h5>
                                 </div>
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Address</h5>
-                                    {/* <h5>{property ? property.address : "N/A"}</h5> */}
+                                    <h5>{maintainer.property ? maintainer.property.address : "N/A"}</h5>
                                 </div>
-                                <div className="text-sm flex gap-2 w-full items-center">
+                                {/* <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">Unit</h5>
-                                    {/* <h5>{unit ? unit.name : "N/A"}</h5> */}
-                                </div>
+                                    <h5>{unit ? unit.name : "N/A"}</h5>
+                                </div> */}
                                 <div className="text-sm flex gap-2 w-full items-center">
                                     <h5 className="w-1/2">General Rent</h5>
-                                    {/* <h5>{unit ? '$ ' + property.rent : "N/A"}</h5> */}
+                                    <h5>{maintainer.property ? 'BDT ' + maintainer.property.rent : "N/A"}</h5>
                                 </div>
                             </div>
                         </div>
