@@ -20,42 +20,40 @@ const AllRequests = () => {
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
 
-    const requests = maintainanceRequests.filter(({maintainerId})=>maintainerId === maintainer._id)
+    const requests = maintainanceRequests.filter(({maintainer})=>maintainer?._id === maintainer._id)
     const formattedRequests = requests.map((
         {
             _id,
             date,
             requestNo,
             type,
-            propertyId,
-            unitId,
+            property,
+            unit,
             issue,
             status,
             details,
             cost,
             attachment,
-            responsibility,
             paymentStatus
         }) => {
-            const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
-            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
-            const unitName  = units.filter(({_id}) =>_id === unitId)[0].name
+            const typeName  = maintainanceTypes.filter(({_id}) =>_id === type._id)[0]?.type
+            const propertyName  = properties.filter(({_id}) =>_id === property._id)[0]?.name
+            const unitName  = units.filter(({_id}) =>_id === unit._id)[0]?.name
 
             return {
                 _id,
-                propertyId,
-                unitId,
+                propertyId : property._id,
+                unitId : unit._id,
                 date : format(date,"MMMM do, yyyy"),
                 requestNo,
                 type : typeName,
-                typeId : type,
+                typeId : type._id,
                 issue,
                 status,
                 details,
                 cost,
                 attachment,
                 property_unit : `${propertyName}/${unitName}`,
-                responsibility,
                 paymentStatus
             }
     })
