@@ -39,6 +39,12 @@ import ownerMaintainanceReducer from '@/redux/data/owner/maintainanceRequestsSli
 
 
 
+import maintainerMaintainanceReducer from '@/redux/data/maintainer/maintainanceRequestsSlice'
+
+
+import tenantMaintainanceReducer from '@/redux/data/tenant/maintainanceRequestsSlice'
+
+
 
 export const store = configureStore({
   reducer: {
@@ -77,8 +83,12 @@ export const store = configureStore({
     ownerMaintainanceTypesReducer,
     ownerMaintainersReducer,
     ownerTenantsReducer,
-    ownerMaintainanceReducer
+    ownerMaintainanceReducer,
 
+    maintainerMaintainanceReducer,
+
+
+    tenantMaintainanceReducer
 
   }
 })

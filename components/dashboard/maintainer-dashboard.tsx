@@ -3,12 +3,15 @@ import Summery from "../summery";
 import './dashboard.css'
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
-import { useSelector } from "react-redux";
+import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainerMaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
 import BarChart from "../BarChart";
 import { format } from "date-fns";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "../ui/data-table";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getMaintainerMaintainanceRequests } from "@/redux/data/maintainer/maintainanceRequestsSlice";
 
 export interface InvoiceColumn {
     _id : string,
@@ -20,20 +23,61 @@ export interface InvoiceColumn {
   }
 
 const MaintainerDashboard = () => {
+    const [isMounted, setIsMounted] = useState(false)
+    const router = useRouter()
+    const dispatch = useDispatch()
+
     const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
- 
+    console.log(maintainer)
+
+    useEffect(()=>{
+        const getData = async () => {
+            console.log(maintainer)
+            if (maintainer) {
+               
+                    const requests = await api.get(`getMaintainerRequests?maintainerId=${maintainer._id}`,{validateStatus: () => true})
+
+                    // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
+                    // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+                    // const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
+                    // const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    // const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+
+                    dispatch(getMaintainerMaintainanceRequests(requests.data))
+
+                    // dispatch(getOwnerProperties(properties.data))
+                    // dispatch(getOwnerUnits(units.data))
+                    // dispatch(getOwnerTenants(tenants.data))
+                    // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    // dispatch(getOwnerMaintainers(maintainers.data))
+                setIsMounted(true)
+                }
+            }
+            getData()
+    },[maintainer])
+
+
+
+  
+
+    const requests = useSelector(({maintainerMaintainanceReducer} : MaintainerMaintainanceRequestsReducerProps)=>maintainerMaintainanceReducer).maintainerMaintainanceRequests
+    const pendingReq = requests.filter(({status})=> status === 'In Progress')
+    const completedReq = requests.filter(({status})=> status === 'Complete')
+
 
     const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
-    const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
 
-    const requests = maintainanceRequests.filter(({maintainerId})=> maintainerId === maintainer._id)
-    const pendingReq = requests.filter(({status})=> status === 'In Progress')
-    const completedReq = requests.filter(({status})=> status === 'Complete')
+    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
     const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
+
+    
+    // anti hydration
+
+    if (!isMounted) {
+        return null
+    }
 
     // let data : {propertyId : string, unitId : string, invoiceIds : {id : string}[]}[] = []
     // requests.filter(({propertyId,unitId})=> {
@@ -63,26 +107,18 @@ const MaintainerDashboard = () => {
     // }).slice(0,5)
 
 
-    const router = useRouter()
+   
 
-    let totalProperty : {propertyId : string}[] = []
+    // let totalProperty : {propertyId : string}[] = []
 
-    requests.map(({propertyId})=>{
-        const index = totalProperty.findIndex(item => propertyId === item.propertyId)
-        if (index === -1) {
-            totalProperty.push({propertyId})
-        }
-    })
+    // requests.map(({propertyId})=>{
+    //     const index = totalProperty.findIndex(item => propertyId === item.propertyId)
+    //     if (index === -1) {
+    //         totalProperty.push({propertyId})
+    //     }
+    // })
 
     const summery = [
-        {
-            id : 0,
-            subtitle : `Total Property`,
-            title : `${totalProperty.length}`,
-            icon : <Home  color="#50C878" size={20} />,
-            color : 'green'
-        },
-
         {
             id : 1,
             subtitle : `Total Requests`,
@@ -240,8 +276,12 @@ const MaintainerDashboard = () => {
         }
     })
 
+    
+  
+    
 
-    const thisInvoices = invoices.filter(({by}) => by.id === maintainer.user._id)
+
+    const thisInvoices = invoices.filter(({by}) => by.id === '662774a250924ade5f6ce70b')
 
     const formattedInvoices = thisInvoices.map((
         {
@@ -257,8 +297,8 @@ const MaintainerDashboard = () => {
             const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
             return {
                 _id,
-                property : property.name,
-                unit : unit.name,
+                property : property && property.name,
+                unit : unit && unit.name,
                 issue : maintainanceIssue?.type,
                 cost : `BDT ${amount}`,
                 invoiceNo,
@@ -290,10 +330,20 @@ const MaintainerDashboard = () => {
         }
       ]
 
+
     return ( 
         <div>
             {/* summery */}
             <div className="summery">
+                <div className="border-2 border-gray-300 rounded-3xl py-6 px-6 flex items-center justify-evenly">
+                    <div className="text-center">
+                        <h5 className="text-sm font-semibold mt-2">property</h5>
+                        <h2 className={`text-xl font-bold mt-4 text-green-500`}>{maintainer.property.name}</h2>
+                    </div>
+                    <div className={`bg-green-100 flex justify-center items-center w-[40px] h-[40px] rounded-xl`}>
+                        <Home  color="#50C878" size={20} />
+                    </div>
+                </div>
                 {
                     summery.map(({id,subtitle,title,icon,color}) => <Summery key={id} id={id} subtitle={subtitle} title={title} icon={icon} color={color} />)
                 }
@@ -359,10 +409,7 @@ const MaintainerDashboard = () => {
 
                     <div className="flex flex-col gap-2">
                         {
-                            requests.slice(0,3).map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0].name
-                                const unit = units.filter((item) => unitId === item._id)[0].name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
+                            requests.slice(0,3).map(({_id,date,property,unit,issue,status})=> {
 
                                 let statusStyle = ''
                                 let border = ''
@@ -382,11 +429,11 @@ const MaintainerDashboard = () => {
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue}</h5>
-                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
+                                            <h5 className="text-xs text-gray-500"> in {property && property.name}/{unit && unit.name}</h5>
                                             
                                                 {
                                                     maintainer ?
-                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span> </p>
+                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer.name}</span> </p>
                                                     :
                                                     <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yet</span> </p>
                                                 }

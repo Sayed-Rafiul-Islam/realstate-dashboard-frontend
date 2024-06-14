@@ -25,13 +25,15 @@ export default function Home() {
       dispatch(getTenantInfo(tenant))
   } else if (role === 'maintainer') {
     const maintainer = maintainers.filter(({user}) => user._id === _id)[0]
-    dispatch(getMaintainerInfo(maintainer))
+      dispatch(getMaintainerInfo(maintainer))
+    
   } else if (role === 'owner') {    
     const owner = owners.filter(({user}) => user._id === _id)[0]
     dispatch(getOwnerInfo(owner))
     // loadOwnerData(owner)
-    
   }
+
+
 
   return (
    <div className="px-5 mt-10 md:px-0">

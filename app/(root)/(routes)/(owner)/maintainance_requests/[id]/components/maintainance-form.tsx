@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerMaintainanceTypesReducerProps, OwnerInfoReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerMaintainanceTypesReducerProps, OwnerInfoReducerProps, MaintainerProps, OwnerMaintainersReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -41,6 +41,7 @@ const formSchema = z.object({
 
     property : z.string().min(1, {message : "Property Name Required"}),
     unit : z.string().min(1, {message : "Unit Name Required"}),
+    maintainer : z.string().min(1, {message : "Maintainer Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
     status : z.string().min(1, {message : "Status Required"}),
     details : z.string().min(1, {message : "Description Required"}),
@@ -57,24 +58,37 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
     const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
     const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes
+    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
 
-    const [propertyId,setPropertyId] = useState(initialData.property ? initialData.property._id : '')
+    const [propertyId,setPropertyId] = useState(initialData ? initialData.property._id : '')
+    const [typeId,setTypeId] = useState(initialData ? initialData.type._id : '')
     const dispatch = useDispatch()
 
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
+    const [thisMaintainers,setThisMaintainer] = useState<MaintainerProps[]>()
     const router = useRouter()
 
     useEffect(()=>{
         const temp = units.filter((item)=> item.property._id === propertyId)
         setThisUnits(temp)
-        if (initialData.unit) {
+        if (initialData?.unit) {
             form.setValue('unit', initialData.unit._id)  
         } else {
             form.setValue('unit', '')  
         }
              
-
     },[propertyId])
+
+    useEffect(()=>{
+        const temp = maintainers.filter((item)=> item.type._id === typeId)
+        setThisMaintainer(temp)
+        if (initialData?.maintainer) {
+            form.setValue('maintainer', initialData.maintainer._id)  
+        } else {
+            form.setValue('maintainer', '')  
+        }
+             
+    },[typeId])
 
 
     const title = initialData ? 'Edit Request' : 'Create Request'
@@ -88,9 +102,10 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : {
-            property : initialData.property ? initialData.property._id : '',
-            unit :  initialData.unit ? initialData.unit._id : '', 
-            type :  initialData.type ? initialData.type._id : '',
+            property : initialData?.property ? initialData.property._id : '',
+            unit :  initialData?.unit ? initialData.unit._id : '', 
+            type :  initialData?.type ? initialData.type._id : '',
+            maintainer :  initialData?.maintainer ? initialData.maintainer._id : '',
             status : initialData && initialData.status,
             details : initialData && initialData.details,
             attachment : initialData && initialData.attachment
@@ -234,19 +249,24 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                          <FormField
                             control={form.control}
                             name="type"
-                            render={({ field }) => (
+                            render={(item) => (
                                 <FormItem>
                                     <FormLabel>Type <span className='text-red-500'>*</span></FormLabel>
                                     <Select 
                                             disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
+                                            onValueChange={e=> {
+                                                setTypeId(e)
+                                                item.formState.validatingFields.maintainer
+                                                
+                                                return item.field.onChange(e)
+                                            }}
+                                            value={item.field.value}
+                                            defaultValue={item.field.value}
                                         >
                                             <FormControl>                            
                                                 <SelectTrigger>
                                                     <SelectValue 
-                                                        defaultValue={field.value}
+                                                        defaultValue={item.field.value}
                                                         placeholder="Select Type"
                                                     />
                                                 </SelectTrigger>
@@ -259,6 +279,45 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                                         </SelectItem>
                                                     </div>
                                                 ))}
+                                            </SelectContent>
+                                        </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="maintainer"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Maintainer <span className='text-red-500'>*</span></FormLabel>
+                                    <Select 
+                                            disabled={loading} 
+                                            onValueChange={field.onChange}
+                                            value={thisMaintainers?.length === 0 ? '' : field.value}
+                                            defaultValue={thisMaintainers?.length === 0 ? '' : field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue 
+                                                        defaultValue={field.value}
+                                                        placeholder="Select Maintainer"
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {
+                                                    thisMaintainers
+                                                    ? thisMaintainers.map(({_id, name} : MaintainerProps,index)=>(
+                                                        <SelectItem key={index} value={_id} >
+                                                            {name}
+                                                        </SelectItem>
+                                                    ))
+                                                    :
+                                                    <SelectItem value="">
+                                                            Select Maintainer
+                                                    </SelectItem>
+                                                }
                                             </SelectContent>
                                         </Select>
                                     <FormMessage />

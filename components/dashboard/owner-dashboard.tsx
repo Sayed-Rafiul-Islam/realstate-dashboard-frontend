@@ -33,7 +33,7 @@ const OwnerDashboard = () => {
             if (owner) {
                     const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
                     const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-                    const maintainers = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
+                    const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
                     const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
                     const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})

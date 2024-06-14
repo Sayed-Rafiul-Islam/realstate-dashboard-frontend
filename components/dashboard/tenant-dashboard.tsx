@@ -6,10 +6,13 @@ import { DataTable } from "../ui/data-table";
 import { format } from "date-fns";
 import BarChart from "../BarChart";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
-import { useSelector } from "react-redux";
+import { ExpensesReducerProps, GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantMaintainanceRequestsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
 import { ColumnDef } from "@tanstack/react-table";
 import { InvoiceColumn } from "@/app/(root)/(routes)/(tenant)/tenant_invoices/components/column";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
+import { getTenantMaintainanceRequests } from "@/redux/data/tenant/maintainanceRequestsSlice";
 
 interface TenantDashboardProps {
 
@@ -18,34 +21,55 @@ interface TenantDashboardProps {
 
 const TenantDashboard : React.FC<TenantDashboardProps> = () => {
 
+    const [isMounted, setIsMounted] = useState(false)
+    const router = useRouter()
+    const dispatch = useDispatch()
+
     
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
-    const {maintainers} = useSelector(({maintainersReducer} : MaintainersReducerProps)=>maintainersReducer)
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
-    const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
+    useEffect(()=>{
+        const getData = async () => {
 
+            if (tenant) {
+               
+                    const requests = await api.get(`getTenantRequests?propertyId=${tenant.property._id}&unitId=${tenant.unit._id}`,{validateStatus: () => true})
 
-    const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
-    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
-    const requests = maintainanceRequests.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
-    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
-    const thisProperty = properties.filter(({_id})=> _id === tenant.property._id)[0]
+                    // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
+                    // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+                    // const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
+                    // const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    // const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
 
-    const propertyName = properties.filter(({_id}) => _id === tenant.property._id)[0].name
-    const unitName = units.filter(({_id}) => _id === tenant.unit._id)[0].name
+                    dispatch(getTenantMaintainanceRequests(requests.data))
 
-    const router = useRouter()
+                    // dispatch(getOwnerProperties(properties.data))
+                    // dispatch(getOwnerUnits(units.data))
+                    // dispatch(getOwnerTenants(tenants.data))
+                    // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    // dispatch(getOwnerMaintainers(maintainers.data))
+                setIsMounted(true)
+                }
+            }
+            getData()
+    },[tenant])
+
+    const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps)=>tenantMaintainanceReducer).tenantMaintainanceRequests 
+
+      // anti hydration
+
+      if (!isMounted) {
+        return null
+    }
+
+    // ---------------------------------------------------------
+    // summery
 
     const summery = [
         {
             id : 0,
             subtitle : "Unit",
-            title : `${unitName}`,
+            title : `${tenant.unit.name}`,
             icon : <Home color="#f97316" size={20} />,
             color : 'orange'
         },
@@ -65,6 +89,14 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
         }
     ]
 
+
+
+    // ------------------------------------------------------------------------
+    // expense
+
+
+    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
+    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
     
     let totalExpenses = 0
     let othersChart = [
@@ -200,6 +232,18 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
 
 
 
+    // ----------------------------------------------------
+    // invoice
+
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
+    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
+    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
+    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
+
+    const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
+    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
+
+
     const formattedInvoices = thisInvoices.map((
         {
             _id,
@@ -287,7 +331,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                 <div className="border-2 border-gray-300 rounded-3xl py-6 px-6 flex items-center justify-evenly">
                     <div className="text-center">
                         <h5 className="text-sm font-semibold mt-2">Property</h5>
-                        <h2 className={`text-xl font-bold mt-4 text-green-500`}>{propertyName}</h2>
+                        <h2 className={`text-xl font-bold mt-4 text-green-500`}>{tenant.property.name}</h2>
                     </div>
                     <div className={`bg-green-100 flex justify-center items-center w-[40px] h-[40px] rounded-xl`}>
                         <Warehouse color="#22c55e" size={20} />
@@ -323,7 +367,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                             </div>
                             <div>
                                 <h5 className="text-gray-500 text-sm">Appartment Rent</h5>
-                                <h5 className="font-semibold">{thisProperty.rent} BDT</h5>
+                                <h5 className="font-semibold">{tenant.property.rent} BDT</h5>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -364,10 +408,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
 
                     <div className="flex flex-col gap-2">
                         {
-                            requests.slice(0,3).map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0].name
-                                const unit = units.filter((item) => unitId === item._id)[0].name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
+                            requests.slice(0,3).map(({_id,date,property,unit,maintainer,issue,status,propertyName,unitName})=> {
+
 
                                 let statusStyle = ''
                                 let border = ''
@@ -387,11 +429,11 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue}</h5>
-                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
+                                            <h5 className="text-xs text-gray-500"> in {propertyName}/{unitName}</h5>
                                             
                                                 {
                                                     maintainer ?
-                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span> </p>
+                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer && maintainer.name}</span> </p>
                                                     :
                                                     <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yet</span> </p>
                                                 }

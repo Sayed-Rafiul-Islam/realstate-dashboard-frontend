@@ -148,89 +148,7 @@ const loadUnits = async (dispatch : any) => {
 const loadTenants = async (dispatch : any) => {
     const {data,status} = await api.get(`getTenants`,{validateStatus: () => true})
     
-    // const tenants = [
-    //     {
-    //         _id : '1',
-    //         userId : '662774f150924ade5f6ce70f',
-    //         ownerId : '662774a250924ade5f6ce70b',
-    //         propertyId : '1',
-    //         unitId : '3',
-    //         name : 'Rodan',
-    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-    //         email : "rodan@gmail.com",
-    //         phone : '01788544463',
-    //         occupation : 'Student',
-    //         startDate : '2024-05-02T17:34:59.911+00:00',
-    //         endDate : '2024-010-02T17:34:59.911+00:00',
-    //         dueDate : '2024-06-02T17:34:59.911+00:00',
-    //         address : "1901 Thornridge Cir. Shiloh",
-    //         city : "Toronto West",
-    //         state : "Uttar Pradesh",
-    //         country : "Canada",
-    //         postalCode : "S0D 3C0",
-    //         NID : 9978856723,
-    //         due : 0,
-    //         age : 25,
-    //         familyMember : 5,
-    //         status : true,
-    //         personalDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf',
-    //         propertyDoc : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717305975/jeskckzoenydqsqykbf8.pdf'
-    //     },
-    //     {
-    //         _id : '2',
-    //         userId : '662774f150924ade5f6ce70f',
-    //         ownerId : '662774a250924ade5f6ce70b',
-    //         propertyId : '2',
-    //         unitId : '2',
-    //         name : 'Rafsan',
-    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-    //         email : "rafsan@gmail.com",
-    //         phone : '01788544463',
-    //         occupation : 'Shopkeeper',
-    //         startDate : '2024-05-02T17:34:59.911+00:00',
-    //         endDate : '2024-010-02T17:34:59.911+00:00',
-    //         dueDate : '2024-06-02T17:34:59.911+00:00',
-    //         address : "1901 Thornridge Cir. Shiloh",
-    //         city : "Toronto West",
-    //         state : "Uttar Pradesh",
-    //         country : "Canada",
-    //         postalCode : "S0D 3C0",
-    //         NID : 9978856753,
-    //         due : 20,
-    //         age : 25,
-    //         familyMember : 5,
-    //         status : false,
-    //         personalDoc : '',
-    //         propertyDoc : ''
-    //     },
-    //     {
-    //         _id : '3',
-    //         userId : '662774f150924ade5f6ce70f',
-    //         ownerId : '662774a250924ade5f6ce70b',
-    //         propertyId : '1',
-    //         unitId : '2',
-    //         name : 'Godzilla',
-    //         image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-    //         email : "godzilla@gmail.com",
-    //         phone : '01788566463',
-    //         occupation : 'Military',
-    //         startDate : '2024-05-02T17:34:59.911+00:00',
-    //         endDate : '2024-010-02T17:34:59.911+00:00',
-    //         dueDate : '2024-06-02T17:34:59.911+00:00',
-    //         address : "1901 Thornridge Cir. Shiloh",
-    //         city : "Toronto West",
-    //         state : "Uttar Pradesh",
-    //         country : "Canada",
-    //         postalCode : "S0D 3C0",
-    //         NID : 9978855553,
-    //         due : 0,
-    //         age : 25,
-    //         familyMember : 1,
-    //         status : true,
-    //         personalDoc : '',
-    //         propertyDoc : ''
-    //     }
-    // ]
+ 
 
     dispatch(getTenants(data))
 }
@@ -532,73 +450,9 @@ const loadRents = async () => {
     dispatch(getRents(rents))
 }
 
-const loadMaintainers = async () => {
-    // const {data,status} = await api.get(`varify?accessToken`,{validateStatus: () => true})
-    
-    const dispatch = useDispatch()
-    const maintainers = [
-        {
-            _id : '1',
-            userId : '662774b650924ade5f6ce70d',
-            propertyId : '1',
-            unitId : '1',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            name : 'Rex',
-            contactNo : '01788544463',
-            email : "rex@gmail.com",
-            type : "1",
-            pendingRequest : 12,
-            status : 'Available',
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            age : 25,
-            NID : 9978856723,
-        },
-        {
-            _id : '2',
-            userId : '2',
-            propertyId : '1',
-            unitId : '2',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            name : 'Max',
-            contactNo : '01788544463',
-            email : "max@gmail.com",
-            type : "3",
-            pendingRequest : 4,
-            status : "Unavailable",
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            age : 25,
-            NID : 9978856722,
-        },
-        {
-            _id : '3',
-            userId : '3',
-            propertyId : '1',
-            unitId : '3',
-            image : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1716987408/nmru6gcxjgjvczdf35e6.jpg',
-            name : 'Alex',
-            contactNo : '01788544463',
-            email : "alex@gmail.com",
-            type : "4",
-            pendingRequest : 2,
-            status : "Pending",
-            address : "1901 Thornridge Cir. Shiloh",
-            city : "Toronto West",
-            state : "Uttar Pradesh",
-            country : "Canada",
-            postalCode : "S0D 3C0",
-            age : 25,
-            NID : 9978856724,
-        }
-    ]
-    dispatch(getMaintainers(maintainers))
+const loadMaintainers = async (dispatch : any) => {
+    const {data,status} = await api.get(`getMaintainers`,{validateStatus: () => true})
+    dispatch(getMaintainers(data))
 }
 
 const loadMaintainanceRequests = async (dispatch : any) => {
@@ -907,7 +761,7 @@ export function LoadData() {
     loadExpenses()
     loadDocuments()
     loadRents()
-    loadMaintainers()
+    loadMaintainers(dispatch)
     loadMaintainanceRequests(dispatch)
     loadEarnings()
     loadMonthlyRecords()

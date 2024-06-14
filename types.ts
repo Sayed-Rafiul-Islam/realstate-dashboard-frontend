@@ -347,6 +347,14 @@ export interface OwnerMaintainanceRequestsReducerProps {
   ownerMaintainanceReducer :  { ownerMaintainanceRequests : MaintainanceRequestProps[]} 
 }
 
+export interface MaintainerMaintainanceRequestsReducerProps {
+  maintainerMaintainanceReducer :  { maintainerMaintainanceRequests : MaintainanceRequestProps[]} 
+}
+
+export interface TenantMaintainanceRequestsReducerProps {
+  tenantMaintainanceReducer :  { tenantMaintainanceRequests : MaintainanceRequestProps[]} 
+}
+
 export interface NotificationsProps {
   _id : string,
   propertyId : string,
