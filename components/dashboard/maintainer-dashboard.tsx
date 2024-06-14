@@ -3,7 +3,7 @@ import Summery from "../summery";
 import './dashboard.css'
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainerMaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainerMaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import BarChart from "../BarChart";
 import { format } from "date-fns";
@@ -20,14 +20,16 @@ export interface InvoiceColumn {
     issue : string,
     cost : string,
     invoiceNo : string
-  }
+}
 
-const MaintainerDashboard = () => {
-    // const [isMounted, setIsMounted] = useState(false)
+interface MaintainerDashboardProps {
+    maintainer : MaintainerProps
+}
+
+const MaintainerDashboard : React.FC<MaintainerDashboardProps> = ({maintainer}) => {
+
     const router = useRouter()
     const dispatch = useDispatch()
-
-    const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
     useEffect(()=>{
         const getData = async () => {
@@ -48,7 +50,7 @@ const MaintainerDashboard = () => {
                     // dispatch(getOwnerTenants(tenants.data))
                     // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     // dispatch(getOwnerMaintainers(maintainers.data))
-                // setIsMounted(true)
+
                 }
             }
             getData()
@@ -69,12 +71,6 @@ const MaintainerDashboard = () => {
     const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
     const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
 
-    
-    // anti hydration
-
-    // if (!isMounted) {
-    //     return null
-    // }
 
     // let data : {propertyId : string, unitId : string, invoiceIds : {id : string}[]}[] = []
     // requests.filter(({propertyId,unitId})=> {

@@ -4,10 +4,10 @@ import Navbar from "@/components/Navbar";
 import NavbarToggle from "@/components/navbar-toogle";
 import SignOut from "@/components/signout";
 import './content.css'
-import {LoadData} from "@/actions/load-data";
 import AccessProvider from "@/actions/accessProvider";
 import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
+import { LoadAllUsersData } from "@/actions/load-all-user-data";
 
 
 
@@ -18,7 +18,8 @@ const RoutesLayout = ({
 }) => {
   const [expand, setExpand] = useState(true)
   AccessProvider()
-  LoadData()
+  LoadAllUsersData()
+
   
 
   const [isMounted, setIsMounted] = useState(false)

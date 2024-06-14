@@ -2,7 +2,7 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { OwnerMaintainanceRequestsReducerProps } from "@/types";
+import { OwnerMaintainanceRequestsReducerProps, TenantInfoReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";

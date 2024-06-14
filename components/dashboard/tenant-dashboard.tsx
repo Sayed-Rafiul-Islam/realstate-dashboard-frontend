@@ -6,7 +6,7 @@ import { DataTable } from "../ui/data-table";
 import { format } from "date-fns";
 import BarChart from "../BarChart";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantMaintainanceRequestsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantMaintainanceRequestsReducerProps, TenantProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { ColumnDef } from "@tanstack/react-table";
 import { InvoiceColumn } from "@/app/(root)/(routes)/(tenant)/tenant_invoices/components/column";
@@ -15,18 +15,17 @@ import api from "@/actions/api";
 import { getTenantMaintainanceRequests } from "@/redux/data/tenant/maintainanceRequestsSlice";
 
 interface TenantDashboardProps {
-
+    tenant : TenantProps
 }
 
 
-const TenantDashboard : React.FC<TenantDashboardProps> = () => {
+const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
 
-    const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
     const dispatch = useDispatch()
 
     
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+
 
 
 
@@ -50,7 +49,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                     // dispatch(getOwnerTenants(tenants.data))
                     // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     // dispatch(getOwnerMaintainers(maintainers.data))
-                    setIsMounted(true)
+           
                 }
             }
             getData()
@@ -81,11 +80,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
     const thisProperty = properties.filter(({_id})=> _id === tenant.property._id)[0]
 
 
-    // anti hydration
 
-    if (!isMounted) {
-        return null
-    }
    
 
    
@@ -329,7 +324,6 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
         },
       ]
 
-
     return ( 
         <div>
             {/* summery */}
@@ -373,7 +367,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                             </div>
                             <div>
                                 <h5 className="text-gray-500 text-sm">Appartment Rent</h5>
-                                <h5 className="font-semibold">{thisProperty.rent} BDT</h5>
+                                <h5 className="font-semibold">{tenant.property.rent} BDT</h5>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">

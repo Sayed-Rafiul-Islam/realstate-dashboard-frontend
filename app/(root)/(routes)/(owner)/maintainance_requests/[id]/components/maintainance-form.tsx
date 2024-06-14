@@ -80,7 +80,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     },[propertyId])
 
     useEffect(()=>{
-        const temp = maintainers.filter((item)=> item.type._id === typeId)
+        const temp = maintainers.filter((item)=> item.type._id === typeId && item.property._id === propertyId)
+        console.log(temp)
         setThisMaintainer(temp)
         if (initialData?.maintainer) {
             form.setValue('maintainer', initialData.maintainer._id)  
@@ -88,7 +89,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             form.setValue('maintainer', '')  
         }
              
-    },[typeId])
+    },[typeId,propertyId])
 
 
     const title = initialData ? 'Edit Request' : 'Create Request'
@@ -247,13 +248,14 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                         />
                          
                          <FormField
+                           
                             control={form.control}
                             name="type"
                             render={(item) => (
                                 <FormItem>
                                     <FormLabel>Type <span className='text-red-500'>*</span></FormLabel>
                                     <Select 
-                                            disabled={loading} 
+                                            disabled={propertyId === '' ? true : false}
                                             onValueChange={e=> {
                                                 setTypeId(e)
                                                 item.formState.validatingFields.maintainer
@@ -292,7 +294,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 <FormItem>
                                     <FormLabel>Maintainer <span className='text-red-500'>*</span></FormLabel>
                                     <Select 
-                                            disabled={loading} 
+                                            disabled={propertyId === '' ? true : false}
                                             onValueChange={field.onChange}
                                             value={thisMaintainers?.length === 0 ? '' : field.value}
                                             defaultValue={thisMaintainers?.length === 0 ? '' : field.value}
@@ -308,11 +310,22 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                             <SelectContent>
                                                 {
                                                     thisMaintainers
-                                                    ? thisMaintainers.map(({_id, name} : MaintainerProps,index)=>(
-                                                        <SelectItem key={index} value={_id} >
-                                                            {name}
-                                                        </SelectItem>
-                                                    ))
+                                                    ? thisMaintainers.map(({_id, name,user} : MaintainerProps,index)=>{
+                                                        console.log(user)
+                                                        if (user.firstName === '' && user.lastName === '') {
+                                                            return (
+                                                                <SelectItem key={index} value={_id} >
+                                                                    {name}
+                                                                </SelectItem>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <SelectItem key={index} value={_id} >
+                                                                    <span>{user.firstName ? user.firstName + ' ' : ''}{user.lastName && user.lastName}</span>
+                                                                </SelectItem>
+                                                            )  
+                                                        }
+                                                    })
                                                     :
                                                     <SelectItem value="">
                                                             Select Maintainer
@@ -331,7 +344,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 <FormItem>
                                     <FormLabel>Status <span className='text-red-500'>*</span></FormLabel>
                                     <Select 
-                                            disabled={loading} 
+                                            disabled={propertyId === '' ? true : false}
                                             onValueChange={field.onChange}
                                             value={field.value}
                                             defaultValue={field.value}

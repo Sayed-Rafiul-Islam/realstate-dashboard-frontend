@@ -1,4 +1,5 @@
 "use client"
+import { LoadAdminData } from "@/actions/load-admin-data";
 import AdminDashboard from "@/components/dashboard/admin-dashboard";
 import MaintainerDashboard from "@/components/dashboard/maintainer-dashboard";
 import OwnerDashboard from "@/components/dashboard/owner-dashboard";
@@ -23,7 +24,7 @@ export default function Home() {
   if (role === 'tenant') {
       const data = tenants.filter(({user}) => user._id === _id)[0]
       dispatch(getTenantInfo(data))
-      const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+      // const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
 
       return (
         <div className="px-5 mt-10 md:px-0">
@@ -41,14 +42,14 @@ export default function Home() {
            </div>
            <div className="w-full mt-5">
            {/* <AdminDashboard /> */}
-               {tenant && <TenantDashboard />}  
+               {data && <TenantDashboard tenant={data} />}  
            </div>
         </div>
        );
   } else if (role === 'maintainer') {
     const data = maintainers.filter(({user}) => user._id === _id)[0]
       dispatch(getMaintainerInfo(data))
-      const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
+      // const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
       return (
         <div className="px-5 mt-10 md:px-0">
@@ -66,7 +67,7 @@ export default function Home() {
            </div>
            <div className="w-full mt-5">
            {/* <AdminDashboard /> */}
-               {maintainer && <MaintainerDashboard />}
+               {data && <MaintainerDashboard maintainer={data} />}
            </div>
         </div>
        );
@@ -75,7 +76,7 @@ export default function Home() {
   } else if (role === 'owner') {    
     const data = owners.filter(({user}) => user._id === _id)[0]
     dispatch(getOwnerInfo(data))
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
     return (
       <div className="px-5 mt-10 md:px-0">
@@ -93,12 +94,14 @@ export default function Home() {
          </div>
          <div className="w-full mt-5">
          {/* <AdminDashboard /> */}
-             {owner &&  <OwnerDashboard />}
+             {data && <OwnerDashboard owner={data} />}
          </div>
       </div>
      );
     // loadOwnerData(owner)
-  } else {
+  } else if (role === 'admin') {
+
+    LoadAdminData()
 
   return (
    <div className="px-5 mt-10 md:px-0">

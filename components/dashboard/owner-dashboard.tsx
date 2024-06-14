@@ -4,7 +4,7 @@ import { ArrowRight, Calendar, DollarSign, Home, MoreVertical, UserRound, Users,
 import Summery from "../summery";
 import './dashboard.css'
 import { useDispatch, useSelector } from "react-redux";
-import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -21,13 +21,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 import { getOwnerMaintainanceRequests } from "@/redux/data/owner/maintainanceRequestsSlice";
 
-const OwnerDashboard = () => {
+interface OwnerDashboardProps {
+    owner : OwnerProps
+}
 
-    // const [isMounted, setIsMounted] = useState(false)
+const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
+
     const router = useRouter()
     const dispatch = useDispatch()
-
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     useEffect(()=>{
         const getData = async () => {
             if (owner) {
@@ -45,10 +46,9 @@ const OwnerDashboard = () => {
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     dispatch(getOwnerMaintainers(maintainers.data))
                 }
-                // setIsMounted(true)
             }
             getData()
-    })
+    },[owner])
 
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps)=>ownerPropertyReducer).ownerProperties
     const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps)=>ownerUnitsReducer).ownerUnits
@@ -250,15 +250,6 @@ const OwnerDashboard = () => {
           }
         }
       ]
-
-
-        // ---------------------------------------------------------------------------------------------
-    // anti hydration
-
-    // if (!isMounted) {
-    //     return null
-    // }
-
 
     return ( 
         <div>

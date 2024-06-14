@@ -668,6 +668,7 @@ const loadMaintainanceTypes = async () => {
 
 const loadNotifications = async (dispatch : any) => {
     const {data,status} = await api.get(`getNotifications`,{validateStatus: () => true})
+    dispatch(getNotifications(data))
     // const notifications = [
     //     {
     //         _id : '1',
@@ -694,7 +695,6 @@ const loadNotifications = async (dispatch : any) => {
     //         date : '2024-06-02T17:34:59.911+00:00'
     //     }
     // ]
-    dispatch(getNotifications(data))
 }
 
 const loadTenanrDocuments = async () => {
@@ -742,35 +742,596 @@ const loadTenanrDocuments = async () => {
     dispatch(getTenantDocuments(documents))
 }
 
-export function LoadData() {
+export const LoadAdminData = async () => {
 
     const dispatch = useDispatch()
 
-    loadUsers(dispatch)
-    loadOrders()
-    loadPackages(dispatch)
-    loadOwnerPackages(dispatch)
-    loadMessages()
-    loadOwners(dispatch)
+   
+  
+
+        const orders = [
+                {
+                    _id : "1",
+                    name : "Owner 1",
+                    packageName : "Standard",
+                    amount : 9.99,
+                    gateway : "Bkash",
+                    date : "2024-04-04T00:00:00.000Z",
+                    status : "Pending",
+                    transactionId : 'geywqge762e32queg2e'
+                },
+                {
+                    _id : "2",
+                    name : "Owner 2",
+                    packageName : "Free",
+                    amount : 0,
+                    gateway : "None",
+                    date : "2024-04-05T00:00:00.000Z",
+                    status : "Paid",
+                    transactionId : 'geywqge762e32q22eg2e'
+                },
+                {
+                    _id : "3",
+                    name : "Owner 3",
+                    packageName : "Standard",
+                    amount : 9.99,
+                    gateway : "Cash",
+                    date : "2024-04-04T00:00:00.000Z",
+                    status : "Canceled",
+                    transactionId : 'geywfrf762e32queg2e'
+                }
+        ]
+        const packages = await api.get(`getPackages`,{validateStatus: () => true})
+        const ownerPackages = await api.get(`getOwnerPackages`,{validateStatus: () => true})
+        const messages = [
+            {
+                _id : '1',
+                name : 'Kaisel',
+                email : "kaisel@gmail.com",
+                phone : "01877622099",
+                status : false,
+                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+            },
+            {
+                _id : "2",
+                name : "Beru",
+                email : "beru@gmail.com",
+                phone : "01877622099",
+                status : false,
+                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+            },
+            {
+                _id : "3",
+                name : "Igris",
+                email : "igris@gmail.com",
+                phone : "01877622099",
+                status : false,
+                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
+            }
+        ]
+        const properties = await api.get(`getProperties`,{validateStatus: () => true})
+        const units = await api.get(`getUnits`,{validateStatus: () => true})
+        const invoices = [
+            {
+                _id : '1',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '1',
+                unitId : '3',
+                month : 'April',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '3',
+                description : 'alaba alaba alaba',
+                status : 'Paid',
+                amount : 20000,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '1',
+                transactionId : '00000',
+                by : {
+                    role : 'owner',
+                    id : '662774a250924ade5f6ce70b'
+                }
+            },
+            {
+                _id : '2',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '1',
+                unitId : '3',
+                month : 'April',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '2',
+                description : 'alaba alaba alaba',
+                status : 'Pending',
+                amount : 2000,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '2',
+                transactionId : '00000',
+                by : {
+                    role : 'owner',
+                    id : '662774a250924ade5f6ce70b'
+                }
+            },
+            {
+                _id : '3',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '2',
+                unitId : '3',
+                month : 'April',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '2',
+                description : 'alaba alaba alaba',
+                status : 'Pending',
+                amount : 2000,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '2',
+                transactionId : '00000',
+                by : {
+                    role : 'owner',
+                    id : '662774a250924ade5f6ce70b'
+                }
+            },
+            {
+                _id : '4',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '1',
+                unitId : '3',
+                month : '',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '2',
+                description : 'alaba alaba alaba',
+                status : 'Pending',
+                amount : 2000,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '2',
+                transactionId : '00000',
+                by : {
+                    role : 'maintainer',
+                    id : '662774b650924ade5f6ce70d'
+                },
+                issue : '3'
+            },
+            {
+                _id : '5',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '1',
+                unitId : '2',
+                month : '',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '1',
+                description : 'alaba alaba alaba',
+                status : 'Due',
+                amount : 1500,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '3',
+                transactionId : '00000',
+                by : {
+                    role : 'maintainer',
+                    id : '662774b650924ade5f6ce70d'
+                },
+                issue : '2'
+            },
+            {
+                _id : '6',
+                invoiceNo : 'CW10086675',
+                prefix : 'INV',
+                propertyId : '1',
+                unitId : '2',
+                month : '',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                type : '1',
+                issue : '1',
+                description : 'alaba alaba alaba',
+                status : 'Due',
+                amount : 1500,
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : '3',
+                transactionId : '00000',
+                by : {
+                    role : 'maintainer',
+                    id : '662774b650924ade5f6ce70d'
+                }
+            }
+        ]
+        const expenses = [
+            {
+                _id : '1',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '1',
+                type : '1',
+                amount : 14000,
+                description : 'qwbdweuvfu',
+                date : '2024-11-02T17:34:59.911+00:00',
+                status : true
+            },
+            {
+                _id : '2',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '2',
+                type : '2',
+                amount : 1500,
+                description : 'qwbdweuvfu',
+                date : '2024-04-02T17:34:59.911+00:00',
+                status : true
+            },
+            {
+                _id : '6',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '3',
+                type : '1',
+                amount : 2200,
+                description : 'ANOTHER',
+                date : '2024-05-02T17:34:59.911+00:00',
+                status : false
+            },
+            {
+                _id : '7',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '3',
+                type : '1',
+                amount : 12500,
+                description : 'qwbdweuvfu',
+                date : '2024-01-02T17:34:59.911+00:00',
+                status : true
+            },
+            {
+                _id : '8',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '3',
+                type : '3',
+                amount : 2500,
+                description : 'qwbdweuvfu',
+                date : '2024-08-02T17:34:59.911+00:00',
+                status : false
+            },
+            {
+                _id : '4',
+                name : 'Cracked Pavement in Parking Lot',
+                propertyId : '1',
+                unitId : '1',
+                type : '4',
+                amount : 14000,
+                description : 'qwbdweuvfu',
+                date : '2024-05-02T17:34:59.911+00:00',
+                status : false
+            },
+        ]
+        const documents = [
+            {
+                _id : '1',
+                type : 'NID',
+                tenantId : '1',
+                docFront : building_1,
+                docBack : tenant_1,
+                status : "Accepted"
+            },
+            {
+                _id : '2',
+                type : 'NID',
+                tenantId : '2',
+                docFront : building_1,
+                docBack : tenant_1,
+                status : "Declined"
+            },
+            {
+                _id : '3',
+                type : 'NID',
+                tenantId : '3',
+                docFront : building_1,
+                docBack : tenant_1,
+                status : "In Progress"
+            }
+        ]
+        const rents = [
+            {
+                _id : '1',
+                dueDate : '2024-05-02T17:34:59.911+00:00',
+                invoiceNo : 'CW10086615',
+                propertyId : '6666b7fc10f594ac24910069',
+                unitId : '6666b7fd10f594ac24910071',
+                month : 'April',
+                year : '2024',
+                amount : 20000,
+                status : 'Paid',
+                description : 'alaba alaba alaba',
+                dateOfPayment : '2024-05-02T17:34:59.911+00:00',
+                gateway : 'Cash',
+                transactionId : '00000',
+                payment : 20000
+            },
+            {
+                _id : '2',
+                dueDate : '2024-03-02T17:34:59.911+00:00',
+                invoiceNo : 'CW10086675',
+                propertyId : '6666b7fc10f594ac24910069',
+                unitId : '6666b7fd10f594ac2491006f',
+                month : 'May',
+                year : '2024',
+                amount : 15000,
+                status : 'Paid',
+                description : 'alaba alaba alaba',
+                dateOfPayment : '2024-03-02T17:34:59.911+00:00',
+                gateway : 'Cash',
+                transactionId : '00000',
+                payment : 15000
+            },
+            {
+                _id : '3',
+                dueDate : '2024-01-02T17:34:59.911+00:00',
+                invoiceNo : 'CW10086680',
+                propertyId : '6666b7fc10f594ac24910069',
+                unitId : '6666b7fd10f594ac2491006d',
+                month : 'June',
+                year : '2024',
+                amount : 22000,
+                status : 'Paid',
+                description : 'alaba alaba alaba',
+                dateOfPayment : '2024-01-02T17:34:59.911+00:00',
+                gateway : 'Cash',
+                transactionId : '00000',
+                payment : 22000
+            }
+        ]
+        const requests = await api.get(`getRequests`,{validateStatus: () => true})
+        const earnings = [
+            {
+                _id : '1',
+                invoiceNo : 'CW1242000',
+                propertyId : '1',
+                unitId : '1',
+                date : '2024-05-02T17:34:59.911+00:00',
+                amount : 20000,
+                tax : 100,
+            },
+            {
+                _id : '2',
+                invoiceNo : 'CW1242001',
+                propertyId : '1',
+                unitId : '2',
+                date : '2024-06-02T17:34:59.911+00:00',
+                amount : 20000,
+                tax : 100,
+            },
+            {
+                _id : '3',
+                invoiceNo : 'CW1242002',
+                propertyId : '1',
+                unitId : '3',
+                date : '2024-04-02T17:34:59.911+00:00',
+                amount : 20000,
+                tax : 100,
+            }
+        ]
+        const monthly = [
+            {
+                _id : '1',
+                month_year : 'April 2024',
+                income : 80000,
+                expense : 2000,
+                net : 78000
+            },
+            {
+                _id : '2',
+                month_year : 'May 2024',
+                income : 80000,
+                expense : 82000,
+                net : -2000
+            },
+            {
+                _id : '3',
+                month_year : 'June 2024',
+                income : 80000,
+                expense : 3000,
+                net : 77000
+            }
+        ]
+        const gateways = [
+            {
+                _id : '1',
+                title : 'PayPal',
+                slug : 'paypal',
+                mode : 'Sandbox',
+            },
+            {
+                _id : '2',
+                title : 'Stripe',
+                slug : 'stripe',
+                mode : 'Sandbox',
+            },
+            {
+                _id : '3',
+                title : 'Sslcommerz',
+                slug : 'sslcommerz',
+                mode : 'Sandbox',
+            },
+            {
+                _id : '4',
+                title : 'Bank',
+                slug : 'bank',
+                mode : 'Live',
+            },
+            {
+                _id : '5',
+                title : 'Cash',
+                slug : 'cash',
+                mode : 'Live',
+            },
+           
+        ]
+        const invoiceTypes = [
+            {
+                _id : '1',
+                title : 'Maintenance and repairs',
+                tax : 1200,
+            },
+            {
+                _id : '2',
+                title : 'Utilities',
+                tax : 1300,
+            },
+            {
+                _id : '3',
+                title : 'Taxes',
+                tax : 1000,
+            },
+            {
+                _id : '4',
+                title : 'Rent',
+                tax : 800,
+            },
+            {
+                _id : '5',
+                title : 'Bank fees',
+                tax : 1800,
+            },
+           
+        ]
+        const expenseTypes = [
+            {
+                _id : '1',
+                title : 'Cleaning & Maintenance',
+            },
+            {
+                _id : '2',
+                title : 'Utilities',
+            },
+            {
+                _id : '3',
+                title : 'Rent',
+            },
+            {
+                _id : '4',
+                title : 'Texes',
+            },
+        ]
+        const maintainanceTypes = [
+            {
+                _id : '1',
+                type : 'Electrical problems',
+                maintainer : 'Electritian',
+                date : '2024-05-02T17:34:59.911+00:00'
+            },
+            {
+                _id : '2',
+                type : 'Pest infestations',
+                maintainer : 'Pest Resolver',
+                date : '2024-05-03T17:34:59.911+00:00'
+            },
+            {
+                _id : '3',
+                type : 'Plumbing problem',
+                maintainer : 'Plumber',
+                date : '2024-05-03T17:34:59.911+00:00'
+            },
+            {
+                _id : '4',
+                type : 'Structural Problem',
+                maintainer : 'Structural Engineer',
+                date : '2024-05-04T17:34:59.911+00:00'
+            },
+            {
+                _id : '5',
+                type : 'HVAC malfunctions',
+                maintainer : 'HVAC Resolver',
+                date : '2024-05-05T17:34:59.911+00:00'
+            }
+        ]
+        const notifications = await api.get(`getNotifications`,{validateStatus: () => true})
+        const tenantDocuments = [
+            {
+                _id : '1',
+                type : 'NID',
+                tenantName : 'Beru',
+                tenantId : '1',
+                propertyId : '1',
+                unitId : '1',
+                document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+                docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                status : "Accepted"
+            },
+            {
+                _id : '2',
+                type : 'NID',
+                tenantName : 'Nahid',
+                tenantId : '1',
+                propertyId : '1',
+                unitId : '2',
+                document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+                docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                status : "Declined"
+            },
+            {
+                _id : '3',
+                type : 'NID',
+                tenantName : 'Conquest',
+                tenantId : '1',
+                propertyId : '1',
+                unitId : '3',
+                document : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517543/zoykcql4meeoyykuq2vw.pdf',
+                docFront : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                docBack : 'https://res.cloudinary.com/dw0fuijfs/image/upload/v1717517597/gm1ost9xieovxsuhu9qv.jpg',
+                status : "In Progress"
+            }
+        ]
+        
+        
+        dispatch(getOrders(orders))
+        dispatch(getPackages(packages.data))
+        dispatch(getOwnerPackages(ownerPackages.data))
+        dispatch(getmessages(messages))
+        dispatch(getProperties(properties.data))
+        dispatch(getUnits(units.data))
+        dispatch(getInvoices(invoices))
+        dispatch(getExpenses(expenses))
+        dispatch(getDocuments(documents))
+        dispatch(getRents(rents))
+        dispatch(getMaintainanceRequests(requests.data))
+        dispatch(getEarnings(earnings))
+        dispatch(getMonthlyRecords(monthly))
+        dispatch(getGateways(gateways))
+        dispatch(getInvoiceTypes(invoiceTypes))
+        dispatch(getExpenseTypes(expenseTypes))
+        dispatch(getMaintainanceTypes(maintainanceTypes))
+        dispatch(getNotifications(notifications.data))
+        dispatch(getTenantDocuments(tenantDocuments))
+
+        // loadUsers(dispatch)
+        // loadOwners(dispatch)
+        // loadTenants(dispatch)
+        // loadMaintainers(dispatch)
+        
+        // loadOrders()
+        // loadPackages(dispatch)
+        // loadOwnerPackages(dispatch)
+        // loadMessages()
 
 
-    loadProperties(dispatch)
-    loadUnits(dispatch)
-    loadTenants(dispatch)
-    loadInvoices()
-    loadExpenses()
-    loadDocuments()
-    loadRents()
-    loadMaintainers(dispatch)
-    loadMaintainanceRequests(dispatch)
-    loadEarnings()
-    loadMonthlyRecords()
-    loadGateways()
-    loadInvoiceTypes()
-    loadExpenseTypes()
-    loadMaintainanceTypes()
-    loadNotifications(dispatch)
-    loadTenanrDocuments()
+        // loadProperties(dispatch)
+        // loadUnits(dispatch)
+        // loadInvoices()
+        // loadExpenses()
+        // loadDocuments()
+        // loadRents()
+        // loadMaintainanceRequests(dispatch)
+        // loadEarnings()
+        // loadMonthlyRecords()
+        // loadGateways()
+        // loadInvoiceTypes()
+        // loadExpenseTypes()
+        // loadMaintainanceTypes()
+        // loadNotifications(dispatch)
+        // loadTenanrDocuments()
+    
     
       
 }

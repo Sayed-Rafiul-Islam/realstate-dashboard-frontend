@@ -70,6 +70,7 @@ const AdminDashboard = () => {
 
     const router = useRouter()
     const orders = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer).orders.slice(0,3)
+    console.log(orders)
     const formattedOrders = orders.map((
         {
             _id,
