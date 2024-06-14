@@ -52,12 +52,12 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
             onConfirm={onDelete} 
             loading={loading} />
 
-            <PreviewRequest
+            {/* <PreviewRequest
             isOpen={openPreview} 
             onClose={()=>setOpenPreview(false)} 
             data={data} 
             status={true}
-            />
+            /> */}
 
 
             <DropdownMenu>

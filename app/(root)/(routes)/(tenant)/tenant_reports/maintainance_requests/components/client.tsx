@@ -31,16 +31,16 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
             setRequests(data)
         } else {
             if (responsibility !== '' && status === '') {
-                const temp = data.filter((item) => item.responsibility === responsibility) 
-                setRequests(temp)
+                // const temp = data.filter((item) => item.responsibility === responsibility) 
+                // setRequests(temp)
             } 
             else if ( status !== '' && responsibility === '') {
                 const temp = data.filter((item) => item.paymentStatus === status) 
                 setRequests(temp)
             }
             else {
-                const temp = data.filter((item) => item.paymentStatus === status && item.responsibility === responsibility) 
-                setRequests(temp)
+                // const temp = data.filter((item) => item.paymentStatus === status && item.responsibility === responsibility) 
+                // setRequests(temp)
             }
         }
         
@@ -96,7 +96,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                     </SelectContent>
                 </Select>
 
-                <Select
+                {/* <Select
                     onValueChange={e=> {
                         if (e === 'all') {
                             setResponsibility('')
@@ -122,7 +122,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                                         Tenant
                                     </SelectItem>
                             </SelectContent>
-                </Select>
+                </Select> */}
                     </div>
             </div>  
             <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
