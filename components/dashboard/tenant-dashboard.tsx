@@ -28,6 +28,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
     
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
 
+
+
     useEffect(()=>{
         const getData = async () => {
 
@@ -48,22 +50,45 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                     // dispatch(getOwnerTenants(tenants.data))
                     // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     // dispatch(getOwnerMaintainers(maintainers.data))
-                setIsMounted(true)
+                    setIsMounted(true)
                 }
             }
             getData()
     },[tenant])
 
-    const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps)=>tenantMaintainanceReducer).tenantMaintainanceRequests 
 
-      // anti hydration
 
-      if (!isMounted) {
+    const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps)=>tenantMaintainanceReducer).tenantMaintainanceRequests
+  
+
+   
+    
+    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
+    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
+    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
+    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
+    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
+
+    
+
+    
+
+
+    const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
+    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
+   
+    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
+    const thisProperty = properties.filter(({_id})=> _id === tenant.property._id)[0]
+
+
+    // anti hydration
+
+    if (!isMounted) {
         return null
     }
+   
 
-    // ---------------------------------------------------------
-    // summery
+   
 
     const summery = [
         {
@@ -89,14 +114,6 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
         }
     ]
 
-
-
-    // ------------------------------------------------------------------------
-    // expense
-
-
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
-    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
     
     let totalExpenses = 0
     let othersChart = [
@@ -232,18 +249,6 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
 
 
 
-    // ----------------------------------------------------
-    // invoice
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
-
-    const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
-    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
-
-
     const formattedInvoices = thisInvoices.map((
         {
             _id,
@@ -324,6 +329,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
         },
       ]
 
+
     return ( 
         <div>
             {/* summery */}
@@ -367,7 +373,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = () => {
                             </div>
                             <div>
                                 <h5 className="text-gray-500 text-sm">Appartment Rent</h5>
-                                <h5 className="font-semibold">{tenant.property.rent} BDT</h5>
+                                <h5 className="font-semibold">{thisProperty.rent} BDT</h5>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">

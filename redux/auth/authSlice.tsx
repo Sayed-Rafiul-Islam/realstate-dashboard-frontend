@@ -25,10 +25,10 @@ const userSlice = createSlice({
         removeUser: (state) => {
             if (typeof window !== 'undefined') {
                 localStorage.removeItem("user")
+                localStorage.removeItem('accessToken')
                 localStorage.removeItem('tenantInfo')
                 localStorage.removeItem('ownerInfo')
                 localStorage.removeItem('maintainerInfo')
-                localStorage.removeItem('accessToken')
                 localStorage.removeItem('role')
                 localStorage.removeItem("ownerProperties")
                 localStorage.removeItem("ownerUnits")

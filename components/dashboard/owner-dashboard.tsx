@@ -23,7 +23,7 @@ import { getOwnerMaintainanceRequests } from "@/redux/data/owner/maintainanceReq
 
 const OwnerDashboard = () => {
 
-    const [isMounted, setIsMounted] = useState(false)
+    // const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
     const dispatch = useDispatch()
 
@@ -45,7 +45,7 @@ const OwnerDashboard = () => {
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     dispatch(getOwnerMaintainers(maintainers.data))
                 }
-                setIsMounted(true)
+                // setIsMounted(true)
             }
             getData()
     })
@@ -255,9 +255,9 @@ const OwnerDashboard = () => {
         // ---------------------------------------------------------------------------------------------
     // anti hydration
 
-    if (!isMounted) {
-        return null
-    }
+    // if (!isMounted) {
+    //     return null
+    // }
 
 
     return ( 

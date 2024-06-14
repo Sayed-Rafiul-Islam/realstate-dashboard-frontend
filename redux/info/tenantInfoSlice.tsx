@@ -16,8 +16,9 @@ const tenantInfoSlice = createSlice({
         getTenantInfo : (state, {payload}) => {
             state.tenantInfo = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("tenantInfo")
-            localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
+                localStorage.removeItem("user")
+                localStorage.removeItem("tenantInfo")
+                localStorage.setItem("tenantInfo", JSON.stringify(state.tenantInfo))
             }
         }
     }

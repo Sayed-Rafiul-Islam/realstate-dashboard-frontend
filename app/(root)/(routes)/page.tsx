@@ -6,7 +6,7 @@ import TenantDashboard from "@/components/dashboard/tenant-dashboard";
 import { getMaintainerInfo } from "@/redux/info/maintainerInfoSlice";
 import { getOwnerInfo } from "@/redux/info/ownerInfoSlice";
 import { getTenantInfo } from "@/redux/info/tenantInfoSlice";
-import { MaintainersReducerProps, OwnersReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
+import { MaintainerInfoReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnersReducerProps, TenantInfoReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -21,19 +21,84 @@ export default function Home() {
   const {owners} = useSelector(({ownersReducer} : OwnersReducerProps)=> ownersReducer)
 
   if (role === 'tenant') {
-      const tenant = tenants.filter(({user}) => user._id === _id)[0]
-      dispatch(getTenantInfo(tenant))
+      const data = tenants.filter(({user}) => user._id === _id)[0]
+      dispatch(getTenantInfo(data))
+      const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+
+      return (
+        <div className="px-5 mt-10 md:px-0">
+           <div>
+             <h1 className="text-4xl font-bold">Dashboard</h1>
+             <h4 className="text-gray-500 text-sm">Welcome back, <span className="text-primary font-bold">
+               {
+                 firstName === undefined || firstName === '' ?
+                 role
+                 :
+                 firstName
+               }
+               </span>
+             </h4>  
+           </div>
+           <div className="w-full mt-5">
+           {/* <AdminDashboard /> */}
+               {tenant && <TenantDashboard />}  
+           </div>
+        </div>
+       );
   } else if (role === 'maintainer') {
-    const maintainer = maintainers.filter(({user}) => user._id === _id)[0]
-      dispatch(getMaintainerInfo(maintainer))
+    const data = maintainers.filter(({user}) => user._id === _id)[0]
+      dispatch(getMaintainerInfo(data))
+      const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
+
+      return (
+        <div className="px-5 mt-10 md:px-0">
+           <div>
+             <h1 className="text-4xl font-bold">Dashboard</h1>
+             <h4 className="text-gray-500 text-sm">Welcome back, <span className="text-primary font-bold">
+               {
+                 firstName === undefined || firstName === '' ?
+                 role
+                 :
+                 firstName
+               }
+               </span>
+             </h4>  
+           </div>
+           <div className="w-full mt-5">
+           {/* <AdminDashboard /> */}
+               {maintainer && <MaintainerDashboard />}
+           </div>
+        </div>
+       );
+
     
   } else if (role === 'owner') {    
-    const owner = owners.filter(({user}) => user._id === _id)[0]
-    dispatch(getOwnerInfo(owner))
+    const data = owners.filter(({user}) => user._id === _id)[0]
+    dispatch(getOwnerInfo(data))
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
+    return (
+      <div className="px-5 mt-10 md:px-0">
+         <div>
+           <h1 className="text-4xl font-bold">Dashboard</h1>
+           <h4 className="text-gray-500 text-sm">Welcome back, <span className="text-primary font-bold">
+             {
+               firstName === undefined || firstName === '' ?
+               role
+               :
+               firstName
+             }
+             </span>
+           </h4>  
+         </div>
+         <div className="w-full mt-5">
+         {/* <AdminDashboard /> */}
+             {owner &&  <OwnerDashboard />}
+         </div>
+      </div>
+     );
     // loadOwnerData(owner)
-  }
-
-
+  } else {
 
   return (
    <div className="px-5 mt-10 md:px-0">
@@ -52,10 +117,9 @@ export default function Home() {
       <div className="w-full mt-5">
       {/* <AdminDashboard /> */}
           {role === 'admin' && <AdminDashboard />}
-          {role === 'owner' && <OwnerDashboard />}
-          {role === 'tenant' && <TenantDashboard />}
-          {role === 'maintainer' && <MaintainerDashboard />}
+          
       </div>
    </div>
   );
+}
 }

@@ -23,17 +23,14 @@ export interface InvoiceColumn {
   }
 
 const MaintainerDashboard = () => {
-    const [isMounted, setIsMounted] = useState(false)
+    // const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
     const dispatch = useDispatch()
 
     const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
-    console.log(maintainer)
-
     useEffect(()=>{
         const getData = async () => {
-            console.log(maintainer)
             if (maintainer) {
                
                     const requests = await api.get(`getMaintainerRequests?maintainerId=${maintainer._id}`,{validateStatus: () => true})
@@ -51,7 +48,7 @@ const MaintainerDashboard = () => {
                     // dispatch(getOwnerTenants(tenants.data))
                     // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     // dispatch(getOwnerMaintainers(maintainers.data))
-                setIsMounted(true)
+                // setIsMounted(true)
                 }
             }
             getData()
@@ -75,9 +72,9 @@ const MaintainerDashboard = () => {
     
     // anti hydration
 
-    if (!isMounted) {
-        return null
-    }
+    // if (!isMounted) {
+    //     return null
+    // }
 
     // let data : {propertyId : string, unitId : string, invoiceIds : {id : string}[]}[] = []
     // requests.filter(({propertyId,unitId})=> {

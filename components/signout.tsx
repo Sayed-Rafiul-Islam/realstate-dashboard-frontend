@@ -27,10 +27,13 @@ const SignOut = () => {
 
     const dispatch = useDispatch()
     const router = useRouter()
-
+    
     const handleSignOut = () => {
-        dispatch(removeUser())
+        localStorage.removeItem("user")
+        localStorage.removeItem('accessToken')
         window.location.assign('/authentication')
+        // router.push('/authentication')
+        // dispatch(removeUser())
         // if (typeof window !== 'undefined') {
         //     localStorage.removeItem('tenantInfo')
         //     localStorage.removeItem('ownerInfo')
@@ -38,7 +41,6 @@ const SignOut = () => {
         //     localStorage.removeItem('accessToken')
         //     localStorage.removeItem('role')
         // }
-        // router.push('/authentication')
     }
 
     return ( 
