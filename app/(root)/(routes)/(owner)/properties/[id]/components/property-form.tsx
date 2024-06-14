@@ -35,7 +35,7 @@ import api from '@/actions/api'
 import { updateOwner } from '@/redux/owners/ownersSlice'
 import { updateOwnerInfo } from '@/redux/info/ownerInfoSlice'
 import { addOwnerProperty, updateOwnerProperty } from '@/redux/data/owner/propertiesSlice'
-import { addOwnerUnit, removeOwnerUnit } from '@/redux/data/owner/unitsSlice'
+import { addOwnerUnit, removeOwnerUnit, updateOwnerUnit } from '@/redux/data/owner/unitsSlice'
 
 
 
@@ -202,8 +202,13 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
         if (owner.activePackage) {
             if (initialData) {
                 if ((data.unitCount + owner.unitCount - initialData.initialData1.unitCount) <= owner.activePackage.maxUnit) {
-                    dispatch(addPropertyData1(data))
-                    setForm(1)
+                    if (initialData.initialData1.unitCount > data.unitCount) {
+                        toast.error(`To remove an unit, go to all units.`)
+                        form1.setError("unitCount", {type : 'required', message : 'You cannot reduce the number of units.'})
+                    } else {
+                        dispatch(addPropertyData1(data))
+                        setForm(1)
+                    }
                 } else {
                     toast.error(`You can add ${owner.activePackage.maxUnit + initialData.initialData1.unitCount - owner.unitCount} units or less`)
                     form1.setError("unitCount", {type : 'required', message : 'Max unit limit reached.'})
@@ -257,18 +262,25 @@ export const PropertyEditForm : React.FC<PropertyFormProps> = ({
 
             dispatch(updateOwnerProperty(data))
 
-            initialData.initialData2.map(async (item) => {
-                const result = await api.delete(`deleteUnit?id=${item._id}&ownerId=${owner._id}`,{validateStatus: () => true})
-                dispatch(removeOwnerUnit(data._id))
-                dispatch(updateOwnerInfo(result.data.updatedOwner))
-                dispatch(updateOwnerProperty(result.data.updatedProperty))
-            })
-            propertyForm.initialData2.map(async (item) => {
-                const newUnit = {...item,property : data._id,owner : owner._id}
-                const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
-                dispatch(addOwnerUnit(result.data.newUnit))
-                dispatch(updateOwnerInfo(result.data.updatedOwner))
-                dispatch(updateOwner(result.data.updatedOwner))
+            // initialData.initialData2.map(async (item) => {
+            //     const result = await api.delete(`deleteUnit?id=${item._id}&ownerId=${owner._id}`,{validateStatus: () => true})
+            //     dispatch(removeOwnerUnit(data._id))
+            //     dispatch(updateOwnerInfo(result.data.updatedOwner))
+            //     dispatch(updateOwnerProperty(result.data.updatedProperty))
+            // })
+            propertyForm.initialData2.map(async (item,index) => {
+                if (index < initialData.initialData1.unitCount) {
+                    const updatedUnit = {...item,_id : initialData.initialData2[index]._id, property : data._id,owner : owner._id}
+                    const result = await api.patch(`updateUnit`,updatedUnit,{validateStatus: () => true})
+                    dispatch(updateOwnerUnit(result.data))
+                } else {
+                    const newUnit = {...item,property : data._id,owner : owner._id}
+                    const result = await api.post(`addUnit`,newUnit,{validateStatus: () => true})
+                    console.log(result.data.newUnit)
+                    dispatch(addOwnerUnit(result.data.newUnit))
+                    dispatch(updateOwnerInfo(result.data.updatedOwner))
+                    dispatch(updateOwner(result.data.updatedOwner))
+                }
             })
         } 
         

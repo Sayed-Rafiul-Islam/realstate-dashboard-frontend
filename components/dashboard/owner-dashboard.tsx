@@ -4,7 +4,7 @@ import { ArrowRight, Calendar, DollarSign, Home, MoreVertical, UserRound, Users,
 import Summery from "../summery";
 import './dashboard.css'
 import { useDispatch, useSelector } from "react-redux";
-import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintaina
 import { getOwnerMaintainers } from "@/redux/data/owner/maintainersSlice";
 import { ColumnDef } from "@tanstack/react-table";
 import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
+import { getOwnerMaintainanceRequests } from "@/redux/data/owner/maintainanceRequestsSlice";
 
 const OwnerDashboard = () => {
 
@@ -34,11 +35,13 @@ const OwnerDashboard = () => {
                     const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
                     const maintainers = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-                    const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
-                    
+                    const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+                    const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
+
+                    dispatch(getOwnerMaintainanceRequests(requests.data))
                     dispatch(getOwnerProperties(properties.data))
                     dispatch(getOwnerUnits(units.data))
-                    dispatch(getOwnerTenants(data))
+                    dispatch(getOwnerTenants(tenants.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     dispatch(getOwnerMaintainers(maintainers.data))
                 }
@@ -57,7 +60,8 @@ const OwnerDashboard = () => {
     const tenantCount = tenants.length
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)
     const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
-    const threeRequests = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps)=>maintainanceReducer).maintainanceRequests.slice(0,3)
+    const threeRequests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps)=>ownerMaintainanceReducer)
+    .ownerMaintainanceRequests.slice(0,3)
 
     const summery = [
         {
@@ -331,10 +335,7 @@ const OwnerDashboard = () => {
 
                     <div className="flex flex-col gap-2">
                         {
-                            threeRequests.map(({_id,date,propertyId,unitId,maintainerId,issue,status})=> {
-                                const property = properties.filter((item) => propertyId === item._id)[0]?.name
-                                const unit = units.filter((item) => unitId === item._id)[0]?.name
-                                const maintainer = maintainers.filter((item) => maintainerId === item._id)[0]?.name
+                            threeRequests.map(({_id,date,property,unit,maintainer,issue,status})=> {
 
                                 let statusStyle = ''
                                 let border = ''
@@ -354,11 +355,13 @@ const OwnerDashboard = () => {
                                         <div>
                                             <h4 className="font-semibold">{format(date,"MMMM do, yyyy")}</h4>
                                             <h5 className="text-xs text-gray-500">{issue}</h5>
-                                            <h5 className="text-xs text-gray-500"> in {property}/{unit}</h5>
+                                            <h5 className="text-xs text-gray-500">
+                                                 in {property && property.name}/{unit && unit.name}
+                                            </h5>
                                             
                                                 {
                                                     maintainer ?
-                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer}</span> </p>
+                                                    <p className="text-gray-400 text-xs">Assigned to <span className="text-primary">{maintainer && maintainer.name}</span> </p>
                                                     :
                                                     <p className="text-gray-400 text-xs">Not assigned <span className="text-red-500">yet</span> </p>
                                                 }

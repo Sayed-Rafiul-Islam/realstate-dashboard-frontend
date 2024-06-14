@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerMaintainanceTypesReducerProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation"
 import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 import PdfUpload from "@/components/pdf-upload"
 import { addNotification } from "@/redux/report/notificationsSlice"
+import { addOwnerMaintainanceRequest, updateOwnerMaintainanceRequest } from "@/redux/data/owner/maintainanceRequestsSlice"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -38,8 +39,8 @@ interface MaintainanceRequestFormProps {
 
 const formSchema = z.object({
 
-    propertyId : z.string().min(1, {message : "Property Name Required"}),
-    unitId : z.string().min(1, {message : "Unit Name Required"}),
+    property : z.string().min(1, {message : "Property Name Required"}),
+    unit : z.string().min(1, {message : "Unit Name Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
     status : z.string().min(1, {message : "Status Required"}),
     details : z.string().min(1, {message : "Description Required"}),
@@ -52,11 +53,12 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 }) => {
 
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes
 
-    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
+    const [propertyId,setPropertyId] = useState(initialData.property ? initialData.property._id : '')
     const dispatch = useDispatch()
 
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()
@@ -65,7 +67,12 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     useEffect(()=>{
         const temp = units.filter((item)=> item.property._id === propertyId)
         setThisUnits(temp)
-        form.setValue('unitId', '')       
+        if (initialData.unit) {
+            form.setValue('unit', initialData.unit._id)  
+        } else {
+            form.setValue('unit', '')  
+        }
+             
 
     },[propertyId])
 
@@ -80,13 +87,13 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            propertyId : '',
-            unitId : '',
-            type : '',
-            status : '',
-            details : '',
-            attachment : ''
+        defaultValues : {
+            property : initialData.property ? initialData.property._id : '',
+            unit :  initialData.unit ? initialData.unit._id : '', 
+            type :  initialData.type ? initialData.type._id : '',
+            status : initialData && initialData.status,
+            details : initialData && initialData.details,
+            attachment : initialData && initialData.attachment
         }
     })
 
@@ -94,20 +101,20 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
         if ( initialData ) {
                    const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
-                   const result = await api.post(`updateRequest`, 
-                   formData,
-                   {
-                       headers : { 'Content-Type' : 'multipart/form-data'}
-                   })
-                   dispatch(updateMaintainanceRequest(result.data))
+                   const result = await api.patch(`updateRequest`, formData ,{validateStatus: () => true})
+                   dispatch(updateOwnerMaintainanceRequest(result.data))
                    toast.success(toastMessage)
                    router.push('/maintainance_requests')
                 }
            else {
-            const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
-            const result = await api.post(`createRequest`, formData)
-            dispatch(addMaintainanceRequest(result.data.newRequest))
-            dispatch(addNotification(result.data.newNotification))
+            const formData = {...data, 
+                owner : owner._id,
+                requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`
+            }
+           
+            const result = await api.post(`createRequest`, formData,{validateStatus: () => true})
+            dispatch(addOwnerMaintainanceRequest(result.data.newRequest))
+            // dispatch(addNotification(result.data.newNotification))
             toast.success(toastMessage)
             router.push('/maintainance_requests')
            }
@@ -142,7 +149,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                     <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
                     <FormField
                             control={form.control}
-                            name="propertyId"
+                            name="property"
                             render={(item) => (
                                 <FormItem>
                                     <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
@@ -150,7 +157,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                             disabled={loading} 
                                             onValueChange={e=> {
                                                 setPropertyId(e)
-                                                item.formState.validatingFields.unitId
+                                                item.formState.validatingFields.unit
                                                 
                                                 return item.field.onChange(e)
                                             }}
@@ -186,7 +193,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                             
                         <FormField
                             control={form.control}
-                            name="unitId"
+                            name="unit"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>

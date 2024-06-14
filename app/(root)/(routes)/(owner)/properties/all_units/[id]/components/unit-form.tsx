@@ -28,6 +28,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { Textarea } from "@/components/ui/textarea"
 import { updateUnit } from "@/redux/units/unitsSlice"
 import { useRouter } from "next/navigation"
+import api from "@/actions/api"
+import { updateOwnerUnit } from "@/redux/data/owner/unitsSlice"
 
 
 type UnitFormValues = z.infer<typeof formSchema>
@@ -81,12 +83,15 @@ export const UnitForm : React.FC<UnitFormProps> = ({
     
     const onSubmit = async (data : UnitFormValues) => {
 
-        console.log(data)
-
-        // const formData = {...data, propertyId : initialData.property._id, _id : initialData._id}
-        // dispatch(updateUnit(formData))
-        // router.push(`/properties/all_units`)
-        toast.success('Unit updated.')
+       
+        const result = await api.patch(`updateUnit`,data,{validateStatus: () => true})
+        if (result.status === 200) {
+            dispatch(updateOwnerUnit(result.data))
+            toast.success('Unit updated.')
+        } else {
+            toast.error("something went wrong")
+        }
+       
         
     }
 

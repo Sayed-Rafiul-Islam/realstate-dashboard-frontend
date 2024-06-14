@@ -2,59 +2,67 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
+import { OwnerMaintainanceRequestsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { MaintainanceClient } from "./components/client";
+import { useEffect, useState } from "react";
 
 
 
 const AllRequests = () => {
     const router = useRouter()
-    const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
-    
-    const formattedRequests = maintainanceRequests.map((
+    const requests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps) => ownerMaintainanceReducer).ownerMaintainanceRequests
+ 
+
+    const formattedRequests = requests.map((
         {
             _id,
+            propertyName,
+            unitName,
+            property,
+            unit,
             date,
             requestNo,
             type,
-            propertyId,
-            unitId,
+            maintainer,
             issue,
             status,
+            paymentStatus,
             details,
             cost,
             attachment,
-            responsibility,
-            paymentStatus
-        }) => {
-            const propertyName  = properties.filter(({_id}) =>_id === propertyId)[0]?.name
-            const unitName  = units.filter(({_id}) =>_id === unitId)[0].name
-            const typeName  = maintainanceTypes.filter(({_id}) =>_id === type)[0]?.type
-
-            return {
+            invoice,
+            owner,
+        }) => ({
                 _id,
-                propertyId,
-                unitId,
+                propertyName,
+                unitName,
                 property_unit : `${propertyName}/${unitName}`,
-                date : format(date,"MMMM do, yyyy"),
+                property,
+                unit,
+                date,
                 requestNo,
-                type : typeName,
-                typeId : type,
-                issue : details,
+                type,
+                maintainer,
+                issue,
                 status,
+                paymentStatus,
                 details,
                 cost,
                 attachment,
-                responsibility,
-                paymentStatus
-            }
-    })
+                invoice,
+                owner   
+    }))
+
+    const [data,setData] = useState(formattedRequests)
+
+
+    useEffect(()=>{
+        router.refresh()
+        setData(formattedRequests)
+    },[requests])
    
     return ( 
         <div className="flex-col">

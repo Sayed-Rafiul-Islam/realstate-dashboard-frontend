@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AlertModal } from "@/components/modals/alert-modal";
 import toast from "react-hot-toast";
-import { removeProperty } from "@/redux/properties/propertiesSlice";
 import api from "@/actions/api";
 import { updateOwnerInfo } from "@/redux/info/ownerInfoSlice";
 import { removeOwnerProperty } from "@/redux/data/owner/propertiesSlice";
@@ -48,7 +47,7 @@ const PropertyCard : React.FC<PropertyCardProps> = ({data}) => {
             dispatch(updateOwnerInfo(result.data))
             dispatch(removeOwnerProperty(data)) 
         } else {
-            toast.error("Remove associated units first.")
+            toast.error("Tenant available.")
         }
         setOpen(false) 
 }

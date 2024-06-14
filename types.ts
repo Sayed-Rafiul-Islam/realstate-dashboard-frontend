@@ -320,24 +320,30 @@ export interface MaintainersReducerProps {
 
 export interface MaintainanceRequestProps {
   _id : string,
+  propertyName : string,
+  unitName : string,
+  property : PropertyProps,
+  unit : UnitProps,
   date : string,
   requestNo : string,
-  type : string,
-  propertyId : string,
-  unitId : string,
-  maintainerId : string,
+  type : MaintainanceTypeProps,
+  maintainer : MaintainerProps,
   issue : string,
   status : string,
   paymentStatus : string,
   details : string,
   cost : number,
   attachment : string,
-  responsibility : string,
-  invoiceId : string
+  // responsibility : string,
+  invoice : string,
+  owner : OwnerProps
 }
 
 export interface MaintainanceRequestsReducerProps {
   maintainanceReducer :  { maintainanceRequests : MaintainanceRequestProps[]} 
+}
+export interface OwnerMaintainanceRequestsReducerProps {
+  ownerMaintainanceReducer :  { ownerMaintainanceRequests : MaintainanceRequestProps[]} 
 }
 
 export interface NotificationsProps {

@@ -15,10 +15,12 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { removeTenant } from "@/redux/tenants/tenantsSlice"
-import { MaintainanceRequestColumn } from "./column"
+
 import { removeMaintainanceRequests } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 import { PreviewRequest } from "@/components/modals/preview-maintainance-request"
+import { MaintainanceRequestColumn } from "./column"
+import api from "@/actions/api"
+import { removeOwnerMaintainanceRequests } from "@/redux/data/owner/maintainanceRequestsSlice"
 
 
 interface CellActionProps {
@@ -36,8 +38,14 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const onDelete = async () => {
         setLoading(true)
-        dispatch(removeMaintainanceRequests(data))        
-        toast.success("Request Removed")
+        const result = await api.delete(`deleteRequest?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeOwnerMaintainanceRequests(data))        
+            toast.success("Request Removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
         setLoading(false)
         setOpen(false)
     

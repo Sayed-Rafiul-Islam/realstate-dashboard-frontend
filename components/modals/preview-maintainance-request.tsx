@@ -13,7 +13,8 @@ import {DockIcon, File, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(tenant)/tenant_reports/maintainance_requests/components/column";
+import { MaintainanceRequestProps } from "@/types";
+import { MaintainanceRequestColumn } from "@/app/(root)/(routes)/(owner)/maintainance_requests/all_maintainance_requests/components/column";
 
 
 
@@ -80,7 +81,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
                                 </div>
                                 <div>
                                     <h4 className="font-semibold mb-2">Property</h4>
-                                    <h6 className="text-xs">{data.property_unit.split("/")[0]}</h6>
+                                    <h6 className="text-xs">{data.propertyName}</h6>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-6">
@@ -92,7 +93,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
                                 </div>
                                 <div className="flex flex-col items-end">
                                     <h4 className="font-semibold mb-2">Pay To</h4>
-                                    <h6 className="text-xs">{data.property_unit.split("/")[1]}</h6>
+                                    <h6 className="text-xs">{data.unitName}</h6>
                                 </div>
                             </div>
                         

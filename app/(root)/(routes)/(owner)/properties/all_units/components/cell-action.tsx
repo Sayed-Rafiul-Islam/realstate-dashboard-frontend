@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { OrderProps, TenantsReducerProps } from "@/types"
+import { OrderProps, OwnerTenantsReducerProps, TenantsReducerProps } from "@/types"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { useDispatch, useSelector } from "react-redux"
 import { removeOrder } from "@/redux/orders/ordersSlice"
@@ -40,6 +40,10 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const isTenant = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
+    .filter((tenant) => tenant.property._id === data.property._id && tenant.unit._id === data._id)
+
 
 
     const onDelete = async () => {
@@ -91,7 +95,10 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         <Eye className="h-4 w-4 mr-2" />
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>setOpen(true)}>
+                    <DropdownMenuItem 
+                        disabled={isTenant.length > 0 ? true : false}
+                        onClick={()=>setOpen(true)}
+                    >
                         <Trash className="h-4 w-4 mr-2" />
                         Delete
                     </DropdownMenuItem>

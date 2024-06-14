@@ -15,7 +15,6 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 const AllPropertiesPage = () => {
     const router = useRouter()
-    const dispatch = useDispatch()
 
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
