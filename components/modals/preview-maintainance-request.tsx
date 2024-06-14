@@ -22,14 +22,16 @@ interface PreviewRequestProps {
     isOpen : boolean,
     onClose : () => void,
     data : MaintainanceRequestColumn,
-    status ?: boolean
+    status ?: boolean,
+    disable ?: boolean
 }
 
 export const PreviewRequest : React.FC<PreviewRequestProps> = ({
     isOpen,
     onClose,
     data,
-    status
+    status,
+    disable
 }) => {
 
     const pathname = usePathname().split("/")[1]
@@ -118,7 +120,7 @@ export const PreviewRequest : React.FC<PreviewRequestProps> = ({
 
                         <div className="flex gap-4 justify-center mt-6">
                             <Button onClick={onClose} className="border border-orange-500" variant='outline'>Back</Button>
-                            <Button className="bg-purple-600" onClick={()=>router.push(`/${pathname}/${data._id}`)}>Update</Button>
+                            <Button className="bg-purple-600" disabled={disable} onClick={()=>router.push(`/${pathname}/${data._id}`)}>Update</Button>
                         </div>
                     </div>
                 </DialogContent>

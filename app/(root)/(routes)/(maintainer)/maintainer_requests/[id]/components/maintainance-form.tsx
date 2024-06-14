@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, TenantInfoReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, TenantInfoReducerProps, OwnerMaintainanceTypesReducerProps, MaintainerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -31,6 +31,7 @@ import { nanoid } from "@reduxjs/toolkit"
 import { getTime } from "date-fns"
 import PdfUpload from "@/components/pdf-upload"
 import { addNotification } from "@/redux/report/notificationsSlice"
+import { updateMaintainerMaintainanceRequest } from "@/redux/data/maintainer/maintainanceRequestsSlice"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -41,13 +42,14 @@ interface MaintainanceRequestFormProps {
 
 const formSchema = z.object({
 
-    propertyId : z.string().min(1),
-    unitId : z.string().min(1),
-    type : z.string().min(1),
+    // property : z.string().min(1),
+    // unit : z.string().min(1),
+    // type : z.string().min(1),
+    // paymentStatus : z.string(),
+    // details : z.string().min(1),
+    // attachment : z.string().min(1),
     status : z.string().min(1, {message : "Status Required"}),
-    paymentStatus : z.string(),
-    details : z.string().min(1),
-    attachment : z.string().min(1),
+    paymentStatus : z.string().min(1,{ message : "Payment Status Required"})
 
 })
 
@@ -55,12 +57,7 @@ const formSchema = z.object({
 
 export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = ({
     initialData
-}) => {
-
-
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
-
+}) => {   
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -74,22 +71,17 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
-        // defaultValues : initialData || {
-        //     propertyId : tenant.property._id,
-        //     unitId : tenant.unit._id,
-        //     type : '',
-        //     status : '',
-        //     details : '',
-        //     attachment : '',
-        //     paymentStatus : 'Due'
-        // }
+        defaultValues : {
+            status : initialData.status,
+            paymentStatus : initialData.paymentStatus
+        }
     })
 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
             const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
             const result = await api.patch(`updateRequest`,formData)
-            dispatch(updateMaintainanceRequest(result.data))
+            dispatch(updateMaintainerMaintainanceRequest(result.data))
             toast.success(toastMessage)
             router.push('/maintainer_requests')
         }
@@ -150,6 +142,42 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                                 </SelectItem>
                                                 <SelectItem value="In Progress" >
                                                     In Progress
+                                                </SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                         <FormField
+                            control={form.control}
+                            name="paymentStatus"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Payment <span className='text-red-500'>*</span></FormLabel>
+                                    <Select 
+                                            disabled={loading} 
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>                            
+                                                <SelectTrigger>
+                                                    <SelectValue 
+                                                        defaultValue={field.value}
+                                                        placeholder="Select Status"
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value="Due" >
+                                                    Due
+                                                </SelectItem>
+                                                <SelectItem value="Pending" >
+                                                    Pending
+                                                </SelectItem>
+                                                <SelectItem value="Paid" >
+                                                    Paid
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>

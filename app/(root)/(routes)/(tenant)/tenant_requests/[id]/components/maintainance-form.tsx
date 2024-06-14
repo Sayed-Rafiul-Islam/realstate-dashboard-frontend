@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, TenantInfoReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, TenantInfoReducerProps, OwnerMaintainanceTypesReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -31,6 +31,7 @@ import { nanoid } from "@reduxjs/toolkit"
 import { getTime } from "date-fns"
 import PdfUpload from "@/components/pdf-upload"
 import { addNotification } from "@/redux/report/notificationsSlice"
+import { addTenantMaintainanceRequest, updateTenantMaintainanceRequest } from "@/redux/data/tenant/maintainanceRequestsSlice"
 
 
 type MaintainanceRequestFormValues = z.infer<typeof formSchema>
@@ -40,23 +41,11 @@ interface MaintainanceRequestFormProps {
 }
 
 const formSchema = z.object({
-
-    propertyId : z.string().min(1),
-    unitId : z.string().min(1),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
-    status : z.string().min(1, {message : "Status Required"}),
-    paymentStatus : z.string(),
     details : z.string().min(1, {message : "Description Required"}),
     attachment : z.string().min(1, {message : "Attachment Required"}),
 
 })
-
-
-
-// propertyId : string,
-// unitId : string,
-
-
 
 export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = ({
     initialData
@@ -64,7 +53,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
 
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
+    const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes
 
     const dispatch = useDispatch()
     const router = useRouter()
@@ -79,30 +68,44 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     const [loading, setLoading] = useState(false)
     const form = useForm<MaintainanceRequestFormValues>({
         resolver : zodResolver(formSchema),
-        // defaultValues : initialData || {
-        //     propertyId : tenant.property._id,
-        //     unitId : tenant.unit._id,
-        //     type : '',
-        //     status : '',
-        //     details : '',
-        //     attachment : '',
-        //     paymentStatus : 'Due'
-        // }
+        defaultValues : initialData ? {
+            type : initialData.type ? initialData.type._id : '',
+            details : initialData.details,
+            attachment : initialData.attachment
+        } 
+        :
+        {
+            type : '',
+            details : '',
+            attachment : ''
+        }
     })
 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
         if ( initialData ) {
-                   const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
+                   const formData = {
+                    ...data,
+                    _id : initialData._id, 
+                    requestNo : initialData.requestNo
+                }
                    const result = await api.patch(`updateRequest`,formData)
-                   dispatch(updateMaintainanceRequest(result.data))
+                   dispatch(updateTenantMaintainanceRequest(result.data))
                    toast.success(toastMessage)
                    router.push('/tenant_requests')
                 }
            else {
-            const formData = {...data, requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`}
+            const formData = {
+                ...data, 
+                owner : tenant.owner._id,
+                property : tenant.property._id,
+                unit : tenant.unit._id,
+                requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`,
+                status : "Incomplete",
+                paymentStatus : "Due"
+            }
             const result = await api.post(`createRequest`, formData)
-            dispatch(addMaintainanceRequest(result.data.newRequest))
+            dispatch(addTenantMaintainanceRequest(result.data.newRequest))
             dispatch(addNotification(result.data.newNotification))
             toast.success(toastMessage)
             router.push('/tenant_requests')
@@ -119,8 +122,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     if (!isMounted) {
         return null
     }
-
-
 
     return (
         <div className='add mt-5'>
@@ -159,48 +160,10 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                             </FormControl>
                                             <SelectContent>
                                                 {maintainanceTypes.map(({_id,type})=>(
-                                                    <div key={_id}>
-                                                        <SelectItem  value={_id} >
+                                                        <SelectItem key={_id}  value={_id} >
                                                             {type}
-                                                        </SelectItem>
-                                                    </div>
+                                                        </SelectItem> 
                                                 ))}
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Status <span className='text-red-500'>*</span></FormLabel>
-                                    <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>                            
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Status"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectItem value="Complete" >
-                                                    Complete
-                                                </SelectItem>
-                                                <SelectItem value="Incomplete" >
-                                                    Incomplete
-                                                </SelectItem>
-                                                <SelectItem value="In Progress" >
-                                                    In Progress
-                                                </SelectItem>
                                             </SelectContent>
                                         </Select>
                                     <FormMessage />

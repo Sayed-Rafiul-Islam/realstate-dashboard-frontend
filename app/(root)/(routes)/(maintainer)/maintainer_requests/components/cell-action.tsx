@@ -16,13 +16,13 @@ import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { removeTenant } from "@/redux/tenants/tenantsSlice"
-import { MaintainanceRequestColumn } from "./column"
 import { removeMaintainanceRequests } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 import { PreviewRequest } from "@/components/modals/preview-maintainance-request"
+import { MaintainanceRequestProps } from "@/types"
 
 
 interface CellActionProps {
-    data : MaintainanceRequestColumn
+    data : MaintainanceRequestProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -52,10 +52,12 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
             onConfirm={onDelete} 
             loading={loading} />
 
-            {/* <PreviewRequest
+            <PreviewRequest
             isOpen={openPreview} 
             onClose={()=>setOpenPreview(false)} 
-            data={data} /> */}
+            data={data} 
+            disable={data.paymentStatus === "Paid" && data.status === "Complete" ? true : false}
+            />
 
 
             <DropdownMenu>
@@ -70,6 +72,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         Actions
                     </DropdownMenuLabel>
                     <DropdownMenuItem 
+                        disabled={data.paymentStatus === "Paid" && data.status === "Complete" ? true : false}
                         onClick={()=>router.push(`/maintainer_requests/${data._id}`)}>
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
@@ -78,10 +81,10 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         <Eye className="h-4 w-4 mr-2" />
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>setOpen(true)}>
+                    {/* <DropdownMenuItem onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />
                         Delete
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                 </DropdownMenuContent>
             </DropdownMenu>
         </>

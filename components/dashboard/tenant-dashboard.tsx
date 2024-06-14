@@ -13,6 +13,7 @@ import { InvoiceColumn } from "@/app/(root)/(routes)/(tenant)/tenant_invoices/co
 import { useEffect, useState } from "react";
 import api from "@/actions/api";
 import { getTenantMaintainanceRequests } from "@/redux/data/tenant/maintainanceRequestsSlice";
+import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
 
 interface TenantDashboardProps {
     tenant : TenantProps
@@ -35,6 +36,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
             if (tenant) {
                
                     const requests = await api.get(`getTenantRequests?propertyId=${tenant.property._id}&unitId=${tenant.unit._id}`,{validateStatus: () => true})
+                    const maintainanceTypes = await api.get(`getMaintainaceType?id=${tenant.owner._id}`,{validateStatus: () => true})
+
 
                     // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
                     // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
@@ -43,6 +46,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     // const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
 
                     dispatch(getTenantMaintainanceRequests(requests.data))
+                    dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
 
                     // dispatch(getOwnerProperties(properties.data))
                     // dispatch(getOwnerUnits(units.data))

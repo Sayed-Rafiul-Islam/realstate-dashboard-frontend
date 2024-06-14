@@ -43,7 +43,7 @@ const formSchema = z.object({
     unit : z.string().min(1, {message : "Unit Name Required"}),
     maintainer : z.string().min(1, {message : "Maintainer Required"}),
     type : z.string().min(1, {message : "Maintainer Type Required"}),
-    status : z.string().min(1, {message : "Status Required"}),
+    // status : z.string().min(1, {message : "Status Required"}),
     details : z.string().min(1, {message : "Description Required"}),
     attachment : z.string(),
 
@@ -107,7 +107,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
             unit :  initialData?.unit ? initialData.unit._id : '', 
             type :  initialData?.type ? initialData.type._id : '',
             maintainer :  initialData?.maintainer ? initialData.maintainer._id : '',
-            status : initialData && initialData.status,
+            // status : initialData && initialData.status,
             details : initialData && initialData.details,
             attachment : initialData && initialData.attachment
         }
@@ -116,16 +116,23 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
     
     const onSubmit = async (data : MaintainanceRequestFormValues) => {
         if ( initialData ) {
-                   const formData = {...data,_id : initialData._id, requestNo : initialData.requestNo}
+                   const formData = {
+                    ...data,
+                    _id : initialData._id, 
+                    requestNo : initialData.requestNo
+                }
                    const result = await api.patch(`updateRequest`, formData ,{validateStatus: () => true})
                    dispatch(updateOwnerMaintainanceRequest(result.data))
                    toast.success(toastMessage)
                    router.push('/maintainance_requests')
                 }
            else {
-            const formData = {...data, 
+            const formData = {
+                ...data, 
                 owner : owner._id,
-                requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`
+                requestNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`,
+                paymentStatus : "Due",
+                status : "Incomplete"
             }
            
             const result = await api.post(`createRequest`, formData,{validateStatus: () => true})
@@ -337,7 +344,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 </FormItem>
                             )}
                         />
-                         <FormField
+                         {/* <FormField
                             control={form.control}
                             name="status"
                             render={({ field }) => (
@@ -372,7 +379,7 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
                         <FormField
                             control={form.control}
                             name="details"

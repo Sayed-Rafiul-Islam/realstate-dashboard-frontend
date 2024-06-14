@@ -1,12 +1,12 @@
 "use client"
 
 interface MaintainanceClientProps {
-    data : MaintainanceRequestColumn[]
+    data : MaintainanceRequestProps[]
 }
 
-import { MaintainanceRequestColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { MaintainanceTypesReducerProps, OwnerMaintainanceTypesReducerProps, OwnerPropertyReducerProps, PropertiesReducerProps} from "@/types"
+import { MaintainanceRequestProps, MaintainanceTypesReducerProps, OwnerMaintainanceTypesReducerProps, OwnerPropertyReducerProps, PropertiesReducerProps} from "@/types"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { 
@@ -23,45 +23,49 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
 
     const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes 
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties 
-    let propertySelect : {id : string, name : string}[] = [] 
-    data.map((item)=>{
-        const index = propertySelect.findIndex(({id}) => id === item.propertyId)
-        if(index === -1) {
-            propertySelect.push({id : item.propertyId, name : properties.filter(({_id})=>_id === item.propertyId)[0].name})
-        }
-    })
 
 
-    const [requests, setRequests] = useState(data)
-    const [type, setType] = useState('')
-    const [property, setProperty] = useState('')
+    // let propertySelect : {id : string, name : string}[] = [] 
+    // data.map((item)=>{
+    //     const index = propertySelect.findIndex(({id}) => id === item.propertyId)
+    //     if(index === -1) {
+    //         propertySelect.push({id : item.propertyId, name : properties.filter(({_id})=>_id === item.propertyId)[0].name})
+    //     }
+    // })
 
 
-    useEffect(()=>{
-        if (type === '' && property === '') {
-            setRequests(data)
-        } else {
-            if (type !== '' && property === '') {
-                const temp = data.filter((item) => item.typeId === type) 
-                setRequests(temp)
-            } 
-            else if ( property !== '' && type === '') {
-                const temp = data.filter((item) => item.propertyId === property) 
-                setRequests(temp)
-            }
-            else {
-                const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 
-                setRequests(temp)
-            }
-        }
+    // const [requests, setRequests] = useState(data)
+
+
+    // const [type, setType] = useState('')
+    // const [property, setProperty] = useState('')
+
+
+    // useEffect(()=>{
+    //     if (type === '' && property === '') {
+    //         setRequests(data)
+    //     } else {
+    //         if (type !== '' && property === '') {
+    //             const temp = data.filter((item) => item.type._id === type) 
+    //             setRequests(temp)
+    //         } 
+    //         else if ( property !== '' && type === '') {
+    //             const temp = data.filter((item) => item.property._id === property) 
+    //             setRequests(temp)
+    //         }
+    //         else {
+    //             const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 
+    //             setRequests(temp)
+    //         }
+    //     }
         
-    },[type,data])
+    // },[type,data])
 
-    const showAll = () => {
-        setProperty('')
-        setType('')
-        setRequests(data)
-    }
+    // const showAll = () => {
+    //     setProperty('')
+    //     setType('')
+    //     setRequests(data)
+    // }
 
 
 
@@ -82,7 +86,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
     return (
         <>
             <div className="select-filters-wrapper">
-                <div>
+                {/* <div>
                 <Select
                     onValueChange={e=> {
                         if (e === 'all') {
@@ -140,9 +144,9 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                                 ))}
                             </SelectContent>
                 </Select>
-                    </div>
+                    </div> */}
             </div>  
-            <DataTable pagination={true} searchKey="requestNo" columns={columns} data={requests} />
+            <DataTable pagination={true} searchKey="requestNo" columns={columns} data={data} />
         </>
     )
 }

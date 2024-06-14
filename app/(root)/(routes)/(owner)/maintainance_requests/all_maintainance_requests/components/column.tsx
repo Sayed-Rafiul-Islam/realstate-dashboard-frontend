@@ -9,7 +9,7 @@ export interface MaintainanceRequestColumn {
   _id : string,
   propertyName : string,
   unitName : string,
-  property_unit : string,
+  property_unit ?: string,
   property : PropertyProps,
   unit : UnitProps,
   date : string,
@@ -41,7 +41,7 @@ export interface MaintainanceRequestColumn {
     {
       accessorKey: "type",
       header: "Type",
-      cell: ({row}) => <span>{row.original.type && row.original.type.type}</span>
+        cell: ({row}) => <span>{row.original.type && row.original.type.type}</span>
     },
     {
       accessorKey: "property_unit",
@@ -63,6 +63,20 @@ export interface MaintainanceRequestColumn {
             return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Incomplete</p> 
         } else {
             return <p className="text-amber-600 bg-amber-100 px-3 py-2 rounded-lg">In Progress</p> 
+        }
+      }        
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: "Payment",
+      cell: ({row}) => {
+        if (row.original.paymentStatus === "Paid") {
+            return <p className="text-indigo-600 bg-indigo-100 px-4 py-2 rounded-lg">Paid</p> 
+        }
+        else if (row.original.paymentStatus === "Due") {
+            return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
+        } else {
+            return <p className="text-amber-600 bg-amber-100 px-3 py-2 rounded-lg">Pending</p> 
         }
       }        
     },

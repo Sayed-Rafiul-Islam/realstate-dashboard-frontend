@@ -56,13 +56,6 @@ const AllRequests = () => {
                 owner   
     }))
 
-    const [data,setData] = useState(formattedRequests)
-
-
-    useEffect(()=>{
-        router.refresh()
-        setData(formattedRequests)
-    },[requests])
    
     return ( 
         <div className="flex-col">

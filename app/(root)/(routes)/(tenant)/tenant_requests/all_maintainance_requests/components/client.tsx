@@ -1,12 +1,12 @@
 "use client"
 
 interface MaintainanceClientProps {
-    data : MaintainanceRequestColumn[]
+    data : MaintainanceRequestProps[]
 }
 
-import { MaintainanceRequestColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { MaintainanceTypesReducerProps} from "@/types"
+import { MaintainanceRequestProps, MaintainanceTypeProps, MaintainanceTypesReducerProps} from "@/types"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { 
@@ -33,7 +33,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
             setRequests(data)
         } else {
             if (type !== '' && status === '') {
-                const temp = data.filter((item) => item.typeId === type) 
+                const temp = data.filter((item) => item.type._id === type) 
                 setRequests(temp)
             } 
             else if ( status !== '' && type === '') {
@@ -41,7 +41,7 @@ export const MaintainanceClient : React.FC<MaintainanceClientProps> = ({data}) =
                 setRequests(temp)
             }
             else {
-                const temp = data.filter((item) => item.status === status && item.typeId === type) 
+                const temp = data.filter((item) => item.status === status && item.type._id === type) 
                 setRequests(temp)
             }
         }
