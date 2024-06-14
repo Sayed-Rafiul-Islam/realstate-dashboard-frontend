@@ -1,10 +1,10 @@
 "use client"
 
 interface MaintainanceClientProps {
-    data : MaintainanceRequestProps[]
+    data : MaintainanceRequestColumn[]
 }
 
-import { columns } from "./column"
+import { MaintainanceRequestColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { MaintainanceRequestProps, MaintainanceTypesReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types"
 import { useEffect, useState } from "react"
