@@ -56,6 +56,6 @@ export const columns: ColumnDef<InvoiceColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({row}) => <CellAction data={row.original} />,
+    // cell: ({row}) => <CellAction data={row.original} />,
   },
 ]

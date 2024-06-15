@@ -215,7 +215,11 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                 dispatch(updateOwnerInvoice(result.data))
                 toast.success(toastMessage)
                 router.push('/invoices')
-            } else {
+            } else if (result.status === 404) {
+                toast.error("Tenant not found.")
+            }
+            
+            else {
                 toast.error("Something went wrong")
             }   
            }
@@ -231,7 +235,11 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                 dispatch(addOwnerInvoice(result.data))
                 toast.success(toastMessage)
                 router.push('/invoices')
-            } else {
+            } else if (result.status === 404) {
+                toast.error("Tenant not found.")
+            }
+            
+            else {
                 toast.error("Something went wrong")
             }            
         }

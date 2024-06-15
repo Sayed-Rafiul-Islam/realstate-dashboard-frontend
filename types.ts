@@ -218,6 +218,9 @@ export interface InvoicesReducerProps {
 export interface OwnerInvoicesReducerProps {
   ownerInvoicesReducer :  { ownerInvoices : InvoiceProps[]} 
 }
+export interface TenantInvoicesReducerProps {
+  tenantInvoicesReducer :  { tenantInvoices : InvoiceProps[]} 
+}
 
 export interface ExpenseProps {
   _id : string,

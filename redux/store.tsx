@@ -47,6 +47,7 @@ import maintainerMaintainanceReducer from '@/redux/data/maintainer/maintainanceR
 
 
 import tenantMaintainanceReducer from '@/redux/data/tenant/maintainanceRequestsSlice'
+import tenantInvoicesReducer from '@/redux/data/tenant/invoicesSlice'
 
 
 
@@ -96,7 +97,8 @@ export const store = configureStore({
     maintainerMaintainanceReducer,
 
 
-    tenantMaintainanceReducer
+    tenantMaintainanceReducer,
+    tenantInvoicesReducer
 
   }
 })

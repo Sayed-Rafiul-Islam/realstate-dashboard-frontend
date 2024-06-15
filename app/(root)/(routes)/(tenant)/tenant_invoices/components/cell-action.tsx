@@ -1,8 +1,7 @@
 "use client"
 
-import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
+import { CircleDollarSign, Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { useState } from "react"
-import { InvoiceColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
@@ -21,28 +20,13 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const router = useRouter()
     const dispatch = useDispatch()
-    const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
-    const [loading, setLoading] = useState(false)
-
-
-    const onDelete = async () => {
-        dispatch(removeInvoice(data))
-        toast.success("Invoice Deleted.")
-        setOpen(false)
-    }
 
 
 
 
     return (
         <>
-            <AlertModal
-                isOpen={open} 
-                onClose={()=>setOpen(false)} 
-                onConfirm={onDelete} 
-                loading={loading} 
-            />
             <PreviewInvoice
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
@@ -63,9 +47,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
-                        <Trash className="h-4 w-4 mr-2" />
-                        Delete
+                    <DropdownMenuItem className="cursor-pointer" 
+                        onClick={()=>router.push('/tenant_invoices/payment')}
+                    >
+                        <CircleDollarSign className="h-4 w-4 mr-2" />
+                        Pay
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

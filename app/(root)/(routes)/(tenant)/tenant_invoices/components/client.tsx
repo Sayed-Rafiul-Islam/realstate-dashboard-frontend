@@ -1,7 +1,7 @@
 "use client"
 
 interface InvoicesClientProps {
-    data : InvoiceColumn[]
+    data : InvoiceProps[]
 }
 
 
@@ -13,16 +13,16 @@ import {
     SelectTrigger, 
     SelectValue 
 } from '@/components/ui/select'
-import { InvoiceColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { InvoiceTypesReducerProps } from "@/types"
+import { InvoiceProps, InvoiceTypesReducerProps, OwnerInvoiceTypesReducerProps } from "@/types"
 import { useSelector } from "react-redux"
 import '../invoices.css'
 
 export const InvoicesClient : React.FC<InvoicesClientProps> = ({data}) => {
 
     const [invoices, setInvoices] = useState(data)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer) 
+    const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes 
 
 
     const [type, setType] = useState('')
@@ -33,7 +33,7 @@ export const InvoicesClient : React.FC<InvoicesClientProps> = ({data}) => {
             setInvoices(data)
         } else {
             if (type !== '' && status === '') {
-                const temp = data.filter((item) => item.typeId === type) 
+                const temp = data.filter((item) => item.type._id === type) 
                 setInvoices(temp)
             } 
             else if ( status !== '' && type === '') {
@@ -41,7 +41,7 @@ export const InvoicesClient : React.FC<InvoicesClientProps> = ({data}) => {
                 setInvoices(temp)
             }
             else {
-                const temp = data.filter((item) => item.status === status && item.typeId === type) 
+                const temp = data.filter((item) => item.status === status && item.type._id === type) 
                 setInvoices(temp)
             }
         }

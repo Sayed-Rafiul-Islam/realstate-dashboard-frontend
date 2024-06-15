@@ -6,14 +6,15 @@ import { DataTable } from "../ui/data-table";
 import { format } from "date-fns";
 import BarChart from "../BarChart";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainersReducerProps, PropertiesReducerProps, RentsReducerProps, TenantInfoReducerProps, TenantMaintainanceRequestsReducerProps, TenantProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, InvoiceProps, TenantInvoicesReducerProps, TenantMaintainanceRequestsReducerProps, TenantProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux";
 import { ColumnDef } from "@tanstack/react-table";
-import { InvoiceColumn } from "@/app/(root)/(routes)/(tenant)/tenant_invoices/components/column";
 import { useEffect, useState } from "react";
 import api from "@/actions/api";
 import { getTenantMaintainanceRequests } from "@/redux/data/tenant/maintainanceRequestsSlice";
 import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
+import { getTenantInvoices } from "@/redux/data/tenant/invoicesSlice";
+import { getOwnerInvoiceTypes } from "@/redux/data/owner/settings/invoiceTypesSlice";
 
 interface TenantDashboardProps {
     tenant : TenantProps
@@ -37,8 +38,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                
                     const requests = await api.get(`getTenantRequests?propertyId=${tenant.property._id}&unitId=${tenant.unit._id}`,{validateStatus: () => true})
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${tenant.owner._id}`,{validateStatus: () => true})
-
-
+                    const invoices = await api.get(`getTenantInvoices?property=${tenant.property._id}&unit=${tenant.unit._id}`,{validateStatus: () => true})
+                    const invoiceTypes = await api.get(`getOwnerInvoiceType?ownerId=${tenant.owner._id}`,{validateStatus: () => true})
                     // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
                     // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
                     // const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
@@ -47,6 +48,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
 
                     dispatch(getTenantMaintainanceRequests(requests.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    dispatch(getTenantInvoices(invoices.data))
+                    dispatch(getOwnerInvoiceTypes(invoiceTypes.data))
 
                     // dispatch(getOwnerProperties(properties.data))
                     // dispatch(getOwnerUnits(units.data))
@@ -62,32 +65,10 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
 
 
     const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps)=>tenantMaintainanceReducer).tenantMaintainanceRequests
-  
-
-   
-    
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps)=>propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps)=>unitsReducer)
     const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps)=>invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps)=>gatewaysReducer)
-
-    
-
-    
-
-
-    const thisInvoices = useSelector(({invoicesReducer} : InvoicesReducerProps)=>invoicesReducer)
-    .invoices.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id).slice(0,5)
-   
+    const invoices = useSelector(({tenantInvoicesReducer} : TenantInvoicesReducerProps)=>tenantInvoicesReducer).tenantInvoices.slice(0,5)
     const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
-    const thisProperty = properties.filter(({_id})=> _id === tenant.property._id)[0]
 
-
-
-   
-
-   
 
     const summery = [
         {
@@ -248,84 +229,44 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
 
 
 
-    const formattedInvoices = thisInvoices.map((
+    const invoiceColumn : ColumnDef<InvoiceProps>[] = [
         {
-            _id,
-            invoiceNo,
-            prefix,
-            propertyId,
-            unitId,
-            month,
-            dueDate,
-            type,
-            description,
-            status,
-            amount,
-            dateOfPayment,
-            gateway,
-            transactionId,
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const invoiceType = invoiceTypes.filter((item)=> item._id === type)[0]
-            const gatewayName = gateways.filter((item)=> item._id === gateway)[0]
-            return {
-                _id,
-                invoiceNo,
-                prefix,
-                property_unit : `${property.name}/${unit.name}`,
-                tenant,
-                month,
-                dueDate :  format(dueDate,"MMMM do, yyyy"),
-                type : invoiceType.title,
-                typeId : type,
-                description,
-                status,
-                amount : `BDT ${amount}`,
-                dateOfPayment :  dateOfPayment !== '00-00-00' ? format(dateOfPayment,"MMMM do, yyyy") : 'N/A',
-                gateway : gatewayName ? gatewayName.title : 'N/A',
-                transactionId,
-                payment : `BDT ${amount}`
-            }
-           
-    })
-
-
-    const invoiceColumn : ColumnDef<InvoiceColumn>[] = [
-        {
-          accessorKey: "dueDate",
-          header: "Dates",
-        },
-        {
-          accessorKey: "amount",
-          header: "Amount",
-        },
-        {
-          accessorKey: "type",
-          header: "Invoice Type",
-        },
-        {
-          accessorKey: "invoiceNo",
-          header: "Invoice No",
-        },
-        {
-          accessorKey: "property_unit",
-          header: "Property/Unit",
-        },
-        {
-          accessorKey: "status",
-          header: "Status",
-          cell: ({row}) => {
-            if (row.original.status === "Paid") {
-                return <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
-            }
-            else if (row.original.status === "Pending") {
-                return <p className="text-amber-600 bg-amber-100 px-4 py-2 rounded-lg">Pending</p> 
-            } else {
-                return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
-            }
-          }        
-        },
+            accessorKey: "dueDate",
+            header: "Due Date",
+            cell: ({row}) => <span>{row.original.dueDate ? format(row.original.dueDate,"MMMM do, yyyy") : 'N/A'}</span>
+          },
+          {
+            accessorKey: "invoiceNo",
+            header: "Invoice No",
+          },
+          {
+            accessorKey: "typeName",
+            header: "Invoice Type",
+          },
+          {
+            accessorKey: "property_unit",
+            header: "Property/Unit",
+            cell: ({row}) => <span>{row.original.propertyName}/{row.original.unitName}</span>
+          },
+          {
+            accessorKey: "amount",
+            header: "Amount",
+            cell: ({row}) => <span>{row.original.amount} BDT</span>
+          },
+          {
+            accessorKey: "status",
+            header: "Status",
+            cell: ({row}) => {
+              if (row.original.status === "Paid") {
+                  return <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
+              }
+              else if (row.original.status === "Pending") {
+                  return <p className="text-amber-600 bg-amber-100 px-4 py-2 rounded-lg">Pending</p> 
+              } else {
+                  return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
+              }
+            }        
+          }
       ]
 
     return ( 
@@ -463,7 +404,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                             View All <ArrowRight size={15} />
                     </button>
                 </div>
-                <DataTable pagination={false} columns={invoiceColumn} data={formattedInvoices} />
+                <DataTable pagination={false} columns={invoiceColumn} data={invoices} />
                 <div>
                     
                 </div>

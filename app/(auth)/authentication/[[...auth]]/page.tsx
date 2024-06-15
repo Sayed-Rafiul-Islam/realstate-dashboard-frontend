@@ -62,6 +62,7 @@ export default function Authentication() {
         localStorage.removeItem("ownerGateways")
         localStorage.removeItem("ownerInvoiceTypes")
         localStorage.removeItem("ownerInvoices")
+        localStorage.removeItem("tenantInvoices")
       }
     })
 

@@ -5,7 +5,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, PropertiesReducerProps, TenantInfoReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, PropertiesReducerProps, TenantInfoReducerProps, TenantInvoicesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { InvoicesClient } from "./components/client";
 import Link from "next/link";
@@ -13,63 +13,7 @@ import Link from "next/link";
 
 const TenantInvoicesPage = () => {
     const router = useRouter()
-    const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps) => invoicesReducer)
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps) => gatewaysReducer)
-    
-
-
-    // const thisTenantInvoices = invoices.filter(({propertyId,unitId})=>propertyId === tenant.property._id && unitId === tenant.unit._id)
-
-
-
-    // const formattedInvoices = thisTenantInvoices.map((
-    //     {
-    //         _id,
-    //         invoiceNo,
-    //         prefix,
-    //         propertyId,
-    //         unitId,
-    //         month,
-    //         dueDate,
-    //         type,
-    //         description,
-    //         status,
-    //         amount,
-    //         dateOfPayment,
-    //         gateway,
-    //         transactionId,
-    //     }) => {
-    //         const property = properties.filter((item)=> item._id === propertyId)[0]
-    //         const unit = units.filter((item)=> item._id === unitId)[0]
-    //         const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
-    //         const invoiceType = invoiceTypes.filter((item)=> item._id === type)[0]
-    //         const gatewayName = gateways.filter((item)=> item._id === gateway)[0]
-    //         return {
-    //             _id,
-    //             invoiceNo,
-    //             prefix,
-    //             property_unit : `${property.name}/${unit.name}`,
-    //             tenant,
-    //             month,
-    //             dueDate :  format(dueDate,"MMMM do, yyyy"),
-    //             type : invoiceType.title,
-    //             typeId : type,
-    //             description,
-    //             status,
-    //             amount : `BDT ${amount}`,
-    //             dateOfPayment :  dateOfPayment !== '00-00-00' ? format(dateOfPayment,"MMMM do, yyyy") : 'N/A',
-    //             gateway : gatewayName ? gatewayName.title : 'N/A',
-    //             transactionId,
-    //             payment : `BDT ${amount}`
-    //         }
-           
-    // })
+    const invoices = useSelector(({tenantInvoicesReducer} : TenantInvoicesReducerProps)=>tenantInvoicesReducer).tenantInvoices
 
     return ( 
         <div className="flex-col">
@@ -90,7 +34,7 @@ const TenantInvoicesPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    {/* <InvoicesClient data={formattedInvoices} /> */}
+                    <InvoicesClient data={invoices} />
                 </div>
             </div>
         </div>

@@ -34,16 +34,16 @@ const MaintainerMenuEx = () => {
             icon : <Wrench size={20} />,
             active : false
         },
-        {
-            id : 3,
-            group : [],
-            label : "Invoices",
-            href : "/maintainer_invoices",
-            href1 : '',
-            drop : false,
-            icon : <BookText size={20} />,
-            active : false
-        },
+        // {
+        //     id : 3,
+        //     group : [],
+        //     label : "Invoices",
+        //     href : "/maintainer_invoices",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <BookText size={20} />,
+        //     active : false
+        // },
         {
             id : 4,
             group : [
