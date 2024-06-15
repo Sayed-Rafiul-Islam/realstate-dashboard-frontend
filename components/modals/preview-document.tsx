@@ -15,7 +15,6 @@ import { OrderProps } from "@/types";
 import { DataTable } from "../ui/data-table";
 import Image from "next/image";
 import { format } from "date-fns";
-import { InvoiceColumn } from "@/app/(root)/(routes)/(owner)/invoices/all_invoices/components/column";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { DocumentColumn } from "@/app/(root)/(routes)/(owner)/documents/components/column";
