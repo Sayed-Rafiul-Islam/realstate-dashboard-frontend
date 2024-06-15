@@ -7,8 +7,7 @@ import TenantDashboard from "@/components/dashboard/tenant-dashboard";
 import { getMaintainerInfo } from "@/redux/info/maintainerInfoSlice";
 import { getOwnerInfo } from "@/redux/info/ownerInfoSlice";
 import { getTenantInfo } from "@/redux/info/tenantInfoSlice";
-import { MaintainerInfoReducerProps, MaintainersReducerProps, OwnerInfoReducerProps, OwnersReducerProps, TenantInfoReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
-import { useEffect, useState } from "react";
+import { MaintainersReducerProps, OwnersReducerProps, TenantsReducerProps, UsersReducerProps } from "@/types";
 
 import { useDispatch, useSelector } from "react-redux";
 
