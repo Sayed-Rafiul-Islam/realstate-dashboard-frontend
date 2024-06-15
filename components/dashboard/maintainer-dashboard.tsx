@@ -276,54 +276,54 @@ const MaintainerDashboard : React.FC<MaintainerDashboardProps> = ({maintainer}) 
     
 
 
-    const thisInvoices = invoices.filter(({by}) => by.id === '662774a250924ade5f6ce70b')
+    // const thisInvoices = invoices.filter(({by}) => by.id === '662774a250924ade5f6ce70b')
 
-    const formattedInvoices = thisInvoices.map((
-        {
-            _id,
-            invoiceNo,
-            propertyId,
-            issue,
-            unitId,
-            amount,
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
-            return {
-                _id,
-                property : property && property.name,
-                unit : unit && unit.name,
-                issue : maintainanceIssue?.type,
-                cost : `BDT ${amount}`,
-                invoiceNo,
-            }
+    // const formattedInvoices = thisInvoices.map((
+    //     {
+    //         _id,
+    //         invoiceNo,
+    //         propertyId,
+    //         issue,
+    //         unitId,
+    //         amount,
+    //     }) => {
+    //         const property = properties.filter((item)=> item._id === propertyId)[0]
+    //         const unit = units.filter((item)=> item._id === unitId)[0]
+    //         const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
+    //         return {
+    //             _id,
+    //             property : property && property.name,
+    //             unit : unit && unit.name,
+    //             issue : maintainanceIssue?.type,
+    //             cost : `BDT ${amount}`,
+    //             invoiceNo,
+    //         }
            
-    })
+    // })
 
 
-    const invoiceColumn : ColumnDef<InvoiceColumn>[] = [
-        {
-          accessorKey: "property",
-          header: "Property",
-        },
-        {
-          accessorKey: "unit",
-          header: "Unit",
-        },
-        {
-          accessorKey: "issue",
-          header: "Issue",
-        },
-        {
-          accessorKey: "cost",
-          header: "Cost",
-        },
-        {
-          accessorKey: "invoiceNo",
-          header: "Invoice No",
-        }
-      ]
+    // const invoiceColumn : ColumnDef<InvoiceColumn>[] = [
+    //     {
+    //       accessorKey: "property",
+    //       header: "Property",
+    //     },
+    //     {
+    //       accessorKey: "unit",
+    //       header: "Unit",
+    //     },
+    //     {
+    //       accessorKey: "issue",
+    //       header: "Issue",
+    //     },
+    //     {
+    //       accessorKey: "cost",
+    //       header: "Cost",
+    //     },
+    //     {
+    //       accessorKey: "invoiceNo",
+    //       header: "Invoice No",
+    //     }
+    //   ]
 
 
     return ( 
@@ -454,7 +454,7 @@ const MaintainerDashboard : React.FC<MaintainerDashboardProps> = ({maintainer}) 
                         View All <ArrowRight size={15} />
                     </button>
                 </div>
-                    <DataTable pagination={false} columns={invoiceColumn} data={formattedInvoices} />
+                    {/* <DataTable pagination={false} columns={invoiceColumn} data={formattedInvoices} /> */}
                 <div>
                     
                 </div>
