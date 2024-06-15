@@ -43,11 +43,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            <PreviewInvoice
+            {/* <PreviewInvoice
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            />
+            /> */}
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
