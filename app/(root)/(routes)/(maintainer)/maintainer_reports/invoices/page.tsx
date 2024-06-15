@@ -36,54 +36,54 @@ const RentsPage = () => {
     
 
 
-    const thisInvoices = invoices.filter(({by})=>by.id === maintainer.user._id)
+    // const thisInvoices = invoices.filter(({by})=>by.id === maintainer.user._id)
 
-    const formattedInvoices = thisInvoices.map((
-        {
-            _id,
-            invoiceNo,
-            prefix,
-            propertyId,
-            unitId,
-            month,
-            dueDate,
-            type,
-            issue,
-            description,
-            status,
-            amount,
-            dateOfPayment,
-            gateway,
-            transactionId,
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
-            const invoiceType = invoiceTypes.filter((item)=> item._id === type)[0]
-            const gatewayName = gateways.filter((item)=> item._id === gateway)[0]
-            const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
+    // const formattedInvoices = thisInvoices.map((
+    //     {
+    //         _id,
+    //         invoiceNo,
+    //         prefix,
+    //         propertyId,
+    //         unitId,
+    //         month,
+    //         dueDate,
+    //         type,
+    //         issue,
+    //         description,
+    //         status,
+    //         amount,
+    //         dateOfPayment,
+    //         gateway,
+    //         transactionId,
+    //     }) => {
+    //         const property = properties.filter((item)=> item._id === propertyId)[0]
+    //         const unit = units.filter((item)=> item._id === unitId)[0]
+    //         const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
+    //         const invoiceType = invoiceTypes.filter((item)=> item._id === type)[0]
+    //         const gatewayName = gateways.filter((item)=> item._id === gateway)[0]
+    //         const maintainanceIssue = maintainanceTypes.filter((item)=> item._id === issue)[0]
             
-            return {
-                _id,
-                invoiceNo,
-                prefix,
-                property_unit : `${property.name}/${unit.name}`,
-                tenant,
-                month,
-                dueDate :  format(dueDate,"MMMM do, yyyy"),
-                type : invoiceType.title,
-                typeId : type,
-                issue : maintainanceIssue.type,
-                description,
-                status,
-                amount : `BDT ${amount}`,
-                dateOfPayment :  dateOfPayment !== '00-00-00' ? format(dateOfPayment,"MMMM do, yyyy") : 'N/A',
-                gateway : gatewayName ? gatewayName.title : 'N/A',
-                transactionId : transactionId === '' ? 'N/A' : transactionId,
-                payment : `BDT ${amount}`
-            }
+    //         return {
+    //             _id,
+    //             invoiceNo,
+    //             prefix,
+    //             property_unit : `${property.name}/${unit.name}`,
+    //             tenant,
+    //             month,
+    //             dueDate :  format(dueDate,"MMMM do, yyyy"),
+    //             type : invoiceType.title,
+    //             typeId : type,
+    //             issue : maintainanceIssue.type,
+    //             description,
+    //             status,
+    //             amount : `BDT ${amount}`,
+    //             dateOfPayment :  dateOfPayment !== '00-00-00' ? format(dateOfPayment,"MMMM do, yyyy") : 'N/A',
+    //             gateway : gatewayName ? gatewayName.title : 'N/A',
+    //             transactionId : transactionId === '' ? 'N/A' : transactionId,
+    //             payment : `BDT ${amount}`
+    //         }
            
-    })
+    // })
 
     return ( 
         <div className="flex-col">
@@ -109,7 +109,7 @@ const RentsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <InvoicesClient data={formattedInvoices} />
+                    {/* <InvoicesClient data={formattedInvoices} /> */}
                 </div>
             </div>
         </div>
