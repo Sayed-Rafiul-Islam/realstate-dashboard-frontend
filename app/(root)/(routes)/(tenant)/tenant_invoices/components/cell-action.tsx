@@ -11,9 +11,10 @@ import { useDispatch } from "react-redux"
 import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
 import { PreviewInvoice } from "@/components/modals/preview-invoice"
+import { InvoiceProps } from "@/types"
 
 interface CellActionProps {
-    data : InvoiceColumn
+    data : InvoiceProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {

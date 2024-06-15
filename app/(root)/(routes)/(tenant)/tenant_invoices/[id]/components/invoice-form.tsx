@@ -119,7 +119,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
     const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
     const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer)
     const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps) => gatewaysReducer)
-    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
+    const [propertyId,setPropertyId] = useState(initialData ? initialData.property._id : '')
     const [status,setStatus] = useState(initialData ? initialData.status : '')
     const [show,setShow] = useState(initialData ? (initialData.status === 'Paid' ? true : false) : false)
     
@@ -148,9 +148,9 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
 
     const form = useForm<InvoiceFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            description : ''
-        }
+        // defaultValues : initialData || {
+        //     description : ''
+        // }
     })
 
     useEffect(()=>{
