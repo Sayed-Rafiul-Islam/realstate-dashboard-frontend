@@ -2,46 +2,32 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-import { OrderProps, TenantProps } from "@/types"
+import { InvoiceProps } from "@/types"
+import { format } from "date-fns"
 
-export interface InvoiceColumn {
-  _id : string,
-  invoiceNo : string,
-  prefix : string,
-  property_unit : string,
-  tenant : TenantProps,
-  month : string,
-  dueDate : string,
-  type : string,
-  description : string,
-  status : string,
-  amount : string,
-  dateOfPayment ?: string,
-  gateway ?: string,
-  transactionId ?: string,
-  payment ?: string
-}
-
-export const columns: ColumnDef<InvoiceColumn>[] = [
+export const columns: ColumnDef<InvoiceProps>[] = [
   {
     accessorKey: "dueDate",
-    header: "Date",
+    header: "Due Date",
+    cell: ({row}) => <span>{row.original.dueDate ? format(row.original.dueDate,"MMMM do, yyyy") : 'N/A'}</span>
   },
   {
     accessorKey: "invoiceNo",
     header: "Invoice No",
   },
   {
-    accessorKey: "type",
+    accessorKey: "typeName",
     header: "Invoice Type",
   },
   {
     accessorKey: "property_unit",
     header: "Property/Unit",
+    cell: ({row}) => <span>{row.original.propertyName}/{row.original.unitName}</span>
   },
   {
     accessorKey: "amount",
     header: "Amount",
+    cell: ({row}) => <span>{row.original.amount} BDT</span>
   },
   {
     accessorKey: "status",
@@ -60,5 +46,5 @@ export const columns: ColumnDef<InvoiceColumn>[] = [
   {
     id: "actions",
     cell: ({row}) => <CellAction data={row.original} />,
-  },
+  }
 ]

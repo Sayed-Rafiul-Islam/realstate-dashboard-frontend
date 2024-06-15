@@ -190,30 +190,33 @@ export interface TenantsReducerProps {
 
 export interface InvoiceProps {
   _id : string,
+  propertyName : string,
+  unitName : string,
+  typeName : string,
+  gatewayName ?: string,
   invoiceNo : string,
   prefix : string,
-  propertyId : string,
-  unitId : string,
   month : string,
-  dueDate : string,
-  type : string,
-  description : string,
   status : string,
   amount : number,
+  dueDate ?: string,
   dateOfPayment : string,
-  issue : string,
+  description ?: string,
   gateway ?: string,
   transactionId ?: string,
-  payment ?: number,
-  by : {
-    role : string,
-    id : string
-}
+  property : PropertyProps,
+  unit : UnitProps,
+  type : InvoiceTypeProps,
+  owner : OwnerProps
 }
 
 
 export interface InvoicesReducerProps {
   invoicesReducer :  { invoices : InvoiceProps[]} 
+}
+
+export interface OwnerInvoicesReducerProps {
+  ownerInvoicesReducer :  { ownerInvoices : InvoiceProps[]} 
 }
 
 export interface ExpenseProps {

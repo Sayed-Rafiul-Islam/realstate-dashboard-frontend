@@ -2,7 +2,6 @@
 
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { useState } from "react"
-import { InvoiceColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
@@ -11,9 +10,12 @@ import { useDispatch } from "react-redux"
 import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
 import { PreviewInvoice } from "@/components/modals/preview-invoice"
+import { InvoiceProps } from "@/types"
+import api from "@/actions/api"
+import { removeOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
 
 interface CellActionProps {
-    data : InvoiceColumn
+    data : InvoiceProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -26,8 +28,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeInvoice(data))
-        toast.success("Invoice Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteInvoice?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeOwnerInvoice(data))        
+            toast.success("Invoice Removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
 

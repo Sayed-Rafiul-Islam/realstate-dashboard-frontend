@@ -5,61 +5,14 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { InvoicesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, OwnerInvoicesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { RecurringInvoicesClient } from "./components/client";
 
 
 const RecurringSettings = () => {
     const router = useRouter()
-    const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps) => invoicesReducer)
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
-
-
-
-    const formattedInvoices = invoices.map((
-        {
-            _id,
-            invoiceNo,
-            prefix,
-            propertyId,
-            unitId,
-            month,
-            dueDate,
-            type,
-            description,
-            status,
-            amount,
-            dateOfPayment,
-            gateway,
-            transactionId,
-            payment
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.property._id === property._id && item.unit._id === unit._id)[0]
-            return {
-                _id,
-                invoiceNo,
-                prefix,
-                property_unit : `${property.name}/${unit.name}`,
-                tenant,
-                month,
-                dueDate :  format(dueDate,"MMMM do, yyyy"),
-                type,
-                description,
-                status,
-                amount : `BDT ${amount}`,
-                dateOfPayment :  dateOfPayment && format(dateOfPayment,"MMMM do, yyyy"),
-                gateway,
-                transactionId,
-                payment : `BDT ${payment}`
-            }
-           
-    })
+    const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
 
     return ( 
         <div className="flex-col">
@@ -73,7 +26,7 @@ const RecurringSettings = () => {
                     <Button onClick={()=>router.push('/invoices/add')}  className="">New Recurring Invoice</Button>
                 </div>
                 <div>
-                    <RecurringInvoicesClient data={formattedInvoices} />
+                    <RecurringInvoicesClient data={invoices} />
                 </div>
             </div>
         </div>

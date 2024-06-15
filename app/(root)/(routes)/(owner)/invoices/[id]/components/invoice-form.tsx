@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps,  InvoiceProps, InvoiceTypesReducerProps, GatewaysReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps,  InvoiceProps, InvoiceTypesReducerProps, GatewaysReducerProps, OwnerInvoiceTypesReducerProps, OwnerGatewaysReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -26,11 +26,9 @@ import { useDispatch, useSelector } from "react-redux"
 import axios from "axios"
 import api from "@/actions/api"
 import { useRouter } from "next/navigation"
-import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
-import { nanoid } from "@reduxjs/toolkit"
-import { getTime } from "date-fns"
 import { Textarea } from "@/components/ui/textarea"
-import { addInvoice, updateInvoice } from "@/redux/invoices/invoicesSlice"
+import { updateInvoice } from "@/redux/invoices/invoicesSlice"
+import { addOwnerInvoice, updateOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
 
 
 
@@ -42,8 +40,8 @@ interface InvoiceFormProps {
 const formSchema = z.object({
 
     prefix : z.string().min(1, {message : "Prefix Required"}),
-    propertyId : z.string().min(1, {message : "Property Name Required"}),
-    unitId : z.string().min(1, {message : "Unit Name Required"}),
+    property : z.string().min(1, {message : "Property Name Required"}),
+    unit : z.string().min(1, {message : "Unit Name Required"}),
     type : z.string().min(1, {message : "Invoice Type Required"}),
     month : z.string().min(1, {message : "Month Required"}),
     amount : z.coerce.number().min(1, { message : "Amount Required"}),
@@ -114,12 +112,14 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
             value : '12'
         }
     ]
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer)
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps) => gatewaysReducer)
-    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes
+    const gateways = useSelector(({ownerGatewaysReducer} : OwnerGatewaysReducerProps) => ownerGatewaysReducer).ownerGateways
+    
+    
+    const [propertyId,setPropertyId] = useState(initialData ? initialData.property._id : '')
     const [status,setStatus] = useState(initialData ? initialData.status : '')
     const [show,setShow] = useState(initialData ? (initialData.status === 'Paid' ? true : false) : false)
     
@@ -131,7 +131,12 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
     useEffect(()=>{
         const temp = units.filter((item)=> item.property._id === propertyId)
         setThisUnits(temp)
-        form.setValue('unitId', '')       
+        if (initialData?.unit) {
+            form.setValue('unit', initialData.unit._id)  
+        } else {
+            form.setValue('unit', '')  
+        }
+              
     },[propertyId])
 
 
@@ -148,8 +153,34 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
 
     const form = useForm<InvoiceFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            description : ''
+        defaultValues : initialData ? {
+            prefix : initialData.prefix,
+            property : initialData.property._id,
+            unit : initialData.unit._id,
+            type : initialData.type._id,
+            month : initialData.month,
+            amount : initialData.amount,
+            dueDate : initialData?.dueDate ? initialData.dueDate : '',
+            status : initialData.status,
+            dateOfPayment : initialData.dateOfPayment,
+            gateway : initialData.gateway,
+            transactionId : initialData.transactionId,
+            description : initialData.description,
+        }
+        :
+        {
+            prefix : '',
+            property : '',
+            unit : '',
+            type : '',
+            month : '',
+            amount : 0,
+            dueDate : '',
+            status : '',
+            dateOfPayment : '',
+            gateway : '',
+            transactionId : '',
+            description : '',
         }
     })
 
@@ -175,21 +206,34 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
             const formData = {
                 ...data,
                 _id : initialData._id, 
-                invoiceNo : initialData.invoiceNo
+                invoiceNo : initialData.invoiceNo,
+                owner : initialData.owner._id
             }
-            dispatch(updateInvoice(formData))
-            toast.success(toastMessage)
-            router.push('/invoices')
+            const result = await api.patch(`updateInvoice`, formData,{validateStatus: () => true})
+
+            if (result.status === 200) {
+                dispatch(updateOwnerInvoice(result.data))
+                toast.success(toastMessage)
+                router.push('/invoices')
+            } else {
+                toast.error("Something went wrong")
+            }   
            }
         else {            
             const formData = {
                 ...data,
-                _id : '5', 
                 invoiceNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`,
+                owner : owner._id
             }
-            dispatch(addInvoice(formData))
-            toast.success(toastMessage)
-            // router.push('/invoices')
+            const result = await api.post(`createInvoice`, formData,{validateStatus: () => true})
+
+            if (result.status === 200) {
+                dispatch(addOwnerInvoice(result.data))
+                toast.success(toastMessage)
+                router.push('/invoices')
+            } else {
+                toast.error("Something went wrong")
+            }            
         }
    
     }
@@ -306,7 +350,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
 
                     <FormField
                         control={form.control}
-                        name="propertyId"
+                        name="property"
                         render={(item) => (
                             <FormItem>
                                 <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
@@ -314,7 +358,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                                         disabled={loading} 
                                         onValueChange={e=> {
                                             setPropertyId(e)
-                                            item.formState.validatingFields.unitId
+                                            item.formState.validatingFields.unit
                                             
                                             return item.field.onChange(e)
                                         }}
@@ -350,7 +394,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                             
                     <FormField
                         control={form.control}
-                        name="unitId"
+                        name="unit"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>

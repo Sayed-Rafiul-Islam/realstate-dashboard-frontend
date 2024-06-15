@@ -2,9 +2,8 @@
 
 import { useSelector } from "react-redux";
 import { InvoiceForm } from "./components/invoice-form";
-import { InvoiceProps, InvoicesReducerProps, PackageProps, PackagesReducersProps, PropertiesReducerProps, PropertyProps, UnitsReducerProps } from "@/types";
-import Pathname from "@/components/pathname";
-import { Separator } from "@/components/ui/separator";
+import { InvoiceProps, InvoicesReducerProps, OwnerInvoicesReducerProps } from "@/types";
+
 
 const PackagePage = ({
     params
@@ -12,7 +11,7 @@ const PackagePage = ({
     params : { id : string}
 }) => {
 
-    const {invoices} = useSelector(({invoicesReducer} : InvoicesReducerProps) => invoicesReducer)
+    const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
 
     const initialData = invoices.filter((item : InvoiceProps)  =>{
         if (item._id === params.id) {

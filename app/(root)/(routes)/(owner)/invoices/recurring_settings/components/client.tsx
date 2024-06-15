@@ -1,7 +1,7 @@
 "use client"
 
 interface RecurringInvoicesClientProps {
-    data : InvoiceColumn[]
+    data : InvoiceProps[]
 }
 
 
@@ -9,8 +9,9 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { InvoiceColumn, columns } from "./column"
+import {  columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
+import { InvoiceProps } from "@/types"
 
 export const RecurringInvoicesClient : React.FC<RecurringInvoicesClientProps> = ({data}) => {
 
@@ -28,8 +29,7 @@ export const RecurringInvoicesClient : React.FC<RecurringInvoicesClientProps> = 
     }
     return (
         <>
-            <DataTable pagination={true} searchKey="name" columns={columns} data={data} />
-            <Toaster />
+            <DataTable pagination={true} searchKey="invoiceNo" columns={columns} data={data} />
         </>
     )
 }

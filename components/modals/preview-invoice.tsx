@@ -11,11 +11,10 @@ import {
 import { Button } from "../ui/button";
 import { ArrowLeft, Printer } from "lucide-react";
 import { Separator } from "../ui/separator";
-import { GatewaysReducerProps, InvoiceTypesReducerProps, OrderProps } from "@/types";
+import {  InvoiceProps, OwnerTenantsReducerProps } from "@/types";
 import { DataTable } from "../ui/data-table";
 import Image from "next/image";
 import { format } from "date-fns";
-import { InvoiceColumn } from "@/app/(root)/(routes)/(owner)/invoices/all_invoices/components/column";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSelector } from "react-redux";
@@ -23,7 +22,7 @@ import { useSelector } from "react-redux";
 interface PreviewInvoiceProps {
     isOpen : boolean,
     onClose : () => void,
-    data : InvoiceColumn,
+    data : InvoiceProps,
 }
 
 export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
@@ -35,7 +34,8 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
     const pathname = usePathname().split("/")[1]
     const router = useRouter()
 
-    console.log(pathname)
+    const tenant = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
+    .filter((item) => item.property._id === data.property._id && item.unit._id === data.unit._id)[0]
 
     const [print,setPrint] = useState(false)
     const [statusStyle,setStatusStyle] = useState('')
@@ -77,9 +77,9 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                 <div>
                                     <h4 className="font-semibold mb-2">Invoice To</h4>
                                     <div className="flex flex-col gap-1">
-                                        <h6 className="text-xs">{data.tenant?.name}</h6>
-                                        <h6 className="text-xs">{data.tenant?.address}</h6>
-                                        <h6 className="text-xs">{data.tenant?.user.contactNo}</h6>
+                                        <h6 className="text-xs">{tenant?.name}</h6>
+                                        <h6 className="text-xs">{tenant?.address}</h6>
+                                        <h6 className="text-xs">{tenant?.user.contactNo}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -93,9 +93,9 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                 <div className="flex flex-col items-end">
                                     <h4 className="font-semibold mb-2">Pay To</h4>
                                     <div className="flex flex-col gap-1 items-end">
-                                        <h6 className="text-xs">Admin</h6>
-                                        <h6 className="text-xs">Admin Location</h6>
-                                        <h6 className="text-xs">Admin Contact</h6>
+                                        <h6 className="text-xs">{data.owner.user.firstName} {data.owner.user.lastName}</h6>
+                                        <h6 className="text-xs">{data.owner.user.printAddress}</h6>
+                                        <h6 className="text-xs">{data.owner.user.contactNo}</h6>
                                     </div>
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                 </div>
                                 <Separator />
                                 <div className="grid grid-cols-4 text-center text-sm my-2">
-                                    <h4>{data.type}</h4>
+                                    <h4>{data.typeName}</h4>
                                     <h4>{data.description === '' ? 'N/A' : data.description}</h4>
                                     <h4>{data.amount}</h4>
                                     <h4>{data.amount}</h4>
@@ -133,9 +133,9 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                 </div>
                                 <Separator />
                                 <div className="grid grid-cols-4 text-center text-sm my-2">
-                                    <h4>{data.dateOfPayment}</h4>
-                                    <h4>{data.gateway}</h4>
-                                    <h4>{data.transactionId}</h4>
+                                    <h4>{data.status !== 'Paid' ? "N/A" : data.dateOfPayment}</h4>
+                                    <h4>{data.status !== 'Paid' ? "N/A" : data.gatewayName ? data.gatewayName : "N/A"}</h4>
+                                    <h4>{data.status !== 'Paid' ? "N/A" : data.transactionId}</h4>
                                     <h4>{data.status === 'Paid' ? data.amount : 'N/A'}</h4>
                                 </div>
                             </div>

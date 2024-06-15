@@ -39,6 +39,7 @@ import ownerInvoiceTypesReducer from '@/redux/data/owner/settings/invoiceTypesSl
 import ownerMaintainersReducer from '@/redux/data/owner/maintainersSlice'
 import ownerTenantsReducer from '@/redux/data/owner/tenantsSlice'
 import ownerMaintainanceReducer from '@/redux/data/owner/maintainanceRequestsSlice'
+import ownerInvoicesReducer from '@/redux/data/owner/invoicesSlice'
 
 
 
@@ -90,6 +91,7 @@ export const store = configureStore({
     ownerMaintainersReducer,
     ownerTenantsReducer,
     ownerMaintainanceReducer,
+    ownerInvoicesReducer,
 
     maintainerMaintainanceReducer,
 
