@@ -398,20 +398,28 @@ export interface GatewayProps {
   _id : string,
   title : string,
   slug : string,
-  mode : string
+  mode : string,
+  owner : OwnerProps
 }
 
 export interface GatewaysReducerProps {
   gatewaysReducer :  { gateways : GatewayProps[]} 
 }
+export interface OwnerGatewaysReducerProps {
+  ownerGatewaysReducer :  { ownerGateways : GatewayProps[]} 
+}
 export interface InvoiceTypeProps {
   _id : string,
   title : string,
-  tax : number
+  tax : number,
+  owner : OwnerProps
 }
 
 export interface InvoiceTypesReducerProps {
   invoiceTypesReducer :  { invoiceTypes : InvoiceTypeProps[]} 
+}
+export interface OwnerInvoiceTypesReducerProps {
+  ownerInvoiceTypesReducer :  { ownerInvoiceTypes : InvoiceTypeProps[]} 
 }
 export interface ExpenseTypeProps {
   _id : string,

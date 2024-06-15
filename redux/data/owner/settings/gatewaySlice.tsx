@@ -1,51 +1,51 @@
 import { GatewayProps, InvoiceProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const gatewaysJson = typeof window !== "undefined" && localStorage.getItem("gateways")
+const ownerGatewaysJson = typeof window !== "undefined" && localStorage.getItem("ownerGateways")
 
 const initialState = {
-    gateways : gatewaysJson ? JSON.parse(gatewaysJson) : [],
+    ownerGateways : ownerGatewaysJson ? JSON.parse(ownerGatewaysJson) : [],
 }
 
 
 
-const gatewaysSlice = createSlice({
-    name : "gateways",
+const ownerGatewaysSlice = createSlice({
+    name : "ownerGateways",
     initialState,
     reducers : {
-        getGateways : (state, {payload}) => {
-            state.gateways = payload
+        getOwnerGateways : (state, {payload}) => {
+            state.ownerGateways = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("gateways")
-            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+                localStorage.removeItem("ownerGateways")
+                localStorage.setItem("ownerGateways", JSON.stringify(state.ownerGateways))
             }
         },
-        updateGateway : (state, {payload}) => {
-            const index = state.gateways.findIndex((item : GatewayProps) => item._id === payload._id)
-            state.gateways[index] = payload
+        updateOwnerGateway : (state, {payload}) => {
+            const index = state.ownerGateways.findIndex((item : GatewayProps) => item._id === payload._id)
+            state.ownerGateways[index] = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("gateways")
-            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+                localStorage.removeItem("ownerGateways")
+                localStorage.setItem("ownerGateways", JSON.stringify(state.ownerGateways))
             }
         },
 
-        addGateway : (state, {payload}) => {
-            state.gateways.push(payload)
+        addOwnerGateway : (state, {payload}) => {
+            state.ownerGateways.push(payload)
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("gateways")
-            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+                localStorage.removeItem("ownerGateways")
+                localStorage.setItem("ownerGateways", JSON.stringify(state.ownerGateways))
             }
         },
-        removeGateway : (state, {payload}) => {
-            const temp = state.gateways.filter(({_id} : InvoiceProps) => _id !== payload._id)
-            state.gateways = temp
+        removeOwnerGateway : (state, {payload}) => {
+            const temp = state.ownerGateways.filter(({_id} : InvoiceProps) => _id !== payload._id)
+            state.ownerGateways = temp
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("gateways")
-            localStorage.setItem("gateways", JSON.stringify(state.gateways))
+                localStorage.removeItem("ownerGateways")
+                localStorage.setItem("ownerGateways", JSON.stringify(state.ownerGateways))
             }
         },
     }
 })
 
-export const {getGateways,removeGateway,addGateway,updateGateway} = gatewaysSlice.actions
-export default gatewaysSlice.reducer
+export const {getOwnerGateways,removeOwnerGateway,addOwnerGateway,updateOwnerGateway} = ownerGatewaysSlice.actions
+export default ownerGatewaysSlice.reducer

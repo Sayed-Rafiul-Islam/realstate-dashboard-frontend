@@ -1,9 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { GatewayProps, GatewaysReducerProps} from "@/types";
-import Pathname from "@/components/pathname";
-import { Separator } from "@/components/ui/separator";
+import { GatewayProps, OwnerGatewaysReducerProps} from "@/types";
 import { GatewayForm } from "./components/gateway-form";
 
 const GatewayFormPage = ({
@@ -11,7 +9,7 @@ const GatewayFormPage = ({
 } : {
     params : { id : string}
 }) => {
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps) => gatewaysReducer)
+    const gateways = useSelector(({ownerGatewaysReducer} : OwnerGatewaysReducerProps) => ownerGatewaysReducer).ownerGateways
 
     const initialData = gateways.filter((item : GatewayProps)  =>{
         if (item._id === params.id) {

@@ -5,14 +5,14 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { GatewaysReducerProps} from "@/types";
+import { OwnerGatewaysReducerProps} from "@/types";
 import { GatewayClient } from "./components/client";
 
 
 const gatewayPage = () => {
 
     const router = useRouter()
-    const {gateways} = useSelector(({gatewaysReducer} : GatewaysReducerProps) => gatewaysReducer)
+    const gateways = useSelector(({ownerGatewaysReducer} : OwnerGatewaysReducerProps) => ownerGatewaysReducer).ownerGateways
 
     const formattedGateways = gateways.map((
         {

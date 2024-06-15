@@ -1,51 +1,51 @@
 import { InvoiceTypeProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const invoiceTypesJson = typeof window !== "undefined" && localStorage.getItem("invoiceTypes")
+const ownerInvoiceTypesJson = typeof window !== "undefined" && localStorage.getItem("ownerInvoiceTypes")
 
 const initialState = {
-    invoiceTypes : invoiceTypesJson ? JSON.parse(invoiceTypesJson) : [],
+    ownerInvoiceTypes : ownerInvoiceTypesJson ? JSON.parse(ownerInvoiceTypesJson) : [],
 }
 
 
 
-const invoiceTypesSlice = createSlice({
-    name : "invoiceTypes",
+const ownerInvoiceTypesSlice = createSlice({
+    name : "ownerInvoiceTypes",
     initialState,
     reducers : {
-        getInvoiceTypes : (state, {payload}) => {
-            state.invoiceTypes = payload
+        getOwnerInvoiceTypes : (state, {payload}) => {
+            state.ownerInvoiceTypes = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("invoiceTypes")
-            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+                localStorage.removeItem("ownerInvoiceTypes")
+                localStorage.setItem("ownerInvoiceTypes", JSON.stringify(state.ownerInvoiceTypes))
             }
         },
-        removeInvoiceType : (state, {payload}) => {
-            const temp = state.invoiceTypes.filter(({_id} : InvoiceTypeProps) => _id !== payload._id)
-            state.invoiceTypes = temp
+        removeOwnerInvoiceType : (state, {payload}) => {
+            const temp = state.ownerInvoiceTypes.filter(({_id} : InvoiceTypeProps) => _id !== payload._id)
+            state.ownerInvoiceTypes = temp
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("invoiceTypes")
-            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+                localStorage.removeItem("ownerInvoiceTypes")
+                localStorage.setItem("ownerInvoiceTypes", JSON.stringify(state.ownerInvoiceTypes))
             }
         },
-        updateInvoiceType : (state, {payload}) => {
-            const index = state.invoiceTypes.findIndex((item : InvoiceTypeProps) => item._id === payload._id)
-            state.invoiceTypes[index] = payload
+        updateOwnerInvoiceType : (state, {payload}) => {
+            const index = state.ownerInvoiceTypes.findIndex((item : InvoiceTypeProps) => item._id === payload._id)
+            state.ownerInvoiceTypes[index] = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("invoiceTypes")
-            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+                localStorage.removeItem("ownerInvoiceTypes")
+                localStorage.setItem("ownerInvoiceTypes", JSON.stringify(state.ownerInvoiceTypes))
             }
         },
 
-        addInvoiceType : (state, {payload}) => {
-            state.invoiceTypes.push(payload)
+        addOwnerInvoiceType : (state, {payload}) => {
+            state.ownerInvoiceTypes.push(payload)
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("invoiceTypes")
-            localStorage.setItem("invoiceTypes", JSON.stringify(state.invoiceTypes))
+                localStorage.removeItem("ownerInvoiceTypes")
+                localStorage.setItem("ownerInvoiceTypes", JSON.stringify(state.ownerInvoiceTypes))
             }
         }
     }
 })
 
-export const {getInvoiceTypes,removeInvoiceType,addInvoiceType,updateInvoiceType} = invoiceTypesSlice.actions
-export default invoiceTypesSlice.reducer
+export const {getOwnerInvoiceTypes,removeOwnerInvoiceType,addOwnerInvoiceType,updateOwnerInvoiceType} = ownerInvoiceTypesSlice.actions
+export default ownerInvoiceTypesSlice.reducer

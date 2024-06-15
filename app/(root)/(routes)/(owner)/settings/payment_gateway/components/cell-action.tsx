@@ -7,12 +7,10 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
-import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-// import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { removeRent } from "@/redux/rents/rentsSlice"
 import { GatewayColumn } from "./column"
-import { removeGateway } from "@/redux/data/owner/settings/gatewaySlice"
+import {  removeOwnerGateway } from "@/redux/data/owner/settings/gatewaySlice"
+import api from "@/actions/api"
 
 interface CellActionProps {
     data : GatewayColumn
@@ -23,13 +21,20 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const router = useRouter()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
-    const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
 
     const onDelete = async () => {
-        dispatch(removeGateway(data))
-        toast.success("Gateway Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteGateway?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeOwnerGateway(data))        
+            toast.success("Gateway removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
 
@@ -41,11 +46,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            {/* <PreviewInvoice
-                isOpen={openPreview} 
-                onClose={()=>setOpenPreview(false)} 
-                data={data}
-            /> */}
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -57,12 +57,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    {/* <DropdownMenuItem className="cursor-pointer" 
-                    onClick={()=>setOpenPreview(true)}
-                    >
-                        <Eye className="h-4 w-4 mr-2"/>
-                        Details
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem className="cursor-pointer"
                      onClick={()=>router.push(`/settings/payment_gateway/${data._id}`)}
                      >

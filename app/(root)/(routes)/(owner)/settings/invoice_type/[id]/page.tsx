@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { ExpenseTypeProps, InvoiceTypesReducerProps} from "@/types";
+import { ExpenseTypeProps, OwnerInvoiceTypesReducerProps} from "@/types";
 import { InvoiceTypeForm } from "./components/invoice-type-form";
 
 const InvoiceTypeFormPage = ({
@@ -9,7 +9,7 @@ const InvoiceTypeFormPage = ({
 } : {
     params : { id : string}
 }) => {
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer)
+    const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes
 
     const initialData = invoiceTypes.filter((item : ExpenseTypeProps)  =>{
         if (item._id === params.id) {

@@ -5,14 +5,14 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {InvoiceTypesReducerProps} from "@/types";
+import { OwnerInvoiceTypesReducerProps} from "@/types";
 import { InvoiceTypesClient } from "./components/client";
 
 
 const InvoiceTypePage = () => {
 
     const router = useRouter()
-    const {invoiceTypes} = useSelector(({invoiceTypesReducer} : InvoiceTypesReducerProps) => invoiceTypesReducer)
+    const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes
 
     const formattedTypes = invoiceTypes.map((
         {

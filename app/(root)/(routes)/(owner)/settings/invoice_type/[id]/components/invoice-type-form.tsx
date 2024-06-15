@@ -1,6 +1,6 @@
 "use client"
 
-import { InvoiceTypeProps } from "@/types"
+import { InvoiceTypeProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -14,10 +14,11 @@ import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
 import './invoice-type-form.css'
-import { addInvoiceType, updateInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
+import { addOwnerInvoiceType, updateOwnerInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
+import api from "@/actions/api"
 
 
 
@@ -40,6 +41,8 @@ export const InvoiceTypeForm : React.FC<InvoiceTypeFormProps> = ({
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
 
     const title = initialData ? 'Edit Invoice Type' : 'Create Invoice Type'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -59,14 +62,35 @@ export const InvoiceTypeForm : React.FC<InvoiceTypeFormProps> = ({
     const onSubmit = async (data : InvoiceTypeFormValues) => {
 
         if (initialData) {
-            const formData = {...data, _id : initialData._id}
-            dispatch(updateInvoiceType(formData))
+            const formData = {
+                ...data, 
+                _id : initialData._id
+            }
+            const result = await api.patch(`updateInvoiceType`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(updateOwnerInvoiceType(formData))
+                router.push('/settings/invoice_type')
+                toast.success(toastMessage)
+            } else {
+                toast.error("Something went wrong.")
+            }
+            
         } else {
-            const formData = {...data, _id : '10'}
-            dispatch(addInvoiceType(formData))
+            const formData = {
+                ...data, 
+                owner : owner._id
+            }
+            const result = await api.post(`addInvoiceType`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(addOwnerInvoiceType(result.data))
+                toast.success(toastMessage)
+                router.push('/settings/invoice_type')
+            } else {
+                toast.error("Something went wrong.")
+            }
         }
-        toast.success(toastMessage)
-        router.push('/settings/invoice_type')
+
+     
     }
 
     const [isMounted, setIsMounted] = useState(false)

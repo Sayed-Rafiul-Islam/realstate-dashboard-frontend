@@ -7,12 +7,10 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
-import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-// import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { removeRent } from "@/redux/rents/rentsSlice"
 import { InvoiceTypeColumn } from "./column"
-import { removeInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
+import { removeOwnerInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
+import api from "@/actions/api"
 
 interface CellActionProps {
     data : InvoiceTypeColumn
@@ -28,8 +26,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeInvoiceType(data))
-        toast.success("Invoice Type Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteInvoiceType?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeOwnerInvoiceType(data))        
+            toast.success("Invoice type removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
 

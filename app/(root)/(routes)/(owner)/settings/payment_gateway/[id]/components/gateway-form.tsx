@@ -1,6 +1,6 @@
 "use client"
 
-import { GatewayProps } from "@/types"
+import { GatewayProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -17,9 +17,10 @@ import { PackageProps } from '@/types'
 import Pathname from '@/components/pathname'
 import { Checkbox } from '@/components/ui/checkbox'
 import './gateway-form.css'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
-import { addGateway, updateGateway } from "@/redux/data/owner/settings/gatewaySlice"
+import api from "@/actions/api"
+import { addOwnerGateway, updateOwnerGateway } from "@/redux/data/owner/settings/gatewaySlice"
 
 
 type GatewayFormValues = z.infer<typeof formSchema>
@@ -42,6 +43,8 @@ export const GatewayForm : React.FC<GatewayFormProps> = ({
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
 
     const title = initialData ? 'Edit Gateway' : 'Create Gateway'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -62,14 +65,32 @@ export const GatewayForm : React.FC<GatewayFormProps> = ({
     const onSubmit = async (data : GatewayFormValues) => {
 
         if (initialData) {
-            const formData = {...data, _id : initialData._id}
-            dispatch(updateGateway(formData))
+            const formData = {
+                ...data, 
+                _id : initialData._id
+            }
+            const result = await api.patch(`updateGateway`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(updateOwnerGateway(formData))
+                router.push('/settings/payment_gateway')
+                toast.success(toastMessage)
+            } else {
+                toast.error("Something went wrong.")
+            }
         } else {
-            const formData = {...data, _id : '10'}
-            dispatch(addGateway(formData))
+            const formData = {
+                ...data, 
+                owner : owner._id
+            }
+            const result = await api.post(`addGateway`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(addOwnerGateway(result.data))
+                toast.success(toastMessage)
+                router.push('/settings/payment_gateway')
+            } else {
+                toast.error("Something went wrong.")
+            }
         }
-        toast.success(toastMessage)
-        router.push('/settings/payment_gateway')
     }
 
     const [isMounted, setIsMounted] = useState(false)
