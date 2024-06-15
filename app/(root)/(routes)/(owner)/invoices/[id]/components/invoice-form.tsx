@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, MaintainanceRequestProps, MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, InvoiceProps, InvoiceTypesReducerProps, GatewaysReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps,  InvoiceProps, InvoiceTypesReducerProps, GatewaysReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -157,9 +157,10 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
         form.setValue('dateOfPayment','')
         form.setValue('gateway','')
         form.setValue('transactionId','')
+        form.setValue('dueDate','')
         if (status === 'Paid') {
-
             setShow(true)
+            form.setValue('dueDate','00-00-00')
         } else {
             setShow(false)
             form.setValue('dateOfPayment','00-00-00')
@@ -171,16 +172,24 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
     
     const onSubmit = async (data : InvoiceFormValues) => {
         if ( initialData ) {
-            const formData = {...data,_id : initialData._id, invoiceNo : initialData.invoiceNo}
+            const formData = {
+                ...data,
+                _id : initialData._id, 
+                invoiceNo : initialData.invoiceNo
+            }
             dispatch(updateInvoice(formData))
             toast.success(toastMessage)
             router.push('/invoices')
            }
         else {            
-            const formData = {...data,_id : '5', invoiceNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`,}
+            const formData = {
+                ...data,
+                _id : '5', 
+                invoiceNo : `CW${Math.round(new Date().getTime()*Math.random()/1000000)}`,
+            }
             dispatch(addInvoice(formData))
             toast.success(toastMessage)
-            router.push('/invoices')
+            // router.push('/invoices')
         }
    
     }
@@ -282,11 +291,11 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                                         </FormControl>
                                         <SelectContent>
                                             {months.map(({value,label})=>(
-                                                <div key={value}>
-                                                    <SelectItem  value={value} >
+                                               
+                                                    <SelectItem key={value} value={value} >
                                                         {label}
                                                     </SelectItem>
-                                                </div>
+                                                
                                             ))}
                                         </SelectContent>
                                     </Select>
@@ -325,11 +334,11 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                                         </FormControl>
                                         <SelectContent  >
                                             {properties.map(({_id, name} : PropertyProps,index)=>(
-                                                <div >
+                                              
                                                 <SelectItem key={index} value={_id} >
                                                     {name}
                                                 </SelectItem>
-                                                </div>
+                                              
                                             ))}
                                         </SelectContent>
                                     </Select>
@@ -394,19 +403,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="dueDate"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Due Date <span className='text-red-500'>*</span></FormLabel>
-                                <FormControl>
-                                    <Input type='date' disabled={loading} placeholder='' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                  
 
                     
                     <FormField
@@ -448,6 +445,23 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                            </FormItem>
                        )}
                     />
+
+                    {
+                        !show && 
+                        <FormField
+                            control={form.control}
+                            name="dueDate"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Due Date <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='date' disabled={loading} placeholder='' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    }
 
                     {
                         show &&

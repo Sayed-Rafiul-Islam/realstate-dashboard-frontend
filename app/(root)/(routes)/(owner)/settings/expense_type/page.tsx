@@ -5,14 +5,14 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ExpenseTypesReducerProps, ExpensesReducerProps } from "@/types";
+import { OwnerExpenseTypesReducerProps } from "@/types";
 import { ExpenseTypesClient } from "./components/client";
 
 
 const ExpenseTypePage = () => {
 
     const router = useRouter()
-    const {expenseTypes} = useSelector(({expenseTypesReducer} : ExpenseTypesReducerProps) => expenseTypesReducer)
+    const expenseTypes = useSelector(({OwnerExpenseTypesReducer} : OwnerExpenseTypesReducerProps) => OwnerExpenseTypesReducer).ownerExpenseTypes
 
     const formattedExpenseTypes = expenseTypes.map((
         {

@@ -23,9 +23,9 @@ import maintainanceReducer from '@/redux/maintainanceRequests/maintainanceReques
 import earningsReducer from '@/redux/report/earningsSlice'
 import notificationsReducer from '@/redux/report/notificationsSlice'
 import monthlyRecordsReducer from '@/redux/report/monthlyRecordsSlice'
-import gatewaysReducer from '@/redux/settings/gatewaySlice'
-import invoiceTypesReducer from '@/redux/settings/invoiceTypesSlice'
-import expenseTypesReducer from '@/redux/settings/expenseTypesSlice'
+import gatewaysReducer from '@/redux/data/owner/settings/gatewaySlice'
+import invoiceTypesReducer from '@/redux/data/owner/settings/invoiceTypesSlice'
+import expenseTypesReducer from '@/redux/data/owner/settings/expenseTypesSlice'
 import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 
 
@@ -33,6 +33,7 @@ import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 import ownerPropertyReducer from '@/redux/data/owner/propertiesSlice'
 import ownerUnitsReducer from '@/redux/data/owner/unitsSlice'
 import ownerMaintainanceTypesReducer from '@/redux/data/owner/settings/maintainanceTypesSlice'
+import OwnerExpenseTypesReducer from '@/redux/data/owner/settings/expenseTypesSlice'
 import ownerMaintainersReducer from '@/redux/data/owner/maintainersSlice'
 import ownerTenantsReducer from '@/redux/data/owner/tenantsSlice'
 import ownerMaintainanceReducer from '@/redux/data/owner/maintainanceRequestsSlice'
@@ -81,6 +82,7 @@ export const store = configureStore({
     ownerPropertyReducer,
     ownerUnitsReducer,
     ownerMaintainanceTypesReducer,
+    OwnerExpenseTypesReducer,
     ownerMaintainersReducer,
     ownerTenantsReducer,
     ownerMaintainanceReducer,

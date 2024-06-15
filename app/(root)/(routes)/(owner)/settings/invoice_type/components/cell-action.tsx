@@ -12,7 +12,7 @@ import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { removeRent } from "@/redux/rents/rentsSlice"
 import { InvoiceTypeColumn } from "./column"
-import { removeInvoiceType } from "@/redux/settings/invoiceTypesSlice"
+import { removeInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
 
 interface CellActionProps {
     data : InvoiceTypeColumn

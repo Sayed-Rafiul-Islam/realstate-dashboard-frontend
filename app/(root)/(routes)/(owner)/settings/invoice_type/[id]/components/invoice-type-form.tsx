@@ -17,7 +17,7 @@ import Pathname from '@/components/pathname'
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/navigation"
 import './invoice-type-form.css'
-import { addInvoiceType, updateInvoiceType } from "@/redux/settings/invoiceTypesSlice"
+import { addInvoiceType, updateInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
 
 
 

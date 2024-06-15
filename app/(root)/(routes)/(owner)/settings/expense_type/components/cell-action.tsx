@@ -12,8 +12,9 @@ import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { removeRent } from "@/redux/rents/rentsSlice"
 import { ExpenseTypeColumn } from "./column"
-import { removeInvoiceType } from "@/redux/settings/invoiceTypesSlice"
-import { removeExpenseType } from "@/redux/settings/expenseTypesSlice"
+import { removeInvoiceType } from "@/redux/data/owner/settings/invoiceTypesSlice"
+import { removeOwnerExpenseType } from "@/redux/data/owner/settings/expenseTypesSlice"
+import api from "@/actions/api"
 
 interface CellActionProps {
     data : ExpenseTypeColumn
@@ -24,13 +25,20 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const router = useRouter()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
-    const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
 
     const onDelete = async () => {
-        dispatch(removeExpenseType(data))
-        toast.success("Expense Type Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteExpenseType?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeOwnerExpenseType(data))        
+            toast.success("Expense type removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
 
@@ -42,11 +50,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            {/* <PreviewInvoice
-                isOpen={openPreview} 
-                onClose={()=>setOpenPreview(false)} 
-                data={data}
-            /> */}
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -58,12 +61,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    {/* <DropdownMenuItem className="cursor-pointer" 
-                    onClick={()=>setOpenPreview(true)}
-                    >
-                        <Eye className="h-4 w-4 mr-2"/>
-                        Details
-                    </DropdownMenuItem> */}
                     <DropdownMenuItem className="cursor-pointer"
                      onClick={()=>router.push(`/settings/expense_type/${data._id}`)}
                      >

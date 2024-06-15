@@ -19,7 +19,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import './gateway-form.css'
 import { useDispatch } from "react-redux"
 import { useRouter } from "next/navigation"
-import { addGateway, updateGateway } from "@/redux/settings/gatewaySlice"
+import { addGateway, updateGateway } from "@/redux/data/owner/settings/gatewaySlice"
 
 
 type GatewayFormValues = z.infer<typeof formSchema>

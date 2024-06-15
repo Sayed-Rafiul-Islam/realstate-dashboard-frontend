@@ -1,6 +1,6 @@
 "use client"
 
-import { ExpenseTypeProps } from "@/types"
+import { ExpenseTypeProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -14,10 +14,11 @@ import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import Pathname from '@/components/pathname'
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
 import './expense-type-form.css'
-import { addExpenseType, updateExpenseType } from "@/redux/settings/expenseTypesSlice"
+import { addOwnerExpenseType, updateOwnerExpenseType } from "@/redux/data/owner/settings/expenseTypesSlice"
+import api from "@/actions/api"
 
 
 type ExpenseTypeFormValues = z.infer<typeof formSchema>
@@ -38,6 +39,8 @@ export const ExpenseTypeForm : React.FC<ExpenseTypeFormProps> = ({
     const dispatch = useDispatch()
     const router = useRouter()
 
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
 
     const title = initialData ? 'Edit Expense Type' : 'Create Expense Type'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -56,14 +59,36 @@ export const ExpenseTypeForm : React.FC<ExpenseTypeFormProps> = ({
     const onSubmit = async (data : ExpenseTypeFormValues) => {
 
         if (initialData) {
-            const formData = {...data, _id : initialData._id}
-            dispatch(updateExpenseType(formData))
+            const formData = {
+                ...data, 
+                _id : initialData._id
+            }
+            const result = await api.patch(`updateExpenseType`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(updateOwnerExpenseType(formData))
+                toast.success(toastMessage)
+                router.push('/settings/expense_type')
+            } else {
+                toast.error("Something went wrong.")
+            }
+            
         } else {
-            const formData = {...data, _id : '10'}
-            dispatch(addExpenseType(formData))
+            const formData = {
+                ...data, 
+                owner : owner._id
+            }
+            const result = await api.post(`addExpenseType`, formData,{validateStatus: () => true})
+            if (result.status === 200) {
+                dispatch(addOwnerExpenseType(result.data))
+                toast.success(toastMessage)
+                router.push('/settings/expense_type')
+            } else {
+                toast.error("Something went wrong.")
+            }
+            
+            
         }
-        toast.success(toastMessage)
-        router.push('/settings/expense_type')
+      
     }
 
     const [isMounted, setIsMounted] = useState(false)

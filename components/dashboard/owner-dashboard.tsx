@@ -20,6 +20,7 @@ import { getOwnerMaintainers } from "@/redux/data/owner/maintainersSlice";
 import { ColumnDef } from "@tanstack/react-table";
 import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 import { getOwnerMaintainanceRequests } from "@/redux/data/owner/maintainanceRequestsSlice";
+import { getOwnerExpenseTypes } from "@/redux/data/owner/settings/expenseTypesSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -36,6 +37,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
                     const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+                    const expenseTypes = await api.get(`getOwnerExpenseType?ownerId=${owner._id}`,{validateStatus: () => true})
                     const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
                     const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
 
@@ -44,6 +46,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getOwnerUnits(units.data))
                     dispatch(getOwnerTenants(tenants.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    dispatch(getOwnerExpenseTypes(expenseTypes.data))
                     dispatch(getOwnerMaintainers(maintainers.data))
                 }
             }

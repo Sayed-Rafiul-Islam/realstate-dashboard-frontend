@@ -416,10 +416,15 @@ export interface InvoiceTypesReducerProps {
 export interface ExpenseTypeProps {
   _id : string,
   title : string,
+  owner : OwnerProps
 }
 
 export interface ExpenseTypesReducerProps {
   expenseTypesReducer :  { expenseTypes : ExpenseTypeProps[]} 
+}
+
+export interface OwnerExpenseTypesReducerProps {
+  OwnerExpenseTypesReducer :  { ownerExpenseTypes : ExpenseTypeProps[]} 
 }
 
 export interface MaintainanceTypeProps {

@@ -12,7 +12,7 @@ import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { removeRent } from "@/redux/rents/rentsSlice"
 import { GatewayColumn } from "./column"
-import { removeGateway } from "@/redux/settings/gatewaySlice"
+import { removeGateway } from "@/redux/data/owner/settings/gatewaySlice"
 
 interface CellActionProps {
     data : GatewayColumn
