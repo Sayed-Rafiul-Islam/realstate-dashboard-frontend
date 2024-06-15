@@ -1,10 +1,11 @@
 "use client"
 
 interface InvoicesClientProps {
-    data : InvoiceColumn[]
+    data : InvoiceProps[]
 }
-import { InvoiceColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
+import { InvoiceProps } from "@/types"
 import { useEffect, useState } from "react"
 
 export const InvoicesClient : React.FC<InvoicesClientProps> = ({data}) => { 

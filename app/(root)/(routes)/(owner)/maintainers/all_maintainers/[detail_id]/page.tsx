@@ -1,6 +1,6 @@
 "use client"
 
-import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, MaintainanceRequestsReducerProps, MaintainerProps, MaintainersReducerProps, OwnerInvoicesReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 import { useDispatch, useSelector } from "react-redux"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
@@ -36,7 +36,7 @@ const MaintainerDetails = ({
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
     
     const maintainer = maintainers.filter((item)  => item._id === params.detail_id)[0]
-    const {invoices} = useSelector(({ invoicesReducer } : InvoicesReducerProps) => invoicesReducer)
+    const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
     const threeRequests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps)=>ownerMaintainanceReducer).ownerMaintainanceRequests.slice(0,3)
 
     const onDelete = async () => {
@@ -52,37 +52,7 @@ const MaintainerDetails = ({
         setOpen(false)   
     }
 
-    // const property = properties.filter((item : PropertyProps)  =>{
-    //     if (item._id === maintainer?.) {
-    //         return item
-    //     } 
-    // })[0]
 
-    // const unit = units.filter((item : UnitProps)  =>{
-    //     if (item._id === maintainer?.unitId) {
-    //         return item
-    //     } 
-    // })[0]
-
-
-
-    const formattedInvoices = invoices.map((
-        {
-            _id,
-            dateOfPayment,
-            dueDate,
-            invoiceNo,
-            amount,
-            type,
-            status
-        }) => ({
-            _id,
-            date : dateOfPayment ? format(dateOfPayment,"MMMM do, yyyy") : format(dueDate,"MMMM do, yyyy"),
-            invoiceNo : `#${invoiceNo}`,
-            amount : `BDT ${amount}`,
-            type,
-            status
-    }))
 
 
     const [isMounted, setIsMounted] = useState(false)
@@ -268,7 +238,7 @@ const MaintainerDetails = ({
                             <h2 className="text-lg font-semibold">Invoices</h2>
                             <button className="text-sm text-blue-500 flex gap-2 items-center"><ArrowLeft size={15} />View All</button>
                         </div>
-                        <InvoicesClient data={formattedInvoices} />
+                        <InvoicesClient data={invoices} />
                     </div>
                 </div>
     
