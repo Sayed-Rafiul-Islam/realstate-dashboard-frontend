@@ -1,7 +1,7 @@
 "use client"
 
 interface RentsClientProps {
-    data : RentColumn[]
+    data : RentProps[]
 }
 
 import { 
@@ -17,28 +17,28 @@ import { useEffect, useState } from "react"
 
 
 
-import { RentColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
+import { PropertiesReducerProps, PropertyProps, RentProps, UnitProps, UnitsReducerProps } from '@/types'
 
 import '../rents.css'
 
 export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
 
     const [rents, setRents] = useState(data)
-    const [status, setStatus] = useState('')
+    // const [status, setStatus] = useState('')
 
 
-    useEffect(()=>{
-        if (status === '') {
-            setRents(data)
-        } else {
-            const temp = data.filter((item) => item.status === status) 
-            setRents(temp) 
-        }
+    // useEffect(()=>{
+    //     if (status === '') {
+    //         setRents(data)
+    //     } else {
+    //         const temp = data.filter((item) => item.status === status) 
+    //         setRents(temp) 
+    //     }
         
-    },[status,data])
+    // },[status,data])
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -56,7 +56,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
         <>        
             <div className="select-filters-wrapper mb-4">
                 <div>
-                    <Select
+                    {/* <Select
                         onValueChange={e=> {
                             if (e === 'all') {
                                 setStatus('')
@@ -86,7 +86,7 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
                                         Due
                                     </SelectItem>
                         </SelectContent>
-                    </Select>
+                    </Select> */}
                 </div>
             </div>   
             <DataTable pagination={true} searchKey="month_year" columns={columns} data={rents} />

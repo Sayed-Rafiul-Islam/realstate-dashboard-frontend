@@ -133,7 +133,7 @@ export const PreviewInvoice : React.FC<PreviewInvoiceProps> = ({
                                 </div>
                                 <Separator />
                                 <div className="grid grid-cols-4 text-center text-sm my-2">
-                                    <h4>{data.status !== 'Paid' ? "N/A" : data.dateOfPayment}</h4>
+                                    <h4>{data.status !== 'Paid' ? "N/A" : format(data.dateOfPayment,"MMMM do, yyyy")}</h4>
                                     <h4>{data.status !== 'Paid' ? "N/A" : data.gatewayName ? data.gatewayName : "N/A"}</h4>
                                     <h4>{data.status !== 'Paid' ? "N/A" : data.transactionId}</h4>
                                     <h4>{data.status === 'Paid' ? data.amount : 'N/A'}</h4>

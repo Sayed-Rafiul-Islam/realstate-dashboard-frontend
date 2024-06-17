@@ -197,6 +197,7 @@ export interface InvoiceProps {
   invoiceNo : string,
   prefix : string,
   month : string,
+  year : number,
   status : string,
   amount : number,
   dueDate ?: string,
@@ -291,6 +292,7 @@ export interface RentProps {
   gatewayName : string,
   invoiceNo : string,
   month : string,
+  year : number,
   amount : number,
   dateOfPayment : string,
   description ?: string,
@@ -304,6 +306,10 @@ export interface RentProps {
 
 export interface RentsReducerProps {
   rentsReducer :  { rents : RentProps[]} 
+}
+
+export interface TenantRentsReducerProps {
+  tenantRentsReducer :  { tenantRents : RentProps[]} 
 }
 
 export interface MaintainerProps {

@@ -2,34 +2,19 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-import { TenantProps } from "@/types"
+import { RentProps, TenantProps } from "@/types"
+import { format } from "date-fns"
 
-export interface RentColumn {
-  _id : string,
-  invoiceNo : string,
-  propertyId : string,
-  unitId : string,
-  property_unit : string,
-  tenant : TenantProps,
-  month_year : string,
-  dueDate : string,
-  description : string,
-  status : string,
-  amount : string,
-  dateOfPayment ?: string,
-  gateway ?: string,
-  transactionId ?: string,
-  payment ?: string
-}
-
-export const columns: ColumnDef<RentColumn>[] = [
+export const columns: ColumnDef<RentProps>[] = [
   {
-    accessorKey: "dueDate",
+    accessorKey: "dateOfPayment",
     header: "Date",
+    cell: ({row}) => <span>{format(row.original.dateOfPayment,"MMMM do, yyyy")}</span>
   },
   {
     accessorKey: "month_year",
     header: "Month/Year",
+    cell: ({row}) => <span>{row.original.month}/{row.original.year}</span>
   },
   {
     accessorKey: "amount",
@@ -38,16 +23,7 @@ export const columns: ColumnDef<RentColumn>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({row}) => {
-      if (row.original.status === "Paid") {
-          return <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
-      }
-      else if (row.original.status === "Pending") {
-          return <p className="text-amber-600 bg-amber-100 px-4 py-2 rounded-lg">Pending</p> 
-      } else {
-          return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
-      }
-    }        
+    cell: ({row}) => <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p>       
   },
   {
     id: "actions",

@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps,  InvoiceProps, InvoiceTypesReducerProps, GatewaysReducerProps, OwnerInvoiceTypesReducerProps, OwnerGatewaysReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerInfoReducerProps } from "@/types"
+import { PropertyProps, UnitProps,  InvoiceProps, OwnerInvoiceTypesReducerProps, OwnerGatewaysReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, OwnerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -45,6 +45,7 @@ const formSchema = z.object({
     unit : z.string().min(1, {message : "Unit Name Required"}),
     type : z.string().min(1, {message : "Invoice Type Required"}),
     month : z.string().min(1, {message : "Month Required"}),
+    year : z.coerce.number().min(4, {message : "Year Required"}),
     amount : z.coerce.number().min(1, { message : "Amount Required"}),
     dueDate : z.string().min(1, {message : "Due Date Required"}),
     status : z.string().min(1, {message : "Status Required"}),
@@ -160,6 +161,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
             unit : initialData.unit._id,
             type : initialData.type._id,
             month : initialData.month,
+            year : initialData.year,
             amount : initialData.amount,
             dueDate : initialData?.dueDate ? initialData.dueDate : '',
             status : initialData.status,
@@ -175,6 +177,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
             unit : '',
             type : '',
             month : '',
+            year : 2020,
             amount : 0,
             dueDate : '',
             status : '',
@@ -211,7 +214,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                 owner : initialData.owner._id
             }
             const result = await api.patch(`updateInvoice`, formData,{validateStatus: () => true})
-            console.log(result.status,result.data)
+            console.log(formData)
 
             if (result.status === 200) {
                 dispatch(updateOwnerInvoice(result.data))
@@ -375,6 +378,20 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                                             ))}
                                         </SelectContent>
                                     </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="year"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Year<span className='text-red-500'>*</span></FormLabel>
+                                <FormControl>
+                                    <Input type='number' disabled={loading} placeholder='2024' {...field} />
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}

@@ -120,7 +120,7 @@ export const PreviewRent : React.FC<PreviewRentProps> = ({
                                 </div>
                                 <Separator />
                                 <div className="grid grid-cols-4 text-center text-sm my-2">
-                                    <h4>{data.dateOfPayment}</h4>
+                                    <h4>{format(data.dateOfPayment,"MMMM do, yyyy")}</h4>
                                     <h4>{data.gatewayName}</h4>
                                     <h4>{data.transactionId}</h4>
                                     <h4>{data.amount}</h4>

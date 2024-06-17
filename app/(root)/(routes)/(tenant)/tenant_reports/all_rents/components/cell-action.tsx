@@ -9,12 +9,12 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-// import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { RentColumn } from "./column"
 import { removeRent } from "@/redux/data/owner/rentsSlice"
+import { RentProps } from "@/types"
+import { PreviewRent } from "@/components/modals/preview-rent"
 
 interface CellActionProps {
-    data : RentColumn
+    data : RentProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -34,19 +34,26 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     return (
         <>
-            <AlertModal
+            {/* <AlertModal
                 isOpen={open} 
                 onClose={()=>setOpen(false)} 
                 onConfirm={onDelete} 
                 loading={loading} 
-            />
-            {/* <PreviewInvoice
+            /> */}
+            <PreviewRent
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            /> */}
+            />
+
+            <button 
+                onClick={()=>setOpenPreview(true)}
+                className="hover:text-blue-500 transition-all"
+            >
+                <Eye className="h-4 w-4 mr-2"/>
+            </button>
             
-            <DropdownMenu>
+            {/* <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant='ghost' className="h-8 w-8 p-0">
                         <MoreHorizontal className="h-4 w-4" />
@@ -65,7 +72,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
         </>
     )
 }
