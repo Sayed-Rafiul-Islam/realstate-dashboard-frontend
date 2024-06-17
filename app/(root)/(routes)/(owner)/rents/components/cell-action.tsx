@@ -7,14 +7,15 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
-import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-// import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { RentColumn } from "./column"
-import { removeRent } from "@/redux/rents/rentsSlice"
+import { removeRent } from "@/redux/data/owner/rentsSlice"
+import { InvoiceProps, RentProps } from "@/types"
+import { PreviewInvoice } from "@/components/modals/preview-invoice"
+import { PreviewRent } from "@/components/modals/preview-rent"
+import api from "@/actions/api"
 
 interface CellActionProps {
-    data : RentColumn
+    data : RentProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -27,8 +28,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeRent(data))
-        toast.success("Rent Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteRent?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeRent(data))     
+            toast.success("Invoice Removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
 
@@ -40,11 +49,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            {/* <PreviewInvoice
+            <PreviewRent
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            /> */}
+            />
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -59,12 +68,6 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpenPreview(true)}>
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer"
-                    //  onClick={()=>router.push(`/invoices/${data._id}`)}
-                     >
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />

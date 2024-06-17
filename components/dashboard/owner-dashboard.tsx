@@ -24,6 +24,7 @@ import { getOwnerExpenseTypes } from "@/redux/data/owner/settings/expenseTypesSl
 import { getOwnerInvoiceTypes } from "@/redux/data/owner/settings/invoiceTypesSlice";
 import { getOwnerGateways } from "@/redux/data/owner/settings/gatewaySlice";
 import { getOwnerInvoices } from "@/redux/data/owner/invoicesSlice";
+import { getRents } from "@/redux/data/owner/rentsSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -46,6 +47,8 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
                     const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
                     const invoices = await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
+
 
                     dispatch(getOwnerMaintainanceRequests(requests.data))
                     dispatch(getOwnerProperties(properties.data))
@@ -57,6 +60,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getOwnerGateways(gateways.data))
                     dispatch(getOwnerMaintainers(maintainers.data))
                     dispatch(getOwnerInvoices(invoices.data))
+                    dispatch(getRents(rents.data))
                 }
             }
             getData()
@@ -158,13 +162,13 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
         },
     ]
 
-    rents.map(({payment,dateOfPayment}) =>{
-        totalRent = totalRent + payment
+    rents.map(({amount,dateOfPayment}) =>{
+        totalRent = totalRent + amount
         const monthNum = dateOfPayment.split("-")[1]
 
         chartRents.map(({month},index)=>{
             if (month === monthNum) {
-                chartRents[index].amount = chartRents[index].amount + payment
+                chartRents[index].amount = chartRents[index].amount + amount
             }
         })
     })

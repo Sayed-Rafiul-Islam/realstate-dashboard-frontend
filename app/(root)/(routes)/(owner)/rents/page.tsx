@@ -5,7 +5,7 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { OwnerInfoReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerInvoicesReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { RentsClient } from "./components/client";
@@ -17,70 +17,9 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 const RentsPage = () => {
     
-        const router = useRouter()
-        const dispatch = useDispatch()
-    const [isMounted, setIsMounted] = useState(false)
-
-    const {rents} = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer)
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-
-
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
-                    const result = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerUnits(result.data))
-                    dispatch(getOwnerProperties(data))
-                }
-                setIsMounted(true)
-            }
-            getData()
-    },[])
-    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
-    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
-    const {tenants} = useSelector(({tenantsReducer} : TenantsReducerProps) => tenantsReducer)
-
-    const formattedRents = rents.map((
-        {
-            _id,
-            dueDate,
-            invoiceNo,
-            propertyId,
-            unitId,
-            month,
-            year,
-            amount,
-            status,
-            description,
-            dateOfPayment,
-            gateway,
-            transactionId,
-            payment
-        }) => {
-             
-            // console.log(properties)
-            const property = properties.filter((item)=> item._id === unitId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const tenant = tenants.filter((item)=> item.property?._id === propertyId && item.unit._id === unitId)[0]
-            return {
-                _id,
-                invoiceNo,
-                propertyId,
-                unitId,
-                property_unit : `${property?.name}/${unit?.name}`,
-                tenant,
-                month_year : `${month} ${year}`,
-                dueDate :  format(dueDate,"MMMM do, yyyy"),
-                description,
-                status,
-                amount : `BDT ${amount}`,
-                dateOfPayment :  dateOfPayment && format(dateOfPayment,"MMMM do, yyyy"),
-                gateway,
-                transactionId,
-                payment : `BDT ${payment}`
-            }
-    })
+    const router = useRouter()
+    const dispatch = useDispatch()
+    const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)   
 
     return ( 
         <div className="flex-col">
@@ -92,7 +31,7 @@ const RentsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <RentsClient data={formattedRents} />
+                    <RentsClient data={rents} />
                 </div>
             </div>
         </div>

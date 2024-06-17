@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation"
 import { Textarea } from "@/components/ui/textarea"
 import { updateInvoice } from "@/redux/invoices/invoicesSlice"
 import { addOwnerInvoice, updateOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
+import { addRent, removeRent, updateRent } from "@/redux/data/owner/rentsSlice"
 
 
 
@@ -210,6 +211,7 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                 owner : initialData.owner._id
             }
             const result = await api.patch(`updateInvoice`, formData,{validateStatus: () => true})
+            console.log(result.status,result.data)
 
             if (result.status === 200) {
                 dispatch(updateOwnerInvoice(result.data))
@@ -217,6 +219,21 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
                 router.push('/invoices')
             } else if (result.status === 404) {
                 toast.error("Tenant not found.")
+            } else if (result.status === 201) {
+                if (result.data.newRent) {
+                    dispatch(addRent(result.data.newRent))
+                    toast.success("Invoice updated and rent added.")
+                } else {
+                    dispatch(updateRent(result.data.updatedRent))
+                    toast.success("Invoice and rent updated.")
+                }
+                dispatch(updateOwnerInvoice(result.data.updatedInvoice))
+                router.push('/invoices')
+            } else if (result.status === 202) {
+                dispatch(updateOwnerInvoice(result.data.updatedInvoice))
+                dispatch(removeRent(result.data.rent))
+                toast.success("Invoice updated and rent removed.")
+                router.push('/invoices')
             }
             
             else {
@@ -232,9 +249,16 @@ export const InvoiceForm : React.FC<InvoiceFormProps> = ({
             const result = await api.post(`createInvoice`, formData,{validateStatus: () => true})
 
             if (result.status === 200) {
+                if (result.data)
                 dispatch(addOwnerInvoice(result.data))
                 toast.success(toastMessage)
                 router.push('/invoices')
+            } else if (result.status === 201) {
+                dispatch(addRent(result.data.newRent))
+                dispatch(addOwnerInvoice(result.data.newInvoice))
+                toast.success(toastMessage)
+                toast.success("Rent Added")
+
             } else if (result.status === 404) {
                 toast.error("Tenant not found.")
             }

@@ -285,19 +285,21 @@ export interface MaintainerDocumentsReducerProps {
 
 export interface RentProps {
   _id : string,
-  dueDate : string,
+  propertyName : string,
+  unitName : string,
+  tenantName : string,
+  gatewayName : string,
   invoiceNo : string,
-  propertyId : string,
-  unitId : string,
   month : string,
-  year : string,
   amount : number,
-  status : string,
-  description : string,
   dateOfPayment : string,
-  gateway : string,
+  description ?: string,
   transactionId : string,
-  payment : number
+  gateway : GatewayProps,
+  property : PropertyProps,
+  unit : UnitProps,
+  tenant : TenantProps,
+  owner : OwnerProps
 }
 
 export interface RentsReducerProps {

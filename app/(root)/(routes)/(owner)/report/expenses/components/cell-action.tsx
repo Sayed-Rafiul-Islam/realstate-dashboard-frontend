@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux"
 import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { removeRent } from "@/redux/rents/rentsSlice"
+import { removeRent } from "@/redux/data/owner/rentsSlice"
 import { ExpenseColumn } from "./column"
 
 interface CellActionProps {

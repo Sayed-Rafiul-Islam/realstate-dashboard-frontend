@@ -11,7 +11,7 @@ import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { RentColumn } from "./column"
-import { removeRent } from "@/redux/rents/rentsSlice"
+import { removeRent } from "@/redux/data/owner/rentsSlice"
 
 interface CellActionProps {
     data : RentColumn

@@ -1,6 +1,5 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { 
     Dialog, 
     DialogContent, 
@@ -8,15 +7,10 @@ import {
     DialogHeader, 
     DialogTitle 
 } from "@/components/ui/dialog";
-import { Button } from "../ui/button";
-import { ArrowLeft, Printer } from "lucide-react";
+
 import { Separator } from "../ui/separator";
-import { OrderProps } from "@/types";
-import { DataTable } from "../ui/data-table";
 import Image from "next/image";
-import { format } from "date-fns";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { DocumentColumn } from "@/app/(root)/(routes)/(owner)/documents/components/column";
 
 interface PreviewDocumentProps {

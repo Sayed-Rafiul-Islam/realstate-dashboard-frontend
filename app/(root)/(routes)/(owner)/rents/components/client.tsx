@@ -1,7 +1,7 @@
 "use client"
 
 interface RentsClientProps {
-    data : RentColumn[]
+    data : RentProps[]
 }
 
 import { 
@@ -17,10 +17,10 @@ import { useEffect, useState } from "react"
 
 
 
-import { RentColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
+import { InvoiceProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, RentProps, UnitProps, UnitsReducerProps } from '@/types'
 import { Button } from '@/components/ui/button'
 
 import '../rents.css'
@@ -28,8 +28,8 @@ import '../rents.css'
 export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
 
     
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
 
     const [rents, setRents] = useState(data)
     const [thisUnits, setThisUnits] = useState<UnitProps[]>([])
@@ -44,10 +44,10 @@ export const RentsClient : React.FC<RentsClientProps> = ({data}) => {
             const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
-                const temp = data.filter((item) => item.propertyId === property) 
+                const temp = data.filter((item) => item.property._id === property) 
                 setRents(temp)
             } else {
-                const temp = data.filter((item) => item.propertyId === property && item.unitId === unit) 
+                const temp = data.filter((item) => item.property._id === property && item.unit._id === unit) 
                 setRents(temp)
             }
             
