@@ -16,6 +16,8 @@ import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintaina
 import { getTenantInvoices } from "@/redux/data/tenant/invoicesSlice";
 import { getOwnerInvoiceTypes } from "@/redux/data/owner/settings/invoiceTypesSlice";
 import { getTenantRents } from "@/redux/data/tenant/rentsSlice";
+import { getDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice";
+import { getTenantDocuments } from "@/redux/documents/tenantDocumentsSlice";
 
 interface TenantDashboardProps {
     tenant : TenantProps
@@ -27,11 +29,6 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
     const router = useRouter()
     const dispatch = useDispatch()
 
-    
-
-
-
-
     useEffect(()=>{
         const getData = async () => {
 
@@ -41,14 +38,18 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${tenant.owner._id}`,{validateStatus: () => true})
                     const invoices = await api.get(`getTenantInvoices?property=${tenant.property._id}&unit=${tenant.unit._id}`,{validateStatus: () => true})
                     const invoiceTypes = await api.get(`getOwnerInvoiceType?ownerId=${tenant.owner._id}`,{validateStatus: () => true})
+                    const documentSettings = await api.get(`getOwnerDocumentSettings?ownerId=${tenant.owner._id}`,{validateStatus: () => true})
                     const rents = await api.get(`geTenantRents?tenantId=${tenant._id}`,{validateStatus: () => true})
+                    const documents = await api.get(`getTenantDocument?tenantId=${tenant._id}`,{validateStatus: () => true})
 
 
                     dispatch(getTenantMaintainanceRequests(requests.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     dispatch(getTenantInvoices(invoices.data))
                     dispatch(getOwnerInvoiceTypes(invoiceTypes.data))
+                    dispatch(getDocumentSettings(documentSettings.data))
                     dispatch(getTenantRents(rents.data))
+                    dispatch(getTenantDocuments(documents.data))
 
            
                 }

@@ -13,10 +13,10 @@ import api from "@/actions/api";
 
 const ALLMaintainers = () => {
     const router = useRouter()
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
-
-    const [data,setData] = useState(maintainers)
+    
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const [data,setData] = useState(maintainers)
    
 
     // useEffect(()=>{
@@ -39,7 +39,7 @@ const ALLMaintainers = () => {
                 </div>
                 <Separator />
 
-                <Maintainers data={data} />
+                <Maintainers data={maintainers} />
             </div>
         </div>
      );

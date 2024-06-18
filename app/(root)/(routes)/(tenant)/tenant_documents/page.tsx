@@ -15,46 +15,6 @@ const DocumnetsPage = () => {
     const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
     const {tenantDocuments} = useSelector(({tenantDocumentsReducer} : TenantDocumentsReducerProps) => tenantDocumentsReducer)
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-
-    const thisTenantDocuments = tenantDocuments.filter(({tenantId})=>tenantId === tenant._id)
-
-
-
-
-    const formattedDocuments = thisTenantDocuments.map((
-        {
-            _id,
-            type,
-            tenantId,
-            propertyId,
-            unitId,
-            tenantName,
-            docFront,
-            docBack,
-            document,
-            status,
-        },index : number) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            return {
-                serial : index + 1,
-                _id,
-                tenantId,
-                propertyId,
-                unitId,
-                type,
-                tenantName,
-                property_unit : `${property.name}/${unit.name}`,
-                docFront,
-                docBack,
-                document,
-                status
-            }
-           
-    })
-
 
     return ( 
         <div className="flex-col">
@@ -76,7 +36,7 @@ const DocumnetsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <DocumentsClient data={formattedDocuments} />
+                    <DocumentsClient data={tenantDocuments} />
                 </div>
             </div>
         </div>

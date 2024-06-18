@@ -9,11 +9,26 @@ import { GatewaysReducerProps, InvoiceTypesReducerProps, InvoicesReducerProps, P
 import { format } from "date-fns";
 import { InvoicesClient } from "./components/client";
 import Link from "next/link";
+import { useState } from "react";
 
 
 const TenantInvoicesPage = () => {
     const router = useRouter()
     const invoices = useSelector(({tenantInvoicesReducer} : TenantInvoicesReducerProps)=>tenantInvoicesReducer).tenantInvoices
+
+    // const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    
+    // const [data,setData] = useState(invoices)
+
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} = await api.get(`getTenantInvoices?property=${tenant.property._id}&unit=${tenant.unit._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     return ( 
         <div className="flex-col">

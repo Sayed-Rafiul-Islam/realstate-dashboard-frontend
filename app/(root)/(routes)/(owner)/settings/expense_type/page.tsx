@@ -17,10 +17,10 @@ const ExpenseTypePage = () => {
     const expenseTypes = useSelector(({OwnerExpenseTypesReducer} : OwnerExpenseTypesReducerProps) => OwnerExpenseTypesReducer).ownerExpenseTypes
 
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(expenseTypes)
+    // const [data,setData] = useState(expenseTypes)
    
 
     // useEffect(()=>{
@@ -33,7 +33,7 @@ const ExpenseTypePage = () => {
     //     getData()
     // },[])
     
-    const formattedExpenseTypes = data.map((
+    const formattedExpenseTypes = expenseTypes.map((
         {
             _id,
             title,

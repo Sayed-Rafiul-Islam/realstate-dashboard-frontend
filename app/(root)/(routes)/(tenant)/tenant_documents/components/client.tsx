@@ -1,7 +1,7 @@
 "use client"
 
-interface ExpensesClientProps {
-    data : DocumentColumn[]
+interface DocumentClientProps {
+    data : DocumentProps[]
 }
 
 
@@ -9,10 +9,11 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { DocumentColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
+import { DocumentProps } from "@/types"
 
-export const DocumentsClient : React.FC<ExpensesClientProps> = ({data}) => {
+export const DocumentsClient : React.FC<DocumentClientProps> = ({data}) => {
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -28,7 +29,7 @@ export const DocumentsClient : React.FC<ExpensesClientProps> = ({data}) => {
     }
     return (
         <>
-            <DataTable pagination={true} searchKey="tenantName" columns={columns} data={data} />
+            <DataTable pagination={true} searchKey="typeName" columns={columns} data={data} />
         </>
     )
 }

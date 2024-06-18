@@ -15,10 +15,10 @@ import api from "@/actions/api";
 const RecurringSettings = () => {
     const router = useRouter()
     const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(invoices)
+    // const [data,setData] = useState(invoices)
    
 
     // useEffect(()=>{
@@ -44,7 +44,7 @@ const RecurringSettings = () => {
                     <Button onClick={()=>router.push('/invoices/add')}  className="">New Recurring Invoice</Button>
                 </div>
                 <div>
-                    <RecurringInvoicesClient data={data} />
+                    <RecurringInvoicesClient data={invoices} />
                 </div>
             </div>
         </div>

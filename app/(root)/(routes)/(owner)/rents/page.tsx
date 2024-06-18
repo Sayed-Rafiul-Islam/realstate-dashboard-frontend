@@ -18,9 +18,9 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 const RentsPage = () => {
     
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)   
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
-    const [data,setData] = useState(rents)
+    // const [data,setData] = useState(rents)
    
 
     // useEffect(()=>{
@@ -44,7 +44,7 @@ const RentsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <RentsClient data={data} />
+                    <RentsClient data={rents} />
                 </div>
             </div>
         </div>

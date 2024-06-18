@@ -12,9 +12,9 @@ const AllUnitsPage = () => {
 
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
     const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
-    const [data,setData] = useState(units)
+    // const [data,setData] = useState(units)
    
 
     // useEffect(()=>{
@@ -32,7 +32,7 @@ const AllUnitsPage = () => {
 
 
 
-    const formattedUnits = data.map((
+    const formattedUnits = units.map((
         {
             _id,
             name,

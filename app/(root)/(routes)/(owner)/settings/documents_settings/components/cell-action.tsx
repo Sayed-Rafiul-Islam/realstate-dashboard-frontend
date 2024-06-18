@@ -1,20 +1,21 @@
 "use client"
 
-import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, Eye, MoreHorizontal, Printer, Trash } from "lucide-react"
 import { useState } from "react"
-import { DocumentColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import toast from "react-hot-toast"
-import { removeExpense } from "@/redux/expenses/expensesSlice"
-import { PreviewDocument } from "@/components/modals/preview-document"
-import { removeDocument } from "@/redux/documents/documentsSlice"
+import { removeOwnerExpenseType } from "@/redux/data/owner/settings/expenseTypesSlice"
+import api from "@/actions/api"
+import { DocumentSettingsProps } from "@/types"
+import { PreviewDocumentSettings } from "@/components/modals/preview-document-settings"
+import { removeDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice"
 
 interface CellActionProps {
-    data : DocumentColumn
+    data : DocumentSettingsProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -27,13 +28,18 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeDocument(data))
-        toast.success("Document Deleted.")
+        setLoading(true)
+        const result = await api.delete(`deleteDocumentSettings?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeDocumentSettings(data))        
+            toast.success("Document settings removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
         setOpen(false)
     }
-
-
-
 
     return (
         <>
@@ -43,7 +49,8 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 onConfirm={onDelete} 
                 loading={loading} 
             />
-            <PreviewDocument
+
+            <PreviewDocumentSettings
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
@@ -59,15 +66,19 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>router.push(`/documents/${data._id}`)}>
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
-                    </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpenPreview(true)}>
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
+                    <DropdownMenuItem className="cursor-pointer"
+                     onClick={()=>router.push(`/settings/documents_settings/${data._id}`)}
+                     >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer" 
+                    onClick={()=>setOpen(true)}
+                    >
                         <Trash className="h-4 w-4 mr-2" />
                         Delete
                     </DropdownMenuItem>

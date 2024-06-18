@@ -18,10 +18,10 @@ const ExpensesPage = () => {
     const router = useRouter()
     const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(expenses)
+    // const [data,setData] = useState(expenses)
    
 
     // useEffect(()=>{
@@ -45,7 +45,7 @@ const ExpensesPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <ExpensesClient data={data} />
+                    <ExpensesClient data={expenses} />
                 </div>
             </div>
         </div>

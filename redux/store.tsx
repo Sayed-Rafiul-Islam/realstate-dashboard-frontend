@@ -30,12 +30,14 @@ import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 
 
 
+
 import ownerPropertyReducer from '@/redux/data/owner/propertiesSlice'
 import ownerUnitsReducer from '@/redux/data/owner/unitsSlice'
 import ownerMaintainanceTypesReducer from '@/redux/data/owner/settings/maintainanceTypesSlice'
 import OwnerExpenseTypesReducer from '@/redux/data/owner/settings/expenseTypesSlice'
 import ownerGatewaysReducer from '@/redux/data/owner/settings/gatewaySlice'
 import ownerInvoiceTypesReducer from '@/redux/data/owner/settings/invoiceTypesSlice'
+import documentSettingsReducer from '@/redux/data/owner/settings/documentSettingsSlice'
 import ownerMaintainersReducer from '@/redux/data/owner/maintainersSlice'
 import ownerTenantsReducer from '@/redux/data/owner/tenantsSlice'
 import ownerMaintainanceReducer from '@/redux/data/owner/maintainanceRequestsSlice'
@@ -85,12 +87,14 @@ export const store = configureStore({
     maintainanceTypesReducer,
 
 
+
     ownerPropertyReducer,
     ownerUnitsReducer,
     ownerMaintainanceTypesReducer,
     OwnerExpenseTypesReducer,
     ownerGatewaysReducer,
     ownerInvoiceTypesReducer,
+    documentSettingsReducer,
     ownerMaintainersReducer,
     ownerTenantsReducer,
     ownerMaintainanceReducer,

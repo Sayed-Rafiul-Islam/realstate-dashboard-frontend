@@ -65,7 +65,7 @@ export const ExpenseTypeForm : React.FC<ExpenseTypeFormProps> = ({
             }
             const result = await api.patch(`updateExpenseType`, formData,{validateStatus: () => true})
             if (result.status === 200) {
-                dispatch(updateOwnerExpenseType(formData))
+                dispatch(updateOwnerExpenseType(result.data))
                 toast.success(toastMessage)
                 router.push('/settings/expense_type')
             } else {

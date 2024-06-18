@@ -18,8 +18,8 @@ const MaintainanceIssuePage = () => {
     const router = useRouter()
     const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    const [data,setData] = useState(ownerMaintainanceTypes)
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const [data,setData] = useState(ownerMaintainanceTypes)
 
     // useEffect(()=>{
     //     const getData = async () => {
@@ -33,7 +33,7 @@ const MaintainanceIssuePage = () => {
 
    
 
-    const formattedTypes = data.map((
+    const formattedTypes = ownerMaintainanceTypes.map((
         {
             _id,
             type,

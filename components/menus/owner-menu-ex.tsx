@@ -251,6 +251,13 @@ const OwnerMenuEx = () => {
                     g_href1 : ``,
                     g_active : false,
                 },
+                {
+                    id : 55,
+                    label : "Document Settings",
+                    g_href : "/settings/documents_settings",
+                    g_href1 : ``,
+                    g_active : false,
+                },
             ],
             label : "Settings",
             href : "/settings",
@@ -259,16 +266,16 @@ const OwnerMenuEx = () => {
             icon : <Settings size={20} />,
             active : false
         },
-        // {
-        //     id : 6,
-        //     group : [],
-        //     label : "Information",
-        //     href : "/information",
-        //     href1 : '',
-        //     drop : false,
-        //     icon : <Info size={20} />,
-        //     active : pathname === '/information'
-        // },
+        {
+            id : 6,
+            group : [],
+            label : "Information",
+            href : "/information",
+            href1 : '',
+            drop : false,
+            icon : <Info size={20} />,
+            active : pathname === '/information'
+        },
         // {
         //     id : 7,
         //     group : [],

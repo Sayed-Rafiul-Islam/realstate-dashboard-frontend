@@ -16,8 +16,8 @@ const InvoiceTypePage = () => {
     const router = useRouter()
     const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    const [data,setData] = useState(invoiceTypes)
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const [data,setData] = useState(invoiceTypes)
 
     // useEffect(()=>{
     //     const getData = async () => {
@@ -29,7 +29,7 @@ const InvoiceTypePage = () => {
     //     getData()
     // },[])
 
-    const formattedTypes = data.map((
+    const formattedTypes = invoiceTypes.map((
         {
             _id,
             title,

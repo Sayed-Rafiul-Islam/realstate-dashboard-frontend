@@ -15,6 +15,20 @@ const AllRequests = () => {
 
     const router = useRouter()
     const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps) => tenantMaintainanceReducer).tenantMaintainanceRequests
+    // const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    
+    // const [data,setData] = useState(requests)
+
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getTenantRequests?propertyId=${tenant.property._id}&unitId=${tenant.unit._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
+
 
    
     return ( 

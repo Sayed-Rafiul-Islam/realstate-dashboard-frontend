@@ -11,7 +11,6 @@ import toast from "react-hot-toast"
 import { removeExpense } from "@/redux/expenses/expensesSlice"
 import { PreviewDocument } from "@/components/modals/preview-document"
 import { removeDocument } from "@/redux/documents/documentsSlice"
-import { removeTenantDocument } from "@/redux/documents/tenantDocumentsSlice"
 import { DocumentProps } from "@/types"
 import api from "@/actions/api"
 
@@ -32,7 +31,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
         setLoading(true)
         const result = await api.delete(`deleteDocument?id=${data._id}` ,{validateStatus: () => true})
         if ( result.status === 200) {
-            dispatch(removeTenantDocument(data))      
+            dispatch(removeDocument(data))      
             toast.success("Document Removed")
         } else {
             toast.error("Something went wrong.")
@@ -57,6 +56,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
+                update={true}
             />
             
             <DropdownMenu>
@@ -69,23 +69,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem 
-                            className="cursor-pointer" 
-                            onClick={()=>router.push(`/tenant_documents/${data._id}`)}
-                            disabled={data.status === "Accepted" ? true : false}
-                        >
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
-                    </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpenPreview(true)}>
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                        className="cursor-pointer" 
-                        onClick={()=>setOpen(true)}
-                        disabled={data.status === "Accepted" ? true : false}
-                    >
+                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
                         <Trash className="h-4 w-4 mr-2" />
                         Delete
                     </DropdownMenuItem>

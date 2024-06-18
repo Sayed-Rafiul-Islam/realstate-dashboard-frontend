@@ -12,9 +12,9 @@ import api from "@/actions/api";
 const Properties = () => {
 
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
-    const [data,setData] = useState(properties)
+    // const [data,setData] = useState(properties)
    
 
     // useEffect(()=>{
@@ -30,8 +30,8 @@ const Properties = () => {
     return ( 
         <div className="cards">
             {
-                data.length > 0 &&
-                data.map((d) => 
+                properties.length > 0 &&
+                properties.map((d) => 
                     <PropertyCard key={d._id} data={d} />
                 )
             }

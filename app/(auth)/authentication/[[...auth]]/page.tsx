@@ -65,6 +65,7 @@ export default function Authentication() {
         localStorage.removeItem("tenantInvoices")
         localStorage.removeItem("tenantRents")
         localStorage.removeItem("ownerExpenses")
+        localStorage.removeItem("documentSettings")
       }
     })
 

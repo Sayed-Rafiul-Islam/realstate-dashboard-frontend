@@ -15,10 +15,10 @@ import api from "@/actions/api";
 const InvoicesPage = () => {
     const router = useRouter()
     const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(invoices)
+    // const [data,setData] = useState(invoices)
    
 
     // useEffect(()=>{
@@ -43,7 +43,7 @@ const InvoicesPage = () => {
                     <Button onClick={()=>router.push('/invoices/add')}  className="bg-purple-600">New Invoice</Button>
                 </div>
                 <div>
-                    <InvoicesClient data={data} />
+                    <InvoicesClient data={invoices} />
                 </div>
             </div>
         </div>

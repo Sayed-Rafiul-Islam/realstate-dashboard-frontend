@@ -20,10 +20,10 @@ const OccupancyPage = () => {
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(properties)
+    // const [data,setData] = useState(properties)
    
 
     // useEffect(()=>{
@@ -36,7 +36,7 @@ const OccupancyPage = () => {
     //     getData()
     // },[])
 
-    const formattedProperties = data.map((
+    const formattedProperties = properties.map((
         {
             _id,
             name,

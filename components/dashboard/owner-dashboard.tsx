@@ -26,6 +26,8 @@ import { getOwnerGateways } from "@/redux/data/owner/settings/gatewaySlice";
 import { getOwnerInvoices } from "@/redux/data/owner/invoicesSlice";
 import { getRents } from "@/redux/data/owner/rentsSlice";
 import { getOwnerExpenses } from "@/redux/data/owner/expensesSlice";
+import { getDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice";
+import { getDocuments } from "@/redux/documents/documentsSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -45,11 +47,13 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
                     const expenseTypes = await api.get(`getOwnerExpenseType?ownerId=${owner._id}`,{validateStatus: () => true})
                     const invoiceTypes = await api.get(`getOwnerInvoiceType?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const documentSettings = await api.get(`getOwnerDocumentSettings?ownerId=${owner._id}`,{validateStatus: () => true})
                     const gateways = await api.get(`getOwnerGateway?ownerId=${owner._id}`,{validateStatus: () => true}) 
                     const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
                     const invoices = await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})
                     const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
                     const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const documents = await api.get(`getOwnerDocument?ownerId=${owner._id}`,{validateStatus: () => true})
 
 
                     dispatch(getOwnerProperties(properties.data))
@@ -60,10 +64,12 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
                     dispatch(getOwnerExpenseTypes(expenseTypes.data))
                     dispatch(getOwnerInvoiceTypes(invoiceTypes.data))
+                    dispatch(getDocumentSettings(documentSettings.data))
                     dispatch(getOwnerGateways(gateways.data))
                     dispatch(getOwnerInvoices(invoices.data))
                     dispatch(getRents(rents.data))
                     dispatch(getOwnerExpenses(expenses.data))
+                    dispatch(getDocuments(documents.data))
                 }
             }
             getData()

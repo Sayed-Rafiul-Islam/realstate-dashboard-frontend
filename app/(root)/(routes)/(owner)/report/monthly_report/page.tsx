@@ -22,14 +22,14 @@ const MonthlyRecordsPage = () => {
 
     const router = useRouter()
     const [records,setRecords] = useState<RecordsProps[]>([])
-    const data1 = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
-    const data2 = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
+    const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
+    const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
 
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [rents,setRents] = useState(data1)
-    const [expenses,setExpenses] = useState(data2)
+    // const [rents,setRents] = useState(data1)
+    // const [expenses,setExpenses] = useState(data2)
    
 
     // useEffect(()=>{

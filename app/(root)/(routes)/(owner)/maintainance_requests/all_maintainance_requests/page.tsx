@@ -14,9 +14,9 @@ import api from "@/actions/api";
 
 const AllRequests = () => {
     const router = useRouter()
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const requests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps) => ownerMaintainanceReducer).ownerMaintainanceRequests
-    const [data,setData] = useState(requests)
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const [data,setData] = useState(requests)
    
 
     // useEffect(()=>{
@@ -30,7 +30,7 @@ const AllRequests = () => {
     // },[])
 
     
-    const formattedRequests = data.map((
+    const formattedRequests = requests.map((
         {
             _id,
             propertyName,

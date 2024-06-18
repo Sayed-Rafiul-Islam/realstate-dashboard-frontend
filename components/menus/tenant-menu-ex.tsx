@@ -109,16 +109,16 @@ const TenantMenuEx = () => {
             icon : <Handshake size={20} />,
             active : false
         },
-        {
-            id : 6,
-            group : [],
-            label : "Notifications",
-            href : "/notifications",
-            href1 : '',
-            drop : false,
-            icon : <BellIcon size={20} />,
-            active : false
-        },
+        // {
+        //     id : 6,
+        //     group : [],
+        //     label : "Notifications",
+        //     href : "/notifications",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <BellIcon size={20} />,
+        //     active : false
+        // },
         {
             id : 7,
             group : [

@@ -16,10 +16,10 @@ import api from "@/actions/api";
 const EarningsPage = () => {
 
     const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
  
 
-    const [data,setData] = useState(rents)
+    // const [data,setData] = useState(rents)
    
 
     // useEffect(()=>{
@@ -45,7 +45,7 @@ const EarningsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <EarningsClient data={data} />
+                    <EarningsClient data={rents} />
                 </div>
             </div>
         </div>
