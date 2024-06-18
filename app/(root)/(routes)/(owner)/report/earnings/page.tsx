@@ -5,17 +5,33 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { EarningsProps, EarningsReducerProps, OwnerExpensesReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { EarningsProps, EarningsReducerProps, OwnerExpensesReducerProps, OwnerInfoReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { EarningsClient } from "./components/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const EarningsPage = () => {
 
-    const router = useRouter()
     const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+ 
+
+    const [data,setData] = useState(rents)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})   
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
 
     
 
@@ -29,7 +45,7 @@ const EarningsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <EarningsClient data={rents} />
+                    <EarningsClient data={data} />
                 </div>
             </div>
         </div>

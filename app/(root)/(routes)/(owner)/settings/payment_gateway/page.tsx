@@ -5,8 +5,10 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { OwnerGatewaysReducerProps} from "@/types";
+import { OwnerGatewaysReducerProps, OwnerInfoReducerProps} from "@/types";
 import { GatewayClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const gatewayPage = () => {
@@ -14,7 +16,20 @@ const gatewayPage = () => {
     const router = useRouter()
     const gateways = useSelector(({ownerGatewaysReducer} : OwnerGatewaysReducerProps) => ownerGatewaysReducer).ownerGateways
 
-    const formattedGateways = gateways.map((
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const [data,setData] = useState(gateways)
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getOwnerGateway?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+    const formattedGateways = data.map((
         {
             _id,
             title,

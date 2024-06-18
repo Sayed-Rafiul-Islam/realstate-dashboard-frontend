@@ -9,11 +9,27 @@ import { TenantColumn } from "./components/column";
 import { TenantsClient } from "./components/client";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 const AllTenants = () => {
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
-    const formattedtenants : TenantColumn[] = tenants.map((
+    const [data,setData] = useState(tenants)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})         
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+    const formattedtenants : TenantColumn[] = data.map((
         {
             _id,
             name,

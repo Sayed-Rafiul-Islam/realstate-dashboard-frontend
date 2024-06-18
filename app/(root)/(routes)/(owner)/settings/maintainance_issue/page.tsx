@@ -16,23 +16,24 @@ import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintaina
 const MaintainanceIssuePage = () => {
     const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
-    const dispatch = useDispatch()
-
-    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    useEffect(()=>{
-        const getData = async () => {
-            if (owner) {
-                    const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-                    dispatch(getOwnerMaintainanceTypes(data))
-                }
-                setIsMounted(true)
-            }
-            getData()
-    },[])
-
     const {ownerMaintainanceTypes} = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer)
 
-    const formattedTypes = ownerMaintainanceTypes.map((
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const [data,setData] = useState(ownerMaintainanceTypes)
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+   
+
+    const formattedTypes = data.map((
         {
             _id,
             type,

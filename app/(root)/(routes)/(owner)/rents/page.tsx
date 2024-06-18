@@ -17,9 +17,22 @@ import { getOwnerProperties } from "@/redux/data/owner/propertiesSlice";
 
 const RentsPage = () => {
     
-    const router = useRouter()
-    const dispatch = useDispatch()
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)   
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
+    const [data,setData] = useState(rents)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+           
 
     return ( 
         <div className="flex-col">
@@ -31,7 +44,7 @@ const RentsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <RentsClient data={rents} />
+                    <RentsClient data={data} />
                 </div>
             </div>
         </div>

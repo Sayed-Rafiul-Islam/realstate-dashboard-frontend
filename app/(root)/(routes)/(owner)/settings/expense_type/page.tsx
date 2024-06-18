@@ -5,8 +5,10 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { OwnerExpenseTypesReducerProps } from "@/types";
+import { OwnerExpenseTypesReducerProps, OwnerInfoReducerProps } from "@/types";
 import { ExpenseTypesClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const ExpenseTypePage = () => {
@@ -14,7 +16,23 @@ const ExpenseTypePage = () => {
     const router = useRouter()
     const expenseTypes = useSelector(({OwnerExpenseTypesReducer} : OwnerExpenseTypesReducerProps) => OwnerExpenseTypesReducer).ownerExpenseTypes
 
-    const formattedExpenseTypes = expenseTypes.map((
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+ 
+
+    const [data,setData] = useState(expenseTypes)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getOwnerExpenseType?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+    const formattedExpenseTypes = data.map((
         {
             _id,
             title,

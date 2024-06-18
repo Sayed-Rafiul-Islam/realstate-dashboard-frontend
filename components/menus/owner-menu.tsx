@@ -483,6 +483,7 @@ const OwnerMenu = () => {
             {
                 group.length === 0 ?
                 <Link
+                prefetch
                 className={`
                 ${active ? 'dark:text-white font-semibold text-amber-500 ' : 'text-gray-500'}
                 dark:text-stone-500 hover:text-amber-500 transition-all nav-item
@@ -513,6 +514,7 @@ const OwnerMenu = () => {
                             <DropdownMenuItem className={`my-1 py-2 cursor-pointer`}
                              key={index}
                              onClick={()=>{router.push(g_href)}}
+                             
                              >
                                 {label}
                             </DropdownMenuItem>

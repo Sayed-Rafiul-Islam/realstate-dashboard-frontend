@@ -8,33 +8,26 @@ import { useDispatch, useSelector } from "react-redux";
 import Maintainers from "./components/maintainers";
 import { useEffect, useState } from "react";
 import api from "@/actions/api";
-import { getOwnerMaintainers } from "@/redux/data/owner/maintainersSlice";
-import { getOwnerMaintainanceTypes } from "@/redux/data/owner/settings/maintainanceTypesSlice";
+
 
 
 const ALLMaintainers = () => {
-    // const [isMounted, setIsMounted] = useState(false)
     const router = useRouter()
-    const dispatch = useDispatch()
-
-    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-    // useEffect(()=>{
-    //     const getData = async () => {
-    //         if (owner) {
-    //                 const {data,status} = await api.get(`getMaintainers?id=${owner._id}`,{validateStatus: () => true})
-    //                 const result = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-    //                 dispatch(getOwnerMaintainanceTypes(result.data))
-    //                 dispatch(getOwnerMaintainers(data))
-    //             }
-    //             setIsMounted(true)
-    //         }
-    //         getData()
-    // },[])
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
 
-    // if (!isMounted) {
-    //     return null
-    // }
+    const [data,setData] = useState(maintainers)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})     
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
    
     return ( 
         <div className="flex-col">
@@ -46,7 +39,7 @@ const ALLMaintainers = () => {
                 </div>
                 <Separator />
 
-                <Maintainers data={maintainers} />
+                <Maintainers data={data} />
             </div>
         </div>
      );

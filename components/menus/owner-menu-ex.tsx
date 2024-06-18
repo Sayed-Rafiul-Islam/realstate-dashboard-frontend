@@ -470,6 +470,7 @@ const OwnerMenuEx = () => {
                         {
                             group.length === 0 ?
                             <Link
+                            prefetch
                             className={`
                             ${active ? 'dark:text-white font-semibold text-amber-500 ' : 'text-gray-500'}
                             dark:text-stone-500 hover:text-amber-500 transition-all nav-item

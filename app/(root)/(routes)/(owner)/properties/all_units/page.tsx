@@ -9,26 +9,30 @@ import { getOwnerUnits } from "@/redux/data/owner/unitsSlice";
 import api from "@/actions/api";
 
 const AllUnitsPage = () => {
-    const dispatch = useDispatch()
-    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
-
-    // useEffect(()=>{
-    //     const getData = async () => {
-    //         if (owner) {
-    //                 const {data,status} = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-    //                 dispatch(getOwnerUnits(data))
-    //             }
-    //         }
-    //         getData()
-    //     })                
-
-
-
-
     const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
 
-    const formattedUnits = units.map((
+    const [data,setData] = useState(units)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+           
+
+
+
+
+
+    const formattedUnits = data.map((
         {
             _id,
             name,
@@ -60,15 +64,6 @@ const AllUnitsPage = () => {
             }
         })
 
-        // const [isMounted, setIsMounted] = useState(false)
-
-        // useEffect(()=>{
-        //     setIsMounted(true)
-        // },[])
-    
-        // if (!isMounted) {
-        //     return null
-        // }
 
     return ( 
         <div className="flex-col">

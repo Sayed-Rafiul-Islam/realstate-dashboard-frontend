@@ -5,14 +5,32 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { InvoicesReducerProps, OwnerInvoicesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { InvoicesReducerProps, OwnerInfoReducerProps, OwnerInvoicesReducerProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { RecurringInvoicesClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const RecurringSettings = () => {
     const router = useRouter()
     const invoices = useSelector(({ownerInvoicesReducer} : OwnerInvoicesReducerProps) => ownerInvoicesReducer).ownerInvoices
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+ 
+
+    const [data,setData] = useState(invoices)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})    
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
 
     return ( 
         <div className="flex-col">
@@ -26,7 +44,7 @@ const RecurringSettings = () => {
                     <Button onClick={()=>router.push('/invoices/add')}  className="">New Recurring Invoice</Button>
                 </div>
                 <div>
-                    <RecurringInvoicesClient data={invoices} />
+                    <RecurringInvoicesClient data={data} />
                 </div>
             </div>
         </div>

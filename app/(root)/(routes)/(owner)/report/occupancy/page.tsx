@@ -5,10 +5,12 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { EarningsProps, EarningsReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { EarningsProps, EarningsReducerProps, OwnerInfoReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { EarningsClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const OccupancyPage = () => {
@@ -18,7 +20,23 @@ const OccupancyPage = () => {
     const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
-    const formattedProperties = properties.map((
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+ 
+
+    const [data,setData] = useState(properties)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})  
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+    const formattedProperties = data.map((
         {
             _id,
             name,

@@ -5,8 +5,10 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { OwnerInvoiceTypesReducerProps} from "@/types";
+import { OwnerInfoReducerProps, OwnerInvoiceTypesReducerProps} from "@/types";
 import { InvoiceTypesClient } from "./components/client";
+import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 const InvoiceTypePage = () => {
@@ -14,7 +16,20 @@ const InvoiceTypePage = () => {
     const router = useRouter()
     const invoiceTypes = useSelector(({ownerInvoiceTypesReducer} : OwnerInvoiceTypesReducerProps) => ownerInvoiceTypesReducer).ownerInvoiceTypes
 
-    const formattedTypes = invoiceTypes.map((
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+    const [data,setData] = useState(invoiceTypes)
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getOwnerInvoiceType?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+    const formattedTypes = data.map((
         {
             _id,
             title,

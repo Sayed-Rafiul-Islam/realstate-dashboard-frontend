@@ -15,26 +15,26 @@ import { getOwnerTenants } from "@/redux/data/owner/tenantsSlice";
 
 
 const AllTenants = () => {
-    const dispatch = useDispatch()
     const router = useRouter()
-    // const [isMounted, setIsMounted] = useState(false)
-    // const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
-
-    // useEffect(()=>{
-    //     const getData = async () => {
-    //         if (owner) {
-    //                 const {data,status} = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
-    //                 dispatch(getOwnerTenants(data))
-    //             }
-    //             setIsMounted(true)
-    //         }
-    //         getData()
-    //     })   
-        
-        
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
-    const formattedtenants : TenantColumn[] = tenants.map((
+    const [data,setData] = useState(tenants)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} =  await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})         
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+        
+        
+
+    const formattedtenants : TenantColumn[] = data.map((
         {
             _id,
             name,

@@ -5,10 +5,11 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {MonthlyRecordsReducerProps, OwnerExpensesReducerProps, RentsReducerProps} from "@/types";
+import {MonthlyRecordsReducerProps, OwnerExpensesReducerProps, OwnerInfoReducerProps, RentsReducerProps} from "@/types";
 import { Printer } from "lucide-react";
 import { MonthlyRecordsClient } from "./components/client";
 import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 interface RecordsProps {
     month_year : string,
@@ -21,8 +22,27 @@ const MonthlyRecordsPage = () => {
 
     const router = useRouter()
     const [records,setRecords] = useState<RecordsProps[]>([])
-    const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
-    const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
+    const data1 = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
+    const data2 = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
+
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+ 
+
+    const [rents,setRents] = useState(data1)
+    const [expenses,setExpenses] = useState(data2)
+   
+
+    useEffect(()=>{
+        const getData = async () => {
+            const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
+            const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (rents.status === 200 && expenses.status === 200) {
+                setRents(rents.data)
+                setExpenses(expenses.data)
+            }
+        }
+        getData()
+    },[])
 
     useEffect(()=>{
 
