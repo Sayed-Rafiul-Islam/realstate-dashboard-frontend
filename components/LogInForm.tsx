@@ -48,8 +48,56 @@ export default function LogInForm() {
         } 
         setLoading(false)
     }
+
+    const handleCredentials = (email: string, password : string) => {
+        setEmail(email)
+        setPassword(password)
+
+    }
   return (
     <div className="flex flex-col mt-4">
+        <div className="w-[400px] bg-white absolute top-32 right-10 shadow-md flex flex-col gap-4 overflow-hidden">
+            <div 
+                onClick={()=> handleCredentials("admin@gmail.com","123456")} 
+                className="p-4 shadow-md hover:scale-105 hover:p-8 cursor-pointer transition-all"
+            >
+                <h2 className="text-xl font-bold">Admin</h2>
+                <div className="text-gray-500 text-xs">
+                  <p><b>Emain :</b> admin@gmail.com</p>
+                  <p><b>Password : </b> 123456</p>
+                </div>
+            </div>
+              <div 
+                onClick={()=> handleCredentials("owner@gmail.com","123456")} 
+                className="p-4 shadow-md hover:scale-105 hover:p-8 cursor-pointer transition-all"
+            >
+                <h2 className="text-xl font-bold">Owner</h2>
+                <div className="text-gray-500 text-xs">
+                  <p><b>Emain :</b> owner@gmail.com</p>
+                  <p><b>Password : </b> 123456</p>
+                </div>
+            </div>
+              <div 
+                onClick={()=> handleCredentials("tenant@gmail.com","123456")} 
+                className="p-4 shadow-md hover:scale-105 hover:p-8 cursor-pointer transition-all"
+            >
+                <h2 className="text-xl font-bold">Tenant</h2>
+                <div className="text-gray-500 text-xs">
+                  <p><b>Emain :</b> tenant@gmail.com</p>
+                  <p><b>Password : </b> 123456</p>
+                </div>
+            </div>
+              <div 
+                onClick={()=> handleCredentials("maintainer@gmail.com","123456")} 
+                className="p-4 shadow-md hover:scale-105 hover:p-8 cursor-pointer transition-all"
+            >
+                <h2 className="text-xl font-bold">Maintainer</h2>
+                <div className="text-gray-500 text-xs">
+                  <p><b>Emain :</b> maintainer@gmail.com</p>
+                  <p><b>Password : </b> 123456</p>
+                </div>
+            </div>
+        </div>
         <div 
             // className="border-b border-r dark:border-zinc-600 flex flex-col w-full rounded-lg gap-4 p-4"
             >

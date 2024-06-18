@@ -2,27 +2,22 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
+import { ExpenseProps } from "@/types"
 
-export interface ExpenseColumn {
-  _id : string
-  name : string
-  property_unit : string
-  type : string
-  description : string
-  amount : string
-}
 
-export const columns: ColumnDef<ExpenseColumn>[] = [
+export const columns: ColumnDef<ExpenseProps>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({row}) => <span>{row.original.name}</span>
   },
   {
     accessorKey: "property_unit",
     header: "Property/Unit",
+    cell: ({row}) => <span>{row.original.propertyName}/{row.original.unitName}</span>
   },
   {
-    accessorKey: "type",
+    accessorKey: "typeName",
     header: "Expense Type",
   },
   {

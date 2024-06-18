@@ -4,7 +4,7 @@ import { ArrowRight, Calendar, DollarSign, Home, MoreVertical, UserRound, Users,
 import Summery from "../summery";
 import './dashboard.css'
 import { useDispatch, useSelector } from "react-redux";
-import { ExpensesReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertyProps, RentsReducerProps } from "@/types";
+import { ExpensesReducerProps, OwnerExpensesReducerProps, OwnerMaintainanceRequestsReducerProps, OwnerMaintainersReducerProps, OwnerPropertyReducerProps, OwnerProps, OwnerTenantsReducerProps, OwnerUnitsReducerProps, PropertyProps, RentsReducerProps } from "@/types";
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -25,6 +25,7 @@ import { getOwnerInvoiceTypes } from "@/redux/data/owner/settings/invoiceTypesSl
 import { getOwnerGateways } from "@/redux/data/owner/settings/gatewaySlice";
 import { getOwnerInvoices } from "@/redux/data/owner/invoicesSlice";
 import { getRents } from "@/redux/data/owner/rentsSlice";
+import { getOwnerExpenses } from "@/redux/data/owner/expensesSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -48,6 +49,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const requests = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
                     const invoices = await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})
                     const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
 
 
                     dispatch(getOwnerMaintainanceRequests(requests.data))
@@ -61,6 +63,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getOwnerMaintainers(maintainers.data))
                     dispatch(getOwnerInvoices(invoices.data))
                     dispatch(getRents(rents.data))
+                    dispatch(getOwnerExpenses(expenses.data))
                 }
             }
             getData()
@@ -75,7 +78,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
 
     const tenantCount = tenants.length
     const {rents} = useSelector(({rentsReducer} : RentsReducerProps)=>rentsReducer)
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
+    const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps)=>ownerExpensesReducer).ownerExpenses
     const threeRequests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps)=>ownerMaintainanceReducer)
     .ownerMaintainanceRequests.slice(0,3)
 

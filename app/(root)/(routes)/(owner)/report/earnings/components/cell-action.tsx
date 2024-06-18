@@ -12,39 +12,28 @@ import toast from "react-hot-toast"
 // import { PreviewInvoice } from "@/components/modals/preview-invoice"
 import { removeRent } from "@/redux/data/owner/rentsSlice"
 import { EarningColumn } from "./column"
+import { RentProps } from "@/types"
+import { PreviewRent } from "@/components/modals/preview-rent"
 
 interface CellActionProps {
-    data : EarningColumn
+    data : RentProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const router = useRouter()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
-
-    const onDelete = async () => {
-        dispatch(removeRent(data))
-        toast.success("Rent Deleted.")
-        setOpen(false)
-    }
-
     return (
         <>
-            <AlertModal
-                isOpen={open} 
-                onClose={()=>setOpen(false)} 
-                onConfirm={onDelete} 
-                loading={loading} 
-            />
-            {/* <PreviewInvoice
+
+            <PreviewRent
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            /> */}
+            />
             
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -57,19 +46,14 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         Actions
                     </DropdownMenuLabel>
                     <DropdownMenuItem className="cursor-pointer" 
-                    // onClick={()=>setOpenPreview(true)}
+                    onClick={()=>setOpenPreview(true)}
                     >
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer"
-                    //  onClick={()=>router.push(`/invoices/${data._id}`)}
-                     >
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
-                    </DropdownMenuItem>
+      
                     <DropdownMenuItem className="cursor-pointer" 
-                    // onClick={()=>setOpen(true)}
+                    onClick={()=>setOpen(true)}
                     >
                         <Printer className="h-4 w-4 mr-2" />
                         Print

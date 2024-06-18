@@ -226,17 +226,26 @@ export interface TenantInvoicesReducerProps {
 export interface ExpenseProps {
   _id : string,
   name : string,
-  propertyId : string,
-  unitId : string,
-  type : string,
+  propertyName : string,
+  unitName : string,
+  maintainerName : string,
+  typeName : string,
   amount : number,
   description : string,
   date : string,
-  status : boolean
+  request : MaintainanceRequestProps,
+  property : PropertyProps,
+  unit : UnitProps,
+  owner : OwnerProps,
+  maintainer : MaintainerProps
 }
 
 export interface ExpensesReducerProps {
   expensesReducer :  { expenses : ExpenseProps[]} 
+}
+
+export interface OwnerExpensesReducerProps {
+  ownerExpensesReducer :  { ownerExpenses : ExpenseProps[]} 
 }
 
 export interface DocumentProps {

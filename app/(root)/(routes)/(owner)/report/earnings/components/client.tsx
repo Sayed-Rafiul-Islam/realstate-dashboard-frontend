@@ -1,7 +1,7 @@
 "use client"
 
 interface EarningsClientProps {
-    data : EarningColumn[]
+    data : RentProps[]
 }
 
 import { 
@@ -20,17 +20,23 @@ import { useEffect, useState } from "react"
 import { EarningColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
+import { OwnerPropertyReducerProps, PropertiesReducerProps, PropertyProps, RentProps, UnitProps, UnitsReducerProps } from '@/types'
 import { Button } from '@/components/ui/button'
 
 import '../earnings.css'
 import { DatePicker } from '@/components/ui/date-picker'
 import { Input } from '@/components/ui/input'
+import { addDays, parseISO } from 'date-fns'
 
 export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
 
+    let total = 0
+    data.map((item) => {
+        total = total + item.amount
+    })
+
     
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
 
     const [earnings, setEarnings] = useState(data)
     const [property, setProperty] = useState('')
@@ -49,7 +55,14 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                 setEarnings(data)
             } 
             else if (fromDate !== '' && toDate !== '') {
-                const temp = data.filter((item) => fromDate <= item.isoDate && toDate >= item.isoDate) 
+                const from = Date.parse(parseISO(fromDate).toDateString())
+                const to = Date.parse(parseISO(toDate).toDateString())
+                const temp = data.filter((item) => {
+                    const date = Date.parse(parseISO(item.dateOfPayment).toDateString())
+                    if (from <= date && date <= to) {
+                        return item
+                    }           
+                }) 
                 setEarnings(temp)
             } else {
                 setEarnings(data)
@@ -57,16 +70,24 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
         } 
         else {
             if( fromDate === '' && toDate === '') {
-                const temp = data.filter((item) => item.propertyId === property) 
+                const temp = data.filter((item) => item.property._id === property) 
                 setEarnings(temp)
                 
             } else if (fromDate !== '' && toDate !== '') {
-                const temp = data.filter((item) => item.propertyId === property && fromDate <= item.isoDate && toDate >= item.isoDate)
+                const from = Date.parse(parseISO(fromDate).toDateString())
+                const to = Date.parse(parseISO(toDate).toDateString())
+
+                const temp = data.filter((item) =>{
+                    const date = Date.parse(parseISO(item.dateOfPayment).toDateString())
+                    if ( item.property._id === property && from <= date && date <= to) {
+                        return item
+                    }
+                })
                 setEarnings(temp)
             } 
             
             else { 
-                const temp = data.filter((item) => item.propertyId === property) 
+                const temp = data.filter((item) => item.property._id === property) 
                 setEarnings(temp)
             }
         }
@@ -136,7 +157,14 @@ export const EarningsClient : React.FC<EarningsClientProps> = ({data}) => {
                 </div>
                 {/* <Button className='bg-purple-600' onClick={showAll}>Clear Filters</Button> */}
             </div>  
-            <DataTable search={search} total={data[0].totalAmount} pagination={true} searchKey="invoiceNo" columns={columns} data={earnings} />
+            <DataTable 
+                search={search} 
+                total={`${total}`} 
+                pagination={true} 
+                searchKey="invoiceNo" 
+                columns={columns} 
+                data={earnings} 
+            />
 
         </>
     )

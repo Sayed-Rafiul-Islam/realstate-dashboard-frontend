@@ -14,42 +14,7 @@ import { EarningsClient } from "./components/client";
 const EarningsPage = () => {
 
     const router = useRouter()
-    const {earnings} = useSelector(({earningsReducer} : EarningsReducerProps) => earningsReducer)
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-
-    let totalAmount = 0
-    earnings.map(({amount} : EarningsProps)=>{
-        totalAmount = totalAmount + amount
-    })
-
-    const formattedEarnings = earnings.map((
-        {
-            _id,
-            invoiceNo,
-            propertyId,
-            unitId,
-            date,
-            amount,
-            tax,
-        },index) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            return {
-                SL : index + 1,
-                _id,
-                invoiceNo,
-                propertyId,
-                unitId,
-                isoDate : date,
-                date :  format(date,"MMMM do, yyyy"),
-                amount : `${amount} BDT`,
-                totalAmount : `${totalAmount} BDT`,
-                tax : `${tax} BDT`,
-                property_unit : `${property.name}/${unit.name}`,
-            }
-    })
+    const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
 
     return ( 
         <div className="flex-col">
@@ -61,7 +26,7 @@ const EarningsPage = () => {
                 </div>
                 <Separator />
                 <div>
-                    <EarningsClient data={formattedEarnings} />
+                    <EarningsClient data={rents} />
                 </div>
             </div>
         </div>

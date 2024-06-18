@@ -2,7 +2,6 @@
 
 import { Edit, MoreHorizontal, Trash } from "lucide-react"
 import { useState } from "react"
-import { ExpenseColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
@@ -10,9 +9,10 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import toast from "react-hot-toast"
 import { removeExpense } from "@/redux/expenses/expensesSlice"
+import { ExpenseProps } from "@/types"
 
 interface CellActionProps {
-    data : ExpenseColumn
+    data : ExpenseProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {

@@ -1,7 +1,7 @@
 "use client"
 
 interface ExpensesClientProps {
-    data : ExpenseColumn[]
+    data : ExpenseProps[]
 }
 
 
@@ -9,8 +9,9 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { ExpenseColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
+import { ExpenseProps } from "@/types"
 
 export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
 
@@ -28,8 +29,7 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
     }
     return (
         <>
-            <DataTable pagination={true} searchKey="name" columns={columns} data={data} />
-            {/* <Toaster /> */}
+            <DataTable pagination={true} searchKey="typeName" columns={columns} data={data} />
         </>
     )
 }

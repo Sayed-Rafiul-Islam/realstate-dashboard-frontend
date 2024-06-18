@@ -49,7 +49,8 @@ const formSchema = z.object({
     // details : z.string().min(1),
     // attachment : z.string().min(1),
     status : z.string().min(1, {message : "Status Required"}),
-    paymentStatus : z.string().min(1,{ message : "Payment Status Required"})
+    paymentStatus : z.string().min(1,{ message : "Payment Status Required"}),
+    cost : z.coerce.number()
 
 })
 
@@ -73,7 +74,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
         resolver : zodResolver(formSchema),
         defaultValues : {
             status : initialData.status,
-            paymentStatus : initialData.paymentStatus
+            paymentStatus : initialData.paymentStatus,
+            cost : initialData.cost ? initialData.cost : 0
         }
     })
 
@@ -185,6 +187,19 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                                 </FormItem>
                             )}
                         />
+                         <FormField
+                        control={form.control}
+                        name="cost"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Cost (in BDT)<span className='text-red-500'>*</span></FormLabel>
+                                <FormControl>
+                                    <Input type='number' disabled={loading} placeholder='800' {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     </div>
                     <Button disabled={loading} className='ml-auto bg-purple-500' type='submit'>
                         {action}

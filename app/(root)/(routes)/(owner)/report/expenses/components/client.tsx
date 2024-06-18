@@ -1,7 +1,7 @@
 "use client"
 
 interface ExpensesClientProps {
-    data : ExpenseColumn[]
+    data : ExpenseProps[]
 }
 
 import { 
@@ -17,10 +17,10 @@ import { useEffect, useState } from "react"
 
 
 
-import { ExpenseColumn, columns } from "./column"
+import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { useSelector } from 'react-redux'
-import { MaintainanceTypesReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
+import { ExpenseProps, MaintainanceRequestProps, MaintainanceTypesReducerProps, OwnerMaintainanceTypesReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types'
 import { Button } from '@/components/ui/button'
 
 import '../expenses.css'
@@ -28,10 +28,16 @@ import { DatePicker } from '@/components/ui/date-picker'
 
 export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
 
+    let total = 0
+    data.map((item) => {
+        total = total + item.amount
+    })
     
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const maintainanceTypes = useSelector(({ownerMaintainanceTypesReducer} : OwnerMaintainanceTypesReducerProps) => ownerMaintainanceTypesReducer).ownerMaintainanceTypes
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+
+
 
     const [expenses, setExpenses] = useState(data)
     const [thisUnits, setThisUnits] = useState<UnitProps[]>([])
@@ -47,14 +53,14 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
             const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
-                const temp = data.filter((item) => item.propertyId === property) 
+                const temp = data.filter((item) => item.property._id === property) 
                 setExpenses(temp)
             } else {
-                const temp = data.filter((item) => item.propertyId === property && item.unitId === unit) 
+                const temp = data.filter((item) => item.property._id === property && item.unit._id === unit) 
                 setExpenses(temp)
             }
         } else if (property === '' && type !== '') {
-            const temp = data.filter((item) => item.typeId === type) 
+            const temp = data.filter((item) => item.maintainer.type._id === type) 
             setExpenses(temp)
         }
         
@@ -62,10 +68,10 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
             const tempUnits = units.filter((item) => property === item.property._id )
             setThisUnits(tempUnits)
             if (unit === '') {
-                const temp = data.filter((item) => item.propertyId === property && item.typeId === type) 
+                const temp = data.filter((item) => item.property._id === property && item.maintainer.type._id === type) 
                 setExpenses(temp)
             } else {
-                const temp = data.filter((item) => item.propertyId === property && item.unitId === unit && item.typeId === type) 
+                const temp = data.filter((item) => item.property._id === property && item.unit._id === unit && item.maintainer.type._id === type) 
                 setExpenses(temp)
             }
             
@@ -171,7 +177,13 @@ export const ExpensesClient : React.FC<ExpensesClientProps> = ({data}) => {
                    
                 </div>
             </div>  
-            <DataTable total={data[0].total} pagination={true} searchKey="invoiceNo" columns={columns} data={expenses} />
+            <DataTable 
+                total={`${total}`} 
+                pagination={true} 
+                searchKey="invoiceNo" 
+                columns={columns} 
+                data={expenses} 
+            />
 
         </>
     )

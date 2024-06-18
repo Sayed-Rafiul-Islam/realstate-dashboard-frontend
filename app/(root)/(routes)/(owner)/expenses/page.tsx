@@ -5,41 +5,13 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ExpensesReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
+import { ExpensesReducerProps, OwnerExpensesReducerProps, PropertiesReducerProps, UnitsReducerProps } from "@/types";
 import { ExpensesClient } from "./components/client";
 
 
 const ExpensesPage = () => {
     const router = useRouter()
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps) => expensesReducer)
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-
-
-
-    const formattedExpenses = expenses.map((
-        {
-            _id,
-            name,
-            propertyId,
-            unitId,
-            type,
-            amount,
-            description
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            return {
-                _id,
-                name,
-                property_unit : `${property.name}/${unit.name}`,
-                type,
-                description,
-                amount : `BDT ${amount}`,
-            }
-           
-    })
+    const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps)=>ownerExpensesReducer).ownerExpenses
 
     return ( 
         <div className="flex-col">
@@ -53,7 +25,7 @@ const ExpensesPage = () => {
                     <Button onClick={()=>router.push('/expenses/add')}  className="">New Expense</Button>
                 </div>
                 <div>
-                    <ExpensesClient data={formattedExpenses} />
+                    <ExpensesClient data={expenses} />
                 </div>
             </div>
         </div>
