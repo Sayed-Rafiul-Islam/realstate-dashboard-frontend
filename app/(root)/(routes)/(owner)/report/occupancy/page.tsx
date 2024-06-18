@@ -5,7 +5,7 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { EarningsProps, EarningsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { EarningsProps, EarningsReducerProps, OwnerPropertyReducerProps, OwnerTenantsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { EarningsClient } from "./components/client";
@@ -15,7 +15,8 @@ const OccupancyPage = () => {
 
     const router = useRouter()
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
     const formattedProperties = properties.map((
         {
@@ -34,6 +35,7 @@ const OccupancyPage = () => {
             country,
             postCode,
         },index) => {
+            const tenantCount = tenants.filter((tenant) => tenant.property._id === _id).length
             return {
                 SL : index + 1,
                 _id,
@@ -50,6 +52,7 @@ const OccupancyPage = () => {
                 state,
                 country,
                 postCode,
+                tenantCount,
             }
     })
 

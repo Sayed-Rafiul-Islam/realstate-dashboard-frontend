@@ -193,13 +193,13 @@ const OwnerMenu = () => {
                     g_href1 : ``,
                     g_active : false,
                 },
-                {
-                    id : 125,
-                    label : "Notificaions",
-                    g_href : "/report/notifications",
-                    g_href1 : ``,
-                    g_active : false,
-                },
+                // {
+                //     id : 125,
+                //     label : "Notificaions",
+                //     g_href : "/report/notifications",
+                //     g_href1 : ``,
+                //     g_active : false,
+                // },
                 // {
                 //     id : 125,
                 //     label : "Maintainance",

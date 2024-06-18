@@ -5,16 +5,19 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { EarningsProps, EarningsReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import { EarningsProps, EarningsReducerProps, OwnerExpensesReducerProps, PropertiesReducerProps, RentsReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { format } from "date-fns";
 import { Printer } from "lucide-react";
 import { EarningsClient } from "./components/client";
+import { useEffect } from "react";
 
 
 const EarningsPage = () => {
 
     const router = useRouter()
     const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
+
+    
 
     return ( 
         <div className="flex-col">

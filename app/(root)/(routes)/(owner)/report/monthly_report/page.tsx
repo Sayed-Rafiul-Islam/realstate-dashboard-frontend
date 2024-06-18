@@ -5,31 +5,99 @@ import Pathname from "@/components/pathname";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import {MonthlyRecordsReducerProps} from "@/types";
+import {MonthlyRecordsReducerProps, OwnerExpensesReducerProps, RentsReducerProps} from "@/types";
 import { Printer } from "lucide-react";
 import { MonthlyRecordsClient } from "./components/client";
+import { useEffect, useState } from "react";
+
+interface RecordsProps {
+    month_year : string,
+    income : number,
+    expense : number
+}
 
 
 const MonthlyRecordsPage = () => {
 
     const router = useRouter()
-    const {monthlyRecords} = useSelector(({monthlyRecordsReducer} : MonthlyRecordsReducerProps) => monthlyRecordsReducer)
+    const [records,setRecords] = useState<RecordsProps[]>([])
+    const rents = useSelector(({rentsReducer} : RentsReducerProps) => rentsReducer).rents
+    const expenses = useSelector(({ownerExpensesReducer} : OwnerExpensesReducerProps) => ownerExpensesReducer).ownerExpenses
 
-    const formattedRecords = monthlyRecords.map((
+    useEffect(()=>{
+
+        let monthly : RecordsProps[] = []
+        rents.map((rent)=>{
+            const month = rent.dateOfPayment.split("-")[1]
+            const year = rent.dateOfPayment.split("-")[0]
+            const month_year = month+'/'+year
+            const index = monthly.findIndex(item => month_year === item.month_year)
+            if (index === -1) {
+                const data = {
+                    month_year,
+                    income : rent.amount,
+                    expense : 0
+                }
+
+                monthly.push(data)
+            } else {
+                monthly[index].income = monthly[index].income + rent.amount
+            }
+            
+        })
+
+        expenses.map((expense)=>{
+            const month = expense.date.split("-")[1]
+            const year = expense.date.split("-")[0]
+            const month_year = month+'/'+year
+            const index = monthly.findIndex(item => month_year === item.month_year)
+            if (index === -1) {
+                const data = {
+                    month_year,
+                    income : 0,
+                    expense : expense.amount
+                }
+
+                monthly.push(data)
+            } else {
+                monthly[index].expense = monthly[index].expense + expense.amount
+            }
+            
+        })
+
+        setRecords(monthly)
+        
+    },[expenses,rents])
+
+
+    const formattedRecords = records.map((
         {
-            _id,
             month_year,
             income,
             expense,
-            net,
         },index) => {
+            const m = month_year.split("/")[0]
+            let month
+            const year = month_year.split("/")[1]
+
+            if (m === "01") {month = "January"}
+            else if (m === '02') {month = "February"}
+            else if (m === '03') {month = "March"}
+            else if (m === '04') {month = "April"}
+            else if (m === '05') {month = "May"}
+            else if (m === '06') {month = "June"}
+            else if (m === '07') {month = "July"}
+            else if (m === '08') {month = "August"}
+            else if (m === '09') {month = "September"}
+            else if (m === '10') {month = "October"}
+            else if (m === '11') {month = "November"}
+            else if (m === '12') {month = "December"}
+
             return {
                 SL : index + 1,
-                _id,
-                month_year,
-                income : `${income} BDT`,
-                expense : `${expense} BDT`,
-                net
+                month_year : month + " " + year,
+                income,
+                expense,
             }
     })
     

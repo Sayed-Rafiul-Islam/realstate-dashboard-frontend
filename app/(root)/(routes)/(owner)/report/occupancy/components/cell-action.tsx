@@ -26,20 +26,15 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const [loading, setLoading] = useState(false)
 
 
-    const onDelete = async () => {
-        dispatch(removeRent(data))
-        toast.success("Rent Deleted.")
-        setOpen(false)
-    }
+    // const onDelete = async () => {
+    //     dispatch(removeRent(data))
+    //     toast.success("Rent Deleted.")
+    //     setOpen(false)
+    // }
 
     return (
         <>
-            <AlertModal
-                isOpen={open} 
-                onClose={()=>setOpen(false)} 
-                onConfirm={onDelete} 
-                loading={loading} 
-            />
+
             {/* <PreviewInvoice
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
@@ -57,22 +52,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         Actions
                     </DropdownMenuLabel>
                     <DropdownMenuItem className="cursor-pointer" 
-                    // onClick={()=>setOpenPreview(true)}
+                    onClick={()=>router.push(`/properties/all_properties/${data._id}`)}
                     >
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
                     <DropdownMenuItem className="cursor-pointer"
-                    //  onClick={()=>router.push(`/invoices/${data._id}`)}
+                     onClick={()=>router.push(`/properties/${data._id}`)}
                      >
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" 
-                    // onClick={()=>setOpen(true)}
-                    >
-                        <Printer className="h-4 w-4 mr-2" />
-                        Print
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

@@ -18,7 +18,8 @@ export interface PropertyColumn {
   city : string,
   state : string,
   country : string,
-  postCode : string
+  postCode : string,
+  tenantCount : number
 }
 
 export const columns: ColumnDef<PropertyColumn>[] = [
@@ -35,12 +36,13 @@ export const columns: ColumnDef<PropertyColumn>[] = [
     header: "Total Unit",
   },
   {
-    accessorKey: "tenants",
+    accessorKey: "tenantCount",
     header: "Total Tenants",
   },
   {
     accessorKey: "available",
     header: "Available Units",
+    cell: ({row}) => <span>{row.original.unitCount - row.original.tenantCount}</span>
   },
   {
     id: "actions",
