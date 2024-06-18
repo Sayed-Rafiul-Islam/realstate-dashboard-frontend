@@ -69,9 +69,9 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
 
 
     const requests = useSelector(({tenantMaintainanceReducer} : TenantMaintainanceRequestsReducerProps)=>tenantMaintainanceReducer).tenantMaintainanceRequests
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
+    // const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps)=>expensesReducer)
     const invoices = useSelector(({tenantInvoicesReducer} : TenantInvoicesReducerProps)=>tenantInvoicesReducer).tenantInvoices.slice(0,5)
-    const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
+    // const thisExpenses = expenses.filter(({propertyId,unitId})=> propertyId === tenant.property._id && unitId === tenant.unit._id)
 
 
     const summery = [
@@ -151,19 +151,19 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
         },
     ]
 
-    thisExpenses.map(({amount,date,type}) =>{
-        totalExpenses = totalExpenses + amount
-        const monthNum = date.split("-")[1]
+    // thisExpenses.map(({amount,date,type}) =>{
+    //     totalExpenses = totalExpenses + amount
+    //     const monthNum = date.split("-")[1]
 
-        if (type !== '3') {
-            othersChart.map(({month},index)=>{
-                if (month === monthNum) {
-                    othersChart[index].amount = othersChart[index].amount + amount
-                }
-            })
-        }
+    //     if (type !== '3') {
+    //         othersChart.map(({month},index)=>{
+    //             if (month === monthNum) {
+    //                 othersChart[index].amount = othersChart[index].amount + amount
+    //             }
+    //         })
+    //     }
         
-    })
+    // })
 
 
     let totalRent = 0
@@ -218,18 +218,18 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
         },
     ]    
 
-    thisExpenses.map(({amount,type,date}) =>{
-        if (type === '3') {
-            totalRent = totalRent + amount
-            const monthNum = date.split("-")[1]
+    // thisExpenses.map(({amount,type,date}) =>{
+    //     if (type === '3') {
+    //         totalRent = totalRent + amount
+    //         const monthNum = date.split("-")[1]
 
-            rentChart.map(({month},index)=>{
-                if (month === monthNum) {
-                    rentChart[index].amount = rentChart[index].amount + amount
-                }
-            })
-        }
-    })
+    //         rentChart.map(({month},index)=>{
+    //             if (month === monthNum) {
+    //                 rentChart[index].amount = rentChart[index].amount + amount
+    //             }
+    //         })
+    //     }
+    // })
 
 
 

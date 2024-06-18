@@ -26,16 +26,16 @@ const TenantMenuEx = () => {
             icon : <LayoutDashboard size={20} />,
             active : false,
         },
-        {
-            id : 3,
-            group : [],
-            label : "Expenses",
-            href : "/tenant_expenses",
-            href1 : '',
-            drop : false,
-            icon : <DollarSign size={20} />,
-            active : false
-        },
+        // {
+        //     id : 3,
+        //     group : [],
+        //     label : "Expenses",
+        //     href : "/tenant_expenses",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <DollarSign size={20} />,
+        //     active : false
+        // },
         {
             id : 4,
             group : [
