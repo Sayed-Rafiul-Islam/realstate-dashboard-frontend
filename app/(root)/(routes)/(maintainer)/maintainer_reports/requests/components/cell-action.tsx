@@ -15,14 +15,13 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { removeTenant } from "@/redux/tenants/tenantsSlice"
-import { MaintainanceRequestColumn } from "./column"
 import { removeMaintainanceRequests } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
 import { PreviewRequest } from "@/components/modals/preview-maintainance-request"
+import { MaintainanceRequestProps } from "@/types"
 
 
 interface CellActionProps {
-    data : MaintainanceRequestColumn
+    data : MaintainanceRequestProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -34,30 +33,16 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
     const [openPreview, setOpenPreview] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const onDelete = async () => {
-        setLoading(true)
-        dispatch(removeMaintainanceRequests(data))        
-        toast.success("Request Removed")
-        setLoading(false)
-        setOpen(false)
-    
-}
-
 
     return (
         <>
-            <AlertModal
-            isOpen={open} 
-            onClose={()=>setOpen(false)} 
-            onConfirm={onDelete} 
-            loading={loading} />
-
-            {/* <PreviewRequest
-            isOpen={openPreview} 
-            onClose={()=>setOpenPreview(false)} 
-            data={data} 
-            status={true}
-            /> */}
+            <PreviewRequest
+                isOpen={openPreview} 
+                onClose={()=>setOpenPreview(false)} 
+                data={data} 
+                status={true}
+                disable={data.paymentStatus === "Paid" && data.status === "Complete" ? true : false}
+            />
 
 
             <DropdownMenu>
@@ -71,17 +56,17 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem onClick={()=>router.push(`/tenant_requests/${data._id}`)}>
+                    <DropdownMenuItem 
+                        onClick={()=>router.push(`/maintainer_requests/${data._id}`)}
+                        disabled={data.paymentStatus === "Paid" && data.status === "Complete" ? true : false}
+                    >
+                        
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={()=>setOpenPreview(true)}>
                         <Eye className="h-4 w-4 mr-2" />
                         Details
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={()=>setOpen(true)}>
-                        <Trash className="h-4 w-4 mr-2" />
-                        Delete
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

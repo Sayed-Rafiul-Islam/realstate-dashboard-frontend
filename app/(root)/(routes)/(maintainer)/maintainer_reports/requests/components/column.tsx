@@ -2,30 +2,16 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-
-export interface MaintainanceRequestColumn {
-  _id : string,
-  propertyId : string,
-  unitId : string,
-  typeId : string,
-  date : string,
-  requestNo : string,
-  type : string,
-  issue : string,
-  status : string,
-  details : string,
-  cost : number,
-  attachment : string,
-  property_unit : string,
-  paymentStatus : string
-}
+import { MaintainanceRequestProps } from "@/types"
+import { format } from "date-fns"
 
 
 
-  export const columns: ColumnDef<MaintainanceRequestColumn>[] = [
+  export const columns: ColumnDef<MaintainanceRequestProps>[] = [
     {
       accessorKey: "date",
       header: "Date",
+      cell: ({row}) => <span>{format(row.original.date,"MMMM do, yyyy")}</span>
     },
     {
       accessorKey: "requestNo",
@@ -34,6 +20,7 @@ export interface MaintainanceRequestColumn {
     {
       accessorKey: "type",
       header: "Maintainance Type",
+      cell: ({row}) => <span>{row.original.type && row.original.type.type}</span>
     },
     {
       cell: ({row}) => <span>{row.original.cost} BDT</span>,

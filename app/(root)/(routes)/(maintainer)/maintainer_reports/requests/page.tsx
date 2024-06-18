@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, PropertiesReducerProps, TenantInfoReducerProps, UnitsReducerProps, UsersReducerProps } from "@/types";
+import { MaintainanceRequestsReducerProps, MaintainanceTypesReducerProps, MaintainerInfoReducerProps, MaintainerMaintainanceRequestsReducerProps, PropertiesReducerProps, TenantInfoReducerProps, UnitsReducerProps, UsersReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
@@ -15,48 +15,7 @@ const AllRequests = () => {
 
     const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
 
-    const {maintainanceRequests} = useSelector(({maintainanceReducer} : MaintainanceRequestsReducerProps) => maintainanceReducer)
-    const {maintainanceTypes} = useSelector(({maintainanceTypesReducer} : MaintainanceTypesReducerProps) => maintainanceTypesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-
-    const requests = maintainanceRequests.filter(({maintainer})=>maintainer?._id === maintainer._id)
-    const formattedRequests = requests.map((
-        {
-            _id,
-            date,
-            requestNo,
-            type,
-            property,
-            unit,
-            issue,
-            status,
-            details,
-            cost,
-            attachment,
-            paymentStatus
-        }) => {
-            const typeName  = maintainanceTypes.filter(({_id}) =>_id === type._id)[0]?.type
-            const propertyName  = properties.filter(({_id}) =>_id === property._id)[0]?.name
-            const unitName  = units.filter(({_id}) =>_id === unit._id)[0]?.name
-
-            return {
-                _id,
-                propertyId : property._id,
-                unitId : unit._id,
-                date : format(date,"MMMM do, yyyy"),
-                requestNo,
-                type : typeName,
-                typeId : type._id,
-                issue,
-                status,
-                details,
-                cost,
-                attachment,
-                property_unit : `${propertyName}/${unitName}`,
-                paymentStatus
-            }
-    })
+    const requests = useSelector(({maintainerMaintainanceReducer} : MaintainerMaintainanceRequestsReducerProps)=>maintainerMaintainanceReducer).maintainerMaintainanceRequests
    
     return ( 
         <div className="flex-col">
@@ -84,7 +43,7 @@ const AllRequests = () => {
                 </div>
                 <Separator />
 
-                <MaintainanceClient data={formattedRequests} />
+                <MaintainanceClient data={requests} />
                 
             </div>
         </div>

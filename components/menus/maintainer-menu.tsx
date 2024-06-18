@@ -49,13 +49,13 @@ const MaintainerMenu = () => {
         {
             id : 4,
             group : [
-                {
-                    id : 41,
-                    label : "Invoices",
-                    g_href : "/maintainer_reports/invoices",
-                    g_href1 : ``,
-                    g_active : false,
-                },
+                // {
+                //     id : 41,
+                //     label : "Invoices",
+                //     g_href : "/maintainer_reports/invoices",
+                //     g_href1 : ``,
+                //     g_active : false,
+                // },
                 {
                     id : 42,
                     label : "All Maintainance",
@@ -91,16 +91,16 @@ const MaintainerMenu = () => {
             icon : <File size={20} />,
             active : false
         },
-        {
-            id : 8,
-            group : [],
-            label : "Notifications",
-            href : "/maintainer_notifications",
-            href1 : '',
-            drop : false,
-            icon : <Bell size={20} />,
-            active : false
-        },
+        // {
+        //     id : 8,
+        //     group : [],
+        //     label : "Notifications",
+        //     href : "/maintainer_notifications",
+        //     href1 : '',
+        //     drop : false,
+        //     icon : <Bell size={20} />,
+        //     active : false
+        // },
         {
             id : 7,
             group : [
