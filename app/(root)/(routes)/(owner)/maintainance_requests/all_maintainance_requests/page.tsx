@@ -19,15 +19,15 @@ const AllRequests = () => {
     const [data,setData] = useState(requests)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     
     const formattedRequests = data.map((

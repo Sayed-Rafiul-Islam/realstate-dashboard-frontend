@@ -21,15 +21,15 @@ const MaintainanceIssuePage = () => {
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const [data,setData] = useState(ownerMaintainanceTypes)
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
    
 

@@ -32,17 +32,17 @@ const MonthlyRecordsPage = () => {
     const [expenses,setExpenses] = useState(data2)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
-            const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
-            if (rents.status === 200 && expenses.status === 200) {
-                setRents(rents.data)
-                setExpenses(expenses.data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         if (rents.status === 200 && expenses.status === 200) {
+    //             setRents(rents.data)
+    //             setExpenses(expenses.data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     useEffect(()=>{
 

@@ -17,15 +17,15 @@ const AllUnitsPage = () => {
     const [data,setData] = useState(units)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
            
 
 

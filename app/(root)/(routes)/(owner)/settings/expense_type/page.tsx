@@ -23,15 +23,16 @@ const ExpenseTypePage = () => {
     const [data,setData] = useState(expenseTypes)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} = await api.get(`getOwnerExpenseType?ownerId=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} = await api.get(`getOwnerExpenseType?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
+    
     const formattedExpenseTypes = data.map((
         {
             _id,

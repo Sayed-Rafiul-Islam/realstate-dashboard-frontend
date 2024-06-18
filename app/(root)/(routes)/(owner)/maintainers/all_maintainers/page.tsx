@@ -19,15 +19,15 @@ const ALLMaintainers = () => {
     const [data,setData] = useState(maintainers)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})     
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})     
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
    
     return ( 
         <div className="flex-col">

@@ -24,15 +24,15 @@ const ExpensesPage = () => {
     const [data,setData] = useState(expenses)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
 
     return ( 

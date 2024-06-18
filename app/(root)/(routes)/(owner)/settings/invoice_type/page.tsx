@@ -19,15 +19,15 @@ const InvoiceTypePage = () => {
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const [data,setData] = useState(invoiceTypes)
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} = await api.get(`getOwnerInvoiceType?ownerId=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} = await api.get(`getOwnerInvoiceType?ownerId=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     const formattedTypes = data.map((
         {

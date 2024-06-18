@@ -17,15 +17,15 @@ const Properties = () => {
     const [data,setData] = useState(properties)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     return ( 
         <div className="cards">

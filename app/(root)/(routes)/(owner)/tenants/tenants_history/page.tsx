@@ -19,15 +19,15 @@ const AllTenants = () => {
     const [data,setData] = useState(tenants)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})         
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})         
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
     const formattedtenants : TenantColumn[] = data.map((
         {

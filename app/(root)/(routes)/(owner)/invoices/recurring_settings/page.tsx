@@ -21,15 +21,15 @@ const RecurringSettings = () => {
     const [data,setData] = useState(invoices)
    
 
-    useEffect(()=>{
-        const getData = async () => {
-            const {data,status} =  await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})    
-            if (status === 200) {
-                setData(data)
-            }
-        }
-        getData()
-    },[])
+    // useEffect(()=>{
+    //     const getData = async () => {
+    //         const {data,status} =  await api.get(`getOwnerInvoice?ownerId=${owner._id}`,{validateStatus: () => true})    
+    //         if (status === 200) {
+    //             setData(data)
+    //         }
+    //     }
+    //     getData()
+    // },[])
 
 
     return ( 
