@@ -2,7 +2,6 @@
 
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { useState } from "react"
-import { DocumentColumn } from "./column"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
@@ -13,9 +12,12 @@ import { removeExpense } from "@/redux/expenses/expensesSlice"
 import { PreviewDocument } from "@/components/modals/preview-document"
 import { removeDocument } from "@/redux/documents/documentsSlice"
 import { removeTenantDocument } from "@/redux/documents/tenantDocumentsSlice"
+import { DocumentProps } from "@/types"
+import api from "@/actions/api"
+import { removeMaintainerDocument } from "@/redux/documents/maintainerDocumentsSlice"
 
 interface CellActionProps {
-    data : DocumentColumn
+    data : DocumentProps
 }
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
@@ -28,9 +30,17 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
 
     const onDelete = async () => {
-        dispatch(removeTenantDocument(data))
-        toast.success("Document Deleted.")
-        setOpen(false)
+        setLoading(true)
+        const result = await api.delete(`deleteDocument?id=${data._id}` ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(removeMaintainerDocument(data))      
+            toast.success("Document Removed")
+        } else {
+            toast.error("Something went wrong.")
+        }
+       
+        setLoading(false)
+        setOpen(false) 
     }
 
 
@@ -60,7 +70,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                     <DropdownMenuLabel>
                         Actions
                     </DropdownMenuLabel>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>router.push(`/tenant_documents/${data._id}`)}>
+                    <DropdownMenuItem 
+                            className="cursor-pointer" 
+                            onClick={()=>router.push(`/maintainer_documents/${data._id}`)}
+                            disabled={data.status === "Accepted" ? true : false}
+                        >
                         <Edit className="h-4 w-4 mr-2" />
                         Edit
                     </DropdownMenuItem>
@@ -68,7 +82,11 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
                         <Eye className="h-4 w-4 mr-2"/>
                         Details
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
+                    <DropdownMenuItem 
+                        className="cursor-pointer" 
+                        onClick={()=>setOpen(true)}
+                        disabled={data.status === "Accepted" ? true : false}
+                    >
                         <Trash className="h-4 w-4 mr-2" />
                         Delete
                     </DropdownMenuItem>

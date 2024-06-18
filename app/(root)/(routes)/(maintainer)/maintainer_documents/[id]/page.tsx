@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import {TenantDocumentProps, TenantDocumentsReducerProps } from "@/types";
+import { DocumentProps, MaintainerDocumentsReducerProps } from "@/types";
 
 import { DocumentForm } from "./components/document-form";
 
@@ -10,16 +10,15 @@ const DocumentPage = ({
 } : {
     params : { id : string}
 }) => {
-    const {tenantDocuments} = useSelector(({tenantDocumentsReducer} : TenantDocumentsReducerProps) => tenantDocumentsReducer)
+    const {maintainerDocuments} = useSelector(({maintainerDocumentsReducer} : MaintainerDocumentsReducerProps) => maintainerDocumentsReducer)
 
+    console.log(maintainerDocuments)
     
-    const initialData = tenantDocuments.filter((item : TenantDocumentProps)  =>{
+    const initialData = maintainerDocuments.filter((item)  =>{
         if (item._id === params.id) {
             return item
         } 
     })
-    
-    console.log(initialData)
     return ( 
         <div>
             <div className="flex-1 p-8 pt-6 space-y-4">

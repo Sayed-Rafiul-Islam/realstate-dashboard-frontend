@@ -86,12 +86,12 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
         if ( initialData ) {
                 const formData = {...data,
                     _id : initialData._id, 
-                    tenantName : initialData.tenantName,
+                    tenantName : tenant.name,
                     propertyName : initialData.propertyName,
                     unitName : initialData.unitName,
                     typeName : initialData.typeName,
                     owner : initialData.owner._id,
-                    tenant : initialData.tenant._id,
+                    tenant : tenant._id,
                     status : initialData.status
                 }
                 const result = await api.patch(`updateDocument`,formData)
@@ -110,7 +110,7 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
                     tenant : tenant._id,
                     owner : tenant.owner._id
                 }
-                const result = await api.post(`addDocument`,formData)
+                const result = await api.post(`addTenantDocument`,formData)
                 if (result.status === 200) {
                     dispatch(addTenantDocument(result.data))
                     toast.success(toastMessage)

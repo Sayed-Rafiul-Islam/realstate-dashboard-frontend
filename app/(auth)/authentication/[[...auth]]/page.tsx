@@ -32,6 +32,7 @@ export default function Authentication() {
         localStorage.removeItem("ownerUnits")
         localStorage.removeItem("documents")
         localStorage.removeItem("tenantDocuments")
+        localStorage.removeItem("maintainerDocuments")
         localStorage.removeItem("expenses")
         localStorage.removeItem("propertyForm")
         localStorage.removeItem("tenantForm")

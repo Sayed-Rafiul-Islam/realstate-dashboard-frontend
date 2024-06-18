@@ -57,7 +57,7 @@ export const PreviewDocument : React.FC<PreviewDocumentProps> = ({
     }
 
     const handleUpdate = async () => {
-        const result = await api.patch(`updateDocument`,{_id : data._id,status})
+        const result = await api.patch(`updateOwnerDocument`,{_id : data._id,status})
         if (result.status === 200) {
             dispatch(updateDocoument(result.data))
             toast.success("Document updated.")
@@ -145,17 +145,20 @@ export const PreviewDocument : React.FC<PreviewDocumentProps> = ({
                             }
                            
                             <div className="flex items-center w-1/2">
-                                <h5 className="font-semibold w-1/2">Tenant Name:</h5>
-                                <h5>{data.tenantName}</h5>
+                                <h5 className="font-semibold w-1/2">{data.tenantName ? "Tenant" : "Maintainer"} Name:</h5>
+                                <h5>{data.tenantName ? data.tenantName : data.maintainerName}</h5>
                             </div>
                             <div className="flex items-center w-1/2">
                                 <h5 className="font-semibold w-1/2">Property Name:</h5>
                                 <h5>{data.propertyName}</h5>
                             </div>
-                            <div className="flex items-center w-1/2">
-                                <h5 className="font-semibold w-1/2">Unit:</h5>
-                                <h5>{data.unitName}</h5>
-                            </div>
+                            {
+                                data.unitName &&
+                                <div className="flex items-center w-1/2">
+                                    <h5 className="font-semibold w-1/2">Unit:</h5>
+                                    <h5>{data.unitName}</h5>
+                                </div>
+                            }
                         </div>
 
                         {

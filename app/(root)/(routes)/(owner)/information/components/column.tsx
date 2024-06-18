@@ -17,11 +17,15 @@ export const columns: ColumnDef<DocumentProps>[] = [
   {
     accessorKey: "property_unit",
     header: "Property/Unit",
-    cell: ({row}) => <span>{row.original.propertyName}/{row.original.unitName}</span>
+    cell: ({row}) => <span>{row.original.propertyName}{row.original.unitName ? "/"+row.original.unitName : ""}</span>
   },
   {
-    accessorKey: "tenantName",
-    header: "Tenant Name",
+    header: "Account Type",
+    cell: ({row}) => <span>{row.original.tenantName ? "Tenant" : "Maintainer"}</span>
+  },
+  {
+    header: "Name",
+    cell: ({row}) => <span>{row.original.tenantName ? row.original.tenantName : row.original.maintainerName}</span>
   },
   {
     accessorKey: "status",

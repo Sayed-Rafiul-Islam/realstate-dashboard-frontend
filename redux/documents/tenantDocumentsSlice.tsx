@@ -1,6 +1,6 @@
 "use client"
 
-import { InvoiceProps, TenantDocumentProps } from "@/types"
+import { DocumentProps, InvoiceProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
 const tenantDocumentsJson = typeof window !== "undefined" && localStorage.getItem("tenantDocuments")
@@ -23,7 +23,7 @@ const tenantDocumentsSlice = createSlice({
             } 
         },
         updateTenantDocument : (state, {payload}) => {
-            const index = state.tenantDocuments.findIndex((item : TenantDocumentProps) => item._id === payload._id)
+            const index = state.tenantDocuments.findIndex((item : DocumentProps) => item._id === payload._id)
             state.tenantDocuments[index] = payload
             if (typeof window !== 'undefined') {
                 localStorage.removeItem("tenantDocuments")

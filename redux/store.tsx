@@ -47,6 +47,7 @@ import ownerExpensesReducer from '@/redux/data/owner/expensesSlice'
 
 
 import maintainerMaintainanceReducer from '@/redux/data/maintainer/maintainanceRequestsSlice'
+import maintainerDocumentsReducer from '@/redux/documents/maintainerDocumentsSlice'
 
 
 import tenantMaintainanceReducer from '@/redux/data/tenant/maintainanceRequestsSlice'
@@ -102,7 +103,7 @@ export const store = configureStore({
     ownerExpensesReducer,
 
     maintainerMaintainanceReducer,
-
+    maintainerDocumentsReducer,
 
     tenantMaintainanceReducer,
     tenantInvoicesReducer,

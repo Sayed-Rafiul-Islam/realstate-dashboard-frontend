@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import api from "@/actions/api";
 import { getMaintainerMaintainanceRequests } from "@/redux/data/maintainer/maintainanceRequestsSlice";
 import { getOwnerMaintainanceTypes } from "@/redux/data/maintainer/settings/maintainanceTypesSlice";
+import { getMaintainerDocuments } from "@/redux/documents/maintainerDocumentsSlice";
+import { getDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice";
 
 export interface InvoiceColumn {
     _id : string,
@@ -38,6 +40,8 @@ const MaintainerDashboard : React.FC<MaintainerDashboardProps> = ({maintainer}) 
                
                     const requests = await api.get(`getMaintainerRequests?maintainerId=${maintainer._id}`,{validateStatus: () => true})
                     const maintainanceTypes = await api.get(`getMaintainaceType?id=${maintainer.owner._id}`,{validateStatus: () => true})
+                    const documentSettings = await api.get(`getOwnerDocumentSettings?ownerId=${maintainer.owner._id}`,{validateStatus: () => true})
+                    const documents = await api.get(`getMaintainerDocument?maintainerId=${maintainer._id}`,{validateStatus: () => true})
                     // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
                     // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
                     // const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
@@ -46,6 +50,8 @@ const MaintainerDashboard : React.FC<MaintainerDashboardProps> = ({maintainer}) 
 
                     dispatch(getMaintainerMaintainanceRequests(requests.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
+                    dispatch(getDocumentSettings(documentSettings.data))
+                    dispatch(getMaintainerDocuments(documents.data))
 
                     // dispatch(getOwnerProperties(properties.data))
                     // dispatch(getOwnerUnits(units.data))

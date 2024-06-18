@@ -1,6 +1,6 @@
 "use client"
 
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, TenantDocumentProps, TenantInfoReducerProps } from "@/types"
+import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps, TenantInfoReducerProps, DocumentProps, DocumentSettingsProps, DocumentSettingsReducerProps, MaintainerInfoReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -33,42 +33,30 @@ import PdfUpload from "@/components/pdf-upload"
 import { addNotification } from "@/redux/report/notificationsSlice"
 import Link from "next/link"
 import { addTenantDocument, updateTenantDocument } from "@/redux/documents/tenantDocumentsSlice"
+import ImageUpload from "@/components/image-upload"
+import { addMaintainerDocument, updateMaintainerDocument } from "@/redux/documents/maintainerDocumentsSlice"
 
 
 type DocumentFormValues = z.infer<typeof formSchema>
 
 interface DocumentFormProps {
-    initialData: TenantDocumentProps
+    initialData: DocumentProps
 }
 
 const formSchema = z.object({
-
-    propertyId : z.string().min(1, {message : "Property Name Required"}),
-    unitId : z.string().min(1, {message : "Unit Name Required"}),
-    tenantName : z.string().min(1, {message : "Tenant Name Required"}),
-    document : z.string().min(1, {message : "Document Required"}),
+    type : z.string().min(1, {message : "Document Type Required"}),
+    docFront : z.string().min(1, {message : "Document Front Side Required"}),
+    docBack : z.string().min(1, {message : "Document Back Side Required"}),
 })
 export const DocumentForm : React.FC<DocumentFormProps> = ({
     initialData
 }) => {
-
-
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const tenant = useSelector(({tenantInfoReducer} : TenantInfoReducerProps)=> tenantInfoReducer).tenantInfo
+    const maintainer = useSelector(({maintainerInfoReducer} : MaintainerInfoReducerProps)=> maintainerInfoReducer).maintainerInfo
+    const documentSettings = useSelector(({documentSettingsReducer} : DocumentSettingsReducerProps)=> documentSettingsReducer).documentSettings
     
-    const [propertyId,setPropertyId] = useState(initialData ? initialData.propertyId : '')
+    const [type,setType] = useState(initialData ? initialData.type._id : '')
     const dispatch = useDispatch()
-
-    const [thisUnits,setThisUnits] = useState<UnitProps[]>()
     const router = useRouter()
-
-    useEffect(()=>{
-        const temp = units.filter((item)=> item.property._id === propertyId)
-        setThisUnits(temp)
-        form.setValue('unitId', '')       
-
-    },[propertyId])
 
 
     const title = initialData ? 'Edit Document' : 'Add Document'
@@ -81,41 +69,61 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
     const [loading, setLoading] = useState(false)
     const form = useForm<DocumentFormValues>({
         resolver : zodResolver(formSchema),
-        defaultValues : initialData || {
-            propertyId : '',
-            unitId : '',
-            tenantName : '',
-            document : ''
+        defaultValues : initialData ? {
+            type : initialData.type ? initialData.type._id : '',
+            docFront : initialData.docFront,
+            docBack : initialData.docBack,
+        }
+        :
+        {
+            type : '',
+            docFront : '',
+            docBack : '', 
         }
     })
 
     
     const onSubmit = async (data : DocumentFormValues) => {
         if ( initialData ) {
-                   const formData = {...data,
+                const formData = {...data,
                     _id : initialData._id, 
-                    type : initialData.type,
-                    tenantId : initialData.tenantId,
-                    docFront : initialData.docFront,
-                    docBack : initialData.docBack,
+                    maintainerName : maintainer.name,
+                    propertyName : initialData.propertyName,
+                    unitName : initialData.unitName,
+                    typeName : initialData.typeName,
+                    owner : initialData.owner._id,
+                    maintainer : maintainer._id,
                     status : initialData.status
                 }
-                dispatch(updateTenantDocument(formData))
+                const result = await api.patch(`updateDocument`,formData)
+                if (result.status === 200) {
+                    dispatch(updateMaintainerDocument(result.data))
+                    toast.success(toastMessage)
+                    router.push('/maintainer_documents')
+                } else {
+                    toast.error("Something went wrong.")
+                }
             }
             else {
                 const formData = {...data, 
-                    _id : '10',
-                    type : '',
-                    tenantId : tenant._id,
-                    docFront : '',
-                    docBack : '',
-                    status : ''
+                    maintainerName : maintainer.name,
+                    status : "Pending",
+                    maintainer : maintainer._id,
+                    owner : maintainer.owner._id
+                }
+                const result = await api.post(`addMaintainerDocument`,formData)
+                if (result.status === 200) {
+                    dispatch(addMaintainerDocument(result.data))
+                    toast.success(toastMessage)
+                    router.push('/maintainer_documents')
+                } else {
+                    toast.error("Something went wrong.")
+                }
             }
-                dispatch(addTenantDocument(formData))
-           }
-           toast.success(toastMessage)
-           router.push('/tenant_documents')
-        }
+
+    }
+           
+      
     
 
     const [isMounted, setIsMounted] = useState(false)
@@ -160,39 +168,30 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
                     <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5'>
                     <FormField
                             control={form.control}
-                            name="propertyId"
-                            render={(item) => (
+                            name="type"
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Property <span className='text-red-500'>*</span></FormLabel>
                                     <Select
                                             disabled={loading} 
-                                            onValueChange={e=> {
-                                                setPropertyId(e)
-                                                item.formState.validatingFields.unitId
-                                                
-                                                return item.field.onChange(e)
-                                            }}
-                                            value={item.field.value}
-                                            defaultValue={item.field.value}
-                                            
-                                            
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
                                         >
                                             <FormControl >
                                                 <SelectTrigger>
                                                     <SelectValue 
-                                                        defaultValue={item.field.value}
-                                                        placeholder="Select Property"
+                                                        defaultValue={field.value}
+                                                        placeholder="Select Document Type"
                                                     
                                                     />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent  >
-                                                {properties.map(({_id, name} : PropertyProps,index)=>(
-                                                    <div key={_id}>
-                                                    <SelectItem key={index} value={_id} >
-                                                        {name}
+                                                {documentSettings.map(({_id, title} : DocumentSettingsProps,index)=>(
+                                                    <SelectItem key={_id} value={_id} >
+                                                        {title}
                                                     </SelectItem>
-                                                    </div>
                                                 ))}
                                             </SelectContent>
                                         </Select>
@@ -200,71 +199,32 @@ export const DocumentForm : React.FC<DocumentFormProps> = ({
                                 </FormItem>
                             )}
                         />  
-                         
-                            
                         <FormField
                             control={form.control}
-                            name="unitId"
+                            name="docFront"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Unit <span className='text-red-500'>*</span></FormLabel>
-                                    <Select 
-                                            disabled={loading} 
-                                            onValueChange={field.onChange}
-                                            value={thisUnits?.length === 0 ? '' : field.value}
-                                            defaultValue={thisUnits?.length === 0 ? '' : field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger>
-                                                    <SelectValue 
-                                                        defaultValue={field.value}
-                                                        placeholder="Select Unit"
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {
-                                                    thisUnits
-                                                    ? thisUnits.map(({_id, name} : UnitProps,index)=>(
-                                                        <SelectItem key={index} value={_id} >
-                                                            {name}
-                                                        </SelectItem>
-                                                    ))
-                                                    :
-                                                    <SelectItem value="">
-                                                            Select Unit
-                                                    </SelectItem>
-                                                }
-                                            </SelectContent>
-                                        </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                       
-                         
-                        <FormField
-                            control={form.control}
-                            name="tenantName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Tenant Name <span className='text-red-500'>*</span></FormLabel>
+                                    <FormLabel>Document Frontside</FormLabel>
                                     <FormControl>
-                                        <Input type='text' disabled={loading} placeholder='John Doe' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
+                                        <ImageUpload
+                                                buttonName='Add Image'
+                                                value={field.value ? [field.value] : []}
+                                                onChange={(url)=>field.onChange(url)}
+                                                onRemove={()=>field.onChange("")}
+                                            />
+                                        </FormControl>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
-                            name="document"
+                            name="docBack"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Attachment</FormLabel>
+                                    <FormLabel>Document Backside</FormLabel>
                                     <FormControl>
-                                        <PdfUpload
-                                                buttonName='Add Attachment'
+                                        <ImageUpload
+                                                buttonName='Add Image'
                                                 value={field.value ? [field.value] : []}
                                                 onChange={(url)=>field.onChange(url)}
                                                 onRemove={()=>field.onChange("")}

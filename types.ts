@@ -250,14 +250,16 @@ export interface OwnerExpensesReducerProps {
 
 export interface DocumentProps {
   _id : string,
-  tenantName : string,
+  tenantName ?: string,
+  maintainerName ?: string,
   typeName : string,
   propertyName : string,
-  unitName : string,
+  unitName ?: string,
   docFront : string,
   docBack : string,
   status : string,
-  tenant : TenantProps,
+  maintainer ?: MaintainerProps,
+  tenant ?: TenantProps,
   type : DocumentSettingsProps,
   owner : OwnerProps,
 }
@@ -282,20 +284,8 @@ export interface DocumentSettingsReducerProps {
 export interface TenantDocumentsReducerProps {
   tenantDocumentsReducer :  { tenantDocuments : DocumentProps[]} 
 }
-
-export interface MaintainerDocumentProps {
-  _id : string,
-  type : string,
-  maintainerId : string,
-  tenantName : string,
-  docFront : string,
-  docBack : string,
-  document : string,
-  status : string
-}
-
 export interface MaintainerDocumentsReducerProps {
-  maintainerDocumentsReducer :  { maintainerDocuments : MaintainerDocumentProps[]} 
+  maintainerDocumentsReducer :  { maintainerDocuments : DocumentProps[]} 
 }
 
 export interface RentProps {
