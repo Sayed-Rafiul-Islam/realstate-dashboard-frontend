@@ -42,11 +42,7 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     const invoices = await api.get(`getTenantInvoices?property=${tenant.property._id}&unit=${tenant.unit._id}`,{validateStatus: () => true})
                     const invoiceTypes = await api.get(`getOwnerInvoiceType?ownerId=${tenant.owner._id}`,{validateStatus: () => true})
                     const rents = await api.get(`geTenantRents?tenantId=${tenant._id}`,{validateStatus: () => true})
-                    // const properties = await api.get(`getOwnerProperties?id=${owner._id}`,{validateStatus: () => true})
-                    // const units = await api.get(`getOwnerUnits?id=${owner._id}`,{validateStatus: () => true})
-                    // const maintainers = await api.get(`getOwnerMaintainers?id=${owner._id}`,{validateStatus: () => true})
-                    // const maintainanceTypes = await api.get(`getMaintainaceType?id=${owner._id}`,{validateStatus: () => true})
-                    // const tenants = await api.get(`getOwnerTenants?id=${owner._id}`,{validateStatus: () => true})
+
 
                     dispatch(getTenantMaintainanceRequests(requests.data))
                     dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
@@ -54,12 +50,6 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     dispatch(getOwnerInvoiceTypes(invoiceTypes.data))
                     dispatch(getTenantRents(rents.data))
 
-
-                    // dispatch(getOwnerProperties(properties.data))
-                    // dispatch(getOwnerUnits(units.data))
-                    // dispatch(getOwnerTenants(tenants.data))
-                    // dispatch(getOwnerMaintainanceTypes(maintainanceTypes.data))
-                    // dispatch(getOwnerMaintainers(maintainers.data))
            
                 }
             }

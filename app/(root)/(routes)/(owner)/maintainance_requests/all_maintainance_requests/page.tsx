@@ -2,21 +2,35 @@
 import Pathname from "@/components/pathname";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { OwnerMaintainanceRequestsReducerProps, TenantInfoReducerProps } from "@/types";
+import { OwnerInfoReducerProps, OwnerMaintainanceRequestsReducerProps, TenantInfoReducerProps } from "@/types";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { MaintainanceClient } from "./components/client";
 import { useEffect, useState } from "react";
+import api from "@/actions/api";
 
 
 
 const AllRequests = () => {
     const router = useRouter()
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const requests = useSelector(({ownerMaintainanceReducer} : OwnerMaintainanceRequestsReducerProps) => ownerMaintainanceReducer).ownerMaintainanceRequests
- 
+    const [data,setData] = useState(requests)
+   
 
-    const formattedRequests = requests.map((
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getOwnerRequests?ownerId=${owner._id}`,{validateStatus: () => true})
+            if (status === 200) {
+                setData(data)
+            }
+        }
+        getData()
+    },[])
+
+    
+    const formattedRequests = data.map((
         {
             _id,
             propertyName,
