@@ -20,40 +20,40 @@ import { format } from "date-fns";
 
 
 const TenantExpensesPage = () => {
-    const router = useRouter()
-    const pathname = usePathname()
-    const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps) => expensesReducer)
+    // const router = useRouter()
+    // const pathname = usePathname()
+    // const {expenses} = useSelector(({expensesReducer} : ExpensesReducerProps) => expensesReducer)
 
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {expenseTypes} = useSelector(({expenseTypesReducer} : ExpenseTypesReducerProps) => expenseTypesReducer)
+    // const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    // const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    // const {expenseTypes} = useSelector(({expenseTypesReducer} : ExpenseTypesReducerProps) => expenseTypesReducer)
 
-    const formattedExpenses = expenses.map((
-        {
-            _id,
-            propertyId,
-            unitId,
-            type,
-            amount,
-            description,
-            date,
-            status
-        }) => {
-            const property = properties.filter((item)=> item._id === propertyId)[0]
-            const unit = units.filter((item)=> item._id === unitId)[0]
-            const expense = expenseTypes.filter((item)=> item._id === type)[0]
-            return {
-                _id,
-                property_unit : `${property.name}/${unit.name}`,
-                typeName : expense?.title,
-                typeId : type,
-                description,
-                amount : `BDT ${amount}`,
-                date : format(date,"MMMM do, yyyy"),
-                status
-            }
+    // const formattedExpenses = expenses.map((
+    //     {
+    //         _id,
+    //         propertyId,
+    //         unitId,
+    //         type,
+    //         amount,
+    //         description,
+    //         date,
+    //         status
+    //     }) => {
+    //         const property = properties.filter((item)=> item._id === propertyId)[0]
+    //         const unit = units.filter((item)=> item._id === unitId)[0]
+    //         const expense = expenseTypes.filter((item)=> item._id === type)[0]
+    //         return {
+    //             _id,
+    //             property_unit : `${property.name}/${unit.name}`,
+    //             typeName : expense?.title,
+    //             typeId : type,
+    //             description,
+    //             amount : `BDT ${amount}`,
+    //             date : format(date,"MMMM do, yyyy"),
+    //             status
+    //         }
            
-    })
+    // })
 
     return ( 
         <div className="flex-col">
@@ -75,7 +75,7 @@ const TenantExpensesPage = () => {
                     <h1 className="font-bold text-xl">All Expenses</h1>
                 </div>
                 <Separator />
-                <ExpensesClient data={formattedExpenses} />
+                {/* <ExpensesClient data={formattedExpenses} /> */}
             </div>
         </div>
      );
