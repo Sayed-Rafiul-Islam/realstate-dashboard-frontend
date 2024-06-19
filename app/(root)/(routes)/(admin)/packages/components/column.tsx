@@ -27,6 +27,10 @@ import { PackageProps } from "@/types"
       header: "Max Unit",
     },
     {
+      accessorKey: "maxMaintainer",
+      header: "Max Maintainer",
+    },
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({row}) => 

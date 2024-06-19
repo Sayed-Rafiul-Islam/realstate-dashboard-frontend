@@ -115,10 +115,10 @@ export const PreviewOwnerPackage : React.FC<PreviewOwnerPackageProps> = ({
                                 <Check className="bg-indigo-100 rounded-full text-indigo-700 p-0.5" size={15}/>
                                 Add {data.pack.maxMaintainer} Maintainers
                             </h6>
-                            <h6 className="flex gap-2 items-center text-xs text-gray-500">
+                            {/* <h6 className="flex gap-2 items-center text-xs text-gray-500">
                                 <Check className="bg-indigo-100 rounded-full text-indigo-700 p-0.5" size={15}/>
                                 Add {data.pack.maxInvoice} Invoices
-                            </h6>
+                            </h6> */}
                         </div>
 
                         <Button

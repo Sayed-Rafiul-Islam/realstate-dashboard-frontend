@@ -56,7 +56,7 @@ export interface PackageProps {
     maxProperty : number,
     maxUnit : number,
     maxMaintainer : number,
-    maxInvoice : number,
+    // maxInvoice : number,
     monthlyPrice : number,
     yearlyPrice : number,
     status : boolean,

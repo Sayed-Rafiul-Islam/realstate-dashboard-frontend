@@ -22,10 +22,10 @@ export const columns: ColumnDef<PackageProps>[] = [
     accessorKey: "maxMaintainer",
     header: "Max Maintainer",
   },
-  {
-    accessorKey: "maxInvoice",
-    header: "Max Invoice",
-  },
+  // {
+  //   accessorKey: "maxInvoice",
+  //   header: "Max Invoice",
+  // },
   {
     accessorKey: "monthlyPrice",
     header: "Monthly Price",

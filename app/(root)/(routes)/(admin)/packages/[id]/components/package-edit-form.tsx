@@ -32,7 +32,7 @@ const formSchema = z.object({
     maxProperty : z.coerce.number().min(1, {message : "Max Property Required"}),
     maxUnit : z.coerce.number().min(1, {message : "Max unit Required"}),
     maxMaintainer : z.coerce.number().min(1, {message : "Max Maintainer Required"}),
-    maxInvoice : z.coerce.number().min(1, {message : "Max Invoice Required"}),
+    // maxInvoice : z.coerce.number().min(1, {message : "Max Invoice Required"}),
     monthlyPrice : z.coerce.number().min(0, {message : "Monthly Price Required"}),
     yearlyPrice : z.coerce.number().min(0, {message : "Yearly Price Required"}),
     status : z.boolean().default(false),
@@ -62,7 +62,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
             maxProperty : 0,
             maxUnit : 0,
             maxMaintainer : 0,
-            maxInvoice : 0,
+            // maxInvoice : 0,
             status : false,
             trial : false
         }
@@ -169,7 +169,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="maxInvoice"
                             render={({ field }) => (
@@ -181,7 +181,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                                     <FormMessage />
                                 </FormItem>
                             )}
-                        />
+                        /> */}
                         <FormField
                             control={form.control}
                             name="monthlyPrice"

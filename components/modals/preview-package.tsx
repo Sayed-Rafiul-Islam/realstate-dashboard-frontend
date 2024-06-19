@@ -114,10 +114,10 @@ export const PreviewPackage : React.FC<PreviewPackageProps> = ({
                                 <Check className="bg-indigo-100 rounded-full text-indigo-700 p-0.5" size={15}/>
                                 Add {data.maxMaintainer} Maintainers
                             </h6>
-                            <h6 className="flex gap-2 items-center text-xs text-gray-500">
+                            {/* <h6 className="flex gap-2 items-center text-xs text-gray-500">
                                 <Check className="bg-indigo-100 rounded-full text-indigo-700 p-0.5" size={15}/>
                                 Add {data.maxInvoice} Invoices
-                            </h6>
+                            </h6> */}
                         </div>
 
                         <Button onClick={onOpenAlert} className="mt-8">Order Package</Button>
