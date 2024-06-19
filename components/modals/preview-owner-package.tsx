@@ -52,7 +52,7 @@ export const PreviewOwnerPackage : React.FC<PreviewOwnerPackageProps> = ({
 
 
     const title = <p>Activate <b className="text-green-500">{data.pack.label}</b> package?</p>
-    const description = <p>After changing package, all saved data will be <span className="text-red-500">lost</span>.</p>
+    const description = <p>Please make sure your current number of <b>properties</b>, <b>units</b> and <b>maintainers</b> must be <span className="text-red-500">less</span> than the maximum limit of this package.</p>
 
     const onActivation = async () => {
         const result = await api.patch(`activatePackage`,{_id : data._id, owner : data.owner._id},{validateStatus: () => true})
