@@ -13,27 +13,27 @@ import { DataTable } from "@/components/ui/data-table"
 
 export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
 
-    const packages : PackageProps[] = data.map((
-        {
-            _id,
-            label,
-            monthlyPrice,
-            yearlyPrice,
-            maxProperty,
-            maxUnit,
-            status,
-            trial
-        } : PackageProps,index : number) => ({
-            // serial : index + 1,
-            _id,
-            label,
-            monthlyPrice,
-            yearlyPrice,
-            maxProperty,
-            maxUnit,
-            status,
-            trial
-    }))
+    // const packages : PackageProps[] = data.map((
+    //     {
+    //         _id,
+    //         label,
+    //         monthlyPrice,
+    //         yearlyPrice,
+    //         maxProperty,
+    //         maxUnit,
+    //         status,
+    //         trial
+    //     } : PackageProps,index : number) => ({
+    //         // serial : index + 1,
+    //         _id,
+    //         label,
+    //         monthlyPrice,
+    //         yearlyPrice,
+    //         maxProperty,
+    //         maxUnit,
+    //         status,
+    //         trial
+    // }))
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -50,8 +50,7 @@ export const ThreePackagesClient : React.FC<PackageClientProps> = ({data}) => {
 
     return (
         <>
-            <DataTable pagination={false} columns={columns} data={packages} />
-            <Toaster />
+            <DataTable pagination={false} columns={columns} data={data} />
         </>
         
     )
