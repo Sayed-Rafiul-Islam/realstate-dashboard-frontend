@@ -53,10 +53,12 @@ export interface TenantSummryItemProps {
 export interface PackageProps {
     _id : string
     label : string,
-    monthlyPrice : number,
-    yearlyPrice : number,
     maxProperty : number,
     maxUnit : number,
+    maxMaintainer : number,
+    maxInvoice : number,
+    monthlyPrice : number,
+    yearlyPrice : number,
     status : boolean,
     trial : boolean
 }
@@ -80,19 +82,28 @@ export interface OwnerPackagesReducersProps {
   ownerPackagesReducer :  { ownerPackages : OwnerPackageProps[]} 
 }
 
+export interface AllOwnerPackagesReducersProps {
+  allOwnerPackagesReducer :  { allOwnerPackages : OwnerPackageProps[]} 
+}
+
 export interface OrderProps {
     _id : string,
-    name : string,
-    packageName : string,
-    amount : number,
-    gateway : string,
-    date : string,
+    owner : OwnerProps
+    pack : PackageProps,
+    monthly : boolean,
     status : string,
-    transactionId : string
+    orderDate : string,
+    dateOfPayment ?: string,
+    gateway ?: string,
+    transactionId ?: string,
 }
 
 export interface OrderReducersProps {
   ordersReducer :  { orders : OrderProps[]} 
+}
+
+export interface OwnerOrderReducersProps {
+  ownerOrdersReducer :  { ownerOrders : OrderProps[]} 
 }
 
 export interface MessageProps {

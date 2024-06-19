@@ -28,6 +28,9 @@ import { getRents } from "@/redux/data/owner/rentsSlice";
 import { getOwnerExpenses } from "@/redux/data/owner/expensesSlice";
 import { getDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice";
 import { getDocuments } from "@/redux/documents/documentsSlice";
+import { getPackages } from "@/redux/packages/packagesSlice";
+import { getOwnerOrders } from "@/redux/data/owner/ordersSlice";
+import { getOwnerPackages } from "@/redux/data/owner/ownerPackagesSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -54,6 +57,9 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const rents = await api.get(`getRents?ownerId=${owner._id}`,{validateStatus: () => true})
                     const expenses = await api.get(`getExpense?ownerId=${owner._id}`,{validateStatus: () => true})
                     const documents = await api.get(`getOwnerDocument?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const packages = await api.get(`getPackages`,{validateStatus: () => true})
+                    const orders = await api.get(`getOwnerOrder?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const ownerPackages = await api.get(`getOwnerPackages?ownerId=${owner._id}`,{validateStatus: () => true})
 
 
                     dispatch(getOwnerProperties(properties.data))
@@ -70,6 +76,9 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getRents(rents.data))
                     dispatch(getOwnerExpenses(expenses.data))
                     dispatch(getDocuments(documents.data))
+                    dispatch(getPackages(packages.data))
+                    dispatch(getOwnerOrders(orders.data))
+                    dispatch(getOwnerPackages(ownerPackages.data))
                 }
             }
             getData()

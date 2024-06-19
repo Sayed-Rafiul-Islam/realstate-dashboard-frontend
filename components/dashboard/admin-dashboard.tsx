@@ -69,29 +69,33 @@ const AdminDashboard = () => {
     ]
 
     const router = useRouter()
-    const orders = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer).orders.slice(0,3)
-    console.log(orders)
+    const orders = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer).orders
     const formattedOrders = orders.map((
         {
             _id,
-            name,
-            packageName,
-            amount,
-            gateway,
-            date,
+            owner,
+            pack,
+            monthly,
             status,
+            orderDate,
+            dateOfPayment,
+            gateway,
             transactionId
-        } : OrderProps,index : number) => ({
+        } ,index : number) => ({
             serial : index + 1,
             _id,
-            name,
-            packageName,
-            amount,
+            owner,
+            pack,
+            label : pack.label,
+            monthly,
+            amount : monthly ? pack.monthlyPrice : pack.yearlyPrice,
+            orderDate,
+            dateOfPayment,
             gateway,
-            date : format(date,"MMMM do, yyyy"),
             status,
             transactionId
     }))
+
     const packages = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer).packages.slice(0,3)
 
 
@@ -150,7 +154,7 @@ const AdminDashboard = () => {
                         View All <ArrowRight size={15} />
                     </button>
                 </div>
-                <DataTable pagination={false} columns={orderColumns} data={formattedOrders} />
+                <DataTable pagination={false} columns={orderColumns} data={formattedOrders.slice(0,3)} />
             </div>
         </div>
      );

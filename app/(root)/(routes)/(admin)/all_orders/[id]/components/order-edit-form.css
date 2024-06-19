@@ -1,0 +1,7 @@
+@media (max-width: 750px) {     
+    .heading {
+        flex-direction: column-reverse;
+        align-items: start;
+        row-gap: 20px;
+    }
+ }

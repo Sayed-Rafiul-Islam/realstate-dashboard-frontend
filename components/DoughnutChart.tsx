@@ -54,8 +54,8 @@ const DoughnutChart : React.FC<DoughnutChartProps> = ({orders}) => {
                 data : [paid,canceled,pending],
                 backgroundColor: [
                     'blue',
-                    '#fca5a5',
                     '#f97316',
+                    '#fca5a5',
          
       
                   ],
@@ -118,7 +118,7 @@ const DoughnutChart : React.FC<DoughnutChartProps> = ({orders}) => {
             <div className="flex mt-5 w-full justify-center">
                 <div className="flex flex-col">
                     <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-blue-700" />  <h4>Paid</h4></span>
-                    <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-orange-500" />  <h4>Unpaid</h4></span>
+                    <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-orange-500" />  <h4>Canceled</h4></span>
                     <span className="flex items-center gap-2"><div className="w-[15px] h-[15px] rounded-full bg-red-300" />  <h4>Pending</h4></span>
                 </div>
             </div>

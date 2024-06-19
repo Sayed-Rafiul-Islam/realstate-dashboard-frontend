@@ -2,32 +2,33 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellAction } from "./cell-action"
-import { OrderProps, OwnerProps, PackageProps } from "@/types"
+import { InvoiceProps, OrderProps, OwnerProps, PackageProps } from "@/types"
+import { format } from "date-fns"
 
-export interface OrdersColumnProps {
-  serial : number,
-  _id : string,
-  owner : OwnerProps,
-  pack : PackageProps,
-  label : string,
-  monthly : boolean,
-  amount : number,
-  orderDate : string,
-  dateOfPayment : string | undefined,
-  gateway : string | undefined,
-  status : string,
-  transactionId : string | undefined
+export interface MyOrdersColumnProps {
+    serial : number,
+    _id : string,
+    owner : OwnerProps,
+    pack : PackageProps,
+    label : string,
+    monthly : boolean,
+    amount : number,
+    orderDate : string,
+    dateOfPayment : string | undefined,
+    gateway : string | undefined,
+    status : string,
+    transactionId : string | undefined
 }
 
-export const orderColumns: ColumnDef<OrdersColumnProps>[] = [
+export const columns: ColumnDef<MyOrdersColumnProps>[] = [
   {
     accessorKey: "serial",
     header: "SL",
   },
   {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({row}) => <span>{row.original.owner.user.firstName ? `${row.original.owner.user.firstName} ${row.original.owner.user.lastName}` : row.original.owner.user.lastName}</span>
+    accessorKey: "serial",
+    header: "Date of Order",
+    cell: ({row}) => <span>{format(row.original.orderDate,"MMMM do, yyyy")}</span>
   },
   {
     accessorKey: "label",

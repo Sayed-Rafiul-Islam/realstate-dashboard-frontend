@@ -7,7 +7,6 @@ import tenant_1 from '@/images/tenants/tenant_1.jpeg'
 import { useDispatch, useSelector } from "react-redux"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
-import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { getmessages } from "@/redux/messages/messagesSlice"
 import { getOwners } from "@/redux/owners/ownersSlice"
 import { getProperties } from "@/redux/properties/propertiesSlice"
@@ -29,6 +28,7 @@ import api from './api'
 import { getNotifications } from '@/redux/report/notificationsSlice'
 import { getTenantDocuments } from '@/redux/documents/tenantDocumentsSlice'
 import { getAllUsers } from '@/redux/users/usersSlice'
+import { getAllOwnerPackages } from '@/redux/ownerPackages/ownerPackagesSlice'
 
 
 
@@ -80,7 +80,7 @@ const loadPackages = async (dispatch : any) => {
 
 const loadOwnerPackages = async (dispatch : any) => {
     const {data,status} = await api.get(`getOwnerPackages`,{validateStatus: () => true})
-    dispatch(getOwnerPackages(data))
+    dispatch(getAllOwnerPackages(data))
 }
 
 const loadMessages = async () => {
@@ -745,40 +745,9 @@ export const LoadAdminData = async () => {
    
   
 
-        const orders = [
-                {
-                    _id : "1",
-                    name : "Owner 1",
-                    packageName : "Standard",
-                    amount : 9.99,
-                    gateway : "Bkash",
-                    date : "2024-04-04T00:00:00.000Z",
-                    status : "Pending",
-                    transactionId : 'geywqge762e32queg2e'
-                },
-                {
-                    _id : "2",
-                    name : "Owner 2",
-                    packageName : "Free",
-                    amount : 0,
-                    gateway : "None",
-                    date : "2024-04-05T00:00:00.000Z",
-                    status : "Paid",
-                    transactionId : 'geywqge762e32q22eg2e'
-                },
-                {
-                    _id : "3",
-                    name : "Owner 3",
-                    packageName : "Standard",
-                    amount : 9.99,
-                    gateway : "Cash",
-                    date : "2024-04-04T00:00:00.000Z",
-                    status : "Canceled",
-                    transactionId : 'geywfrf762e32queg2e'
-                }
-        ]
+        const orders = await api.get(`getOrders`,{validateStatus: () => true})
         const packages = await api.get(`getPackages`,{validateStatus: () => true})
-        const ownerPackages = await api.get(`getOwnerPackages`,{validateStatus: () => true})
+        const allOwnerPackages = await api.get(`getAllOwnerPackages`,{validateStatus: () => true})
         const messages = [
             {
                 _id : '1',
@@ -1281,9 +1250,9 @@ export const LoadAdminData = async () => {
         ]
         
         
-        dispatch(getOrders(orders))
+        dispatch(getOrders(orders.data))
         dispatch(getPackages(packages.data))
-        dispatch(getOwnerPackages(ownerPackages.data))
+        dispatch(getAllOwnerPackages(allOwnerPackages.data))
         dispatch(getmessages(messages))
         dispatch(getProperties(properties.data))
         dispatch(getUnits(units.data))

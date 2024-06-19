@@ -1,6 +1,6 @@
 "use client"
 
-import { BarChart3, CalendarCheck, ChevronDown, CircleUser, DockIcon, Edit, Eye, Info, LandPlot, LayoutDashboard, ListChecks, Mail, MailIcon, Presentation, Receipt, ReceiptText, Settings, Tag, Trash, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
+import { BarChart3, CalendarCheck, ChevronDown, CircleUser, DockIcon, Edit, Eye, Info, LandPlot, LayoutDashboard, ListChecks, Mail, MailIcon, Package, Presentation, Receipt, ReceiptText, Settings, Tag, Trash, User, UserCircle, UserRoundCheck, Wrench } from "lucide-react"
 import Link from "next/link"
 import { useParams, usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -287,6 +287,38 @@ const OwnerMenu = () => {
             drop : false,
             icon : <Info size={20} />,
             active : pathname === '/information'
+        },
+        {
+            id : 7,
+            group : [
+                {
+                    id : 71,
+                    label : "My Packages",
+                    g_href : "/owner_packages/my_packages",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 72,
+                    label : "Order Package",
+                    g_href : "/owner_packages/order_package",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 73,
+                    label : "My Orders",
+                    g_href : "/owner_packages/my_orders",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+            ],
+            label : "Packages",
+            href : "/owner_packages",
+            href1 : '',
+            drop : false,
+            icon : <Package size={20} />,
+            active : false
         },
         // {
         //     id : 7,

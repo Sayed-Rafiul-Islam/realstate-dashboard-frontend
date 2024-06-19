@@ -6,7 +6,7 @@ import tenantInfoReducer from '@/redux/info/tenantInfoSlice'
 import maintainerInfoReducer from '@/redux/info/maintainerInfoSlice'
 import ordersReducer from '@/redux/orders/ordersSlice'
 import packagesReducer from '@/redux/packages/packagesSlice'
-import ownerPackagesReducer from '@/redux/ownerPackages/ownerPackagesSlice'
+import allOwnerPackagesReducer from '@/redux/ownerPackages/ownerPackagesSlice'
 import messagesReducer from '@/redux/messages/messagesSlice'
 import ownersReducer from '@/redux/owners/ownersSlice'
 import propertiesReducer from '@/redux/properties/propertiesSlice'
@@ -43,6 +43,8 @@ import ownerTenantsReducer from '@/redux/data/owner/tenantsSlice'
 import ownerMaintainanceReducer from '@/redux/data/owner/maintainanceRequestsSlice'
 import ownerInvoicesReducer from '@/redux/data/owner/invoicesSlice'
 import ownerExpensesReducer from '@/redux/data/owner/expensesSlice'
+import ownerOrdersReducer from '@/redux/data/owner/ordersSlice'
+import ownerPackagesReducer from '@/redux/data/owner/ownerPackagesSlice'
 
 
 
@@ -65,7 +67,7 @@ export const store = configureStore({
     maintainerInfoReducer,
     ordersReducer,
     packagesReducer,
-    ownerPackagesReducer,
+    allOwnerPackagesReducer,
     messagesReducer,
     ownersReducer,
     propertiesReducer,
@@ -101,6 +103,8 @@ export const store = configureStore({
     ownerMaintainanceReducer,
     ownerInvoicesReducer,
     ownerExpensesReducer,
+    ownerOrdersReducer,
+    ownerPackagesReducer,
 
     maintainerMaintainanceReducer,
     maintainerDocumentsReducer,

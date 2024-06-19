@@ -13,12 +13,15 @@ import { ArrowLeft } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { OrderProps } from "@/types";
 import { DataTable } from "../ui/data-table";
+import { ColumnDef } from "@tanstack/react-table";
+import { OrdersColumnProps } from "@/app/(root)/(routes)/(admin)/all_orders/components/column";
+import { format } from "date-fns";
 
 interface PreviewOrderProps {
     isOpen : boolean,
     onClose : () => void,
     loading : boolean,
-    data : OrderProps
+    data : OrdersColumnProps
 }
 
 export const PreviewOrder : React.FC<PreviewOrderProps> = ({
@@ -33,11 +36,12 @@ export const PreviewOrder : React.FC<PreviewOrderProps> = ({
     useEffect(()=>{
         setIsMounted(true)
         if (data.status === "Paid") {
-            setStatus('text-sm bg-green-200 text-green-500 px-4 py-2 rounded-md')
+            setStatus('text-sm bg-green-100 text-green-500 px-4 py-2 rounded-md')
         } else if (data.status === "Pending") {
-            setStatus('text-sm bg-amber-200 text-amber-500 px-4 py-2 rounded-md')
-        } else {
-            setStatus('text-sm bg-red-200 text-red-500 px-4 py-2 rounded-md')
+            setStatus('text-sm bg-amber-100 text-amber-500 px-4 py-2 rounded-md')
+        } 
+        else {
+            setStatus('text-sm bg-red-100 text-red-500 px-4 py-2 rounded-md')
         }
     },[])
 
@@ -54,10 +58,11 @@ export const PreviewOrder : React.FC<PreviewOrderProps> = ({
     const row = []
     row.push(data)
 
-    const columns = [
+    const columns : ColumnDef<OrdersColumnProps>[] = data.status === "Paid" ? [
         {
           accessorKey: "date",
           header: "Date",
+          cell: ({row}) => <span>{row.original.dateOfPayment && format(row.original.dateOfPayment,"MMMM do, yyyy")}</span>
         },
         {
             accessorKey: "gateway",
@@ -70,7 +75,34 @@ export const PreviewOrder : React.FC<PreviewOrderProps> = ({
         {
           accessorKey: "amount",
           header: "Amount",
+          cell: ({row}) => <span>{row.original.amount} BDT</span>
         }
+    ]
+    :
+    [
+        {
+            accessorKey: "date",
+            header: "Date",
+            cell: ({row}) => <span>{format(row.original.orderDate,"MMMM do, yyyy")}</span>
+          },
+          {
+            accessorKey: "name",
+            header: "Name",
+            cell: ({row}) => <span>{row.original.owner.user.firstName ? `${row.original.owner.user.firstName} ${row.original.owner.user.lastName}` : row.original.owner.user.lastName}</span>
+          },
+          {
+            accessorKey: "label",
+            header: "Package Name",
+          },
+          {
+            header: "Type",
+            cell: ({row}) => <span>{row.original.monthly ? "Monthly" : "Yearly"}</span>
+          },
+          {
+            accessorKey: "amount",
+            header: "Amount",
+            cell: ({row}) => <span>{row.original.amount} BDT</span>
+          }
     ]
 
     return (
@@ -86,7 +118,7 @@ export const PreviewOrder : React.FC<PreviewOrderProps> = ({
                 <Separator />
             </DialogHeader>
             <div className="overflow-x-scroll">
-            <DataTable pagination={false} columns={columns} data={row} />
+                <DataTable pagination={false} columns={columns} data={row} />
             </div>
         </DialogContent>
     </Dialog>

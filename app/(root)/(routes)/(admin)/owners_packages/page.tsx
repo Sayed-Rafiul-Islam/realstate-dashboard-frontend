@@ -1,6 +1,6 @@
 "use client"
 
-import { OwnerPackageProps, OwnerPackagesReducersProps } from "@/types";
+import { AllOwnerPackagesReducersProps, OwnerPackageProps, OwnerPackagesReducersProps } from "@/types";
 import { useSelector } from "react-redux";
 import { format } from 'date-fns'
 import { OwnerPackagesClient } from "./components/client";
@@ -9,9 +9,9 @@ import { Separator } from "@/components/ui/separator";
 
 const OwnerPackages = () => {
 
-    const {ownerPackages} = useSelector(({ownerPackagesReducer} : OwnerPackagesReducersProps) => ownerPackagesReducer)
+    const {allOwnerPackages} = useSelector(({allOwnerPackagesReducer} : AllOwnerPackagesReducersProps) => allOwnerPackagesReducer)
 
-    const formattedOwnerPackages = ownerPackages.map((
+    const formattedOwnerPackages = allOwnerPackages.map((
         {
             _id,
             owner,
@@ -30,6 +30,8 @@ const OwnerPackages = () => {
             endDate : format(endDate,"MMMM do, yyyy"),
             status
     }))
+
+    console.log(formattedOwnerPackages)
 
     return ( 
         <div className="flex-col">

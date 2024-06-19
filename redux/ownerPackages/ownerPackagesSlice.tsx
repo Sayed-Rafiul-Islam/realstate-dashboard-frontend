@@ -1,33 +1,44 @@
 
+import { OwnerPackageProps } from "@/types"
 import {createSlice } from "@reduxjs/toolkit"
 
-const ownerPackagesJson = typeof window !== "undefined" && localStorage.getItem("ownerPackages")
+const allOwnerPackagesJson = typeof window !== "undefined" && localStorage.getItem("allOwnerPackages")
 
 const initialState = {
-    ownerPackages : ownerPackagesJson ? JSON.parse(ownerPackagesJson) : [],
+    allOwnerPackages : allOwnerPackagesJson ? JSON.parse(allOwnerPackagesJson) : [],
 }
 
 
 
-const ownerPackageSlice = createSlice({
-    name : "ownerPackages",
+const allOwnerPackageSlice = createSlice({
+    name : "allOwnerPackages",
     initialState,
     reducers : {
-        getOwnerPackages : (state, {payload}) => {
-            state.ownerPackages = payload
+        getAllOwnerPackages : (state, {payload}) => {
+            state.allOwnerPackages = payload
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("ownerPackages")
-            localStorage.setItem("ownerPackages", JSON.stringify(state.ownerPackages))
+                localStorage.removeItem("allOwnerPackages")
+                localStorage.setItem("allOwnerPackages", JSON.stringify(state.allOwnerPackages))
             }
         },
-        addOwnerPackage : (state, {payload}) => {
-            state.ownerPackages.push(payload)
-            // localStorage.removeItem("ownerPackages")
-            // localStorage.setItem("ownerPackages", JSON.stringify(state.ownerPackages))
+        addAllOwnerPackage : (state, {payload}) => {
+            state.allOwnerPackages.push(payload)
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("allOwnerPackages")
+                localStorage.setItem("allOwnerPackages", JSON.stringify(state.allOwnerPackages))
+            }
+        },
+        removeAllOwnerPackage : (state, {payload}) => {
+            const temp = state.allOwnerPackages.filter(({_id} : OwnerPackageProps) => _id !== payload._id)
+            state.allOwnerPackages = temp
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("allOwnerPackages")
+                localStorage.setItem("allOwnerPackages", JSON.stringify(state.allOwnerPackages))
+            }
         },
 
     }
 })
 
-export const {getOwnerPackages,addOwnerPackage} = ownerPackageSlice.actions
-export default ownerPackageSlice.reducer
+export const {getAllOwnerPackages,addAllOwnerPackage,removeAllOwnerPackage} = allOwnerPackageSlice.actions
+export default allOwnerPackageSlice.reducer

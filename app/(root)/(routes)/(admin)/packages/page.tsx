@@ -14,28 +14,6 @@ const Packages = () => {
     const router = useRouter()
     const {packages} = useSelector(({packagesReducer} : PackagesReducersProps) => packagesReducer)
 
-    const formattedPackages : PackageProps[] = packages.map((
-        {
-            _id,
-            label,
-            monthlyPrice,
-            yearlyPrice,
-            maxProperty,
-            maxUnit,
-            status,
-            trial
-        } : PackageProps,index : number) => ({
-            // serial : index + 1,
-            _id,
-            label,
-            monthlyPrice,
-            yearlyPrice,
-            maxProperty,
-            maxUnit,
-            status,
-            trial
-    }))
-
     return ( 
         <div className="flex-col">
             <div className="flex-1 p-8 pt-6 space-y-4">
@@ -47,7 +25,7 @@ const Packages = () => {
                 <div className="flex justify-end"> 
                     <Button onClick={()=>router.push('/packages/add')} className="">Add Package</Button>
                 </div>
-                <PackagesClient data={formattedPackages} />
+                <PackagesClient data={packages} />
             </div>
         </div>
      );

@@ -1,7 +1,7 @@
 "use client"
 
-interface OrdersClientProps {
-    data : OrdersColumnProps[]
+interface MyOrdersClientProps {
+    data : MyOrdersColumnProps[]
 }
 
 
@@ -9,12 +9,11 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { OrderProps } from "@/types"
-import { OrdersColumnProps, orderColumns } from "./column"
+import { MyOrdersColumnProps, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
+import { InvoiceProps, OrderProps, PackageProps } from "@/types"
 
-export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
-    const filters = ['','Paid',"Pending","Canceled"]
+export const MyOrdersClient : React.FC<MyOrdersClientProps> = ({data}) => {
 
     // ---------------------------------------------------------------------------------------------
     // anti hydration
@@ -30,7 +29,7 @@ export const OrdersClient : React.FC<OrdersClientProps> = ({data}) => {
     }
     return (
         <>
-            <DataTable pagination={true} filters={filters} searchKey="name" columns={orderColumns} data={data} />
+            <DataTable pagination={true} searchKey="label" columns={columns} data={data} />
         </>
     )
 }

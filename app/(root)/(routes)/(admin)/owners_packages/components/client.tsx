@@ -13,11 +13,11 @@ import { OwnerPackageProps, OwnerProps, OwnersReducerProps, PackagesReducersProp
 import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { Button } from "@/components/ui/button"
-import { addOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AssignPackageFormProps, AssignPackageModal } from "@/components/modals/assign-package-modal"
 import api from "@/actions/api"
 import { useRouter } from "next/navigation"
+import { addAllOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
 
 export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data}) => {
 
@@ -42,11 +42,14 @@ export const OwnerPackagesClient : React.FC<OwnerPackagesClientProps> = ({data})
     }
 
     const handleAssign = async (data : AssignPackageFormProps) => {
-        const result = await api.post(`assignOwnerPackage`,data)
-        dispatch(addOwnerPackage(result.data))
-        router.refresh()
+        const result = await api.post(`assignOwnerPackage`,data, {validateStatus: () => true})
+        if (result.status === 200) {
+            dispatch(addAllOwnerPackage(result.data))
+            toast.success("Package Assigned")
+        } else {
+            toast.error('Something went wrong.')
+        }
         setOpen(false)
-        toast.success("Package Assigned")
     }
     return (
         <>

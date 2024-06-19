@@ -29,10 +29,12 @@ interface PackageEditFormProps {
 
 const formSchema = z.object({
     label : z.string().min(1, {message : "Label Required"}),
-    monthlyPrice : z.coerce.number().min(0, {message : "Monthly Price Required"}),
-    yearlyPrice : z.coerce.number().min(0, {message : "Yearly Price Required"}),
     maxProperty : z.coerce.number().min(1, {message : "Max Property Required"}),
     maxUnit : z.coerce.number().min(1, {message : "Max unit Required"}),
+    maxMaintainer : z.coerce.number().min(1, {message : "Max Maintainer Required"}),
+    maxInvoice : z.coerce.number().min(1, {message : "Max Invoice Required"}),
+    monthlyPrice : z.coerce.number().min(0, {message : "Monthly Price Required"}),
+    yearlyPrice : z.coerce.number().min(0, {message : "Yearly Price Required"}),
     status : z.boolean().default(false),
     trial : z.boolean().default(false),
 })
@@ -55,10 +57,12 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
         resolver : zodResolver(formSchema),
         defaultValues : initialData || {
             label : '',
-            monthlyPrice : 2,
-            yearlyPrice : 20,
-            maxProperty : 1,
-            maxUnit : 1,
+            monthlyPrice : 0,
+            yearlyPrice : 0,
+            maxProperty : 0,
+            maxUnit : 0,
+            maxMaintainer : 0,
+            maxInvoice : 0,
             status : false,
             trial : false
         }
@@ -68,14 +72,24 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
         if (initialData) {
             const formData = {...data,_id : initialData._id}
             const result = await api.patch(`updatePackage`,formData)
-            dispatch(updatePackage(result.data))
+            if (result.status === 200) {
+                dispatch(updatePackage(result.data))
+                toast.success(toastMessage)
+                router.push('/packages')
+            } else {
+                toast.success("Something went wrong.")
+            }
+            
         } else {
             const result = await api.post(`createPackage`,data)
-            dispatch(addPackage(result.data))
-        }
-        toast.success(toastMessage)
-        router.push('/packages')
-        
+            if (result.status === 200) {
+                dispatch(addPackage(result.data))
+                toast.success(toastMessage)
+                router.push('/packages')
+            } else {
+                toast.success("Something went wrong.")
+            }
+        }  
     }
 
     const [isMounted, setIsMounted] = useState(false)
@@ -115,32 +129,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="monthlyPrice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Monthly Price <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='9.99' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="yearlyPrice"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Yearly Price <span className='text-red-500'>*</span></FormLabel>
-                                    <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='9.99' {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        
                         <FormField
                             control={form.control}
                             name="maxProperty"
@@ -161,7 +150,59 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                                 <FormItem>
                                     <FormLabel>Max Unit <span className='text-red-500'>*</span></FormLabel>
                                     <FormControl>
-                                        <Input type='number' disabled={loading} placeholder='10' {...field} />
+                                        <Input type='number' disabled={loading} placeholder='30' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxMaintainer"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Max Maintainer <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='number' disabled={loading} placeholder='5' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="maxInvoice"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Max Invoice <span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='number' disabled={loading} placeholder='3000' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="monthlyPrice"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Monthly Price (in BDT)<span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='number' disabled={loading} placeholder='9.99' {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="yearlyPrice"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Yearly Price (in BDT)<span className='text-red-500'>*</span></FormLabel>
+                                    <FormControl>
+                                        <Input type='number' disabled={loading} placeholder='99.99' {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -184,7 +225,7 @@ export const PackageEditForm : React.FC<PackageEditFormProps> = ({
                                             Active <span className='text-red-500'>*</span>
                                         </FormLabel>
                                         <FormDescription>
-                                            This package will be Activated.
+                                            This package will be shown to owners.
                                         </FormDescription>
                                     </div>
                                 </FormItem>

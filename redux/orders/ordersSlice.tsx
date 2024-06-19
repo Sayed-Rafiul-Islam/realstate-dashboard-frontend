@@ -25,6 +25,14 @@ const orderSlice = createSlice({
             localStorage.setItem("orders", JSON.stringify(state.orders))
             }
         },
+        updateOrder : (state, {payload}) => {
+            const index = state.orders.findIndex((item : OrderProps) => item._id === payload._id)
+            state.orders[index] = payload
+            if (typeof window !== 'undefined') {
+                    localStorage.removeItem("orders")
+                    localStorage.setItem("orders", JSON.stringify(state.orders))
+                }
+        },
         removeOrder : (state, {payload}) => {
             const temp = state.orders.filter(({_id} : OrderProps) => _id !== payload._id)
             state.orders = temp
@@ -36,6 +44,6 @@ const orderSlice = createSlice({
     }
 })
 
-export const {getOrders,removeOrder} = orderSlice.actions
+export const {getOrders,removeOrder,updateOrder} = orderSlice.actions
 // export const getAllOrders = (state : any) =>state.orders.orders
 export default orderSlice.reducer

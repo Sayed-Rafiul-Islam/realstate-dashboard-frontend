@@ -48,7 +48,7 @@ const AdminMenuEx = () => {
             id : 4,
             group : [],
             label : "Owner Packages",
-            href : "/owner_packages",
+            href : "/owners_packages",
             href1 : '',
             drop : false,
             icon : <ReceiptText size={20} />,
