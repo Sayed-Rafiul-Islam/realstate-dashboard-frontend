@@ -33,8 +33,20 @@ const ownerInfoSlice = createSlice({
                 localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
             }
         },
+        updateOwnerPackageInfo : (state, {payload}) => {
+            state.ownerInfo = payload
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem("ownerInvoices")
+                localStorage.removeItem("ownerProperties")
+                localStorage.removeItem("ownerUnits")
+                localStorage.removeItem("ownerTenants")
+                localStorage.removeItem("ownerMaintainers")
+                localStorage.removeItem("ownerInfo")
+                localStorage.setItem("ownerInfo", JSON.stringify(state.ownerInfo))
+            }
+        },
     }
 })
 
-export const {getOwnerInfo,updateOwnerInfo} = ownerInfoSlice.actions
+export const {getOwnerInfo,updateOwnerInfo,updateOwnerPackageInfo} = ownerInfoSlice.actions
 export default ownerInfoSlice.reducer

@@ -39,6 +39,13 @@ const ownerPackageSlice = createSlice({
         updateOwnerPackage : (state, {payload}) => {
             if (payload) {
                 const index = state.ownerPackages.findIndex((item : OwnerPackageProps) => item._id === payload._id)
+                const temp = state.ownerPackages.filter((item : OwnerPackageProps) =>{
+                    if (item._id !== payload._id) {
+                        item.status = false
+                    }
+                    return item
+                })
+                state.ownerPackages = temp
                 state.ownerPackages[index] = payload
                 if (typeof window !== 'undefined') {
                     localStorage.removeItem("ownerPackages")

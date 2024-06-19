@@ -74,7 +74,7 @@ export interface OwnerPackageProps {
   gateway : string,
   startDate : string,
   endDate : string,
-  status : boolean
+  status : boolean,
 }
 
 
@@ -124,8 +124,10 @@ export interface OwnerProps {
     user : UserProps,
     status : boolean,
     activePackage ?: PackageProps,
+    endDate ?: string,
     propertyCount : number,
-    unitCount : number
+    unitCount : number,
+    ownerPackage ?: string,
 }
 
 export interface OwnersReducerProps {

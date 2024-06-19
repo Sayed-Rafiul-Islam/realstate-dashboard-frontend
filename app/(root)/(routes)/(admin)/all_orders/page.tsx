@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 const AllOrders = () => {
 
-    const {orders} : {orders : OrderProps[]}  = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
+    const {orders} = useSelector(({ordersReducer} : OrderReducersProps) => ordersReducer)
 
     const formattedOrders = orders.map((
         {
