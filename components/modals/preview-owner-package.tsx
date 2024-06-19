@@ -60,6 +60,8 @@ export const PreviewOwnerPackage : React.FC<PreviewOwnerPackageProps> = ({
             dispatch(updateOwnerPackage(result.data.activatedPackage))
             dispatch(updateOwnerPackageInfo(result.data.updatedOwner))
             toast.success(`${data.pack.label} Activated.`)
+        } else if (result.status === 400) {
+            toast.error(`This package cannot co exist with the number of properties, units or maintainers.`)
         } else {
             toast.error(`Something went wrong.`)
         }
