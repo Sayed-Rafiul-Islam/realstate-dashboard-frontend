@@ -7,7 +7,6 @@ import tenant_1 from '@/images/tenants/tenant_1.jpeg'
 import { useDispatch, useSelector } from "react-redux"
 import { getOrders } from "@/redux/orders/ordersSlice"
 import { getPackages } from "@/redux/packages/packagesSlice"
-import { getOwnerPackages } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { getmessages } from "@/redux/messages/messagesSlice"
 import { getOwners } from "@/redux/owners/ownersSlice"
 import { getProperties } from "@/redux/properties/propertiesSlice"
