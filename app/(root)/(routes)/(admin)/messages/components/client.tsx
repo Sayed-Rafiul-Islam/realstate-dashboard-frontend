@@ -13,7 +13,6 @@ import { MessageProps, PackagesReducersProps } from "@/types"
 import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
 import { Button } from "@/components/ui/button"
-import { addOwnerPackage } from "@/redux/ownerPackages/ownerPackagesSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { AssignPackageModal } from "@/components/modals/assign-package-modal"
 
