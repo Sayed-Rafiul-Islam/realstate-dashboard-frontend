@@ -1,6 +1,6 @@
 "use client"
 
-import { AllUsersReducerProps, OwnerInfoReducerProps, PropertiesReducerProps, PropertyProps, TenantProps, UnitProps, UnitsReducerProps, UsersReducerProps } from "@/types"
+import { AllUsersReducerProps, OwnerInfoReducerProps, OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, TenantProps, UnitProps, UnitsReducerProps, UsersReducerProps } from "@/types"
 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -160,8 +160,8 @@ export const TenantForm : React.FC<TenantFormProps> = ({
     const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
     const {allUsers} = useSelector(({allUsersReducer} : AllUsersReducerProps) => allUsersReducer)
     const {tenantForm} = useSelector(({formsReducer} : FormProps) => formsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
 
     const [propertyId,setPropertyId] = useState(initialData ? initialData.initialData2.property : '')
     const [thisUnits,setThisUnits] = useState<UnitProps[]>()

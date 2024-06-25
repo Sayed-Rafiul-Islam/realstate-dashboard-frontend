@@ -54,7 +54,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     const dispatch = useDispatch()
     const router = useRouter()
     
-    const [propertyId,setPropertyId] = useState(initialData.property ? initialData.property._id : '')
+    // const [propertyId,setPropertyId] = useState(initialData ? initialData.property._id : '')
 
     const title = initialData ? 'Edit Maintainer' : 'Create Maintainer'
     const action = initialData ? 'Save Changes' : 'Create'
@@ -65,7 +65,7 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
     const form = useForm<MaintainerFormValues>({
         resolver : zodResolver(formSchema),
         defaultValues : 
-        // initialData ? 
+        initialData ? 
         {
             property : initialData.property ? initialData.property._id : '',
             name : initialData && initialData.name,
@@ -75,12 +75,13 @@ export const MaintainerForm : React.FC<MaintainerFormProps> = ({
             password : initialData && 'e78g8f3g8w4gfw48f'
 
         }
-        // :
-        // {
-        //     name : '',
-        //     contactNo : '',
-        //     type : ''
-        // }
+        :
+        {
+            property : '',
+            name : '',
+            contactNo : '',
+            type : ''
+        }
     })
 
     const onSubmit = async (data : MaintainerFormValues) => {

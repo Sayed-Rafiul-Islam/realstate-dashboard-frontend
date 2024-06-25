@@ -3,7 +3,7 @@ import { ArrowRight, Calendar, Home, UserRound, Warehouse } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
 import { useSelector } from "react-redux";
-import {OrderProps, OrderReducersProps, OwnersReducerProps, PackagesReducersProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
+import {OrderProps, OrderReducersProps, OwnerInfoReducerProps, OwnersReducerProps, PackagesReducersProps, PropertiesReducerProps, TenantsReducerProps, UnitsReducerProps } from "@/types";
 import { useRouter } from "next/navigation";
 import DoughnutChart from "../DoughnutChart";
 import { DataTable } from "../ui/data-table";

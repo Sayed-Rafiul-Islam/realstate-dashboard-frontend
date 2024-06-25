@@ -7,7 +7,7 @@ import './tenant-card.css'
 import { TenantColumn } from "@/app/(root)/(routes)/(owner)/tenants/tenants_history/components/column";
 import TenantCard from "./tenant-card";
 import { useEffect, useState } from 'react';
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types';
+import { OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from '@/types';
 import { useSelector } from 'react-redux';
 
 import { 
@@ -23,8 +23,8 @@ const Tenants : React.FC<TenantsProps> = ({data}) => {
 
     const [tenants, setTenants] = useState(data)
 
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
 
     const [thisUnits, setThisUnits] = useState<UnitProps[]>([])
     const [property, setProperty] = useState('')

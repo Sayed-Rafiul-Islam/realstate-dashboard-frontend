@@ -6,7 +6,7 @@ interface TenantsClientProps {
 
 import { TenantColumn, columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types"
+import { OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { 
@@ -23,8 +23,8 @@ import './tenant-history.css'
 export const TenantsClient : React.FC<TenantsClientProps> = ({data}) => { 
 
     
-    const {properties} = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer)
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
 
     const [tenants, setTenants] = useState(data)
     const [thisUnits, setThisUnits] = useState<UnitProps[]>([])

@@ -49,6 +49,10 @@ const MaintainanceIssuePage = () => {
             }
     })
 
+    useEffect(()=>{
+        setIsMounted(true)
+    },[])
+
     
     if (!isMounted) {
         return null

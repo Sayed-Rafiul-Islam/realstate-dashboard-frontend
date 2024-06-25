@@ -20,6 +20,8 @@ const AllTenants = () => {
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
 
     const [data,setData] = useState(tenants)
+
+  
    
 
     // useEffect(()=>{

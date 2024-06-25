@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowRight, Calendar, DollarSign, Home, MoreVertical, UserRound, Users, UsersRound, Warehouse, Wrench } from "lucide-react";
+import { ArrowRight, BadgeInfo, Calendar, DollarSign, Home, MoreVertical, UserRound, Users, UsersRound, Warehouse, Wrench } from "lucide-react";
 import Summery from "../summery";
 import './dashboard.css'
 import { useDispatch, useSelector } from "react-redux";
@@ -31,6 +31,7 @@ import { getDocuments } from "@/redux/documents/documentsSlice";
 import { getPackages } from "@/redux/packages/packagesSlice";
 import { getOwnerOrders } from "@/redux/data/owner/ordersSlice";
 import { getOwnerPackages } from "@/redux/data/owner/ownerPackagesSlice";
+import PackageMessage from "../package-message";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -287,6 +288,7 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
 
     return ( 
         <div>
+            <PackageMessage />
             {/* summery */}
             <div className="summery">
                 {

@@ -94,6 +94,7 @@ export default function Home() {
          <div className="w-full mt-5">
          {/* <AdminDashboard /> */}
              {data && <OwnerDashboard owner={data} />}
+             
          </div>
       </div>
      );

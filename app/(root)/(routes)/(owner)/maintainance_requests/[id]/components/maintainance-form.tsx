@@ -81,7 +81,6 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
 
     useEffect(()=>{
         const temp = maintainers.filter((item)=> item.type._id === typeId && item.property._id === propertyId)
-        console.log(temp)
         setThisMaintainer(temp)
         if (initialData?.maintainer) {
             form.setValue('maintainer', initialData.maintainer._id)  
@@ -90,6 +89,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
         }
              
     },[typeId,propertyId])
+
+    console.log(maintainers)
 
 
     const title = initialData ? 'Edit Request' : 'Create Request'
@@ -134,6 +135,8 @@ export const MaintainanceRequestForm : React.FC<MaintainanceRequestFormProps> = 
                 paymentStatus : "Due",
                 status : "Incomplete"
             }
+
+            console.log(formData)
            
             const result = await api.post(`createRequest`, formData,{validateStatus: () => true})
             dispatch(addOwnerMaintainanceRequest(result.data.newRequest))

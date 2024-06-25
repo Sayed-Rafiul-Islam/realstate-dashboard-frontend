@@ -30,8 +30,7 @@ const ownerMaintainersSlice = createSlice({
         },
 
         addOwnerMaintainer : (state, {payload}) => {
-            const data = {...payload,_id : '5'}
-            state.ownerMaintainers.push(data)
+            state.ownerMaintainers.push(payload)
             // console.log(state.ownerMaintainers)
             if (typeof window !== 'undefined') {
                 localStorage.removeItem("ownerMaintainers")
