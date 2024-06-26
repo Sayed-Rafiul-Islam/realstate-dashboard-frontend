@@ -31,7 +31,6 @@ const OwnerPackages = () => {
             status
     }))
 
-    console.log(formattedOwnerPackages)
 
     return ( 
         <div className="flex-col">

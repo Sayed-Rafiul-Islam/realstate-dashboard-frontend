@@ -223,8 +223,23 @@ const OwnerMenu = () => {
             active : false,
         },
         {
-            id : 5,
-            group : [],
+            id : 8,
+            group : [
+                {
+                    id : 81,
+                    label : "Inbox",
+                    g_href : "/massages/inbox",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 82,
+                    label : "Send Message",
+                    g_href : "/massages/send_message",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Massages",
             href : "/massages",
             href1 : '',

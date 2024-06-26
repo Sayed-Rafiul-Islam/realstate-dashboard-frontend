@@ -29,6 +29,7 @@ import { getNotifications } from '@/redux/report/notificationsSlice'
 import { getTenantDocuments } from '@/redux/documents/tenantDocumentsSlice'
 import { getAllUsers } from '@/redux/users/usersSlice'
 import { getAllOwnerPackages } from '@/redux/ownerPackages/ownerPackagesSlice'
+import { getAdminMessages, getAdminReceivedMessages } from '@/redux/data/admin/messagesSlice'
 
 
 
@@ -738,7 +739,7 @@ const loadTenanrDocuments = async () => {
     dispatch(getTenantDocuments(documents))
 }
 
-export const LoadAdminData = async () => {
+export const LoadAdminData = async (_id : string) => {
 
     const dispatch = useDispatch()
 
@@ -748,32 +749,9 @@ export const LoadAdminData = async () => {
         const orders = await api.get(`getOrders`,{validateStatus: () => true})
         const packages = await api.get(`getPackages`,{validateStatus: () => true})
         const allOwnerPackages = await api.get(`getAllOwnerPackages`,{validateStatus: () => true})
-        const messages = [
-            {
-                _id : '1',
-                name : 'Kaisel',
-                email : "kaisel@gmail.com",
-                phone : "01877622099",
-                status : false,
-                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
-            },
-            {
-                _id : "2",
-                name : "Beru",
-                email : "beru@gmail.com",
-                phone : "01877622099",
-                status : false,
-                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
-            },
-            {
-                _id : "3",
-                name : "Igris",
-                email : "igris@gmail.com",
-                phone : "01877622099",
-                status : false,
-                message : "loresafdolashfegfesbfjksdfjlksenflkseb"
-            }
-        ]
+        const sent = await api.get(`getSentMessages?id=${_id}`,{validateStatus: () => true})
+        const messages = await api.get(`getMessages?id=${_id}`,{validateStatus: () => true})
+       
         const properties = await api.get(`getProperties`,{validateStatus: () => true})
         const units = await api.get(`getUnits`,{validateStatus: () => true})
         const invoices = [
@@ -1253,7 +1231,8 @@ export const LoadAdminData = async () => {
         dispatch(getOrders(orders.data))
         dispatch(getPackages(packages.data))
         dispatch(getAllOwnerPackages(allOwnerPackages.data))
-        dispatch(getmessages(messages))
+        dispatch(getAdminMessages(sent.data))
+        dispatch(getAdminReceivedMessages(messages.data))
         dispatch(getProperties(properties.data))
         dispatch(getUnits(units.data))
         dispatch(getInvoices(invoices))

@@ -31,9 +31,9 @@ const ownerTenantsSlice = createSlice({
         },
 
         addOwnerTenant : (state, {payload} ) => {
-            const {propertyFile, personalFile, ...rest} = payload 
-            const data = {...rest, _id : '5'}
-            state.ownerTenants.push(data)
+            // const {propertyFile, personalFile, ...rest} = payload 
+            // const data = {...rest, _id : '5'}
+            state.ownerTenants.push(payload)
             if (typeof window !== 'undefined') {
                 localStorage.removeItem("ownerTenants")
                 localStorage.setItem("ownerTenants", JSON.stringify(state.ownerTenants))

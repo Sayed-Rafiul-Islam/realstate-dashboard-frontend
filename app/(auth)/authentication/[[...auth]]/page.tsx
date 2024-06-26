@@ -67,6 +67,11 @@ export default function Authentication() {
         localStorage.removeItem("tenantRents")
         localStorage.removeItem("ownerExpenses")
         localStorage.removeItem("documentSettings")
+        localStorage.removeItem("adminMessages")
+        localStorage.removeItem("ownerMessages")
+        localStorage.removeItem("allOwnerPackages")
+        localStorage.removeItem("ownerOrders")
+        localStorage.removeItem("adminReceivedMessages")
       }
     })
 

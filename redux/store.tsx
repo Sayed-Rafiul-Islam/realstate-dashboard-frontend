@@ -27,6 +27,7 @@ import gatewaysReducer from '@/redux/data/owner/settings/gatewaySlice'
 import invoiceTypesReducer from '@/redux/data/owner/settings/invoiceTypesSlice'
 import expenseTypesReducer from '@/redux/data/owner/settings/expenseTypesSlice'
 import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
+import adminMessagesReducer from '@/redux/data/admin/messagesSlice'
 
 
 
@@ -45,6 +46,7 @@ import ownerInvoicesReducer from '@/redux/data/owner/invoicesSlice'
 import ownerExpensesReducer from '@/redux/data/owner/expensesSlice'
 import ownerOrdersReducer from '@/redux/data/owner/ordersSlice'
 import ownerPackagesReducer from '@/redux/data/owner/ownerPackagesSlice'
+import ownerMessagesReducer from '@/redux/data/owner/messagesSlice'
 
 
 
@@ -88,6 +90,7 @@ export const store = configureStore({
     invoiceTypesReducer,
     expenseTypesReducer,
     maintainanceTypesReducer,
+    adminMessagesReducer,
 
 
 
@@ -105,6 +108,7 @@ export const store = configureStore({
     ownerExpensesReducer,
     ownerOrdersReducer,
     ownerPackagesReducer,
+    ownerMessagesReducer,
 
     maintainerMaintainanceReducer,
     maintainerDocumentsReducer,

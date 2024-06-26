@@ -108,15 +108,28 @@ export interface OwnerOrderReducersProps {
 
 export interface MessageProps {
     _id : string,
-    name : string,
-    email : string,
-    phone : string,
-    message : string
+    fromName : string,
+    fromRole : string,
+    toName : string,
+    toRole : string,
+    body : string
     status : boolean,
+    read : boolean,
+    date : string,
+    from : UserProps,
+    to : UserProps,
 }
 
 export interface MessagesReducerProps {
   messagesReducer :  { messages : MessageProps[]} 
+}
+
+export interface AdminMessagesReducerProps {
+  adminMessagesReducer :  { adminMessages : MessageProps[], adminReceivedMessages : MessageProps[]} 
+}
+
+export interface OwnerMessagesReducerProps {
+  ownerMessagesReducer :  { ownerMessages : MessageProps[], ownerReceivedMessages : MessageProps[]} 
 }
 
 export interface OwnerProps {

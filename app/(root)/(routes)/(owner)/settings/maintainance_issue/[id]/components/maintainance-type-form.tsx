@@ -20,7 +20,7 @@ import './maintainance-type-form.css'
 import { addMaintainanceType, updateMaintainanceType } from "@/redux/settings/maintainanceTypesSlice"
 import { DatePickerForm } from "@/components/ui/date-picker-form"
 import api from "@/actions/api"
-import { addOwnerMaintainanceType } from "@/redux/data/owner/settings/maintainanceTypesSlice"
+import { addOwnerMaintainanceType, updateOwnerMaintainanceType } from "@/redux/data/owner/settings/maintainanceTypesSlice"
 
 
 
@@ -71,7 +71,7 @@ export const MaintainanceIssueForm : React.FC<MaintainanceTypeFormProps> = ({
             const formData = {...data, _id : initialData._id,owner : owner._id}
             const result = await api.patch(`updateMaintainanceType`,formData,{validateStatus: () => true})
             if (result.status === 200) {
-                dispatch(updateMaintainanceType(result.data))
+                dispatch(updateOwnerMaintainanceType(result.data))
                 toast.success(toastMessage)
                 router.push('/settings/maintainance_issue')
             } else {

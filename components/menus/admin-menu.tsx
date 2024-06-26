@@ -57,9 +57,24 @@ const AdminMenu = () => {
         },
         {
             id : 5,
-            group : [],
+            group : [
+                {
+                    id : 51,
+                    label : "Inbox",
+                    g_href : "/admin_messages/inbox",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 52,
+                    label : "Send Message",
+                    g_href : "/admin_messages/send_message",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Messages",
-            href : "/messages",
+            href : "/admin_messages",
             href1 : '',
             drop : false,
             icon : <MessageCircle size={20} />,

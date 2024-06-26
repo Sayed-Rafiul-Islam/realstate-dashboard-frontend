@@ -40,8 +40,8 @@ const maintainanceTypesSlice = createSlice({
         addMaintainanceType : (state, {payload}) => {
             state.maintainanceTypes.push(payload)
             if (typeof window !== 'undefined') {
-            localStorage.removeItem("maintainanceTypes")
-            localStorage.setItem("maintainanceTypes", JSON.stringify(state.maintainanceTypes))
+                localStorage.removeItem("maintainanceTypes")
+                localStorage.setItem("maintainanceTypes", JSON.stringify(state.maintainanceTypes))
             }
         }
 

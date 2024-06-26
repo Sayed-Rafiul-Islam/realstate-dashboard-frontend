@@ -9,12 +9,9 @@ import { useEffect, useState } from "react"
 
 
 import { Toaster } from "react-hot-toast"
-import { MessageProps, PackagesReducersProps } from "@/types"
 import { columns } from "./column"
 import { DataTable } from "@/components/ui/data-table"
-import { Button } from "@/components/ui/button"
-import { useDispatch, useSelector } from "react-redux"
-import { AssignPackageModal } from "@/components/modals/assign-package-modal"
+import { InvoiceProps, MessageProps } from "@/types"
 
 export const MessagesClient : React.FC<MessagesClientProps> = ({data}) => {
 
@@ -29,13 +26,10 @@ export const MessagesClient : React.FC<MessagesClientProps> = ({data}) => {
 
     if (!isMounted) {
         return null
-    }        
-        
+    }
     return (
         <>
-
-            <DataTable pagination={true} searchKey="email" columns={columns} data={data} />
-            <Toaster />
+            <DataTable pagination={true} searchKey="name" columns={columns} data={data} />
         </>
     )
 }

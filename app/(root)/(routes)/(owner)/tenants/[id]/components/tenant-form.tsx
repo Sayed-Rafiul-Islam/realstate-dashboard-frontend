@@ -263,9 +263,9 @@ export const TenantForm : React.FC<TenantFormProps> = ({
                     propertyDoc : data.propertyDoc,
                 }
                 const result = await api.patch(`updateTenant`, formData,{validateStatus: () => true})
-                dispatch(updateOwnerTenant(result.data))
-                toast.success(toastMessage)
-                router.push('/tenants')
+                    dispatch(updateOwnerTenant(result.data))
+                    toast.success(toastMessage)
+                    router.push('/tenants')
                 }
            
         else {

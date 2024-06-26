@@ -101,7 +101,7 @@ export default function Home() {
     // loadOwnerData(owner)
   } else if (role === 'admin') {
 
-    LoadAdminData()
+    LoadAdminData(_id)
 
   return (
    <div className="px-5 mt-10 md:px-0">

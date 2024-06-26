@@ -32,6 +32,7 @@ import { getPackages } from "@/redux/packages/packagesSlice";
 import { getOwnerOrders } from "@/redux/data/owner/ordersSlice";
 import { getOwnerPackages } from "@/redux/data/owner/ownerPackagesSlice";
 import PackageMessage from "../package-message";
+import { getOwnerMessages, getOwnerReceivedMessages } from "@/redux/data/owner/messagesSlice";
 
 interface OwnerDashboardProps {
     owner : OwnerProps
@@ -61,6 +62,8 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     const packages = await api.get(`getPackages`,{validateStatus: () => true})
                     const orders = await api.get(`getOwnerOrder?ownerId=${owner._id}`,{validateStatus: () => true})
                     const ownerPackages = await api.get(`getOwnerPackages?ownerId=${owner._id}`,{validateStatus: () => true})
+                    const messages = await api.get(`getMessages?id=${owner.user._id}`,{validateStatus: () => true})
+                    const sent = await api.get(`getSentMessages?id=${owner.user._id}`,{validateStatus: () => true})
 
 
                     dispatch(getOwnerProperties(properties.data))
@@ -80,6 +83,8 @@ const OwnerDashboard : React.FC<OwnerDashboardProps> = ({owner}) => {
                     dispatch(getPackages(packages.data))
                     dispatch(getOwnerOrders(orders.data))
                     dispatch(getOwnerPackages(ownerPackages.data))
+                    dispatch(getOwnerMessages(sent.data))
+                    dispatch(getOwnerReceivedMessages(messages.data))
                 }
             }
             getData()

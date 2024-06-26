@@ -56,9 +56,24 @@ const AdminMenuEx = () => {
         },
         {
             id : 5,
-            group : [],
+            group : [
+                {
+                    id : 51,
+                    label : "Inbox",
+                    g_href : "/admin_messages/inbox",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 52,
+                    label : "Send Message",
+                    g_href : "/admin_messages/send_message",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Messages",
-            href : "/messages",
+            href : "/admin_messages",
             href1 : '',
             drop : false,
             icon : <MessageCircle size={20} />,
@@ -140,7 +155,8 @@ const AdminMenuEx = () => {
     useEffect(()=>{
 
         const temp = menu.map((item) =>{
-            if (pathname === item.href || pathname === item.href1 ||  pathname === item.href + '/' + params.id) {
+
+            if (pathname === item.href || pathname === item.href1 ) {
                 item.active = true
             }
 
@@ -164,9 +180,7 @@ const AdminMenuEx = () => {
     const dropDown = (id : number) => {
         const temp = menu.filter((item)=>{
             if(item.id === id) {
-                item.drop = true
-            } else {
-                item.drop = false
+                item.drop = !item.drop
             }
             return item
         })
@@ -175,73 +189,70 @@ const AdminMenuEx = () => {
     
     return ( 
         <>
-        {
-    menu.map(({id,group,label,href,drop,icon,active},index)=>
-        <div className={`${active && 'bg-sky-400 bg-opacity-10 border-r-4 border-amber-500 px-2'} py-2 transition-all`} key={index}>
             {
-                group.length === 0 ?
-                <Link
-                className={`
-                ${active ? 'dark:text-white font-semibold text-amber-500 ' : 'text-gray-500'}
-                dark:text-stone-500 hover:text-amber-500 transition-all nav-item
-                `}   
-                    href={href}
-                >
-                    <span className="flex items-center gap-4">
-                        <span>{icon}</span>
-                        <span>{label}</span>
-                    </span>
-                </Link>
-            :
-                <div>
-                    <button 
-                        className={`nav-item
-                        ${drop ? 'font-semibold' : ''}
-                         flex items-center gap-4 w-full hover:text-amber-500 transition-all
-                         ${href === "/"+pathname.split("/")[1] ? "text-amber-500 bg-sky-400 bg-opacity-10 py-2 px-2 border-r-4 border-amber-500" : "text-gray-500"}
-                         `}
-                        onClick={()=>dropDown(id)}
-                    >   <span>{icon}</span>
-                        <span className="w-full flex justify-between items-center">
-                            <span>{label}</span>
-                            <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
-                        </span>
-                    </button>
-                    <div className="ml-5">
-                    {
-                        group.map(({id,label,g_href,g_active},index) =>
-                            <div className={drop ? `drop-on my-1 pl-5
-                             
-                             ` : 'drop-off'}
-                            //  ${g_active && 'bg-sky-400 bg-opacity-10 border-r-4 border-amber-500'}
-                             
-                             key={index}>
-                                <Link
-                                    className={
-                                    `
-                                        ${g_active ? 'dark:text-white text-amber-500 font-bold' : 'text-gray-500'}
-                                    dark:text-stone-500 dark:hover:text-stone-200 
-                                         hover:text-amber-500
-                                        
-                                        transition-all
+                menu.map(({id,group,label,href,drop,icon,active},index)=>
+                    <div className={`${active && 'bg-sky-400 bg-opacity-10 border-r-4 border-amber-500 px-2'} py-2 transition-all`} key={index}>
+                        {
+                            group.length === 0 ?
+                            <Link
+                            prefetch
+                            className={`
+                            ${active ? 'dark:text-white font-semibold text-amber-500 ' : 'text-gray-500'}
+                            dark:text-stone-500 hover:text-amber-500 transition-all nav-item
+                            `}   
+                                href={href}
+                            >
+                                <span className="flex items-center gap-4">
+                                    <span>{icon}</span>
+                                    <span>{label}</span>
+                                </span>
+                            </Link>
+                        :
+                            <div>
+                                <button 
+                                    className={`nav-item
+                                    ${drop ? 'font-semibold' : ''}
+                                    flex items-center gap-4 w-full hover:text-amber-500 transition-all
+                                    ${href === "/"+pathname.split("/")[1] ? "text-amber-500 bg-sky-400 bg-opacity-10 py-2 px-2 border-r-4 border-amber-500" : "text-gray-500"}
                                     `}
-                                    href={g_href}
-                                >
-                                    &#x2022; {label}
-                                </Link>
-                            </div>
-                        )
-                  
-                    }
-                    </div>
-                    
-                </div>
+                                    onClick={()=>dropDown(id)}
+                                >   <span>{icon}</span>
+                                    <span className="w-full flex justify-between items-center">
+                                        <span>{label}</span>
+                                        <span><ChevronDown className={drop ? 'arrow-up' : 'arrow-down'} size={15}/></span>
+                                    </span>
+                                </button>
 
+                                <div className="ml-5">
+                                    {
+                                        group.map(({id,label,g_href,g_active},index) =>
+                                            <div className={drop ? `drop-on my-1 pl-5
+
+                                            ` : 'drop-off'}
+                                            key={index}>
+                                                <Link
+                                                    className={
+                                                    `
+                                                        ${g_active ? 'dark:text-white text-amber-500 font-bold' : 'text-gray-500'}
+                                                    dark:text-stone-500 dark:hover:text-stone-200 
+                                                        hover:text-amber-500
+
+                                                        transition-all
+                                                    `}
+                                                    href={g_href}
+                                                >
+                                                    &#x2022; {label}
+                                                </Link>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        }
+                
+                    </div>
+                )
             }
-            
-        </div>
-    )
-}
         </>
         
      );
