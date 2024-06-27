@@ -14,17 +14,39 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import AccessProvider from "@/actions/accessProvider";
-import { Power, UserCircle } from "lucide-react";
-import { UsersReducerProps } from "@/types";
+import { Mail, Power, UserCircle } from "lucide-react";
+import { AdminMessagesReducerProps, MaintainerMessagesReducerProps, MessageProps, OwnerMessagesReducerProps, RedReducerProps, TenantMessagesReducerProps, UsersReducerProps } from "@/types";
 import Link from "next/link";
 import Image from "next/image";
+import api from "@/actions/api";
+import { useEffect, useState } from "react";
+import { setRed } from "@/redux/message-red";
 
 const SignOut = () => {
     AccessProvider()
-    const {email,role,imageUrl} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+    const dispatch = useDispatch()
+    const router = useRouter()
+    const {email,role,imageUrl,_id,firstName,lastName} = useSelector(({usersReducer} : UsersReducerProps)=> usersReducer.user)
+    const {red} = useSelector(({redReducer} : RedReducerProps)=> redReducer)
+
+    useEffect(()=>{
+        const getData = async () => {
+            const {data,status} = await api.get(`getMessages?id=${_id}`,{validateStatus: () => true})
+            if (status === 200) {
+                const unread = data.filter((d : MessageProps)=> d.read === false)
+                if (unread.length > 0) {
+                    dispatch(setRed(true))
+                } else {
+                    dispatch(setRed(false))
+                }
+            }
+        }
+        getData()
+    },[_id])
+
+
 
     const letter = email?.slice(0,1)
-    const router = useRouter()
     
     const handleSignOut = () => {
                 localStorage.removeItem("user")
@@ -68,19 +90,27 @@ const SignOut = () => {
                 localStorage.removeItem("tenantMaintainanceRequests")
 
                 window.location.assign('/authentication')
-        // dispatch(removeUser())
-        // router.push('/authentication')
-        // if (typeof window !== 'undefined') {
-        //     localStorage.removeItem('tenantInfo')
-        //     localStorage.removeItem('ownerInfo')
-        //     localStorage.removeItem('maintainerInfo')
-        //     localStorage.removeItem('accessToken')
-        //     localStorage.removeItem('role')
-        // }
+    }
+
+    const handleRedirect = () => {
+        if (role === 'admin') {
+            router.push('/admin_messages/inbox')
+        } else if (role === 'owner') {
+            router.push('/massages/inbox')
+        } else if (role === 'tenant') {
+            router.push('/tenant_messages/inbox')
+        } else if (role === 'maintainer') {
+            router.push('/maintainer_messages/inbox')
+        }
     }
 
     return ( 
-       <>
+       <div className="flex items-center gap-2">
+        <div className="flex flex-col items-center">
+            <button onClick={handleRedirect}><Mail size={20} /></button>
+            {/* <h4 className="text-sm">{firstName ? `${firstName} ${lastName}` : lastName}</h4> */}
+            {red && <div className="h-[10px] w-[10px] bg-red-500 rounded-full absolute top-1 -left-1" />}
+        </div>
          {
             // email &&
             <DropdownMenu>
@@ -114,7 +144,7 @@ const SignOut = () => {
             </DropdownMenuContent>
             </DropdownMenu>
         }
-       </>
+       </div>
      );
 }
  

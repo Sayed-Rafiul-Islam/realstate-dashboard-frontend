@@ -36,7 +36,8 @@ const SendMassagesPage = () => {
             dispatch(createAdminMessage(result.data))        
             toast.success("Message sent")
         } else if (result.status === 201) {
-            dispatch(getAdminMessages(result.data))
+            const sent = await api.get(`getSentMessages?id=${admin._id}`,{validateStatus: () => true})
+            dispatch(getAdminMessages(sent.data))
             toast.success("Message sent")
         } else {
             toast.error("Something went wrong.")

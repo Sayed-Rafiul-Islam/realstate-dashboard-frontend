@@ -7,14 +7,11 @@ import { AlertModal } from "@/components/modals/alert-modal"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
-import { removeInvoice } from "@/redux/invoices/invoicesSlice"
 import toast from "react-hot-toast"
-import { InvoiceProps, MessageProps } from "@/types"
-import { removeOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
 import api from "@/actions/api"
-import { removeOwnerMessage } from "@/redux/data/owner/messagesSlice"
 import { ViewMessage } from "@/components/modals/view-message"
 import { removeAdminMessage } from "@/redux/data/admin/messagesSlice"
+import { MessageProps } from "@/types"
 
 interface CellActionProps {
     data : MessageProps
@@ -22,7 +19,6 @@ interface CellActionProps {
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const router = useRouter()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)

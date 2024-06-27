@@ -14,6 +14,7 @@ import { removeOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
 import api from "@/actions/api"
 import { removeOwnerMessage } from "@/redux/data/owner/messagesSlice"
 import { ViewMessage } from "@/components/modals/view-message"
+import { removeTenantMessage } from "@/redux/data/tenant/messagesSlice"
 
 interface CellActionProps {
     data : MessageProps
@@ -21,7 +22,6 @@ interface CellActionProps {
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const router = useRouter()
     const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
@@ -32,7 +32,7 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
         setLoading(true)
         const result = await api.delete(`deleteMessage?id=${data._id}` ,{validateStatus: () => true})
         if ( result.status === 200) {
-            dispatch(removeOwnerMessage(data))        
+            dispatch(removeTenantMessage(data))        
             toast.success("Message Removed")
         } else {
             toast.error("Something went wrong.")

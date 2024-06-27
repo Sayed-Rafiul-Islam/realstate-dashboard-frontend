@@ -2,13 +2,14 @@
 
 import { Eye } from "lucide-react"
 import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { MessageProps } from "@/types"
+import { useDispatch, useSelector } from "react-redux"
+import { MessageProps, OwnerMessagesReducerProps } from "@/types"
 import api from "@/actions/api"
 import { PreviewMessage } from "@/components/modals/preview-message"
 import { createOwnerMessage, updateOwnerMessage } from "@/redux/data/owner/messagesSlice"
 import { FormProps } from "@/components/modals/compose-message-modal"
 import toast from "react-hot-toast"
+import { setRed } from "@/redux/message-red"
 
 interface CellActionProps {
     data : MessageProps
@@ -18,11 +19,18 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     const dispatch = useDispatch()
     const [openPreview, setOpenPreview] = useState(false)
+    const messages = useSelector(({ownerMessagesReducer} : OwnerMessagesReducerProps) => ownerMessagesReducer).ownerReceivedMessages
 
     const onView = async () => {
         const result = await api.patch(`viewMessage`,{_id : data._id} ,{validateStatus: () => true})
         if ( result.status === 200) {
             dispatch(updateOwnerMessage(result.data))    
+            const unread = messages.filter((m : MessageProps) => m.read === false)
+            if (unread.length > 0) {
+                dispatch(setRed(true))
+            } else {
+                dispatch(setRed(false))
+            }   
             setOpenPreview(true)    
         }
     }

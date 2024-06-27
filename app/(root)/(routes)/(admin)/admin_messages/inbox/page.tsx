@@ -10,8 +10,6 @@ import { AdminMessagesReducerProps } from "@/types";
 const Inbox = () => {
     const messages = useSelector(({adminMessagesReducer} : AdminMessagesReducerProps) => adminMessagesReducer).adminReceivedMessages
 
-    console.log(messages)
-
     return ( 
         <div className="flex-col">
             <div className="flex-1 py-8 pt-6 space-y-4">

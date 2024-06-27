@@ -34,8 +34,6 @@ interface ComposeMessageProps {
     onConfirm : (data : FormProps) => void,
     loading : boolean,
     admin ?: UserProps,
-    owner ?: OwnerProps,
-    owners ?: OwnerProps[],
     tenants ?: TenantProps[],
     maintainers ?: MaintainerProps[]
 }
@@ -60,8 +58,6 @@ export const ComposeMessage : React.FC<ComposeMessageProps> = ({
     onConfirm,
     loading,
     admin,
-    owner,
-    owners,
     tenants,
     maintainers
 }) => {

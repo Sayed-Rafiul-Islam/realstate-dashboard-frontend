@@ -19,22 +19,6 @@ export const columns: ColumnDef<MessageProps>[] = [
     accessorKey: "fromRole",
     header: "Role",
   },
-  // {
-  //   accessorKey: "property_unit",
-  //   header: "Property/Unit",
-  //   cell: ({row}) => <span>{row.original.propertyName}/{row.original.unitName}</span>
-  // },
-  // {
-  //   accessorKey: "status",
-  //   header: "Status",
-  //   cell: ({row}) => {
-  //     if (row.original.status) {
-  //         return <p className="text-green-600 bg-green-100 px-4 py-2 rounded-lg">Paid</p> 
-  //     } else {
-  //         return <p className="text-red-600 bg-red-100 px-4 py-2 rounded-lg">Due</p> 
-  //     }
-  //   }        
-  // },
   {
     accessorKey: "read",
     header: "Status",

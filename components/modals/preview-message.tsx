@@ -82,7 +82,6 @@ export const PreviewMessage : React.FC<PreviewMessageProps> = ({
                     </DialogHeader>
                     <div>
                         {
-                            data.toRole === 'admin' &&
                             <div className="flex justify-between">
                                 <div>
                                     <h4>From</h4>

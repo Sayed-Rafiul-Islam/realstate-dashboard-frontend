@@ -1,18 +1,16 @@
 "use client"
 
-import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
+import { Eye } from "lucide-react"
 import { useState } from "react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { AlertModal } from "@/components/modals/alert-modal"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { useDispatch } from "react-redux"
-import { removeInvoice } from "@/redux/invoices/invoicesSlice"
-import toast from "react-hot-toast"
-import { PreviewInvoice } from "@/components/modals/preview-invoice"
-import { InvoiceProps, MessageProps } from "@/types"
-import { removeOwnerInvoice } from "@/redux/data/owner/invoicesSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { MessageProps, TenantMessagesReducerProps } from "@/types"
 import api from "@/actions/api"
+import { PreviewMessage } from "@/components/modals/preview-message"
+import { createOwnerMessage, updateOwnerMessage } from "@/redux/data/owner/messagesSlice"
+import { FormProps } from "@/components/modals/compose-message-modal"
+import toast from "react-hot-toast"
+import { createTenantMessage, updateTenantMessage } from "@/redux/data/tenant/messagesSlice"
+import { setRed } from "@/redux/message-red"
 
 interface CellActionProps {
     data : MessageProps
@@ -20,25 +18,32 @@ interface CellActionProps {
 
 export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
-    const router = useRouter()
     const dispatch = useDispatch()
-    const [open, setOpen] = useState(false)
     const [openPreview, setOpenPreview] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const messages = useSelector(({tenantMessagesReducer} : TenantMessagesReducerProps) => tenantMessagesReducer).tenantReceivedMessages
 
+    const onView = async () => {
+        const result = await api.patch(`viewMessage`,{_id : data._id} ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(updateTenantMessage(result.data))    
+            const unread = messages.filter((m : MessageProps) => m.read === false)
+            if (unread.length > 0) {
+                dispatch(setRed(true))
+            } else {
+                dispatch(setRed(false))
+            }   
+            setOpenPreview(true)    
+        }
+    }
 
-    const onDelete = async () => {
-        setLoading(true)
-        // const result = await api.delete(`deleteInvoice?id=${data._id}` ,{validateStatus: () => true})
-        // if ( result.status === 200) {
-        //     dispatch(removeOwnerInvoice(data))        
-        //     toast.success("Invoice Removed")
-        // } else {
-        //     toast.error("Something went wrong.")
-        // }
-       
-        setLoading(false)
-        setOpen(false)
+    const handleReply = async (data : FormProps) => {
+        const result = await api.post(`createMessage`,data ,{validateStatus: () => true})
+        if ( result.status === 200) {
+            dispatch(createTenantMessage(result.data))        
+            toast.success("Response sent")
+        }   else {
+            toast.error("Something went wrong.")
+        }
     }
 
 
@@ -46,42 +51,14 @@ export const CellAction : React.FC<CellActionProps> = ({data}) => {
 
     return (
         <>
-            <AlertModal
-                isOpen={open} 
-                onClose={()=>setOpen(false)} 
-                onConfirm={onDelete} 
-                loading={loading} 
-            />
-            {/* <PreviewInvoice
+            <PreviewMessage
                 isOpen={openPreview} 
                 onClose={()=>setOpenPreview(false)} 
                 data={data}
-            /> */}
-            
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant='ghost' className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>
-                        Actions
-                    </DropdownMenuLabel>
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpenPreview(true)}>
-                        <Eye className="h-4 w-4 mr-2"/>
-                        Details
-                    </DropdownMenuItem>
-                    {/* <DropdownMenuItem className="cursor-pointer" onClick={()=>router.push(`/invoices/${data._id}`)}>
-                        <Edit className="h-4 w-4 mr-2" />
-                        Edit
-                    </DropdownMenuItem> */}
-                    <DropdownMenuItem className="cursor-pointer" onClick={()=>setOpen(true)}>
-                        <Trash className="h-4 w-4 mr-2" />
-                        Delete
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+                onReply={(data : FormProps)=>handleReply(data)}
+            />
+
+            <button onClick={onView} className="hover:text-blue-500 transition-all"> <Eye className="h-4 w-4 mr-2"/></button>
         </>
     )
 }

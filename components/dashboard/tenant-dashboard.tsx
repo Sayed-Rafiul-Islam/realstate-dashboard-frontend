@@ -18,6 +18,8 @@ import { getOwnerInvoiceTypes } from "@/redux/data/owner/settings/invoiceTypesSl
 import { getTenantRents } from "@/redux/data/tenant/rentsSlice";
 import { getDocumentSettings } from "@/redux/data/owner/settings/documentSettingsSlice";
 import { getTenantDocuments } from "@/redux/documents/tenantDocumentsSlice";
+import { getMaintainerReceivedMessages } from "@/redux/data/maintainer/messagesSlice";
+import { getTenantMessages, getTenantReceivedMessages } from "@/redux/data/tenant/messagesSlice";
 
 interface TenantDashboardProps {
     tenant : TenantProps
@@ -41,6 +43,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     const documentSettings = await api.get(`getOwnerDocumentSettings?ownerId=${tenant.owner._id}`,{validateStatus: () => true})
                     const rents = await api.get(`geTenantRents?tenantId=${tenant._id}`,{validateStatus: () => true})
                     const documents = await api.get(`getTenantDocument?tenantId=${tenant._id}`,{validateStatus: () => true})
+                    const messages = await api.get(`getMessages?id=${tenant.user._id}`,{validateStatus: () => true})
+                    const sent = await api.get(`getSentMessages?id=${tenant.user._id}`,{validateStatus: () => true})
 
 
                     dispatch(getTenantMaintainanceRequests(requests.data))
@@ -50,6 +54,8 @@ const TenantDashboard : React.FC<TenantDashboardProps> = ({tenant}) => {
                     dispatch(getDocumentSettings(documentSettings.data))
                     dispatch(getTenantRents(rents.data))
                     dispatch(getTenantDocuments(documents.data))
+                    dispatch(getTenantReceivedMessages(messages.data))
+                    dispatch(getTenantMessages(sent.data))
 
            
                 }

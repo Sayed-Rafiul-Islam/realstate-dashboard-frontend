@@ -65,17 +65,17 @@ const TenantMenuEx = () => {
             active : false
         },
         {
-            id : 5,
+            id : 8,
             group : [
                 {
-                    id : 51,
+                    id : 81,
                     label : "All Rents",
                     g_href : "/tenant_reports/all_rents",
                     g_href1 : ``,
                     g_active : false,
                 },
                 {
-                    id : 52,
+                    id : 82,
                     label : "All Maintainance",
                     g_href : "/tenant_reports/maintainance_requests",
                     g_href1 : ``,
@@ -91,7 +91,22 @@ const TenantMenuEx = () => {
         },
         {
             id : 5,
-            group : [],
+            group : [
+                {
+                    id : 51,
+                    label : "Inbox",
+                    g_href : "/tenant_messages/inbox",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 52,
+                    label : "Send Message",
+                    g_href : "/tenant_messages/send_message",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Messages",
             href : "/tenant_messages",
             href1 : '',

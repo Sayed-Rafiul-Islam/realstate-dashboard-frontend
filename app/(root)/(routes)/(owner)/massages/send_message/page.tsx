@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ComposeMessage, FormProps } from "@/components/modals/compose-message-modal";
 import { useDispatch, useSelector } from "react-redux";
-import { AllUsersReducerProps, OwnerMaintainersReducerProps, OwnerMessagesReducerProps, OwnerTenantsReducerProps } from "@/types";
+import { AllUsersReducerProps, OwnerInfoReducerProps, OwnerMaintainersReducerProps, OwnerMessagesReducerProps, OwnerTenantsReducerProps } from "@/types";
 import api from "@/actions/api";
 import { createOwnerMessage, getOwnerMessages } from "@/redux/data/owner/messagesSlice";
 import toast from "react-hot-toast";
@@ -21,10 +21,10 @@ const SendMassagesPage = () => {
     const admin = useSelector(({allUsersReducer} : AllUsersReducerProps) => allUsersReducer).allUsers
     .filter((user) => user.role === 'admin')[0]
 
+    const owner = useSelector(({ownerInfoReducer} : OwnerInfoReducerProps) => ownerInfoReducer).ownerInfo
+
     const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
     const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
-
-
     const messages = useSelector(({ownerMessagesReducer} : OwnerMessagesReducerProps) => ownerMessagesReducer).ownerMessages
 
 
@@ -36,7 +36,9 @@ const SendMassagesPage = () => {
             dispatch(createOwnerMessage(result.data))        
             toast.success("Message sent")
         } else if (result.status === 201) {
-            dispatch(getOwnerMessages(result.data))
+            const sent = await api.get(`getSentMessages?id=${owner.user._id}`,{validateStatus: () => true})
+            dispatch(getOwnerMessages(sent.data))
+            toast.success("Message sent")
         } else {
             toast.error("Something went wrong.")
         }

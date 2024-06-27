@@ -19,6 +19,7 @@ export default function Authentication() {
       if (isSignedIn) {
         router.push('/')
       } else {
+        localStorage.removeItem("red")
         localStorage.removeItem("user")
         localStorage.removeItem("owners")
         localStorage.removeItem("tenants")
@@ -69,9 +70,14 @@ export default function Authentication() {
         localStorage.removeItem("documentSettings")
         localStorage.removeItem("adminMessages")
         localStorage.removeItem("ownerMessages")
+        localStorage.removeItem("ownerReceivedMessages")
         localStorage.removeItem("allOwnerPackages")
         localStorage.removeItem("ownerOrders")
         localStorage.removeItem("adminReceivedMessages")
+        localStorage.removeItem("maintainerMessages")
+        localStorage.removeItem("maintainerReceivedMessages")
+        localStorage.removeItem("tenantMessages")
+        localStorage.removeItem("tenantReceivedMessages")
       }
     })
 

@@ -50,7 +50,6 @@ export const ViewMessage : React.FC<ViewMessageProps> = ({
                     </DialogHeader>
                     <div>
                         {
-                            data.toRole === 'admin' &&
                             <div className="flex justify-between">
                                 <div>
                                     <h4>From</h4>
@@ -62,19 +61,7 @@ export const ViewMessage : React.FC<ViewMessageProps> = ({
                                 </div>
                             </div>
                         }
-                        {
-                            data.fromRole === 'admin' &&
-                            <div className="flex justify-between">
-                                <div>
-                                    <h4>From</h4>
-                                    <h4 className="font-semibold">{data.fromName} [{data.fromRole}]</h4>
-                                </div>
-                                <div className="flex flex-col items-end">
-                                    <h4>To</h4>
-                                    <h4 className="font-semibold">{data.toName} [{data.toRole}]</h4>
-                                </div>
-                            </div>
-                        }
+                       
 
                         <div className="mt-4 w-full shadow-lg p-4">
                             <p>{data.body}</p>

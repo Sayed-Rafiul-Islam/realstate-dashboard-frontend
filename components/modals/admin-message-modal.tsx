@@ -129,7 +129,7 @@ export const AdminMessageModal : React.FC<AdminMessageModalProps> = ({
                             read : false,
                             date : new Date(),
                             from : admin._id,
-                            to : data.owner,
+                            to : owner.user._id,
                         }
             
                         onConfirm(formData)

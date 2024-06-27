@@ -7,10 +7,14 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ComposeMessage, FormProps } from "@/components/modals/compose-message-modal";
 import { useDispatch, useSelector } from "react-redux";
-import { AllUsersReducerProps, OwnerMaintainersReducerProps, OwnerMessagesReducerProps, OwnerTenantsReducerProps } from "@/types";
+import { AllUsersReducerProps, MaintainerMessagesReducerProps, OwnerMaintainersReducerProps, OwnerMessagesReducerProps, OwnerTenantsReducerProps, TenantMessagesReducerProps } from "@/types";
 import api from "@/actions/api";
 import { createOwnerMessage, getOwnerMessages } from "@/redux/data/owner/messagesSlice";
 import toast from "react-hot-toast";
+import { TenantMessageModal } from "@/components/modals/tenant-message-modal";
+import { createTenantMessage } from "@/redux/data/tenant/messagesSlice";
+import { createMaintainerMessage } from "@/redux/data/maintainer/messagesSlice";
+import { MaintainerMessageModal } from "@/components/modals/maintainer-message-modal";
 
 
 const SendMassagesPage = () => {
@@ -18,15 +22,8 @@ const SendMassagesPage = () => {
     const [loading,setLoading] = useState(false)
     const dispatch = useDispatch()
 
-    const admin = useSelector(({allUsersReducer} : AllUsersReducerProps) => allUsersReducer).allUsers
-    .filter((user) => user.role === 'admin')[0]
 
-    const tenants = useSelector(({ownerTenantsReducer} : OwnerTenantsReducerProps) => ownerTenantsReducer).ownerTenants
-    const maintainers = useSelector(({ownerMaintainersReducer} : OwnerMaintainersReducerProps) => ownerMaintainersReducer).ownerMaintainers
-
-
-    const messages = useSelector(({ownerMessagesReducer} : OwnerMessagesReducerProps) => ownerMessagesReducer).ownerMessages
-    .filter((message) => message.fromRole === 'owner')
+    const messages = useSelector(({maintainerMessagesReducer} : MaintainerMessagesReducerProps) => maintainerMessagesReducer).maintainerMessages
 
 
     const handleSend = async (data : FormProps) => {
@@ -34,16 +31,11 @@ const SendMassagesPage = () => {
         setLoading(true)
         const result = await api.post(`createMessage`,data ,{validateStatus: () => true})
         if ( result.status === 200) {
-            dispatch(createOwnerMessage(result.data))        
+            dispatch(createMaintainerMessage(result.data))        
             toast.success("Message sent")
-        } else if (result.status === 201) {
-            dispatch(getOwnerMessages(result.data))
         } else {
             toast.error("Something went wrong.")
         }
-
-
-       
         setLoading(false)
         setOpen(false)
 
@@ -51,14 +43,11 @@ const SendMassagesPage = () => {
 
     return ( 
         <div className="flex-col">
-            <ComposeMessage
+            <MaintainerMessageModal
                 isOpen={open} 
                 onClose={()=>setOpen(false)} 
                 onConfirm={(data : FormProps) => handleSend(data)} 
                 loading={loading}
-                admin={admin}
-                tenants={tenants}
-                maintainers={maintainers}
             />
             <div className="flex-1 py-8 pt-6 space-y-4">
                 <Pathname />

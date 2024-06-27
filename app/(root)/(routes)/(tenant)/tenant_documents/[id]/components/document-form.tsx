@@ -27,10 +27,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbS
 
 import api from "@/actions/api"
 import { useRouter } from "next/navigation"
-import { addMaintainanceRequest, updateMaintainanceRequest } from "@/redux/maintainanceRequests/maintainanceRequestsSlice"
-
-import PdfUpload from "@/components/pdf-upload"
-import { addNotification } from "@/redux/report/notificationsSlice"
 import Link from "next/link"
 import { addTenantDocument, updateTenantDocument } from "@/redux/documents/tenantDocumentsSlice"
 import ImageUpload from "@/components/image-upload"

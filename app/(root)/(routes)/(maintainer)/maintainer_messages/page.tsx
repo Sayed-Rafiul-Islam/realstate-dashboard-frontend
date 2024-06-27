@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 const messagePage = () => {
-    redirect('/messages/inbox')
+    redirect('/maintainer_messages/inbox')
 
 }
  

@@ -73,7 +73,22 @@ const MaintainerMenu = () => {
         },
         {
             id : 5,
-            group : [],
+            group : [
+                {
+                    id : 51,
+                    label : "Inbox",
+                    g_href : "/maintainer_messages/inbox",
+                    g_href1 : ``,
+                    g_active : false,
+                },
+                {
+                    id : 52,
+                    label : "Send Message",
+                    g_href : "/maintainer_messages/send_message",
+                    g_href1 : ``,
+                    g_active : false,
+                }
+            ],
             label : "Messages",
             href : "/maintainer_messages",
             href1 : '',

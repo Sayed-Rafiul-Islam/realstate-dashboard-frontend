@@ -1,3 +1,6 @@
+export interface RedReducerProps {
+    redReducer : {red : boolean}
+}
 export interface AllUsersReducerProps {
     allUsersReducer : {allUsers : UserProps[]}
 }
@@ -130,6 +133,14 @@ export interface AdminMessagesReducerProps {
 
 export interface OwnerMessagesReducerProps {
   ownerMessagesReducer :  { ownerMessages : MessageProps[], ownerReceivedMessages : MessageProps[]} 
+}
+
+export interface TenantMessagesReducerProps {
+  tenantMessagesReducer :  { tenantMessages : MessageProps[], tenantReceivedMessages : MessageProps[]} 
+}
+
+export interface MaintainerMessagesReducerProps {
+  maintainerMessagesReducer :  { maintainerMessages : MessageProps[], maintainerReceivedMessages : MessageProps[]} 
 }
 
 export interface OwnerProps {

@@ -28,6 +28,7 @@ import invoiceTypesReducer from '@/redux/data/owner/settings/invoiceTypesSlice'
 import expenseTypesReducer from '@/redux/data/owner/settings/expenseTypesSlice'
 import maintainanceTypesReducer from '@/redux/settings/maintainanceTypesSlice'
 import adminMessagesReducer from '@/redux/data/admin/messagesSlice'
+import redReducer from '@/redux/message-red'
 
 
 
@@ -52,16 +53,19 @@ import ownerMessagesReducer from '@/redux/data/owner/messagesSlice'
 
 import maintainerMaintainanceReducer from '@/redux/data/maintainer/maintainanceRequestsSlice'
 import maintainerDocumentsReducer from '@/redux/documents/maintainerDocumentsSlice'
+import maintainerMessagesReducer from '@/redux/data/maintainer/messagesSlice'
 
 
 import tenantMaintainanceReducer from '@/redux/data/tenant/maintainanceRequestsSlice'
 import tenantInvoicesReducer from '@/redux/data/tenant/invoicesSlice'
 import tenantRentsReducer from '@/redux/data/tenant/rentsSlice'
+import tenantMessagesReducer from '@/redux/data/tenant/messagesSlice'
 
 
 
 export const store = configureStore({
   reducer: {
+    redReducer,
     allUsersReducer,
     usersReducer,
     ownerInfoReducer,
@@ -112,10 +116,12 @@ export const store = configureStore({
 
     maintainerMaintainanceReducer,
     maintainerDocumentsReducer,
+    maintainerMessagesReducer,
 
     tenantMaintainanceReducer,
     tenantInvoicesReducer,
-    tenantRentsReducer
+    tenantRentsReducer,
+    tenantMessagesReducer
 
   }
 })
