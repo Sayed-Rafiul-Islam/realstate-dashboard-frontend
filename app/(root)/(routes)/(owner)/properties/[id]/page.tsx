@@ -2,15 +2,15 @@
 
 import { useSelector } from "react-redux";
 import { PropertyEditForm } from "./components/property-form";
-import { PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
+import { OwnerPropertyReducerProps, OwnerUnitsReducerProps, PropertiesReducerProps, PropertyProps, UnitProps, UnitsReducerProps } from "@/types";
 
 const PropertyPage = ({
     params
 } : {
     params : { id : string}
 }) => {
-    const properties = useSelector(({propertiesReducer} : PropertiesReducerProps) => propertiesReducer).properties
-    const {units} = useSelector(({unitsReducer} : UnitsReducerProps) => unitsReducer)
+    const properties = useSelector(({ownerPropertyReducer} : OwnerPropertyReducerProps) => ownerPropertyReducer).ownerProperties
+    const units = useSelector(({ownerUnitsReducer} : OwnerUnitsReducerProps) => ownerUnitsReducer).ownerUnits
 
     const initialData1 = properties.filter((item : PropertyProps)  =>{
         if (item._id === params.id) {
